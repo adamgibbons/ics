@@ -3,6 +3,7 @@ ICS File Generator
 
 ## Example valid output:
 
+```
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
@@ -13,3 +14,4 @@ DTEND:19970715T035959Z
 SUMMARY:Bastille Day Party
 END:VEVENT
 END:VCALENDAR
+```
