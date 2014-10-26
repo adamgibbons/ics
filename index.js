@@ -1,24 +1,29 @@
-var CalEvent = require('./lib/cal-event.js');
 var fs = require('fs');
 var path = require('path');
 
+var CalEvent = require('./lib/cal-event.js');
+var TMPDIR = require('os').tmpdir();
+
 function _writeToFile(options, filepath, cb) {
+  var dest;
   var options = this.options || {};
   var cal = new CalEvent(options);
   var data = cal.getEvent();
-  var dest = filepath ? path.join(filepath) : path.join(__dirname, 'test-event.ics');
+
+  if (filepath) {
+    dest = path.join(filepath);
+  } else if (options.filename) {
+    dest = path.join(TMPDIR, options.filename);
+  } else {
+    dest = path.join(TMPDIR, 'calendar-event.ics');
+  }
 
   fs.writeFile(path.join(dest), data, function(err) {
-    if (cb) {
-      if (err) return cb(err);
-      return cb(null, dest);
-    }
-
-    if (err) throw err;
-    return dest;
+    if (err) return cb(err);
+    return cb(null, dest);
   });
 }
 
 module.exports = {
-  write: _writeToFile
+  createEvent: _writeToFile
 }
