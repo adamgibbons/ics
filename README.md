@@ -20,12 +20,6 @@ Options:
 - `dtend`: (Date) Event end time. Defaults to one hour from `dtstart`.
 - `filename`: (string) Name of the ical file. Defaults to `calendar-event.ics`.
 
-this.dtstamp = getDTStamp(options);
-  this.organizer = options.organizer || false;
-  this.dtstart = getDTStart(options);
-  this.dtend = getDTEnd(options);
-  this.summary = options.eventName || 'New Event';
-
 ## Example:
 
 ```javascript
