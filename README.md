@@ -3,6 +3,10 @@ ICS File Generator
 
 Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
 
+## Installation
+
+`npm install ics`
+
 ## Usage
 
 Require the module: `require('ics')`.
