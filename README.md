@@ -31,7 +31,12 @@ this.dtstamp = getDTStamp(options);
 ```javascript
 var ical = require('ics');
 
-ical.createEvent({eventName: 'Fingerpainting lessons', fileName: 'event.ics'}, null, function(err, success) {
+var options = {
+  eventName: 'Fingerpainting lessons',
+  fileName: 'event.ics'
+};
+
+ical.createEvent(options, null, function(err, success) {
   if (err) {
     console.log(err);
   }
