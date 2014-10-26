@@ -59,6 +59,6 @@ END:VCALENDAR
 ```
 
 TODO:
-- [] add 'organizer'
-- [] check filename for '.ics' ending
+- [ ] add 'organizer'
+- [ ] check filename for '.ics' ending
 - [x] save event to temp directory
