@@ -6,7 +6,7 @@ var TMPDIR = require('os').tmpdir();
 
 function _writeToFile(options, filepath, cb) {
   var dest;
-  var options = this.options || {};
+  var options = options || {};
   var cal = new CalEvent(options);
   var data = cal.getEvent();
 
@@ -18,7 +18,7 @@ function _writeToFile(options, filepath, cb) {
     dest = path.join(TMPDIR, 'calendar-event.ics');
   }
 
-  fs.writeFile(path.join(dest), data, function(err) {
+  fs.writeFile(dest, data, function(err) {
     if (err) return cb(err);
     return cb(null, dest);
   });
