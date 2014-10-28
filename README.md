@@ -27,7 +27,8 @@ var ical = require('ics');
 
 var options = {
   eventName: 'Fingerpainting lessons',
-  fileName: 'event.ics'
+  fileName: 'event.ics',
+  dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)'
 };
 
 ical.createEvent(options, null, function(err, success) {
