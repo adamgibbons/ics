@@ -4,6 +4,10 @@ var path = require('path');
 var CalEvent = require('./lib/cal-event.js');
 var TMPDIR = require('os').tmpdir();
 
+function _setFileExtension(dest) {
+  return dest.slice(-4) === '.ics' ? dest : dest.concat('.ics');
+}
+
 function _writeToFile(options, filepath, cb) {
   var dest;
   var options = options || {};
@@ -13,7 +17,7 @@ function _writeToFile(options, filepath, cb) {
   if (filepath) {
     dest = path.join(filepath);
   } else if (options.filename) {
-    dest = path.join(TMPDIR, options.filename);
+    dest = _setFileExtension(path.join(TMPDIR, options.filename));
   } else {
     dest = path.join(TMPDIR, 'calendar-event.ics');
   }
