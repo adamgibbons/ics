@@ -15,10 +15,13 @@ Require the module: `require('ics')`.
 
 Options:
 - `eventName`: (string) Title of the event as it appears in calendar application
-<!-- - `organizer`: -->
 - `dtstart`: (Date) Event start time. Defaults to current time.
 - `dtend`: (Date) Event end time. Defaults to one hour from `dtstart`.
 - `filename`: (string) Name of the ical file. Defaults to `calendar-event.ics`.
+- `organizer`: (object)
+  - `name`: (string)
+  - `email`: (string)
+
 
 ## Example:
 
@@ -28,7 +31,11 @@ var ical = require('ics');
 var options = {
   eventName: 'Fingerpainting lessons',
   fileName: 'event.ics',
-  dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)'
+  dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
+  email: {
+    name: 'Isaac Asimov',
+    email: isaac@asimov.com'
+  }
 };
 
 ical.createEvent(options, null, function(err, success) {
