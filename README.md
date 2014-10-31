@@ -64,8 +64,3 @@ SUMMARY:Fingerpainting lessons
 END:VEVENT
 END:VCALENDAR
 ```
-
-TODO:
-- [ ] add 'organizer'
-- [x] check filename for '.ics' ending
-- [x] save event to temp directory
