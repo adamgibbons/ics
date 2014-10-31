@@ -34,7 +34,7 @@ var options = {
   dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
   email: {
     name: 'Isaac Asimov',
-    email: isaac@asimov.com'
+    email: 'isaac@asimov.com'
   }
 };
 
@@ -67,14 +67,14 @@ END:VCALENDAR
 
 ## TODO
 
-1. [Recurrence Identifier Range](http://tools.ietf.org/html/rfc5545#section-3.2.13)
-1. [Alarm Trigger Relationship](http://tools.ietf.org/html/rfc5545#section-3.2.14)
-1. [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
-1. [Geographic Position](http://tools.ietf.org/html/rfc5545#section-3.8.1.6)
-1. [Location](http://tools.ietf.org/html/rfc5545#section-3.8.1.7)
+- [ ] [Recurrence Identifier Range](http://tools.ietf.org/html/rfc5545#section-3.2.13)
+- [ ] [Alarm Trigger Relationship](http://tools.ietf.org/html/rfc5545#section-3.2.14)
+- [ ] [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
+- [ ] [Geographic Position](http://tools.ietf.org/html/rfc5545#section-3.8.1.6)
+- [ ] [Location](http://tools.ietf.org/html/rfc5545#section-3.8.1.7)
 
 ## References
 
-[RFC 5545: Internet Calendaring and Scheduling Core Object Specification](iCalendar)](http://tools.ietf.org/html/rfc5545)
+[RFC 5545: Internet Calendaring and Scheduling Core Object Specification(iCalendar)](http://tools.ietf.org/html/rfc5545)
 
 [Initial iCalendar Elements Registries](http://tools.ietf.org/html/rfc5545#section-8.3)
