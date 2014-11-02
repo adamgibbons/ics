@@ -14,13 +14,14 @@ Require the module: `require('ics')`.
 ### `ics.createEvent(options, filepath, cb)`
 
 Options:
-- `eventName`: (string) Title of the event as it appears in calendar application
-- `dtstart`: (Date) Event start time. Defaults to current time.
-- `dtend`: (Date) Event end time. Defaults to one hour from `dtstart`.
-- `filename`: (string) Name of the ical file. Defaults to `calendar-event.ics`.
-- `organizer`: (object)
-  - `name`: (string)
-  - `email`: (string)
+- `dtstart`: (Date string) Event start time. Defaults to current time.
+- `dtend`: (Date string) Event end time. Defaults to one hour from `dtstart`.
+- `description`: (String) Description (details) of the event.
+- `eventName`: (String) Title of the event as it appears in calendar application
+- `filename`: (String) Name of the iCal file. Defaults to `calendar-event.ics`.
+- `organizer`: (Object)
+  - `name`: (String)
+  - `email`: (String)
 
 
 ## Example:
@@ -67,6 +68,8 @@ END:VCALENDAR
 
 ## TODO
 
+- [x] Description property
+- [ ] Add express/restify browser download examples
 - [ ] [Recurrence Identifier Range](http://tools.ietf.org/html/rfc5545#section-3.2.13)
 - [ ] [Alarm Trigger Relationship](http://tools.ietf.org/html/rfc5545#section-3.2.14)
 - [ ] [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
@@ -75,6 +78,6 @@ END:VCALENDAR
 
 ## References
 
-[RFC 5545: Internet Calendaring and Scheduling Core Object Specification(iCalendar)](http://tools.ietf.org/html/rfc5545)
+[RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
 
 [Initial iCalendar Elements Registries](http://tools.ietf.org/html/rfc5545#section-8.3)
