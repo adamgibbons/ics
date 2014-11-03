@@ -3,6 +3,9 @@ ICS File Generator
 
 Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+
 ## Installation
 
 `npm install ics`
