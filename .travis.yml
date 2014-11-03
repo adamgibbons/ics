@@ -1,11 +1,2 @@
 language: node_js
-node_js:
-  - "0.11"
-  - "0.10"
-deploy:
-  provider: npm
-  email: adam.d.gibbons@gmail.com
-  api_key:
-    secure: rEYWt8QwMILKS3/zkVH0h7RtfieeQQa/2nN7b5rq3q5056aeadlaDFZZG5p5t1RgKpbG2CRYVGkeZ7uxKjA/5KCu/Gtq4SFrr/58d/QhHsyyFgksdOMc0nXKFTgracFAibiHi1zV+OjzibfRKIqX+7kl6Qet8ntBPTcdYJ+ilkU=
-  on:
-    repo: adamgibbons/ics
+node_js: ['0.11', '0.10']
