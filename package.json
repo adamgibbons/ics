@@ -21,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/adamgibbons/ics/issues"
   },
-  "homepage": "https://github.com/adamgibbons/ics"
+  "homepage": "https://github.com/adamgibbons/ics",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^2.0.1"
+  }
 }
