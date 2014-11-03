@@ -11,9 +11,15 @@ Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
 
 Require the module: `require('ics')`.
 
+### `ics.getEvent(options)`
+
+Returns an iCal-compliant text string.
+
 ### `ics.createEvent(options, filepath, cb)`
 
-Options:
+Returns a callback with an iCal-compliant `.ics` file.
+
+### Options:
 - `dtstart`: (Date string) Event start time. Defaults to current time.
 - `dtend`: (Date string) Event end time. Defaults to one hour from `dtstart`.
 - `description`: (String) Description (details) of the event.
@@ -22,7 +28,6 @@ Options:
 - `organizer`: (Object)
   - `name`: (String)
   - `email`: (String)
-
 
 ## Example:
 
@@ -57,10 +62,10 @@ The `event.ics` file should look something like this:
 BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
-DTSTAMP:19970714T170000Z
+DTSTAMP:20150701T170000Z
 ORGANIZER;CN=John Doe:MAILTO:john.doe@example.com
-DTSTART:19970714T170000Z
-DTEND:19970715T035959Z
+DTSTART:20150714T170000Z
+DTEND:20150715T035959Z
 SUMMARY:Fingerpainting lessons
 END:VEVENT
 END:VCALENDAR
