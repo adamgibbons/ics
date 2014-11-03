@@ -3,8 +3,7 @@ ICS File Generator
 
 Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
+[![npm version](https://badge.fury.io/js/ics.svg)](http://badge.fury.io/js/ics)
 
 ## Installation
 
