@@ -3,6 +3,9 @@ ICS File Generator
 
 Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
 
+[![npm version](https://badge.fury.io/js/ics.svg)](http://badge.fury.io/js/ics)
+[![Code Climate](https://codeclimate.com/github/adamgibbons/ics/badges/gpa.svg)](https://codeclimate.com/github/adamgibbons/ics)
+
 ## Installation
 
 `npm install ics`
