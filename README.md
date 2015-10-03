@@ -29,6 +29,7 @@ Returns a callback with an iCal-compliant `.ics` file.
 - `description`: (String) Description (details) of the event.
 - `eventName`: (String) Title of the event as it appears in calendar application
 - `filename`: (String) Name of the iCal file. Defaults to `calendar-event.ics`.
+- `location`: (String) Location of the event.
 - `organizer`: (Object)
   - `name`: (String)
   - `email`: (String)
@@ -40,8 +41,9 @@ var ical = require('ics');
 
 var options = {
   eventName: 'Fingerpainting lessons',
-  fileName: 'event.ics',
+  filename: 'event.ics',
   dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
+  location: 'Here and there',
   email: {
     name: 'Isaac Asimov',
     email: 'isaac@asimov.com'
