@@ -18,9 +18,6 @@ app.get('/', function(req, res) {
 });
 
 app.get('/create', function(req, res) {
-
-    //ATTENDEE;CN="Humphrey, Jason.";RSVP=FALSE:mailto:jason@greenpioneersolutions.com
-    //
     var options = {
         eventName: 'Welcome Event to ICS',
         description: 'Meet Down at the index.js',
@@ -64,7 +61,7 @@ app.get('/create', function(req, res) {
                 fs.unlinkSync(success)
                 if (err) return res.status(400).send(err)
                 return res.status(200).send({
-                    url: req.get('host') + ':' + app.get('port') + '/created/example.ics'
+                    url: req.get('host') + '/created/example.ics'
                 })
             })
         })
