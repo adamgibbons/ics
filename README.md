@@ -33,7 +33,10 @@ Returns a callback with an iCal-compliant `.ics` file.
 - `organizer`: (Object)
   - `name`: (String)
   - `email`: (String)
-
+- `attendees`: (Object)
+  - `name`: (String)
+  - `email`: (String)
+  - `rsvp`: (boolean) Default True
 ## Example:
 
 ```javascript
@@ -80,7 +83,8 @@ END:VCALENDAR
 ## TODO
 
 - [x] Description property
-- [ ] Add express/restify browser download examples
+- [x] Add express/restify browser download examples
+- [x] Add Attendees
 - [ ] [Recurrence Identifier Range](http://tools.ietf.org/html/rfc5545#section-3.2.13)
 - [ ] [Alarm Trigger Relationship](http://tools.ietf.org/html/rfc5545#section-3.2.14)
 - [ ] [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
@@ -92,3 +96,16 @@ END:VCALENDAR
 [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
 
 [Initial iCalendar Elements Registries](http://tools.ietf.org/html/rfc5545#section-8.3)
+
+## EXAMPLE
+
+Check out our expressjs example.Follow the instructions below to try it out
+`npm install`
+`cd ex`
+`node app.js`
+
+Then go over to the browser and hit this url
+`http://localhost:3000/create`
+
+A file will be created and your can reach it in the browser here 
+`localhost:3000/created/example.ics`

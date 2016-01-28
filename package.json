@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
@@ -17,13 +17,21 @@
     "icalendar"
   ],
   "author": "Adam Gibbons",
+  "contributors": [
+    "Adam Gibbons <adam.d.gibbons@gmail.com>",
+    "adamgibbons <adam.d.gibbons@gmail.com>",
+    "Green Pioneer <info@greenpioneersolutions.com>"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/adamgibbons/ics/issues"
   },
   "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
+    "body-parser": "^1.14.2",
     "chai": "^1.9.2",
-    "mocha": "^2.0.1"
+    "express": "^4.13.4",
+    "mocha": "^2.0.1",
+    "moment": "^2.11.1"
   }
 }

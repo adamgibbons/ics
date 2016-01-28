@@ -22,7 +22,42 @@ describe('ics', function() {
   })
 
   xdescribe('createEvent()', function() {
+    it('create event with every option passed', function() {
+      var expected = path.join(TMPDIR, 'calendar-event.ics');
 
+      ics.createEvent({
+        eventName: 'Welcome Event to ICS',
+        description: 'Meet Down at the index.js',
+        fileName: 'example.ics',
+        dtstart:'20160126T154700Z',
+        dtend:'20160126T164700Z',
+        location: 'Fort Worth, Texas',
+        organizer: {
+            name: 'greenpioneersolutions',
+            email: 'info@greenpioneersolutions.com'
+        },
+        attendees:[{
+            name: 'Support greenpioneersolutions',
+            email: 'Support@greenpioneersolutions.com',
+            rsvp:false
+
+        },{
+            name: 'Accounting greenpioneersolutions',
+            email: 'Accounting@greenpioneersolutions.com',
+            rsvp:true
+        },{
+            name: 'Sales greenpioneersolutions',
+            email: 'Sales@greenpioneersolutions.com',
+            rsvp:true
+        },{
+            name: 'no RSVP default to true',
+            email: 'Sales@greenpioneersolutions.com'
+        }]
+      }, null, function(err, filepath) {
+        if (err) throw err;
+        expect(filepath).to.equal(expected);
+      });
+    });
     it('returns a default filepath when no filename or filepath provided', function() {
       var expected = path.join(TMPDIR, 'calendar-event.ics');
 
