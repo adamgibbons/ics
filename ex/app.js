@@ -38,16 +38,8 @@ app.get('/create', function(req, res) {
         attendees: [{
             name: 'Support greenpioneersolutions',
             email: 'Support@greenpioneersolutions.com',
-            rsvp: false
-        }, {
-            name: 'Accounting greenpioneersolutions',
-            email: 'Accounting@greenpioneersolutions.com',
             rsvp: true
-        }, {
-            name: 'Sales greenpioneersolutions',
-            email: 'Sales@greenpioneersolutions.com',
-            rsvp: true
-        }, {
+        },
             name: 'no RSVP greenpioneersolutions',
             email: 'Sales@greenpioneersolutions.com'
         }]

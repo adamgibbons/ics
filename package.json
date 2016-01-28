@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,6 @@
   "author": "Adam Gibbons",
   "contributors": [
     "Adam Gibbons <adam.d.gibbons@gmail.com>",
-    "adamgibbons <adam.d.gibbons@gmail.com>",
     "Green Pioneer <info@greenpioneersolutions.com>"
   ],
   "license": "ISC",

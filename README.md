@@ -36,7 +36,7 @@ Returns a callback with an iCal-compliant `.ics` file.
 - `attendees`: (Object)
   - `name`: (String)
   - `email`: (String)
-  - `rsvp`: (boolean) Default True
+  - `rsvp`: (Boolean) Defaults to `false`.
 ## Example:
 
 ```javascript
