@@ -1,11 +1,14 @@
 var expect = require('chai').expect;
 var path = require('path');
 
-var TMPDIR = require('os').tmpdir();
+var os = require('os');
+var _ = require('lodash');
+var TMPDIR = os.tmpdir();
+var SYSTEM_LINE_BREAK = os.EOL;
 
 var ics = require('../index.js');
 
-describe('ics', function() {
+describe('ics', function () {
 
   var sampleEvent = {
     eventName: 'Welcome Event to ICS',
@@ -17,7 +20,7 @@ describe('ics', function() {
     organizer: {
         name: 'greenpioneersolutions',
         email: 'info@greenpioneersolutions.com'
-    },
+      },
     attendees:[
       {
         name: 'Support Team',
@@ -31,59 +34,65 @@ describe('ics', function() {
     ]
   };
 
-  describe('getEvent()', function() {
-    it('creates a default event when no options passed', function() {
+  describe('getEvent()', function () {
+    it('creates a default event when no options passed', function () {
       var defaultEvent = ics.getEvent({});
-      expect(defaultEvent.search(/BEGIN:VCALENDAR\r\n/)).to.equal(0);
-      expect(defaultEvent.search(/VERSION:2.0\r\n/)).to.equal(17);
-      expect(defaultEvent.search(/BEGIN:VEVENT\r\n/)).to.equal(30);
-      expect(defaultEvent.search(/DESCRIPTION/)).to.equal(-1);
-      expect(defaultEvent.search(/SUMMARY:New Event\r\n/)).to.equal(120);
-      expect(defaultEvent.search(/END:VEVENT\r\n/)).to.equal(139);
-      expect(defaultEvent.search(/END:VCALENDAR/)).to.equal(151);
+      var beginCalendarPosition = defaultEvent.search(new RegExp('BEGIN:VCALENDAR' + SYSTEM_LINE_BREAK));
+      var versionLinePosition = defaultEvent.search(new RegExp('VERSION:2.0' + SYSTEM_LINE_BREAK));
+      var beginEventPosition = defaultEvent.search(new RegExp('BEGIN:VEVENT' + SYSTEM_LINE_BREAK));
+      var descriptionPosition = defaultEvent.search(/DESCRIPTION/);
+      var summaryPosition = defaultEvent.search(new RegExp('SUMMARY:New Event' + SYSTEM_LINE_BREAK));
+      var endEventPosition = defaultEvent.search(new RegExp('END:VEVENT' + SYSTEM_LINE_BREAK));
+      var endCalendarPosition = defaultEvent.search(/END:VCALENDAR/);
+
+      var orderedPositions = [ beginCalendarPosition, versionLinePosition, beginEventPosition, descriptionPosition,
+        summaryPosition, endEventPosition, endCalendarPosition ];
+
+      expect(_.indexOf(orderedPositions, -1)).to.equal(-1);
+      expect(_.isEqual(_.sortBy(orderedPositions), orderedPositions)).to.equal(true);
     });
 
-    it('has an event name', function() {
-      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('SUMMARY:' + sampleEvent.eventName)).to.be.greaterThan(-1);
+    it('has an event name', function () {
+      expect(ics.getEvent(sampleEvent).split(SYSTEM_LINE_BREAK).indexOf('SUMMARY:' + sampleEvent.eventName)).to.be.greaterThan(-1);
     });
   });
 
-  describe('createEvent()', function() {
-    it('creates event with every option passed', function() {
+  describe('createEvent()', function () {
+    it('creates event with every option passed', function () {
       var expected = path.join(TMPDIR, 'calendar-event.ics');
 
-      ics.createEvent(sampleEvent, null, function(err, filepath) {
+      ics.createEvent(sampleEvent, null, function (err, filepath) {
         if (err) throw err;
         expect(filepath).to.equal(expected);
       });
     });
 
-    it('returns a default filepath when no filename or filepath provided', function() {
+    it('returns a default filepath when no filename or filepath provided', function () {
       var expected = path.join(TMPDIR, 'calendar-event.ics');
 
-      ics.createEvent({}, null, function(err, filepath) {
+      ics.createEvent({}, null, function (err, filepath) {
         if (err) throw err;
         expect(filepath).to.equal(expected);
       });
     });
 
-    it('returns a default filepath and custom filename when filename provided', function() {
+    it('returns a default filepath and custom filename when filename provided', function () {
       var expected = path.join(TMPDIR, 'custom-name.ics');
 
-      ics.createEvent({filename: 'custom-name'}, null, function(err, filepath) {
+      ics.createEvent({filename: 'custom-name'}, null, function (err, filepath) {
         if (err) throw err;
         expect(filepath).to.equal(expected);
-      })
+      });
     });
 
-    it('returns a custom filepath when one is provided', function() {
+    it('returns a custom filepath when one is provided', function () {
       var expected = '/Users/gibber/Desktop/my-file.ics';
 
-      ics.createEvent({}, '/Users/gibber/Desktop/my-file.ics', function(err, filepath) {
+      ics.createEvent({}, '/Users/gibber/Desktop/my-file.ics', function (err, filepath) {
         if (err) throw err;
         expect(filepath).to.equal(expected);
-      })
-    })
+      });
+    });
   });
 
 });
