@@ -26,6 +26,11 @@
     "url": "https://github.com/adamgibbons/ics/issues"
   },
   "homepage": "https://github.com/adamgibbons/ics",
+  "dependencies": {
+    "lodash": "^4.15.0",
+    "moment": "^2.15.0",
+    "moment-timezone": "^0.5.5"
+  },
   "devDependencies": {
     "body-parser": "^1.14.2",
     "chai": "^1.9.2",
