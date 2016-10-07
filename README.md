@@ -24,20 +24,22 @@ Returns an iCal-compliant text string.
 Returns a callback with an iCal-compliant `.ics` file.
 
 ### Options:
-- `dtstart`: (Date string) Event start time. Defaults to current time.
-- `dtend`: (Date string) Event end time. Defaults to one hour from `dtstart`.
-- `description`: (String) Description (details) of the event.
-- `eventName`: (String) Title of the event as it appears in calendar application
-- `filename`: (String) Name of the iCal file. Defaults to `calendar-event.ics`.
-- `location`: (String) Location of the event.
-- `organizer`: (Object)
+- `attendees`: (Object) Optional.
   - `name`: (String)
   - `email`: (String)
-- `attendees`: (Object)
+  - `rsvp`: (Boolean) Optional. Defaults to `false`.
+- `dtstart`: (Date string) Event start time. Optional. Defaults to current time.
+- `dtend`: (Date string) Event end time. Optional. Defaults to one hour from `dtstart`.
+- `description`: (String) Description (details) of the event. Optional.
+- `eventName`: (String) Title of the event as it appears in calendar application. Optional. Defaults to `New Event`.
+- `filename`: (String) Name of the iCal file. Optional. Defaults to `calendar-event.ics`.
+- `location`: (String) Location of the event. Optional.
+- `organizer`: (Object) Optional.
   - `name`: (String)
   - `email`: (String)
-  - `rsvp`: (Boolean) Defaults to `false`.
-## Example:
+- `tzid`: (String) Time zone ID, e.g. `America/New_York`. Optional. Note that passing this option forces the event to return in a DATE-TIME format rather than the default UTC format.
+
+### Example:
 
 ```javascript
 var ical = require('ics');

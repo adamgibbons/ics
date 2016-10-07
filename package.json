@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
@@ -32,5 +32,8 @@
     "express": "^4.13.4",
     "mocha": "^2.0.1",
     "moment": "^2.11.1"
+  },
+  "dependencies": {
+    "moment": "^2.15.1"
   }
 }
