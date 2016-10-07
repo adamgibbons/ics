@@ -34,8 +34,8 @@ describe('ics', function() {
     eventName: 'Bolder Boulder 10k',
     description: 'Annual 10-kilometer run',
     fileName: 'example.ics',
-    dtstart:'Thu Oct 06 2016 19:00:00 GMT-0600 (MDT)',
-    dtend:'Thu Oct 06 2016 20:30:00 GMT-0600 (MDT)',
+    dtstart:'Thu Oct 06 2016 19:00:00',
+    dtend:'Thu Oct 06 2016 20:30:00',
     location: 'Boulder, Colorado',
     tzid: 'America/Denver'
   };
