@@ -104,8 +104,8 @@ describe('ics', function() {
       ics.createEvent({}, '/Users/gibber/Desktop/my-file.ics', function(err, filepath) {
         if (err) throw err;
         expect(filepath).to.equal(expected);
-      })
-    })
-  }); 
+      });
+    });
 
+  });
 });
