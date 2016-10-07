@@ -64,6 +64,7 @@ describe('ics', function() {
     });
 
     it('removes UTC formatting when passed a time zone identifier', function() {
+      console.log(ics.getEvent(sampleEvent2));
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
     });
@@ -106,4 +107,5 @@ describe('ics', function() {
       });
     });
   });
+
 });
