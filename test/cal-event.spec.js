@@ -43,13 +43,17 @@ describe('ics', function() {
   describe('getEvent()', function() {
     it('creates a default event when no params are passed', function() {
       var defaultEvent = ics.getEvent({});
-      expect(defaultEvent.search(/BEGIN:VCALENDAR\r\n/)).to.equal(0);
-      expect(defaultEvent.search(/VERSION:2.0\r\n/)).to.equal(17);
-      expect(defaultEvent.search(/BEGIN:VEVENT\r\n/)).to.equal(30);
-      expect(defaultEvent.search(/DESCRIPTION/)).to.equal(-1);
-      expect(defaultEvent.search(/SUMMARY:New Event\r\n/)).to.equal(120);
-      expect(defaultEvent.search(/END:VEVENT\r\n/)).to.equal(139);
-      expect(defaultEvent.search(/END:VCALENDAR/)).to.equal(151);
+      expect(defaultEvent.search(/BEGIN:VCALENDAR\r\n/)).to.equal(0); // 17
+      expect(defaultEvent.search(/VERSION:2.0\r\n/)).to.equal(17); // 13
+      expect(defaultEvent.search(/PRODID:-\/\/Adam Gibbons\/\/agibbons.com\/\/ICS: iCalendar Generator\r\n/)).to.equal(30); // 64
+      expect(defaultEvent.search(/BEGIN:VEVENT\r\n/)).to.equal(94); // 14
+      expect(defaultEvent.search(/DTSTAMP:/)).to.equal(108); // 26
+      expect(defaultEvent.search(/DTSTART:/)).to.equal(134); // 26
+      expect(defaultEvent.search(/DTEND:/)).to.equal(160); // 24
+      expect(defaultEvent.search(/DESCRIPTION/)).to.equal(-1); // 0
+      expect(defaultEvent.search(/SUMMARY:New Event\r\n/)).to.equal(184); // 19
+      expect(defaultEvent.search(/END:VEVENT\r\n/)).to.equal(203); // 12
+      expect(defaultEvent.search(/END:VCALENDAR/)).to.equal(215s);
     });
 
     it('sets event properties passed as params', function() {
@@ -64,6 +68,11 @@ describe('ics', function() {
     });
 
     it('removes UTC formatting when passed a time zone identifier', function() {
+      expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
+      expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
+    });
+
+    it('gen', function() {
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
     });
