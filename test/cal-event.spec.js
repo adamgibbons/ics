@@ -1,6 +1,5 @@
 var expect = require('chai').expect;
 var path = require('path');
-
 var TMPDIR = require('os').tmpdir();
 
 var ics = require('../index.js');
@@ -8,12 +7,12 @@ var ics = require('../index.js');
 describe('ics', function() {
 
   var sampleEvent = {
-    eventName: 'Welcome Event to ICS',
-    description: 'Meet Down at the index.js',
+    eventName: 'Bolder Boulder 10k',
+    description: 'Annual 10-kilometer run',
     fileName: 'example.ics',
     dtstart:'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
     dtend:'Sat Nov 02 2014 15:20:00 GMT-0700 (PDT)',
-    location: 'Fort Worth, Texas',
+    location: 'Boulder, Colorado',
     organizer: {
         name: 'greenpioneersolutions',
         email: 'info@greenpioneersolutions.com'
@@ -31,8 +30,18 @@ describe('ics', function() {
     ]
   };
 
+  var sampleEvent2 = {
+    eventName: 'Bolder Boulder 10k',
+    description: 'Annual 10-kilometer run',
+    fileName: 'example.ics',
+    dtstart:'Thu Oct 06 2016 19:00:00 GMT-0600 (MDT)',
+    dtend:'Thu Oct 06 2016 20:30:00 GMT-0600 (MDT)',
+    location: 'Boulder, Colorado',
+    tzid: 'America/Denver'
+  };
+
   describe('getEvent()', function() {
-    it('creates a default event when no options passed', function() {
+    it('creates a default event when no params are passed', function() {
       var defaultEvent = ics.getEvent({});
       expect(defaultEvent.search(/BEGIN:VCALENDAR\r\n/)).to.equal(0);
       expect(defaultEvent.search(/VERSION:2.0\r\n/)).to.equal(17);
@@ -43,9 +52,22 @@ describe('ics', function() {
       expect(defaultEvent.search(/END:VCALENDAR/)).to.equal(151);
     });
 
-    it('has an event name', function() {
-      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('SUMMARY:' + sampleEvent.eventName)).to.be.greaterThan(-1);
+    it('sets event properties passed as params', function() {
+      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('SUMMARY:Bolder Boulder 10k')).to.be.greaterThan(-1);
+      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('LOCATION:Boulder, Colorado')).to.be.greaterThan(-1);
+      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('DESCRIPTION:Annual 10-kilometer run')).to.be.greaterThan(-1);
     });
+
+    it('defaults to UTC time', function() {
+      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('DTSTART:20141102T201500Z')).to.be.greaterThan(-1);
+      expect(ics.getEvent(sampleEvent).split('\r\n').indexOf('DTEND:20141102T222000Z')).to.be.greaterThan(-1);
+    });
+
+    it('removes UTC formatting when passed a time zone identifier', function() {
+      expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
+      expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
+    });
+
   });
 
   describe('createEvent()', function() {
@@ -84,6 +106,6 @@ describe('ics', function() {
         expect(filepath).to.equal(expected);
       })
     })
-  });
+  }); 
 
 });
