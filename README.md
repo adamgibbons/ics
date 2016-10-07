@@ -89,7 +89,7 @@ END:VCALENDAR
 - [x] Add Attendees
 - [ ] [Recurrence Identifier Range](http://tools.ietf.org/html/rfc5545#section-3.2.13)
 - [ ] [Alarm Trigger Relationship](http://tools.ietf.org/html/rfc5545#section-3.2.14)
-- [ ] [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
+- [x] [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
 - [ ] [Geographic Position](http://tools.ietf.org/html/rfc5545#section-3.8.1.6)
 - [ ] [Location](http://tools.ietf.org/html/rfc5545#section-3.8.1.7)
 
