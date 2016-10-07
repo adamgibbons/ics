@@ -72,11 +72,6 @@ describe('ics', function() {
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
     });
-
-    it('gen', function() {
-      expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
-      expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
-    });
   });
 
   describe('createEvent()', function() {
