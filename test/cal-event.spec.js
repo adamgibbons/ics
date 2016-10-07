@@ -67,7 +67,6 @@ describe('ics', function() {
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
       expect(ics.getEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
     });
-
   });
 
   describe('createEvent()', function() {
@@ -95,7 +94,7 @@ describe('ics', function() {
       ics.createEvent({filename: 'custom-name'}, null, function(err, filepath) {
         if (err) throw err;
         expect(filepath).to.equal(expected);
-      })
+      });
     });
 
     it('returns a custom filepath when one is provided', function() {
@@ -106,6 +105,5 @@ describe('ics', function() {
         expect(filepath).to.equal(expected);
       });
     });
-
   });
 });
