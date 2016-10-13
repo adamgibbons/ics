@@ -16,6 +16,7 @@ describe('ICS', function() {
     url: 'http://www.google.com',
     categories: ['running', 'races', 'boulder', 'huzzah'],
     attachments: ['/Users/gibber/img/chip.png', '/Users/gibber/img/hokie.jpg'],
+    geo: { lat: 37.386013, lon: -122.082932 },
     organizer: {
         name: 'greenpioneersolutions',
         email: 'info@greenpioneersolutions.com'
@@ -109,6 +110,7 @@ describe('ICS', function() {
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('CATEGORIES:running,races,boulder,huzzah')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('ATTACH:/Users/gibber/img/chip.png')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('ATTACH:/Users/gibber/img/hokie.jpg')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('GEO:37.386013;-122.082932')).to.be.greaterThan(-1);
     });
 
     // it('defaults to UTC time', function() {
