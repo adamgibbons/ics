@@ -12,8 +12,8 @@ describe('ICS', function() {
     fileName: 'example.ics',
     start:'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
     end:'Sat Nov 02 2014 15:20:00 GMT-0700 (PDT)',
-    location: 'Boulder, Colorado',
     url: 'http://www.google.com',
+    location: 'Folsom Field, University of Colorado at Boulder',
     categories: ['running', 'races', 'boulder', 'huzzah'],
     attachments: ['/Users/gibber/img/chip.png', '/Users/gibber/img/hokie.jpg'],
     geo: { lat: 37.386013, lon: -122.082932 },
@@ -104,13 +104,13 @@ describe('ICS', function() {
 
     it('sets event properties when passed', function() {
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('SUMMARY:Bolder Boulder 10k')).to.be.greaterThan(-1);
-      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('LOCATION:Boulder, Colorado')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('DESCRIPTION:Annual 10-kilometer run')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('URL:http://www.google.com')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('CATEGORIES:running,races,boulder,huzzah')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('ATTACH:/Users/gibber/img/chip.png')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('ATTACH:/Users/gibber/img/hokie.jpg')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('GEO:37.386013;-122.082932')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('LOCATION:Folsom Field, University of Colorado at Boulder')).to.be.greaterThan(-1);
     });
 
     // it('defaults to UTC time', function() {
