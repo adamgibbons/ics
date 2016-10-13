@@ -1,3 +1,3 @@
-var ics = require('./lib/cal-event.js');
+var ics = require('./lib/ics.js');
 
 module.exports = ics;
