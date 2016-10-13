@@ -37,6 +37,7 @@
     "moment": "^2.11.1"
   },
   "dependencies": {
+    "lodash": "^4.16.4",
     "moment": "^2.15.1",
     "node-uuid": "^1.4.7"
   }
