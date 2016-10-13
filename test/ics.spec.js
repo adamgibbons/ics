@@ -14,6 +14,8 @@ describe('ICS', function() {
     end:'Sat Nov 02 2014 15:20:00 GMT-0700 (PDT)',
     location: 'Boulder, Colorado',
     url: 'http://www.google.com',
+    categories: ['running', 'races', 'boulder', 'huzzah'],
+    attachments: ['/Users/gibber/img/chip.png', '/Users/gibber/img/hokie.jpg'],
     organizer: {
         name: 'greenpioneersolutions',
         email: 'info@greenpioneersolutions.com'
@@ -104,6 +106,9 @@ describe('ICS', function() {
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('LOCATION:Boulder, Colorado')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('DESCRIPTION:Annual 10-kilometer run')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('URL:http://www.google.com')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('CATEGORIES:running,races,boulder,huzzah')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('ATTACH:/Users/gibber/img/chip.png')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('ATTACH:/Users/gibber/img/hokie.jpg')).to.be.greaterThan(-1);
     });
 
     // it('defaults to UTC time', function() {
