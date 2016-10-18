@@ -15,29 +15,17 @@ Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
 
 Require the module: `require('ics')`.
 
-### `ics.getEvent(options)`
+### `ics.buildEvent(attributes)`
 
 Returns an iCal-compliant text string.
 
-### `ics.createEvent(options, filepath, cb)`
-
-Returns a callback with an iCal-compliant `.ics` file.
-
 ### Options:
-- `attendees`: (Object) Optional.
-  - `name`: (String)
-  - `email`: (String)
-  - `rsvp`: (Boolean) Optional. Defaults to `false`.
-- `dtstart`: (Date string) Event start time. Optional. Defaults to current time.
-- `dtend`: (Date string) Event end time. Optional. Defaults to one hour from `dtstart`.
-- `description`: (String) Description (details) of the event. Optional.
-- `eventName`: (String) Title of the event as it appears in calendar application. Optional. Defaults to `New Event`.
-- `filename`: (String) Name of the iCal file. Optional. Defaults to `calendar-event.ics`.
-- `location`: (String) Location of the event. Optional.
-- `organizer`: (Object) Optional.
-  - `name`: (String)
-  - `email`: (String)
-- `tzid`: (String) Time zone ID, e.g. `America/New_York`. Optional. Note that passing this option forces the event to return in a DATE-TIME format rather than the default UTC format.
+- `start`: (Date string) Optional. Event start time. Defaults to current time.
+- `end`: (Date string) Optional. Event end time. Defaults to one hour from `dtstart`.
+- `description`: (String) Optional. Description (details) of the event.
+- `title`: (String) Optional. Title of the event as it appears in calendar application.
+- `location`: (String) Optional. Location of the event.
+
 
 ### Example:
 
@@ -45,7 +33,7 @@ Returns a callback with an iCal-compliant `.ics` file.
 var ical = require('ics');
 
 var options = {
-  eventName: 'Fingerpainting lessons',
+  title: 'Fingerpainting lessons',
   filename: 'event.ics',
   dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
   location: 'Here and there',

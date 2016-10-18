@@ -4,14 +4,16 @@ var TMPDIR = require('os').tmpdir();
 
 var ICS = require('../index.js');
 
+var moment = require('moment-timezone');
+
 describe('ICS', function() {
 
   var sampleEvent = {
-    eventName: 'Bolder Boulder 10k',
+    title: 'Bolder Boulder 10k',
     description: 'Annual 10-kilometer run',
     fileName: 'example.ics',
-    start:'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
-    end:'Sat Nov 02 2014 15:20:00 GMT-0700 (PDT)',
+    start:'',
+    end:'',
     url: 'http://www.google.com',
     location: 'Folsom Field, University of Colorado at Boulder',
     categories: ['running', 'races', 'boulder', 'huzzah'],
@@ -33,16 +35,6 @@ describe('ICS', function() {
         email: 'Accounting@greenpioneersolutions.com'
       }
     ]
-  };
-
-  var sampleEvent2 = {
-    eventName: 'Bolder Boulder 10k',
-    description: 'Annual 10-kilometer run',
-    fileName: 'example.ics',
-    dtstart:'Thu Oct 06 2016 19:00:00',
-    dtend:'Thu Oct 06 2016 20:30:00',
-    location: 'Boulder, Colorado',
-    tzid: 'America/Denver'
   };
 
   describe('buildEvent(attributes)', function() {
@@ -73,34 +65,45 @@ describe('ICS', function() {
     });
 
     it('sets a DATE-typed DTSTART property when passed a DATE-typed start param', function() {
-      var calEvent = ics.buildEvent({start: '9-25-1985'});
-      expect(calEvent.search('DTSTART:19850925\r\n'))
+      expect(ics.buildEvent({start: '1985-09-25'}).search('DTSTART;VALUE=DATE:19850925\r\n'))
+        .to.be.greaterThan(-1);
+    });
+
+    it('sets a DATE-typed DTEND value one day after DTSTART value when passed a DATE-typed start param but no end date', function() {
+      expect(ics.buildEvent({start: '1985-09-25'}).search('DTEND;VALUE=DATE:19850926\r\n'))
         .to.be.greaterThan(-1);
     });
 
     it('sets a DATE-typed DTEND property when passed a DATE-typed start param', function() {
-      var calEvent = ics.buildEvent({start: '9-25-1985', end: '9-26-1985'});
-      expect(calEvent.search('DTEND:19850926\r\n')).to.be.greaterThan(-1);
+      expect(ics.buildEvent({start: '1985-09-25', end: '9-26-1985'}).search('DTEND;VALUE=DATE:19850926\r\n'))
+        .to.be.greaterThan(-1);
+
+      expect(ics.buildEvent({start: '1985-09-25', end: '09-26-1985 2:20'}).search('DTEND;VALUE=DATE:19850926\r\n'))
+        .to.be.greaterThan(-1);
     });
 
-    it('sets a DATE-TIME-typed DTSTART when passed a DATE-TIME-typed start param', function() {
-      var calEvent = ics.buildEvent({start: '9-25-1985 02:30'});
-      expect(calEvent.search('DTSTART:19850925T023000Z\r\n')).to.be.greaterThan(-1);
+    it('sets a floating, DATE-TIME-typed DTSTART when passed a DATE-TIME-typed start param with neither a UTC designator nor a timezone', function() {
+      expect(ics.buildEvent({start: '2017-09-25 02:30:00'}).search('DTSTART:20170925T023000\r\n'))
+        .to.be.greaterThan(-1);
     });
 
-    it('sets a DATE-TIME-typed DTEND when passed a DATE-TIME-typed start param', function() {
-      var calEvent = ics.buildEvent({start: '9-25-1985 02:30', end: '9-25-1985 20:30'});
-      expect(calEvent.search('DTEND:19850925T203000Z\r\n')).to.be.greaterThan(-1);
+    it('sets a floating, DATE-TIME-typed DTEND with same value as DTSTART when passed a DATE-TIME-typed start param with neither a UTC designator nor a timezone', function() {
+      expect(ics.buildEvent({start: '2017-09-25 02:30:00'}).search('DTEND:20170925T023000\r\n'))
+        .to.be.greaterThan(-1);
     });
 
-    it('sets a DATE-typed DTEND value of same day as DTSTART when DTSTART is DATE-typed and no DTEND param is passed', function() {
-      var calEvent = ics.buildEvent({start: '9-25-1985'});
-      expect(calEvent.search('DTEND:19850925\r\n')).to.be.greaterThan(-1);
+    it('sets the same time zone ID on DTSTART and DTEND when only a start TZID is provided', function() {
+      var evnt = ics.buildEvent({start: '2008-09-15 15:45', end: '2008-09-15 17:00', timeZone: 'America/New_York'});
+
+      expect(evnt.search('DTSTART;TZID=America/New_York:20080915T154500\r\n')).to.be.greaterThan(-1);
+      expect(evnt.search('DTEND;TZID=America/New_York:20080915T170000\r\n')).to.be.greaterThan(-1);
     });
 
-    it('sets DTEND to same value as DTSTART when DTSTART is DATE-TIME-typed and no DTEND param is passed', function() {
-      var calEvent = ics.buildEvent({start: '9-25-1985 02:30'});
-      expect(calEvent.search('DTEND:19850925T023000Z\r\n')).to.be.greaterThan(-1);
+    it('sets separate start and end time zone IDs if provided', function() {
+      var evnt = ics.buildEvent({start: '2008-09-15 15:45', end: '2008-09-15 17:00', timeZone: 'America/New_York', timeZoneEnd:'America/Chicago'});
+
+      expect(evnt.search('DTSTART;TZID=America/New_York:20080915T154500\r\n')).to.be.greaterThan(-1);
+      expect(evnt.search('DTEND;TZID=America/Chicago:20080915T170000\r\n')).to.be.greaterThan(-1);
     });
 
     it('sets event properties when passed', function() {
@@ -115,15 +118,20 @@ describe('ICS', function() {
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('STATUS:TENTATIVE')).to.be.greaterThan(-1);
     });
 
-    // it('defaults to UTC time', function() {
-    //   expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('DTSTART:20141102T201500Z')).to.be.greaterThan(-1);
-    //   expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('DTEND:20141102T222000Z')).to.be.greaterThan(-1);
-    // });
+    it ('adds one attendee', function() {
+      var evnt = ics.buildEvent({ attendees: [{ name: 'Dad', email: 'dad@example.com' }] });
+      expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
+    });
 
-    // it('removes UTC formatting when passed a time zone identifier', function() {
-    //   expect(ics.buildEvent(sampleEvent2).split('\r\n').indexOf('DTSTART;TZID=America/Denver:20161006T190000')).to.be.greaterThan(-1);
-    //   expect(ics.buildEvent(sampleEvent2).split('\r\n').indexOf('DTEND;TZID=America/Denver:20161006T203000')).to.be.greaterThan(-1);
-    // });
+    it ('adds multiple attendees', function() {
+      var attendees = [
+        { name: 'Dad', email: 'dad@example.com' },
+        { name: 'Mom', email: 'mom@example.com' }
+      ];
+      var evnt = ics.buildEvent({ attendees: attendees });
+      expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
+      expect(evnt.search('ATTENDEE;CN=Mom:mailto:mom@example.com')).to.be.greaterThan(-1);
+    });
   });
 
   // describe('createEvent()', function() {
