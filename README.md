@@ -20,42 +20,42 @@ Require the module: `require('ics')`.
 Returns an iCal-compliant text string.
 
 ### Options:
-- `start`: (Date string) Optional. Event start time. Defaults to current time.
-- `end`: (Date string) Optional. Event end time. Defaults to one hour from `dtstart`.
-- `description`: (String) Optional. Description (details) of the event.
-- `title`: (String) Optional. Title of the event as it appears in calendar application.
-- `location`: (String) Optional. Location of the event.
+- `start`: STRING Optional. Event start time. Defaults to current time.
+- `end`: STRING Optional. Event end time. Defaults to one hour from `dtstart`.
+- `title`: STRING Optional. Title of the event as it appears in calendar application.
+- `description`: STRING Optional. Description (details) of the event.
+- `location`: STRING Optional. Defines intended venue.
+- `url`: STRING Optional. URL associated with the event.
+- `status`: STRING Optional. Must be one of: `tentative`, `confirmed`, `cancelled`.
+- `geo`: FLOAT Optional. Geographic coordinates of the event. Two semicolon-separated float values specifying latitute and longitude of event.
+- `attendees`: ARRAY Optional.
+- `categories`: ARRAY Optional.
 
 
 ### Example:
 
 ```javascript
-var ical = require('ics');
+var ics = require('ics');
 
-var options = {
-  title: 'Fingerpainting lessons',
-  filename: 'event.ics',
-  dtstart: 'Sat Nov 02 2014 13:15:00 GMT-0700 (PDT)',
-  location: 'Here and there',
-  email: {
-    name: 'Isaac Asimov',
-    email: 'isaac@asimov.com'
-  }
-};
-
-ical.createEvent(options, null, function(err, success) {
-  if (err) {
-    console.log(err);
-  }
-
-  console.log(success); // returns filepath
+ics.buildEvent({
+  start: '2016-05-30 06:50',
+  end: '2016-05-30 15:00',
+  title: 'Bolder Boulder',
+  description: 'Annual 10-kilometer run in Boulder, Colorado',
+  location: 'Folsom Field, University of Colorado (finish line)',
+  url: 'http://www.bolderboulder.com/',
+  status: 'confirmed',
+  geo: { lat: 40.0095, lon: 105.2669 },
+  attendees: [
+    {name: 'Adam Gibbons', email: 'adam@example.com'},
+    {name: 'Brittany Seaton', email: 'brittany@example2.org'}
+  ],
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder\, CO']
 });
+
 ```
 
-The above snippet creates a file named `event.ics`, saves it to the operating
-system's temporary directory, and returns the filepath.
-
-The `event.ics` file should look something like this:
+The above snippet will return an iCal-compliant text string like this:
 
 ```
 BEGIN:VCALENDAR
@@ -70,32 +70,6 @@ END:VEVENT
 END:VCALENDAR
 ```
 
-## TODO
-
-- [x] Description property
-- [x] Add express/restify browser download examples
-- [x] Add Attendees
-- [ ] [Recurrence Identifier Range](http://tools.ietf.org/html/rfc5545#section-3.2.13)
-- [ ] [Alarm Trigger Relationship](http://tools.ietf.org/html/rfc5545#section-3.2.14)
-- [x] [Time Zone Identifier](http://tools.ietf.org/html/rfc5545#section-3.2.19)
-- [ ] [Geographic Position](http://tools.ietf.org/html/rfc5545#section-3.8.1.6)
-- [ ] [Location](http://tools.ietf.org/html/rfc5545#section-3.8.1.7)
-
 ## References
 
 [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
-
-[Initial iCalendar Elements Registries](http://tools.ietf.org/html/rfc5545#section-8.3)
-
-## EXAMPLE
-
-Check out our expressjs example.Follow the instructions below to try it out
-`npm install`
-`cd ex`
-`node app.js`
-
-Then go over to the browser and hit this url
-`http://localhost:3000/create`
-
-A file will be created and your can reach it in the browser here 
-`localhost:3000/created/example.ics`
