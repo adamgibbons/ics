@@ -50,7 +50,7 @@ ics.buildEvent({
     {name: 'Adam Gibbons', email: 'adam@example.com'},
     {name: 'Brittany Seaton', email: 'brittany@example2.org'}
   ],
-  categories: ['10k races', 'Memorial Day Weekend', 'Boulder\, CO']
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO']
 });
 
 ```
