@@ -55,19 +55,30 @@ ics.buildEvent({
 
 ```
 
-The above snippet will return an iCal-compliant text string like this:
+The above snippet will return an iCal-compliant text string that looks like this (except for the `UID` and timestamp values):
 
 ```
 BEGIN:VCALENDAR
 VERSION:2.0
+CALSCALE:GREGORIAN
+PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator
 BEGIN:VEVENT
-DTSTAMP:20150701T170000Z
-ORGANIZER;CN=John Doe:MAILTO:john.doe@example.com
-DTSTART:20150714T170000Z
-DTEND:20150715T035959Z
-SUMMARY:Fingerpainting lessons
+UID:2073c980-9545-11e6-99f9-791bff9883ed
+DTSTAMP:20161018T151121Z
+DTSTART:20160530T065000
+DTEND:20160530T150000
+SUMMARY:Bolder Boulder
+DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
+LOCATION:Folsom Field, University of Colorado (finish line)
+URL:http://www.bolderboulder.com/
+STATUS:confirmed
+GEO:40.0095;105.2669
+ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
+ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
+CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
 END:VEVENT
 END:VCALENDAR
+
 ```
 
 ## References
