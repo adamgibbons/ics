@@ -1,41 +1,22 @@
-ICS File Generator
+ics
 ==================
 
-Generate [iCalendar](http://tools.ietf.org/html/rfc5545) files.
+The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 [![npm version](https://badge.fury.io/js/ics.svg)](http://badge.fury.io/js/ics)
 [![Code Climate](https://codeclimate.com/github/adamgibbons/ics/badges/gpa.svg)](https://codeclimate.com/github/adamgibbons/ics)
 [![TravisCI build status](https://travis-ci.org/adamgibbons/ics.svg?branch=master)](https://travis-ci.org/adamgibbons/ics.svg?branch=master)
 
-## Installation
+## Install
 
-`npm install ics`
+`npm install -S ics`
 
-## Usage
-
-Require the module: `require('ics')`.
-
-### `ics.buildEvent(attributes)`
-
-Returns an iCal-compliant text string.
-
-### Options:
-- `start`: STRING Optional. Event start time. Defaults to current time.
-- `end`: STRING Optional. Event end time. Defaults to one hour from `dtstart`.
-- `title`: STRING Optional. Title of the event as it appears in calendar application.
-- `description`: STRING Optional. Description (details) of the event.
-- `location`: STRING Optional. Defines intended venue.
-- `url`: STRING Optional. URL associated with the event.
-- `status`: STRING Optional. Must be one of: `tentative`, `confirmed`, `cancelled`.
-- `geo`: FLOAT Optional. Geographic coordinates of the event. Two semicolon-separated float values specifying latitute and longitude of event.
-- `attendees`: ARRAY Optional.
-- `categories`: ARRAY Optional.
-
-
-### Example:
+## Example
 
 ```javascript
-var ics = require('ics');
+var ICS = require('ics');
+
+var ics = new ICS();
 
 ics.buildEvent({
   start: '2016-05-30 06:50',
@@ -55,7 +36,7 @@ ics.buildEvent({
 
 ```
 
-The above snippet will return an iCal-compliant text string that looks like this (except for the `UID` and timestamp values):
+The above snippet will return an iCal-compliant text string like this:
 
 ```
 BEGIN:VCALENDAR
@@ -80,6 +61,29 @@ END:VEVENT
 END:VCALENDAR
 
 ```
+
+## API
+
+### `buildEvent(attributes)`
+
+**Description**
+Returns an iCal-compliant text string.
+
+**Parameters**
+`attributes`: Object literal. Accepts the following properties:
+
+| Property      | Description   | Default  |
+| ------------- | ------------- | ----------
+| start         | ISO 8601 date (`yyyymmdd`) or datetime (`yyyymmddThhmm`) string. | Today (as ISO 8601 date string)
+| end           | Event end date/time string. Must match `start` ISO 8601 value type. | If `start` value is date, next day; if value is datetime, same value as `start`.
+| title         | String. Title of event.
+| description   | String. Description of event.
+| location      | String. Intended venue, e.g. `Room 101`.
+| geo           | Object literal. Geographic coordinates (lat/lon) as floats, e.g. `{lat: 38.9072, lon: 77.0369}`.
+| url           | String. URL associated with event.
+| status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled`.
+| attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
+| categories    | Array of string values.
 
 ## References
 
