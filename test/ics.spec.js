@@ -118,12 +118,12 @@ describe('ICS', function() {
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('STATUS:TENTATIVE')).to.be.greaterThan(-1);
     });
 
-    it ('adds one attendee', function() {
+    it('adds one attendee', function() {
       var evnt = ics.buildEvent({ attendees: [{ name: 'Dad', email: 'dad@example.com' }] });
       expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
     });
 
-    it ('adds multiple attendees', function() {
+    it('adds multiple attendees', function() {
       var attendees = [
         { name: 'Dad', email: 'dad@example.com' },
         { name: 'Mom', email: 'mom@example.com' }
