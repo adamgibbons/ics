@@ -11,7 +11,9 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 `npm install -S ics`
 
-## Example
+## Example Usage
+
+Generate an iCalendar event:
 
 ```javascript
 var ICS = require('ics');
@@ -28,15 +30,15 @@ ics.buildEvent({
   status: 'confirmed',
   geo: { lat: 40.0095, lon: 105.2669 },
   attendees: [
-    {name: 'Adam Gibbons', email: 'adam@example.com'},
-    {name: 'Brittany Seaton', email: 'brittany@example2.org'}
+    { name: 'Adam Gibbons', email: 'adam@example.com' },
+    { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ],
   categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO']
 });
 
 ```
 
-The above snippet will return an iCal-compliant text string like this:
+The above snippet will return this:
 
 ```
 BEGIN:VCALENDAR
@@ -66,11 +68,11 @@ END:VCALENDAR
 
 ### `buildEvent(attributes)`
 
-**Description**
 Returns an iCal-compliant text string.
 
-**Parameters**
-`attributes`: Object literal. Accepts the following properties:
+#### `attributes`
+
+Object literal. Accepts the following properties:
 
 | Property      | Description   | Default  |
 | ------------- | ------------- | ----------
