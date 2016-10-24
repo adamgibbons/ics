@@ -37,6 +37,19 @@ describe('ICS', function() {
     ]
   };
 
+  describe('init', function() {
+    it('initializes with default properties', function() {
+      var ics = new ICS();
+      expect(ics.options).to.exist;
+      expect(ics.options).not.to.be.empty;
+    });
+
+    it('overwrites default properties when passed options', function() {
+      var ics = new ICS({filename: 'foo'});
+      expect(ics.options.filename).to.equal('foo');
+    });
+  });
+
   describe('buildEvent(attributes)', function() {
     var ics = new ICS();
 
@@ -134,44 +147,33 @@ describe('ICS', function() {
     });
   });
 
-  // describe('createEvent()', function() {
-  //   it('creates event with every option passed', function() {
-  //     var expected = path.join(TMPDIR, 'calendar-event.ics');
+  describe('getDestination()', function() {
+    var ics = new ICS();
 
-  //     ics.createEvent(sampleEvent, null, function(err, filepath) {
-  //       if (err) throw err;
-  //       expect(filepath).to.equal(expected);
-  //     });
-  //   });
+    it('returns the default filename when no argument passsed', function() {
+      expect(ics.getDestination().indexOf('event.ics')).to.be.greaterThan(-1);
+    });
 
-  //   it('returns a default filepath when no filename or filepath provided', function() {
-  //     var expected = path.join(TMPDIR, 'calendar-event.ics');
+    it('returns the default filename when falsy arguments passsed', function() {
+      expect(ics.getDestination(null).indexOf('event.ics')).to.be.greaterThan(-1);
+      expect(ics.getDestination(false).indexOf('event.ics')).to.be.greaterThan(-1);
+      expect(ics.getDestination(0).indexOf('event.ics')).to.be.greaterThan(-1);
+    });
 
-  //     ics.createEvent({}, null, function(err, filepath) {
-  //       if (err) throw err;
-  //       expect(filepath).to.equal(expected);
-  //     });
-  //   });
+    it('returns an ics file in the cwd when passed only a filename', function() {
+      expect(ics.getDestination('foo.ics')).to.equal(path.join(process.cwd(), 'foo.ics'));
+      expect(ics.getDestination('foo')).to.equal(path.join(process.cwd(), 'foo.ics'));
+    });
 
-  //   it('returns a default filepath and custom filename when filename provided', function() {
-  //     var expected = path.join(TMPDIR, 'custom-name.ics');
+    it('returns an ics file in another directory when passed a relative path', function() {
+      expect(ics.getDestination('../foo/bar')).to.equal(path.resolve(path.join(process.cwd(), '../foo', 'bar.ics')));
+      expect(ics.getDestination('../baz.ics')).to.equal(path.resolve(path.join(process.cwd(), '..', 'baz.ics')));
+    });
 
-  //     ics.createEvent({filename: 'custom-name'}, null, function(err, filepath) {
-  //       if (err) throw err;
-  //       expect(filepath).to.equal(expected);
-  //     });
-  //   });
-
-  //   it('returns a custom filepath when one is provided', function() {
-  //     var expected = '/Users/gibber/Desktop/my-file.ics';
-
-  //     ics.createEvent({}, '/Users/gibber/Desktop/my-file.ics', function(err, filepath) {
-  //       if (err) throw err;
-  //       expect(filepath).to.equal(expected);
-  //     });
-  //   });
-  // });
-
-  
+    it('returns an ics file when passed an absoute path', function() {
+      expect(ics.getDestination('/foo.ics')).to.equal('/foo.ics');
+      expect(ics.getDestination('/foo')).to.equal('/foo.ics');
+    });
+  });  
 
 });
