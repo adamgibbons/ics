@@ -72,7 +72,7 @@ Returns an iCal-compliant text string.
 
 #### `attributes`
 
-Object literal. Accepts the following properties:
+Optional. Object literal attributes of the event. Accepts the following properties:
 
 | Property      | Description   | Default  |
 | ------------- | ------------- | ----------
@@ -87,6 +87,31 @@ Object literal. Accepts the following properties:
 | attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
 | categories    | Array of string values.
 
+### `createEvent(attributes[, options], cb)`
+
+Asynchronously writes an iCal file. Returns a callback with the stringified event.
+
+#### `options`
+Optional. Object literal accepting the following properties:
+
+| Property      | Description   | Default  |
+| ------------- | ------------- | ----------
+| filepath      | Filename, relative path + filename, or absolute path + filename. | Absolute path to current working directory, plus `event.ics`. E.g. `/Users/gibber/my-project/event.ics`
+
+`filepath` accepts relative or absolute paths. For example, these
+values resolve to `/Users/gibber/my-event.ics` when executed from `/Users/gibber`:
+
+- `my-event` 
+- `my-event.ics`
+- `/Users/gibber/my-event`
+- `/Users/gibber/my-event.ics`
+
+...and these will resolve to `/Users/my-event.ics` when executed from `/Users/gibber`:
+
+- `../my-event`
+- `../my-event.ics`
+
 ## References
 
-[RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
+- [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
+- [iCalendar Validator](http://icalendar.org/validator.html#results)
