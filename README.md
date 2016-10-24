@@ -91,6 +91,7 @@ Optional. Object literal attributes of the event. Accepts the following properti
 
 #### `options`
 Optional. Object literal accepting the following properties:
+
 | Property      | Description   | Default  |
 | ------------- | ------------- | ----------
 | filepath      | Filename, relative path + filename, or absolute path + filename. | Absolute path to current working directory, plus `event.ics`. E.g. `/Users/gibber/my-project/event.ics`
