@@ -87,7 +87,7 @@ Optional. Object literal attributes of the event. Accepts the following properti
 | attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
 | categories    | Array of string values.
 
-### `createEvent(attributes, [options, ] cb)`
+### `createEvent(attributes[, options], cb)`
 
 #### `options`
 Optional. Object literal accepting the following properties:
