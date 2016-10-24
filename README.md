@@ -89,6 +89,8 @@ Optional. Object literal attributes of the event. Accepts the following properti
 
 ### `createEvent(attributes[, options], cb)`
 
+Asynchronously writes an iCal file. Returns a callback with the stringified event.
+
 #### `options`
 Optional. Object literal accepting the following properties:
 
