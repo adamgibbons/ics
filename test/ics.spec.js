@@ -156,6 +156,12 @@ describe('ICS', function() {
       var evnt = ics.buildEvent({uid: uid});
       expect(evnt.search('UID:' + uid)).to.be.greaterThan(-1);
     });
+
+    it('sets prodif if one is provided', function() {
+      var prodId = '-//Alex Corporation////ICS'
+      var evnt = ics.buildEvent({prodId: prodId});
+      expect(evnt.search('PRODID:' + prodId)).to.be.greaterThan(-1);
+    });
   });
 
   describe('getDestination()', function() {
