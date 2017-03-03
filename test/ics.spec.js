@@ -158,7 +158,7 @@ describe('ICS', function() {
     });
 
     it('sets prodif if one is provided', function() {
-      var prodId = '-//Alex Corporation////ICS'
+      var prodId = '-//Alex Corporation//ICS My Product//EN';
       var evnt = ics.buildEvent({prodId: prodId});
       expect(evnt.search('PRODID:' + prodId)).to.be.greaterThan(-1);
     });
