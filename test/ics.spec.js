@@ -100,6 +100,11 @@ describe('ICS', function() {
         .to.be.greaterThan(-1);
     });
 
+    it('sets an absolute, DATE-TIME-typed DTSTART when passed a DATE-TIME-typed start param with a UTC designator and no timezone', function() {
+      expect(ics.buildEvent({start: '2017-09-25T02:30:00.000Z'}).search('DTSTART:20170925T023000Z\r\n'))
+        .to.be.greaterThan(-1);
+    });
+
     it('sets a floating, DATE-TIME-typed DTEND with same value as DTSTART when passed a DATE-TIME-typed start param with neither a UTC designator nor a timezone', function() {
       expect(ics.buildEvent({start: '2017-09-25 02:30:00'}).search('DTEND:20170925T023000\r\n'))
         .to.be.greaterThan(-1);
@@ -144,6 +149,12 @@ describe('ICS', function() {
       var evnt = ics.buildEvent({ attendees: attendees });
       expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
       expect(evnt.search('ATTENDEE;CN=Mom:mailto:mom@example.com')).to.be.greaterThan(-1);
+    });
+
+    it('sets uid if one is provided', function() {
+      var uid = 'some-event-uid';
+      var evnt = ics.buildEvent({uid: uid});
+      expect(evnt.search('UID:' + uid)).to.be.greaterThan(-1);
     });
   });
 

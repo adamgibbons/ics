@@ -21,6 +21,7 @@ var ICS = require('ics');
 var ics = new ICS();
 
 ics.buildEvent({
+  uid: 'abc123', // (optional)
   start: '2016-05-30 06:50',
   end: '2016-05-30 15:00',
   title: 'Bolder Boulder',
