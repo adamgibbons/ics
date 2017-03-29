@@ -3,8 +3,10 @@ var bodyParser = require('body-parser')
 var fs = require('fs')
 var path = require('path')
 var moment = require('moment')
-var ical = require('../index.js')
+var ICAL = require('../index.js')
 var app = express()
+
+var ical = new ICAL();
 
 app.set('port', process.env.PORT || 3000)
 app.use(bodyParser.json())
@@ -39,7 +41,7 @@ app.get('/create', function(req, res) {
             name: 'Support greenpioneersolutions',
             email: 'Support@greenpioneersolutions.com',
             rsvp: true
-        },
+        },{
             name: 'no RSVP greenpioneersolutions',
             email: 'Sales@greenpioneersolutions.com'
         }]
