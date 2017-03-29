@@ -153,7 +153,7 @@ describe('ICS', function() {
     
     it('adds one organizer', function() {
       var evnt = ics.buildEvent({ organizer: { name: 'Grandpa', email: 'grandpa@example.com' } });
-      expect(evnt.search('ATTENDEE;CN=Grandpa:mailto:grandpa@example.com')).to.be.greaterThan(-1);
+      expect(evnt.search('ORGANIZER;CN=Grandpa:mailto:grandpa@example.com')).to.be.greaterThan(-1);
     });
 
     it('sets uid if one is provided', function() {
