@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
@@ -20,11 +20,12 @@
     "date-time",
     "events"
   ],
-  "author": "Adam Gibbons",
+  "author": "Adam Gibbons <adam@agibbons.com>",
   "contributors": [
-    "Adam Gibbons <adam.d.gibbons@gmail.com>",
     "Green Pioneer <info@greenpioneersolutions.com>",
-    "Reda <reeda.bx@gmail.com>"
+    "Reda <reeda.bx@gmail.com>",
+    "David Schlachter",
+    "Andrew Crowell"
   ],
   "license": "ISC",
   "bugs": {
