@@ -150,6 +150,11 @@ describe('ICS', function() {
       expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
       expect(evnt.search('ATTENDEE;CN=Mom:mailto:mom@example.com')).to.be.greaterThan(-1);
     });
+    
+    it('adds one organizer', function() {
+      var evnt = ics.buildEvent({ organizer: { name: 'Grandpa', email: 'grandpa@example.com' } });
+      expect(evnt.search('ORGANIZER;CN=Grandpa:mailto:grandpa@example.com')).to.be.greaterThan(-1);
+    });
 
     it('sets uid if one is provided', function() {
       var uid = 'some-event-uid';
