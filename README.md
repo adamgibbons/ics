@@ -87,6 +87,7 @@ Optional. Object literal attributes of the event. Accepts the following properti
 | status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled`.
 | attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
 | categories    | Array of string values.
+| prodId        | String. This property specifies the identifier for the product that created the iCalendar object.
 
 ### `createEvent(attributes[, options], cb)`
 
