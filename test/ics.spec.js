@@ -34,6 +34,15 @@ describe('ICS', function() {
         name: 'Accounting Team',
         email: 'Accounting@greenpioneersolutions.com'
       }
+    ],
+    alarms:[
+      {
+        description: 'Reminder',
+        trigger: '-PT24H',
+        repeat: true,
+        duration: 'PT15M',
+        action: 'DISPLAY'
+      }
     ]
   };
 
@@ -134,6 +143,8 @@ describe('ICS', function() {
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('GEO:37.386013;-122.082932')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('LOCATION:Folsom Field, University of Colorado at Boulder')).to.be.greaterThan(-1);
       expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('STATUS:TENTATIVE')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(ics.buildEvent(sampleEvent).split('\r\n').indexOf('END:VALARM')).to.be.greaterThan(-1);
     });
 
     it('adds one attendee', function() {
@@ -150,7 +161,90 @@ describe('ICS', function() {
       expect(evnt.search('ATTENDEE;CN=Dad:mailto:dad@example.com')).to.be.greaterThan(-1);
       expect(evnt.search('ATTENDEE;CN=Mom:mailto:mom@example.com')).to.be.greaterThan(-1);
     });
-    
+
+    it('adds one alarm', function() {
+      var alarms = [
+        {
+          trigger: '-PT24H',
+          action: 'DISPLAY'
+        }
+      ];
+      var evnt = ics.buildEvent({ alarms: alarms });
+      expect(evnt.split('\r\n').indexOf('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('TRIGGER:-PT24H')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('ACTION:DISPLAY')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('END:VALARM')).to.be.greaterThan(-1);
+    });
+
+    it('adds one alarm with a description', function() {
+      var alarms = [
+        {
+          trigger: '-PT24H',
+          action: 'DISPLAY',
+          description: 'Reminder'
+        }
+      ];
+      var evnt = ics.buildEvent({ alarms: alarms });
+      expect(evnt.split('\r\n').indexOf('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('TRIGGER:-PT24H')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('ACTION:DISPLAY')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('DESCRIPTION:Reminder')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('END:VALARM')).to.be.greaterThan(-1);
+    });
+
+    it('adds one repeating alarm', function() {
+      var alarms = [
+        {
+          trigger: '-PT24H',
+          action: 'DISPLAY',
+          repeat: true,
+          duration: 'PT15M'
+        }
+      ];
+      var evnt = ics.buildEvent({ alarms: alarms });
+      expect(evnt.split('\r\n').indexOf('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('TRIGGER:-PT24H')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('ACTION:DISPLAY')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('REPEAT:1')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('DURATION:PT15M')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('END:VALARM')).to.be.greaterThan(-1);
+    });
+
+    it('adds one alarm not repeating without both repeat and duration', function() {
+      var alarms = [
+        {
+          trigger: '-PT24H',
+          action: 'DISPLAY',
+          repeat: true
+        }
+      ];
+      var evnt = ics.buildEvent({ alarms: alarms });
+      expect(evnt.split('\r\n').indexOf('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('TRIGGER:-PT24H')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('ACTION:DISPLAY')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('REPEAT:1')).to.equal(-1);
+      expect(evnt.split('\r\n').indexOf('DURATION:PT15M')).to.equal(-1);
+      expect(evnt.split('\r\n').indexOf('END:VALARM')).to.be.greaterThan(-1);
+    });
+
+    it('adds one alarm not repeating without both repeat and duration', function() {
+      var alarms = [
+        {
+          trigger: '-PT24H',
+          action: 'DISPLAY',
+          duration: 'PT15M'
+        }
+      ];
+      var evnt = ics.buildEvent({ alarms: alarms });
+      expect(evnt.split('\r\n').indexOf('BEGIN:VALARM')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('TRIGGER:-PT24H')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('ACTION:DISPLAY')).to.be.greaterThan(-1);
+      expect(evnt.split('\r\n').indexOf('REPEAT:1')).to.equal(-1);
+      expect(evnt.split('\r\n').indexOf('DURATION:PT15M')).to.equal(-1);
+      expect(evnt.split('\r\n').indexOf('END:VALARM')).to.be.greaterThan(-1);
+    });
+
+
     it('adds one organizer', function() {
       var evnt = ics.buildEvent({ organizer: { name: 'Grandpa', email: 'grandpa@example.com' } });
       expect(evnt.search('ORGANIZER;CN=Grandpa:mailto:grandpa@example.com')).to.be.greaterThan(-1);

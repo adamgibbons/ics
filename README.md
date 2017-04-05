@@ -34,7 +34,11 @@ ics.buildEvent({
     { name: 'Adam Gibbons', email: 'adam@example.com' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ],
-  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO']
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
+  alarms:[
+    { action: 'DISPLAY', trigger: '-PT24H', description: 'Reminder', repeat: true, duration: 'PT15M' },
+    { action: 'AUDIO', trigger: '-PT30M' }
+  ]
 });
 
 ```
@@ -60,6 +64,17 @@ GEO:40.0095;105.2669
 ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
 ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
 CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER:-PT24H
+DESCRIPTION:Reminder
+REPEAT:1
+DURATION:PT15M
+END:VALARM
+BEGIN:VALARM
+ACTION:AUDIO
+TRIGGER:-PT30M
+END:VALARM
 END:VEVENT
 END:VCALENDAR
 
@@ -87,6 +102,7 @@ Optional. Object literal attributes of the event. Accepts the following properti
 | status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled`.
 | attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
 | categories    | Array of string values.
+| alarms        | Array of object literals, e.g. `{ action: 'DISPLAY', trigger: '-PT30M' }`.  For details on parameters, see the [spec](https://icalendar.org/iCalendar-RFC-5545/3-6-6-alarm-component.html).
 
 ### `createEvent(attributes[, options], cb)`
 
