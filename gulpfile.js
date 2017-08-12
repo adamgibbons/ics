@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var changed = require('gulp-changed');
 
 var paths = {
-  src: 'src/*.js',
-  dest: 'dist'
+  src: 'src/**/*.js',
+  dest: 'dist',
+  test: 'test/**/*.js'
 };
 
 gulp.task('watch', function() {
@@ -17,4 +17,4 @@ gulp.task('build', function () {
     .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('default', ['watch', 'build']);
+gulp.task('dev', ['watch', 'build']);

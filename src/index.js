@@ -1,4 +1,3 @@
-console.log('bar');
 
 
 // var path = require('path');
