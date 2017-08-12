@@ -1,4 +1,18 @@
+const DEFAULTS = {
+  title: 'Untitled event',
+  productId: 'adamgibbons/ics',
+  uid: 1,
+  timestamp: 'a',
+  start: 'a'
+}
 
+const createEvent = (attributes) => {
+  if (!attributes) {
+    return DEFAULTS;
+  }
+}
+
+export default { createEvent }
 
 // var path = require('path');
 // var fs = require('fs');

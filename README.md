@@ -16,11 +16,9 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 Generate an iCalendar event:
 
 ```javascript
-var ICS = require('ics');
+import ics from 'ics';
 
-var ics = new ICS();
-
-ics.buildEvent({
+ics.create({
   uid: 'abc123', // (optional)
   start: '2016-05-30 06:50',
   end: '2016-05-30 15:00',

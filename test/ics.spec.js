@@ -1,18 +1,22 @@
-import { expect } from 'chai';
+import ics from '../src';
+import { expect } from 'chai'
 
-describe('foo', function() {
-  it('does the things', function() {
-    expect(1).to.equal(1);
-  });
-  it('does more things', function() {
-    expect(1).to.equal(2);
-  });
-});
-
+describe('ICS', () => {
+  describe('.createEvent', () => {
+    it('creates a default event when no options passed', () => {
+      const { productId, uid, timestamp, start, title } = ics.createEvent()
+      expect(productId).to.equal('adamgibbons/ics')
+      expect(uid).to.exist
+      expect(timestamp).to.exist
+      expect(start).to.exist
+      expect(title).to.equal('Untitled event')
+    })
+  })
+})
 
 // var path = require('path');
 // var TMPDIR = require('os').tmpdir();
-
+ 
 // var ICS = require('../index.js');
 
 // var moment = require('moment-timezone');
