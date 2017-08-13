@@ -1,13 +1,18 @@
-import ics from '../src';
+import ics from '../src'
 import { expect } from 'chai'
 
 describe('ICS', () => {
   describe('.createEvent', () => {
-    it('creates a default event when no options passed', () => {
+    it('sets default values when no attributes passed', () => {
       const { productId, uid, timestamp, start, title } = ics.createEvent()
       expect(productId).to.equal('adamgibbons/ics')
+
       expect(uid).to.exist
+      expect(uid.length).to.equal(36)
+
       expect(timestamp).to.exist
+      expect(timestamp.length).to.equal(16)
+
       expect(start).to.exist
       expect(title).to.equal('Untitled event')
     })

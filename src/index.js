@@ -1,10 +1,22 @@
+import uuidv1 from 'uuid/v1'
+import { setUTCdate } from './utils'
+
 const DEFAULTS = {
   title: 'Untitled event',
   productId: 'adamgibbons/ics',
-  uid: 1,
-  timestamp: 'a',
+  uid: uuidv1(),
+  timestamp: setUTCdate(),
   start: 'a'
 }
+
+//        DTSTAMP:19960704T120000Z
+
+// Description:  The value MUST be specified in the UTC time format.
+// DTSTAMP:19970610T172345Z
+
+// January 19, 1998, at 0700 UTC:
+// 1998 01 19 T 0700 00Z
+
 
 const createEvent = (attributes) => {
   if (!attributes) {
