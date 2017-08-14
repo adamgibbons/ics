@@ -1,12 +1,15 @@
 import uuidv1 from 'uuid/v1'
-import { setDateWithUTCtime } from './utils'
+import {
+  setDateWithUTCtime,
+  setDateWithLocalTime
+} from './utils'
 
 const DEFAULTS = {
   title: 'Untitled event',
   productId: 'adamgibbons/ics',
   uid: uuidv1(),
   timestamp: setDateWithUTCtime(),
-  start: 'a'
+  start: setDateWithLocalTime
 }
 
 //        DTSTAMP:19960704T120000Z
@@ -18,13 +21,15 @@ const DEFAULTS = {
 // 1998 01 19 T 0700 00Z
 
 
-const createEvent = (attributes) => {
+const buildEvent = (attributes) => {
   if (!attributes) {
     return DEFAULTS;
   }
+
+  return 
 }
 
-export default { createEvent }
+export default { buildEvent }
 
 // var path = require('path');
 // var fs = require('fs');
@@ -314,7 +319,7 @@ export default { createEvent }
 //   return result;
 // };
 
-// ICS.prototype.createEvent = function(attributes, _options_, cb) {
+// ICS.prototype.buildEvent = function(attributes, _options_, cb) {
 //   var options = arguments.length === 3 ? _.merge(this.options, _options_) : this.options
 //   ,   file = this.buildEvent(attributes)
 //   ,   destination = this.getDestination(options.filepath)

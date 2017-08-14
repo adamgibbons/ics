@@ -2,9 +2,9 @@ import ics from '../src'
 import { expect } from 'chai'
 
 describe('ICS', () => {
-  describe('.createEvent', () => {
+  describe('.buildEvent', () => {
     it('sets default values when no attributes passed', () => {
-      const { productId, uid, timestamp, start, title } = ics.createEvent()
+      const { productId, uid, timestamp, start, title } = ics.buildEvent()
       expect(productId).to.equal('adamgibbons/ics')
 
       expect(uid).to.exist
