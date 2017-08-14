@@ -1,11 +1,11 @@
 import uuidv1 from 'uuid/v1'
-import { setUTCdate } from './utils'
+import { setDateWithUTCtime } from './utils'
 
 const DEFAULTS = {
   title: 'Untitled event',
   productId: 'adamgibbons/ics',
   uid: uuidv1(),
-  timestamp: setUTCdate(),
+  timestamp: setDateWithUTCtime(),
   start: 'a'
 }
 

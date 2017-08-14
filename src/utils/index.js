@@ -1,4 +1,4 @@
-import setUTCdate from './set-utc-date'
+import setDateWithUTCtime from './set-date-with-utc-time'
 import setDateWithLocalTime from './set-date-with-local-time'
 
-export { setUTCdate, setDateWithLocalTime }
+export { setDateWithUTCtime, setDateWithLocalTime }

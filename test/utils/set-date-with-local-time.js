@@ -6,7 +6,6 @@ import { expect } from 'chai'
 
 describe('utils.setDateWithLocalTime', () => {  
   it('exists', () => {
-    // const now = moment().utc().format('YYYYMMDDTHHmm00') + 'Z'
     expect(setDateWithLocalTime).to.exist
   })
   it('sets a DATE-TIME value to NOW when passed nothing', () => {
