@@ -12,24 +12,36 @@ const DEFAULTS = {
   start: setDateWithLocalTime
 }
 
-//        DTSTAMP:19960704T120000Z
-
-// Description:  The value MUST be specified in the UTC time format.
-// DTSTAMP:19970610T172345Z
-
-// January 19, 1998, at 0700 UTC:
-// 1998 01 19 T 0700 00Z
-
-
-const buildEvent = (attributes) => {
-  if (!attributes) {
-    return DEFAULTS;
+const buildEvent = ({
+  title: title,
+  productId: productId,
+  uid: uid,
+  timestamp: timestamp,
+  start: start
+} = {
+  title: DEFAULTS.title,
+  productId: DEFAULTS.productId,
+  uid: DEFAULTS.uid,
+  timestamp: DEFAULTS.timestamp,
+  start: DEFAULTS.start
+}) => {
+  return {
+    title,
+    productId,
+    uid,
+    timestamp,
+    start
   }
-
-  return 
 }
 
-export default { buildEvent }
+const formatEvent = () => {
+  
+}
+
+export {
+  buildEvent,
+  formatEvent
+}
 
 // var path = require('path');
 // var fs = require('fs');

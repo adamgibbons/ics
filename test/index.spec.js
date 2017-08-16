@@ -1,10 +1,13 @@
-import ics from '../src'
+import {
+  buildEvent,
+  formatEvent
+} from '../src'
 import { expect } from 'chai'
 
 describe('ICS', () => {
   describe('.buildEvent', () => {
     it('sets default values when no attributes passed', () => {
-      const { productId, uid, timestamp, start, title } = ics.buildEvent()
+      const { productId, uid, timestamp, start, title } = buildEvent()
       expect(productId).to.equal('adamgibbons/ics')
 
       expect(uid).to.exist
@@ -15,6 +18,14 @@ describe('ICS', () => {
 
       expect(start).to.exist
       expect(title).to.equal('Untitled event')
+    })
+  })
+  describe('.formatEvent', () => {
+    it('writes default values when no attributes passed', () => {
+      // const event = buildEvent()
+      // formatEvent(event)
+      // expect(productId).to.equal('adamgibbons/ics')
+      expect(buildEvent).to.exist
     })
   })
 })
