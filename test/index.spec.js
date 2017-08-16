@@ -7,7 +7,15 @@ import { expect } from 'chai'
 describe('ICS', () => {
   describe('.buildEvent', () => {
     it('sets default values when no attributes passed', () => {
-      const { productId, uid, timestamp, start, title } = buildEvent()
+      const {
+        isICSobject,
+        productId,
+        uid,
+        timestamp,
+        start,
+        title
+      } = buildEvent()
+      expect(isICSobject).to.equal(true)
       expect(productId).to.equal('adamgibbons/ics')
 
       expect(uid).to.exist
@@ -21,11 +29,22 @@ describe('ICS', () => {
     })
   })
   describe('.formatEvent', () => {
+    it('returns null if ics flag is not passed as an attribute', () => {
+      const event = formatEvent()
+      expect(event).to.equal(null)
+    })
     it('writes default values when no attributes passed', () => {
-      // const event = buildEvent()
-      // formatEvent(event)
-      // expect(productId).to.equal('adamgibbons/ics')
-      expect(buildEvent).to.exist
+      const event = buildEvent()
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
+      expect(formattedEvent).to.contain('VERSION:2.0')
+      expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
+      expect(formattedEvent).to.contain('BEGIN:VEVENT')
+      expect(formattedEvent).to.contain('UID:')
+      expect(formattedEvent).to.contain('DTSTART:')
+      expect(formattedEvent).to.contain('DTSTAMP:20')
+      expect(formattedEvent).to.contain('END:VEVENT')
+      expect(formattedEvent).to.contain('END:VCALENDAR')
     })
   })
 })

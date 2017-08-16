@@ -5,20 +5,23 @@ import {
 } from './utils'
 
 const DEFAULTS = {
+  isICSobject: true,
   title: 'Untitled event',
   productId: 'adamgibbons/ics',
   uid: uuidv1(),
   timestamp: setDateWithUTCtime(),
-  start: setDateWithLocalTime
+  start: setDateWithLocalTime()
 }
 
 const buildEvent = ({
+  isICSobject: isICSobject,
   title: title,
   productId: productId,
   uid: uid,
   timestamp: timestamp,
   start: start
 } = {
+  isICSobject: DEFAULTS.isICSobject,
   title: DEFAULTS.title,
   productId: DEFAULTS.productId,
   uid: DEFAULTS.uid,
@@ -26,6 +29,7 @@ const buildEvent = ({
   start: DEFAULTS.start
 }) => {
   return {
+    isICSobject,
     title,
     productId,
     uid,
@@ -34,8 +38,32 @@ const buildEvent = ({
   }
 }
 
-const formatEvent = () => {
-  
+const formatEvent = ({
+  isICSobject: isICSobject,
+  title,
+  productId,
+  uid,
+  timestamp,
+  start
+} = {
+  isICSobject: false
+}) => {
+  if (isICSobject) {
+    let icsFormat = ''
+    icsFormat += 'BEGIN:VCALENDAR\r\n'
+    icsFormat += 'VERSION:2.0\r\n'
+    icsFormat += `PRODID:${productId}\r\n`
+    icsFormat += 'BEGIN:VEVENT\r\n'
+    icsFormat += `UID:${uid}\r\n`
+    icsFormat += `DTSTAMP:${timestamp}\r\n`
+
+    icsFormat += `END:VEVENT\r\n`
+    icsFormat += `END:VCALENDAR\r\n`
+
+    return icsFormat
+  }
+
+  return null
 }
 
 export {
