@@ -4,7 +4,7 @@ import {
 } from '../src'
 import { expect } from 'chai'
 
-describe('ICS', () => {
+describe.only('ICS', () => {
   describe('.buildEvent', () => {
     it('sets default values when no attributes passed', () => {
       const event = buildEvent()
@@ -36,12 +36,16 @@ describe('ICS', () => {
       expect(event.title).to.equal('Untitled event')
     })
     it('sets a start date-time in UTC format', () => {
-      // January 19, 2017, at 1am in Colorado:
       const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
       expect(event.start).to.equal('20170119T083000Z')
       expect(event.title).to.equal('Untitled event')
     })
-    
+    it('sets an end date-time in UTC format', () => {
+      const event = buildEvent({ end: [2017, 0, 19, 22, 0] })
+      expect(event.end).to.equal('20170120T050000Z')
+      expect(event.title).to.equal('Untitled event')
+    })
+
     // it('sets a default date-time in UTC format', () => {
     //   // January 19, 2017, at 1am in Colorado:
     //   const event = buildEvent({ start: [2017, 0, 19, 1, 30] })

@@ -10,7 +10,8 @@ const DEFAULTS = {
   productId: 'adamgibbons/ics',
   uid: uuidv1(),
   timestamp: setDateWithUTCtime(),
-  start: setDateWithUTCtime()
+  start: setDateWithUTCtime(),
+  end: null
 }
 
 function getUid(uid) {
@@ -43,13 +44,15 @@ const buildEvent = (attributes = {}) => {
     productId,
     uid,
     start,
+    end
   } = attributes
 
   const eventObject = {
     title: getTitle(title),
     productId: getProductId(productId),
     uid: getUid(uid),
-    start: setDateWithUTCtime(start)
+    start: setDateWithUTCtime(start),
+    end: !!end ? setDateWithUTCtime(end) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -64,7 +67,8 @@ const formatEvent = ({
   productId,
   uid,
   timestamp,
-  start
+  start,
+  end
 } = {
   isICSobject: false
 }) => {
@@ -78,6 +82,7 @@ const formatEvent = ({
     icsFormat += `SUMMARY:${title}\r\n`
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${start}\r\n`
+    icsFormat += end ? `DTEND:${end}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
