@@ -39,20 +39,24 @@ TZID=America/New_York:19980119T020000
 ## 3.6.1.  Event Component
 
 ### REQUIRED, MUST NOT occur more than once
-- [ ] dtstamp
-- [ ] uid
+- [x] dtstamp
+- [x] uid
 
 ### REQUIRED because METHOD is not specified, MUST NOT occur more than once
-- [ ] dtstart
+- [x] dtstart
 
 ### OPTIONAL but MUST NOT occur more than once
+- [ ] class
+- [ ] created
+- [x] description
+- [ ] geo
 - [ ] last-mod
 - [ ] location
 - [ ] organizer
 - [ ] priority
 - [ ] seq
 - [ ] status
-- [ ] summary
+- [x] summary
 - [ ] transp
 - [ ] url
 - [ ] recurid
@@ -61,7 +65,7 @@ TZID=America/New_York:19980119T020000
 ; a 'eventprop', but 'dtend' and 'duration'
 ; MUST NOT occur in the same 'eventprop'.
 ;
-- [ ] dtend
+- [x] dtend
 - [ ] duration
 
 ; The following are OPTIONAL,
