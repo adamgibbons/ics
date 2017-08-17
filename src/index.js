@@ -13,29 +13,38 @@ const DEFAULTS = {
   start: setDateWithLocalTime()
 }
 
-const buildEvent = ({
-  isICSobject: isICSobject,
-  title: title,
-  productId: productId,
-  uid: uid,
-  timestamp: timestamp,
-  start: start
-} = {
-  isICSobject: DEFAULTS.isICSobject,
-  title: DEFAULTS.title,
-  productId: DEFAULTS.productId,
-  uid: DEFAULTS.uid,
-  timestamp: DEFAULTS.timestamp,
-  start: DEFAULTS.start
-}) => {
-  return {
-    isICSobject,
-    title,
-    productId,
-    uid,
-    timestamp,
-    start
+function getProductId(productId) {
+  if (productId) {
+    return productId
   }
+
+  return DEFAULTS.productId
+}
+
+function getTitle(title) {
+  if (title) {
+    return title
+  }
+
+  return DEFAULTS.title
+}
+
+const buildEvent = (attributes = {}) => {
+  const {
+    title,
+    productId
+  } = attributes;
+
+  const eventObject = {
+    title: getTitle(title),
+    productId: getProductId(productId)
+  }
+
+  const output = Object.assign({}, DEFAULTS, eventObject)
+
+  // console.log(output)
+
+  return output
 }
 
 const formatEvent = ({
