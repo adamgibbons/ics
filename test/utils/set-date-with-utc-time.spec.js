@@ -8,7 +8,7 @@ describe('utils.setDateWithUTCtime', () => {
     expect(now).to.equal(setDateWithUTCtime())
   })
   it('sets a UTC date-time when passed an array of args', () => {
-    expect(setDateWithUTCtime([2017, 7, 13, 11, 33]))
-      .to.equal('20170813T173300Z')
+    expect(setDateWithUTCtime([2017, 7, 16, 22, 30]))
+      .to.equal('20170817T043000Z')
   })
 })

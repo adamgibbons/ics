@@ -35,6 +35,19 @@ describe('ICS', () => {
       expect(event.uid).to.equal(123)
       expect(event.title).to.equal('Untitled event')
     })
+    it('sets a start date-time in UTC format', () => {
+      // January 19, 2017, at 1am in Colorado:
+      const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
+      expect(event.start).to.equal('20170119T083000Z')
+      expect(event.title).to.equal('Untitled event')
+    })
+    
+    // it('sets a default date-time in UTC format', () => {
+    //   // January 19, 2017, at 1am in Colorado:
+    //   const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
+    //   expect(event.start).to.equal('20170119T083000Z')
+    //   expect(event.title).to.equal('Untitled event')
+    // })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
@@ -49,7 +62,7 @@ describe('ICS', () => {
       expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
       expect(formattedEvent).to.contain('BEGIN:VEVENT')
       expect(formattedEvent).to.contain('UID:')
-      // expect(formattedEvent).to.contain('DTSTART:')
+      expect(formattedEvent).to.contain('DTSTART:')
       expect(formattedEvent).to.contain('DTSTAMP:20')
       expect(formattedEvent).to.contain('END:VEVENT')
       expect(formattedEvent).to.contain('END:VCALENDAR')
