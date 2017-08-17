@@ -13,6 +13,14 @@ const DEFAULTS = {
   start: setDateWithLocalTime()
 }
 
+function getUid(uid) {
+  if (uid) {
+    return uid
+  }
+
+  return DEFAULTS.uid
+}
+
 function getProductId(productId) {
   if (productId) {
     return productId
@@ -32,12 +40,14 @@ function getTitle(title) {
 const buildEvent = (attributes = {}) => {
   const {
     title,
-    productId
+    productId,
+    uid
   } = attributes;
 
   const eventObject = {
     title: getTitle(title),
-    productId: getProductId(productId)
+    productId: getProductId(productId),
+    uid: getUid(uid)
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)

@@ -30,6 +30,11 @@ describe('ICS', () => {
       expect(event.productId).to.equal('my-id')
       expect(event.title).to.equal('Untitled event')
     })
+    it('sets a uid', () => {
+      const event = buildEvent({ uid: 123 })
+      expect(event.uid).to.equal(123)
+      expect(event.title).to.equal('Untitled event')
+    })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
