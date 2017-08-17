@@ -4,7 +4,7 @@ import {
 } from '../src'
 import { expect } from 'chai'
 
-describe.only('ICS', () => {
+describe('ICS', () => {
   describe('.buildEvent', () => {
     it('sets default values when no attributes passed', () => {
       const event = buildEvent()
@@ -45,13 +45,11 @@ describe.only('ICS', () => {
       expect(event.end).to.equal('20170120T050000Z')
       expect(event.title).to.equal('Untitled event')
     })
-
-    // it('sets a default date-time in UTC format', () => {
-    //   // January 19, 2017, at 1am in Colorado:
-    //   const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
-    //   expect(event.start).to.equal('20170119T083000Z')
-    //   expect(event.title).to.equal('Untitled event')
-    // })
+    it('sets a description', () => {
+      const event = buildEvent({ description: 'chatanooga' })
+      expect(event.description).to.equal('chatanooga')
+      expect(event.title).to.equal('Untitled event')
+    })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
@@ -65,11 +63,22 @@ describe.only('ICS', () => {
       expect(formattedEvent).to.contain('VERSION:2.0')
       expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
       expect(formattedEvent).to.contain('BEGIN:VEVENT')
+      expect(formattedEvent).to.contain('SUMMARY:Untitled event')
       expect(formattedEvent).to.contain('UID:')
       expect(formattedEvent).to.contain('DTSTART:')
       expect(formattedEvent).to.contain('DTSTAMP:20')
       expect(formattedEvent).to.contain('END:VEVENT')
       expect(formattedEvent).to.contain('END:VCALENDAR')
+    })
+    it('writes a title', () => {
+      const event = buildEvent({ title: 'foo bar' })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('SUMMARY:foo bar')
+    })
+    it('writes a description', () => {
+      const event = buildEvent({ description: 'bar baz' })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('DESCRIPTION:bar baz')
     })
   })
 })

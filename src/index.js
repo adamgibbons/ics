@@ -14,6 +14,14 @@ const DEFAULTS = {
   end: null
 }
 
+function maybe(input) {
+  if (input) {
+    return input
+  }
+
+  return null
+}
+
 function getUid(uid) {
   if (uid) {
     return uid
@@ -44,7 +52,8 @@ const buildEvent = (attributes = {}) => {
     productId,
     uid,
     start,
-    end
+    end,
+    description
   } = attributes
 
   const eventObject = {
@@ -52,7 +61,8 @@ const buildEvent = (attributes = {}) => {
     productId: getProductId(productId),
     uid: getUid(uid),
     start: setDateWithUTCtime(start),
-    end: !!end ? setDateWithUTCtime(end) : null
+    end: !!end ? setDateWithUTCtime(end) : null,
+    description: maybe(description),
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -68,7 +78,8 @@ const formatEvent = ({
   uid,
   timestamp,
   start,
-  end
+  end,
+  description
 } = {
   isICSobject: false
 }) => {
@@ -82,7 +93,8 @@ const formatEvent = ({
     icsFormat += `SUMMARY:${title}\r\n`
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${start}\r\n`
-    icsFormat += end ? `DTEND:${end}\r\n` : ''
+    icsFormat += end ? `DTEND:${end}\r\n` : '',
+    icsFormat += description ? `DESCRIPTION:${description}\r\n` : '',
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
