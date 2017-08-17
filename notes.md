@@ -39,27 +39,50 @@ TZID=America/New_York:19980119T020000
 ## 3.6.1.  Event Component
 
 ### REQUIRED, MUST NOT occur more than once
-dtstamp / uid /
+- [ ] dtstamp
+- [ ] uid
 
 ### REQUIRED because METHOD is not specified, MUST NOT occur more than once
-dtstart /
+- [ ] dtstart
 
 ### OPTIONAL but MUST NOT occur more than once
-class / created / description / geo /
-last-mod / location / organizer / priority /
-seq / status / summary / transp /
-url / recurid /
+- [ ] last-mod
+- [ ] location
+- [ ] organizer
+- [ ] priority
+- [ ] seq
+- [ ] status
+- [ ] summary
+- [ ] transp
+- [ ] url
+- [ ] recurid
 
 ; Either 'dtend' or 'duration' MAY appear in
 ; a 'eventprop', but 'dtend' and 'duration'
 ; MUST NOT occur in the same 'eventprop'.
 ;
-dtend / duration /
+- [ ] dtend
+- [ ] duration
 
 ; The following are OPTIONAL,
 ; and MAY occur more than once.
 ;
-attach / attendee / categories / comment /
-contact / exdate / rstatus / related /
-resources / rdate / x-prop / iana-prop
-;
+- [ ] attach
+- [ ] attendee
+- [ ] categories
+- [ ] comment
+- [ ] contact
+- [ ] exdate
+- [ ] rstatus
+- [ ] related
+- [ ] resources
+- [ ] rdate
+- [ ] x-prop
+- [ ] iana-prop
+
+
+## 3.8.2.4.  Date-Time Start
+- Property Name:  `DTSTART`
+- Value Type:  The default value type is DATE-TIME.  The time value MUST be one of the forms defined for the DATE-TIME value type. The value type can be set to a DATE value type.
+
+3.8.2.2.  Date-Time End
