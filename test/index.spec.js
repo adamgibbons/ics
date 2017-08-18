@@ -50,9 +50,11 @@ describe('ICS', () => {
       expect(event.url).to.equal('http://www.example.com/')
       expect(event.title).to.equal('Untitled event')
     })
-
-
-    //     url: 'http://www.google.com',
+    xit('sets a geolocation', () => {
+      const event = buildEvent({ geo: { lat: 37.386013, lon: -122.082932 } })
+      expect(event.geo).to.equal('GEO:37.386013;-122.082932')
+      expect(event.title).to.equal('Untitled event')
+    })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
