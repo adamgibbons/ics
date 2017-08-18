@@ -9,16 +9,11 @@ describe('ICS', () => {
     it('sets default values when no attributes passed', () => {
       const event = buildEvent()
       expect(event.title).to.equal('Untitled event')
-
-      expect(event.uid).to.exist
       expect(event.uid.length).to.equal(36)
-
-      expect(event.timestamp).to.exist
       expect(event.timestamp.length).to.equal(16)
-
       expect(event.productId).to.equal('adamgibbons/ics')
-
       expect(event.start).to.exist
+      expect(event.url).not.to.exist
     })
     it('sets a title', () => {
       const event = buildEvent({ title: 'Hello event!' })
@@ -50,6 +45,14 @@ describe('ICS', () => {
       expect(event.description).to.equal('chatanooga')
       expect(event.title).to.equal('Untitled event')
     })
+    it('sets a url', () => {
+      const event = buildEvent({ url: 'http://www.example.com/' })
+      expect(event.url).to.equal('http://www.example.com/')
+      expect(event.title).to.equal('Untitled event')
+    })
+
+
+    //     url: 'http://www.google.com',
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {

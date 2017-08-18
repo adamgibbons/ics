@@ -53,7 +53,8 @@ const buildEvent = (attributes = {}) => {
     uid,
     start,
     end,
-    description
+    description,
+    url
   } = attributes
 
   const eventObject = {
@@ -63,6 +64,7 @@ const buildEvent = (attributes = {}) => {
     start: setDateWithUTCtime(start),
     end: !!end ? setDateWithUTCtime(end) : null,
     description: maybe(description),
+    url: maybe(url)
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
