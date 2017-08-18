@@ -64,7 +64,6 @@ describe('ICS', () => {
       expect(event.status).not.to.exist
     })
     it('sets a status when status is valid', () => {
-
       const event1 = buildEvent({ status: 'tentative' })
       const event2 = buildEvent({ status: 'confirmed' })
       const event3 = buildEvent({ status: 'cancelled' })
@@ -72,6 +71,14 @@ describe('ICS', () => {
       expect(event1.status).to.equal('tentative')
       expect(event2.status).to.equal('confirmed')
       expect(event3.status).to.equal('cancelled')
+    })
+    it ('sets no categories when categories are invalid', () => {
+      const event = buildEvent({ categories: 1 })
+      expect(event.categories).not.to.exist
+    })
+    it('sets categories', () => {
+      const event = buildEvent({ categories: ['running', 'races', 'boulder', 'huzzah'] })
+      expect(event.categories).to.equal('running,races,boulder,huzzah')
     })
   })
   describe('.formatEvent', () => {
@@ -122,6 +129,11 @@ describe('ICS', () => {
       const event = buildEvent({ status: 'tentative' })
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('STATUS:tentative')
+    })
+    it('writes categories', () => {
+      const event = buildEvent({ categories: ['boulder', 'running'] })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('CATEGORIES:boulder,running')
     })
   })
 })

@@ -1,4 +1,5 @@
 import uuidv1 from 'uuid/v1'
+import _ from 'lodash'
 import {
   setDateWithUTCtime,
   setDateWithLocalTime,
@@ -27,6 +28,14 @@ function isValidStatus(status) {
   ].indexOf(status) !== -1
 }
 
+function isValidCategories(categories) {
+  if (categories && typeof categories === 'object') {
+    return categories
+  }
+
+  return false
+}
+
 function setGeolocation({ lat, lon }) {
   if (lat && lon) {
     return `${lat};${lon}`
@@ -46,7 +55,8 @@ const buildEvent = (attributes = {}) => {
     url,
     geolocation,
     location,
-    status
+    status,
+    categories
   } = attributes
 
   const eventObject = {
@@ -59,7 +69,10 @@ const buildEvent = (attributes = {}) => {
     url: maybe(url, null),
     geolocation: geolocation ? setGeolocation(geolocation) : null,
     location: maybe(location, null),
-    status: isValidStatus(status) ? status : null
+    status: isValidStatus(status) ? status : null,
+    categories: _.isArray(categories) ? categories.map(function(c) {
+      return c.trim()
+    }).join(',') : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -79,7 +92,8 @@ const formatEvent = ({
   url,
   geolocation,
   location,
-  status
+  status,
+  categories
 } = {
   isICSobject: false
 }) => {
@@ -99,6 +113,7 @@ const formatEvent = ({
     icsFormat += geolocation ? `GEO:${geolocation}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
+    icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
