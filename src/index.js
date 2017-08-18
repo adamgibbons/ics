@@ -15,6 +15,14 @@ const DEFAULTS = {
   end: null
 }
 
+function setGeolocation({ lat, lon }) {
+  if (lat && lon) {
+    return `${lat};${lon}`
+  }
+
+  return null
+}
+
 const buildEvent = (attributes = {}) => {
   const {
     title,
@@ -23,7 +31,8 @@ const buildEvent = (attributes = {}) => {
     start,
     end,
     description,
-    url
+    url,
+    geolocation
   } = attributes
 
   const eventObject = {
@@ -31,9 +40,10 @@ const buildEvent = (attributes = {}) => {
     productId: maybe(productId, DEFAULTS.productId),
     uid: maybe(uid, DEFAULTS.uid),
     start: setDateWithUTCtime(start),
-    end: !!end ? setDateWithUTCtime(end) : null,
+    end: end ? setDateWithUTCtime(end) : null,
     description: maybe(description, null),
-    url: maybe(url, null)
+    url: maybe(url, null),
+    geolocation: geolocation ? setGeolocation(geolocation) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -51,7 +61,8 @@ const formatEvent = ({
   start,
   end,
   description,
-  url
+  url,
+  geolocation
 } = {
   isICSobject: false
 }) => {
@@ -68,6 +79,7 @@ const formatEvent = ({
     icsFormat += end ? `DTEND:${end}\r\n` : '',
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : '',
     icsFormat += url ? `URL:${url}\r\n` : '',
+    icsFormat += geolocation ? `GEO:${geolocation}\r\n` : '',
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 

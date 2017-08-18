@@ -50,9 +50,9 @@ describe('ICS', () => {
       expect(event.url).to.equal('http://www.example.com/')
       expect(event.title).to.equal('Untitled event')
     })
-    xit('sets a geolocation', () => {
-      const event = buildEvent({ geo: { lat: 37.386013, lon: -122.082932 } })
-      expect(event.geo).to.equal('GEO:37.386013;-122.082932')
+    it('sets a geolocation', () => {
+      const event = buildEvent({ geolocation: { lat: 37.386013, lon: -122.082932 } })
+      expect(event.geolocation).to.equal('37.386013;-122.082932')
       expect(event.title).to.equal('Untitled event')
     })
   })
@@ -89,6 +89,11 @@ describe('ICS', () => {
       const event = buildEvent({ url: 'http://www.example.com/' })
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('URL:http://www.example.com/')
+    })
+    it('writes a geolocation', () => {
+      const event = buildEvent({ geolocation: { lat: 1.234, lon: -9.876 } })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('GEO:1.234;-9.876')
     })
   })
 })
