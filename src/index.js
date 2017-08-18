@@ -32,7 +32,8 @@ const buildEvent = (attributes = {}) => {
     end,
     description,
     url,
-    geolocation
+    geolocation,
+    location
   } = attributes
 
   const eventObject = {
@@ -43,12 +44,12 @@ const buildEvent = (attributes = {}) => {
     end: end ? setDateWithUTCtime(end) : null,
     description: maybe(description, null),
     url: maybe(url, null),
-    geolocation: geolocation ? setGeolocation(geolocation) : null
+    geolocation: geolocation ? setGeolocation(geolocation) : null,
+    location: maybe(location, null)
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
 
-  // console.log(output)
   return output
 }
 
@@ -62,7 +63,8 @@ const formatEvent = ({
   end,
   description,
   url,
-  geolocation
+  geolocation,
+  location
 } = {
   isICSobject: false
 }) => {
@@ -76,10 +78,11 @@ const formatEvent = ({
     icsFormat += `SUMMARY:${title}\r\n`
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${start}\r\n`
-    icsFormat += end ? `DTEND:${end}\r\n` : '',
-    icsFormat += description ? `DESCRIPTION:${description}\r\n` : '',
-    icsFormat += url ? `URL:${url}\r\n` : '',
-    icsFormat += geolocation ? `GEO:${geolocation}\r\n` : '',
+    icsFormat += end ? `DTEND:${end}\r\n` : ''
+    icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
+    icsFormat += url ? `URL:${url}\r\n` : ''
+    icsFormat += geolocation ? `GEO:${geolocation}\r\n` : ''
+    icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 

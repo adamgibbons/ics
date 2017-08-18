@@ -55,6 +55,10 @@ describe('ICS', () => {
       expect(event.geolocation).to.equal('37.386013;-122.082932')
       expect(event.title).to.equal('Untitled event')
     })
+    it('sets a location', () => {
+      const event = buildEvent({ location: 'Folsom Field, University of Colorado at Boulder' })
+      expect(event.location).to.equal('Folsom Field, University of Colorado at Boulder')
+    })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
@@ -94,6 +98,11 @@ describe('ICS', () => {
       const event = buildEvent({ geolocation: { lat: 1.234, lon: -9.876 } })
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('GEO:1.234;-9.876')
+    })
+    it('writes a location', () => {
+      const event = buildEvent({ location: 'Folsom Field, University of Colorado at Boulder' })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('LOCATION:Folsom Field, University of Colorado at Boulder')
     })
   })
 })
