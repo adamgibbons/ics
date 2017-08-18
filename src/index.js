@@ -81,7 +81,8 @@ const formatEvent = ({
   timestamp,
   start,
   end,
-  description
+  description,
+  url
 } = {
   isICSobject: false
 }) => {
@@ -97,6 +98,7 @@ const formatEvent = ({
     icsFormat += `DTSTART:${start}\r\n`
     icsFormat += end ? `DTEND:${end}\r\n` : '',
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : '',
+    icsFormat += url ? `URL:${url}\r\n` : '',
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 

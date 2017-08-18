@@ -83,6 +83,11 @@ describe('ICS', () => {
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('DESCRIPTION:bar baz')
     })
+    it('writes a url', () => {
+      const event = buildEvent({ url: 'http://www.example.com/' })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('URL:http://www.example.com/')
+    })
   })
 })
 
