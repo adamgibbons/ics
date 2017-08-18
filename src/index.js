@@ -1,7 +1,8 @@
 import uuidv1 from 'uuid/v1'
 import {
   setDateWithUTCtime,
-  setDateWithLocalTime
+  setDateWithLocalTime,
+  maybe
 } from './utils'
 
 const DEFAULTS = {
@@ -12,38 +13,6 @@ const DEFAULTS = {
   timestamp: setDateWithUTCtime(),
   start: setDateWithUTCtime(),
   end: null
-}
-
-function maybe(input) {
-  if (input) {
-    return input
-  }
-
-  return null
-}
-
-function getUid(uid) {
-  if (uid) {
-    return uid
-  }
-
-  return DEFAULTS.uid
-}
-
-function getProductId(productId) {
-  if (productId) {
-    return productId
-  }
-
-  return DEFAULTS.productId
-}
-
-function getTitle(title) {
-  if (title) {
-    return title
-  }
-
-  return DEFAULTS.title
 }
 
 const buildEvent = (attributes = {}) => {
@@ -58,13 +27,13 @@ const buildEvent = (attributes = {}) => {
   } = attributes
 
   const eventObject = {
-    title: getTitle(title),
-    productId: getProductId(productId),
-    uid: getUid(uid),
+    title: maybe(title, DEFAULTS.title),
+    productId: maybe(productId, DEFAULTS.productId),
+    uid: maybe(uid, DEFAULTS.uid),
     start: setDateWithUTCtime(start),
     end: !!end ? setDateWithUTCtime(end) : null,
-    description: maybe(description),
-    url: maybe(url)
+    description: maybe(description, null),
+    url: maybe(url, null)
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
