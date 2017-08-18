@@ -59,6 +59,20 @@ describe('ICS', () => {
       const event = buildEvent({ location: 'Folsom Field, University of Colorado at Boulder' })
       expect(event.location).to.equal('Folsom Field, University of Colorado at Boulder')
     })
+    it('sets no status when status is invalid', () => {
+      const event = buildEvent({ status: 'foo' })
+      expect(event.status).not.to.exist
+    })
+    it('sets a status when status is valid', () => {
+
+      const event1 = buildEvent({ status: 'tentative' })
+      const event2 = buildEvent({ status: 'confirmed' })
+      const event3 = buildEvent({ status: 'cancelled' })
+      
+      expect(event1.status).to.equal('tentative')
+      expect(event2.status).to.equal('confirmed')
+      expect(event3.status).to.equal('cancelled')
+    })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
@@ -103,6 +117,11 @@ describe('ICS', () => {
       const event = buildEvent({ location: 'Folsom Field, University of Colorado at Boulder' })
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('LOCATION:Folsom Field, University of Colorado at Boulder')
+    })
+    it('writes a status', () => {
+      const event = buildEvent({ status: 'tentative' })
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('STATUS:tentative')
     })
   })
 })

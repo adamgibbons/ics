@@ -15,6 +15,18 @@ const DEFAULTS = {
   end: null
 }
 
+function isValidStatus(status) {
+  if (!status || typeof status !== 'string') {
+    return false
+  }
+
+  return [
+    'tentative',
+    'confirmed',
+    'cancelled'
+  ].indexOf(status) !== -1
+}
+
 function setGeolocation({ lat, lon }) {
   if (lat && lon) {
     return `${lat};${lon}`
@@ -33,7 +45,8 @@ const buildEvent = (attributes = {}) => {
     description,
     url,
     geolocation,
-    location
+    location,
+    status
   } = attributes
 
   const eventObject = {
@@ -45,7 +58,8 @@ const buildEvent = (attributes = {}) => {
     description: maybe(description, null),
     url: maybe(url, null),
     geolocation: geolocation ? setGeolocation(geolocation) : null,
-    location: maybe(location, null)
+    location: maybe(location, null),
+    status: isValidStatus(status) ? status : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -64,7 +78,8 @@ const formatEvent = ({
   description,
   url,
   geolocation,
-  location
+  location,
+  status
 } = {
   isICSobject: false
 }) => {
@@ -83,6 +98,7 @@ const formatEvent = ({
     icsFormat += url ? `URL:${url}\r\n` : ''
     icsFormat += geolocation ? `GEO:${geolocation}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
+    icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
