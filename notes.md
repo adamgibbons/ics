@@ -42,38 +42,34 @@ TZID=America/New_York:19980119T020000
 - [x] dtstamp
 - [x] uid
 
-### REQUIRED because METHOD is not specified, MUST NOT occur more than once
+### REQUIRED when METHOD is not specified, MUST NOT occur more than once
 - [x] dtstart
 
 ### OPTIONAL but MUST NOT occur more than once
 - [ ] class
 - [ ] created
 - [x] description
-- [ ] geo
+- [x] geo
 - [ ] last-mod
-- [ ] location
+- [x] location
 - [ ] organizer
 - [ ] priority
 - [ ] seq
-- [ ] status
+- [x] status
 - [x] summary
 - [ ] transp
-- [ ] url
+- [x] url
 - [ ] recurid
 
-; Either 'dtend' or 'duration' MAY appear in
-; a 'eventprop', but 'dtend' and 'duration'
-; MUST NOT occur in the same 'eventprop'.
-;
+Either 'dtend' or 'duration' MAY appear in a 'eventprop', but 'dtend' and 'duration' MUST NOT occur in the same 'eventprop'.
+
 - [x] dtend
 - [ ] duration
 
-; The following are OPTIONAL,
-; and MAY occur more than once.
-;
+The following are OPTIONAL, and MAY occur more than once.
 - [ ] attach
-- [ ] attendee
-- [ ] categories
+- [x] attendee
+- [x] categories
 - [ ] comment
 - [ ] contact
 - [ ] exdate

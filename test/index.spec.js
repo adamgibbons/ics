@@ -80,6 +80,16 @@ describe('ICS', () => {
       const event = buildEvent({ categories: ['running', 'races', 'boulder', 'huzzah'] })
       expect(event.categories).to.equal('running,races,boulder,huzzah')
     })
+    it('sets attendees', () => {
+      const event = buildEvent({ attendees: [
+        { name: 'Adam Gibbons', email: 'adam@example.com' },
+        { name: 'Brittany Seaton', email: 'brittany@example.com' }
+      ]})
+
+      expect(event.attendees.length).to.equal(2)
+      expect(event.attendees).to.include('CN=Adam Gibbons:mailto:adam@example.com')
+      expect(event.attendees).to.include('CN=Brittany Seaton:mailto:brittany@example.com')
+    })
   })
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
@@ -135,15 +145,17 @@ describe('ICS', () => {
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('CATEGORIES:boulder,running')
     })
+    it('writes attendees', () => {
+      const event = buildEvent({ attendees: [
+        {name: 'Adam Gibbons', email: 'adam@example.com'},
+        {name: 'Brittany Seaton', email: 'brittany@example.com'}
+      ]})
+      const formattedEvent = formatEvent(event)
+      expect(formattedEvent).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com')
+      expect(formattedEvent).to.contain('ATTENDEE;CN=Brittany Seaton:mailto:brittany@example.com')
+    })
   })
 })
-
-// var path = require('path');
-// var TMPDIR = require('os').tmpdir();
- 
-// var ICS = require('../index.js');
-
-// var moment = require('moment-timezone');
 
 // describe('ICS', function() {
 
@@ -171,7 +183,7 @@ describe('ICS', () => {
 //       },
 //       {
 //         name: 'Accounting Team',
-//         email: 'Accounting@greenpioneersolutions.com'
+//         email: 'Accountin.com'
 //       }
 //     ],
 //     alarms:[

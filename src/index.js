@@ -44,6 +44,16 @@ function setGeolocation({ lat, lon }) {
   return null
 }
 
+function setAttendees(attendees) {
+  return attendees.map(({ name, email }) => {
+    let formattedAttendee = 'CN='
+    formattedAttendee += name || 'Unnamed attendee'
+    formattedAttendee += email ? `:mailto:${email}` : ''
+
+    return formattedAttendee
+  })
+}
+
 const buildEvent = (attributes = {}) => {
   const {
     title,
@@ -56,7 +66,8 @@ const buildEvent = (attributes = {}) => {
     geolocation,
     location,
     status,
-    categories
+    categories,
+    attendees
   } = attributes
 
   const eventObject = {
@@ -72,7 +83,8 @@ const buildEvent = (attributes = {}) => {
     status: isValidStatus(status) ? status : null,
     categories: _.isArray(categories) ? categories.map(function(c) {
       return c.trim()
-    }).join(',') : null
+    }).join(',') : null,
+    attendees: attendees ? setAttendees(attendees) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -93,7 +105,8 @@ const formatEvent = ({
   geolocation,
   location,
   status,
-  categories
+  categories,
+  attendees
 } = {
   isICSobject: false
 }) => {
@@ -114,6 +127,11 @@ const formatEvent = ({
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
+
+    if (attendees) {
+      attendees.map( attendee => icsFormat += `ATTENDEE;${attendee}\r\n` )
+    }
+
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
