@@ -52,7 +52,7 @@ TZID=America/New_York:19980119T020000
 - [x] geo
 - [ ] last-mod
 - [x] location
-- [ ] organizer
+- [x] organizer
 - [ ] priority
 - [ ] seq
 - [x] status

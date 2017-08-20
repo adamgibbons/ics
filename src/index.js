@@ -44,14 +44,16 @@ function setGeolocation({ lat, lon }) {
   return null
 }
 
-function setAttendees(attendees) {
-  return attendees.map(({ name, email }) => {
-    let formattedAttendee = 'CN='
-    formattedAttendee += name || 'Unnamed attendee'
-    formattedAttendee += email ? `:mailto:${email}` : ''
+function setContact({ name, email }) {
+  let formattedAttendee = 'CN='
+  formattedAttendee += name || 'Unnamed attendee'
+  formattedAttendee += email ? `:mailto:${email}` : ''
 
-    return formattedAttendee
-  })
+  return formattedAttendee
+}
+
+function setContacts(contacts) {
+  return contacts.map(setContact)
 }
 
 const buildEvent = (attributes = {}) => {
@@ -67,6 +69,7 @@ const buildEvent = (attributes = {}) => {
     location,
     status,
     categories,
+    organizer,
     attendees
   } = attributes
 
@@ -84,7 +87,8 @@ const buildEvent = (attributes = {}) => {
     categories: _.isArray(categories) ? categories.map(function(c) {
       return c.trim()
     }).join(',') : null,
-    attendees: attendees ? setAttendees(attendees) : null
+    organizer: organizer ? setContact(organizer) : null,
+    attendees: attendees ? setContacts(attendees) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
@@ -106,6 +110,7 @@ const formatEvent = ({
   location,
   status,
   categories,
+  organizer,
   attendees
 } = {
   isICSobject: false
@@ -127,6 +132,7 @@ const formatEvent = ({
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
+    icsFormat += organizer ? `ORGANIZER;${organizer}\r\n` : ''
 
     if (attendees) {
       attendees.map( attendee => icsFormat += `ATTENDEE;${attendee}\r\n` )
