@@ -119,6 +119,7 @@ const formatEvent = ({
     let icsFormat = ''
     icsFormat += 'BEGIN:VCALENDAR\r\n'
     icsFormat += 'VERSION:2.0\r\n'
+    icsFormat += 'CALSCALE:GREGORIAN\r\n'
     icsFormat += `PRODID:${productId}\r\n`
     icsFormat += 'BEGIN:VEVENT\r\n'
     icsFormat += `UID:${uid}\r\n`
@@ -152,20 +153,7 @@ export {
   formatEvent
 }
 
-// var path = require('path');
-// var fs = require('fs');
 
-// var _ = require('lodash');
-// var moment = require('moment-timezone');
-// var uuid = require('uuid');
-
-// var DEFAULTS = {
-//   filename: 'event'
-// };
-
-// function ICS(options) {
-//   this.options = _.merge({}, DEFAULTS, options);
-// }
 
 // function buildEvent(attributes) {
 //   if (!attributes || _.isEmpty(attributes)) {
