@@ -6,6 +6,34 @@ import { expect } from 'chai'
 
 describe('ICS', () => {
   describe('.buildEvent', () => {
+    describe('start', () => {
+      it('defaults to UTC date-time format', () => {
+        const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
+        expect(event.start).to.equal('20170119T083000Z')
+        expect(event.title).to.equal('Untitled event')
+      })
+      it('sets local time when specified', () => {
+        const event = buildEvent({
+          start: [2017, 0, 19, 1, 30],
+          startType: 'local'
+        })
+        expect(event.start).to.equal('20170119T013000')
+      })
+    })
+    describe('end', () => {
+      it('defaults to UTC date-time format', () => {
+        const event = buildEvent({ end: [2017, 0, 19, 22, 0] })
+        expect(event.end).to.equal('20170120T050000Z')
+        expect(event.title).to.equal('Untitled event')
+      })
+      it('sets local time when local start time specified', () => {
+        const event = buildEvent({
+          end: [2017, 0, 19, 1, 30],
+          startType: 'local'
+        })
+        expect(event.end).to.equal('20170119T013000')
+      })
+    })
     it('sets default values when no attributes passed', () => {
       const event = buildEvent()
       expect(event.title).to.equal('Untitled event')
@@ -28,16 +56,6 @@ describe('ICS', () => {
     it('sets a uid', () => {
       const event = buildEvent({ uid: 123 })
       expect(event.uid).to.equal(123)
-      expect(event.title).to.equal('Untitled event')
-    })
-    it('sets a start date-time in UTC format', () => {
-      const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
-      expect(event.start).to.equal('20170119T083000Z')
-      expect(event.title).to.equal('Untitled event')
-    })
-    it('sets an end date-time in UTC format', () => {
-      const event = buildEvent({ end: [2017, 0, 19, 22, 0] })
-      expect(event.end).to.equal('20170120T050000Z')
       expect(event.title).to.equal('Untitled event')
     })
     it('sets a description', () => {

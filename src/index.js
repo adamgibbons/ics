@@ -3,6 +3,7 @@ import _ from 'lodash'
 import {
   setDateWithUTCtime,
   setDateWithLocalTime,
+  setDate,
   maybe
 } from './utils'
 
@@ -62,6 +63,7 @@ const buildEvent = (attributes = {}) => {
     productId,
     uid,
     start,
+    startType,
     end,
     description,
     url,
@@ -77,8 +79,8 @@ const buildEvent = (attributes = {}) => {
     title: maybe(title, DEFAULTS.title),
     productId: maybe(productId, DEFAULTS.productId),
     uid: maybe(uid, DEFAULTS.uid),
-    start: setDateWithUTCtime(start),
-    end: end ? setDateWithUTCtime(end) : null,
+    start: setDate(start, startType),
+    end: end ? setDate(end, startType) : null,
     description: maybe(description, null),
     url: maybe(url, null),
     geolocation: geolocation ? setGeolocation(geolocation) : null,
@@ -134,11 +136,9 @@ const formatEvent = ({
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
     icsFormat += organizer ? `ORGANIZER;${organizer}\r\n` : ''
-
     if (attendees) {
       attendees.map( attendee => icsFormat += `ATTENDEE;${attendee}\r\n` )
     }
-
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
@@ -154,75 +154,11 @@ export {
 }
 
 
-
-// function buildEvent(attributes) {
-//   if (!attributes || _.isEmpty(attributes)) {
-//     return buildDefaultEvent();
-//   } else {  
-//     return _.compact([
-//       'BEGIN:VCALENDAR',
-//       'VERSION:2.0',
-//       'CALSCALE:GREGORIAN',
-//       'PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator'
-//     ]
-//     .concat(defineTimeZone(attributes))
-//     .concat([
-//       'BEGIN:VEVENT',
-//       generateUID(attributes.uid),
-//       'DTSTAMP:' + generateDateTimeStamp(),
-//       formatDTSTART(attributes.start, attributes.timeZone),
-//       formatDTEND(attributes.start, attributes.end, attributes.timeZone, attributes.timeZoneEnd),
-//       formatProperty('SUMMARY', attributes.title),
-//       formatProperty('DESCRIPTION', attributes.description),
-//       formatProperty('LOCATION', attributes.location),
-//       formatProperty('URL', attributes.url),
-//       formatStatus(attributes.status),
-//       formatGeo(attributes.geo)
-//     ])
-//     .concat(formatAttendees(attributes))
-//     .concat(formatOrganizer(attributes))
-//     .concat(formatCategories(attributes))
-//     .concat(formatAttachments(attributes))
-//     .concat(formatAlarms(attributes))
-//     .concat(['END:VEVENT', 'END:VCALENDAR'])).join('\r\n');
-//   }
-
-//   function buildDefaultEvent() {
-//     var file = [
-//       'BEGIN:VCALENDAR',
-//       'VERSION:2.0',
-//       'CALSCALE:GREGORIAN',
-//       'PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator',
-//       'BEGIN:VEVENT',
-//       generateUID(),
-//       'DTSTAMP:' + generateDateTimeStamp(),
-//       'END:VEVENT',
-//       'END:VCALENDAR'
-//     ].join('\r\n');
-
-//     return file;
-//   }
-
-//   function generateUID(uid) {
-//     if(uid) {
-//       return 'UID:' + uid;
-//     }
-//     return 'UID:' + uuid.v1();
-//   }
-
-//   function setFileExtension(dest) {
-//     return dest.slice(-4) === '.ics' ? dest : dest.concat('.ics');
-//   }
-
 //   // Follow ISO 8601 string rules:
 //   // If `start` contains an uppercase T or a space,
 //   // it's a date-time; otherwise, it's just a date.
 //   function formatDTSTART(string, tz) {
     
-//     if (!string) {
-//       return 'DTSTART:' + moment().format('YYYYMMDD');
-//     }
-
 //     if (tz) {
 //       // Form #3: DATE WITH LOCAL TIME AND TIME ZONE REFERENCE
 //       return 'DTSTART;TZID=' + tz + ':' + moment(string).format('YYYYMMDDTHHmm00');
@@ -276,27 +212,6 @@ export {
 //     }
 //   }
 
-//   function isDateTime(string) {
-//     return ['T', ' '].some(function (char) {
-//       return string.search(char) !== -1;
-//     });
-//   }
-
-//   function isUTC(string) {
-//     return string[string.length - 1] === 'Z';
-//   }
-
-//   function generateDateTimeStamp() {
-//     return moment().utc().format('YYYYMMDDTHHmmss') + 'Z';
-//   }
-
-//   function formatProperty(key, value) {
-//     if (value) {
-//       return key + ':' + value;
-//     }
-
-//     return null;
-//   }
 
 //   function formatAlarms(attributes) {
 //     if (attributes.alarms) {
@@ -337,53 +252,6 @@ export {
 //     return null;
 //   }
 
-//   function formatAttendees(attributes) {
-//     if (attributes.attendees) {
-//       return attributes.attendees.map(function (attendee) {
-//         if (attendee.name && attendee.email) {
-//           return 'ATTENDEE;CN=' + attendee.name + ':mailto:' + attendee.email;
-//         }
-//         return null;
-//       });
-//     }
-
-//     return null;
-//   }
-  
-//   function formatOrganizer(attributes) {
-//     if (attributes.organizer) {
-//       if (attributes.organizer.name && attributes.organizer.email) {
-//         return 'ORGANIZER;CN=' + attributes.organizer.name + ':mailto:' + attributes.organizer.email;
-//       }
-//       return null;
-//     }
-
-//     return null;
-//   }
-
-//   function formatCategories(attributes) {
-//     if (attributes.categories) {
-//       return 'CATEGORIES:' + attributes.categories.join(',');
-//     }
-    
-//     return null;
-//   }
-
-//   function formatGeo(geo) {
-//     if (geo && geo.lat && geo.lon) {
-//       return 'GEO:' + parseFloat(geo.lat) + ';' + parseFloat(geo.lon);
-//     }
-
-//     return null;
-//   }
-
-//   function formatStatus(status) {
-//     if (status && ['TENTATIVE', 'CONFIRMED', 'CANCELLED'].indexOf(status.toUpperCase()) !== -1) {
-//       return 'STATUS:' + status;
-//     }
-
-//     return null;
-//   }
 
 //   function defineTimeZone(attributes) {
 //     // probs make this a switch statement...
