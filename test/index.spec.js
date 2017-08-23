@@ -1,6 +1,7 @@
 import {
   buildEvent,
-  formatEvent
+  formatEvent,
+  createEvent
 } from '../src'
 import { expect } from 'chai'
 
@@ -117,7 +118,6 @@ describe('ICS', () => {
     })
   })
 
-
   describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
       const event = formatEvent()
@@ -188,6 +188,28 @@ describe('ICS', () => {
       }})
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('ORGANIZER;CN=Adam Gibbons:mailto:adam@example.com')
+    })
+  })
+
+  describe.only('.createEvent', () => {
+    it('builds and formats a default event when no params passed', () => {
+      const event = createEvent()
+      expect(event).to.contain('BEGIN:VCALENDAR')
+      expect(event).to.contain('VERSION:2.0')
+      expect(event).to.contain('PRODID:adamgibbons/ics')
+      expect(event).to.contain('BEGIN:VEVENT')
+      expect(event).to.contain('SUMMARY:Untitled event')
+      expect(event).to.contain('UID:')
+      expect(event).to.contain('DTSTART:')
+      expect(event).to.contain('DTSTAMP:20')
+      expect(event).to.contain('END:VEVENT')
+      expect(event).to.contain('END:VCALENDAR')
+    })
+    it('builds and formats an event supporting all params passed', () => {
+      const event = createEvent({
+        productId: 'my-event'
+      })
+      expect(event).to.contain('my-event')
     })
   })
 })

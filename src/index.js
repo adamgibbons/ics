@@ -148,9 +148,17 @@ const formatEvent = ({
   return null
 }
 
+const createEvent = (attributes) => {
+  if (attributes) {
+    return formatEvent(buildEvent(attributes))
+  }
+  return formatEvent(buildEvent())
+}
+
 export {
   buildEvent,
-  formatEvent
+  formatEvent,
+  createEvent
 }
 
 
