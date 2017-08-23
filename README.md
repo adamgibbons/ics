@@ -18,10 +18,10 @@ Generate an iCalendar event:
 ```javascript
 import ics from 'ics';
 
-ics.create({
-  uid: 'abc123', // (optional)
-  start: '2016-05-30 06:50',
-  end: '2016-05-30 15:00',
+ics.createEvent({
+  uid: 'abc123',  // (optional)
+  start: [2018, 4, 30, 6, 30], //  May 30, 2018 at 6:30am (footnote1)
+  end: [2018, 4, 30, 15, 0], // May 30, 2018 at 3:00pm
   title: 'Bolder Boulder',
   description: 'Annual 10-kilometer run in Boulder, Colorado',
   location: 'Folsom Field, University of Colorado (finish line)',
@@ -32,11 +32,7 @@ ics.create({
     { name: 'Adam Gibbons', email: 'adam@example.com' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ],
-  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
-  alarms:[
-    { action: 'DISPLAY', trigger: '-PT24H', description: 'Reminder', repeat: true, duration: 'PT15M' },
-    { action: 'AUDIO', trigger: '-PT30M' }
-  ]
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO', 'iRunToDrinkBeer']
 });
 
 ```
@@ -102,9 +98,10 @@ Optional. Object literal attributes of the event. Accepts the following properti
 | categories    | Array of string values.
 | alarms        | Array of object literals, e.g. `{ action: 'DISPLAY', trigger: '-PT30M' }`.  For details on parameters, see the [spec](https://icalendar.org/iCalendar-RFC-5545/3-6-6-alarm-component.html).
 
-### `createEvent(attributes[, options], cb)`
+### `createEvent(attributes[, options])`
 
-Asynchronously writes an iCal file. Returns a callback with the stringified event.
+Returns an iCal-compliant string.
+(node exampel w/ 'fs' to write an .ics file)
 
 #### `options`
 Optional. Object literal accepting the following properties:
@@ -113,18 +110,6 @@ Optional. Object literal accepting the following properties:
 | ------------- | ------------- | ----------
 | filepath      | Filename, relative path + filename, or absolute path + filename. | Absolute path to current working directory, plus `event.ics`. E.g. `/Users/gibber/my-project/event.ics`
 
-`filepath` accepts relative or absolute paths. For example, these
-values resolve to `/Users/gibber/my-event.ics` when executed from `/Users/gibber`:
-
-- `my-event` 
-- `my-event.ics`
-- `/Users/gibber/my-event`
-- `/Users/gibber/my-event.ics`
-
-...and these will resolve to `/Users/my-event.ics` when executed from `/Users/gibber`:
-
-- `../my-event`
-- `../my-event.ics`
 
 ## References
 
