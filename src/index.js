@@ -18,14 +18,6 @@ const DEFAULTS = {
   end: null
 }
 
-function isValidCategories(categories) {
-  if (categories && typeof categories === 'object') {
-    return categories
-  }
-
-  return false
-}
-
 function setGeolocation({ lat, lon }) {
   if (lat && lon) {
     return `${lat};${lon}`

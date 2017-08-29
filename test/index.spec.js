@@ -1,8 +1,9 @@
 import {
   buildEvent,
   formatEvent,
-  createEvent
+  createEvent,
 } from '../src'
+
 import { expect } from 'chai'
 
 describe('ICS', () => {
