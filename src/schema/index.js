@@ -9,10 +9,10 @@ const schema = Joi.object().keys({
   // end,
   description: Joi.string(),
   url: Joi.string().uri(),
-  geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() })
-  // location,
-  // status,
-  // categories,
+  geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
+  location: Joi.string(),
+  status: Joi.string().regex(/tentative|cancelled|confirmed/),
+  categories: Joi.array().items(Joi.string())
   // organizer,
   // attendees
 })

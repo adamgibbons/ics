@@ -30,7 +30,7 @@ describe.only('.validateEvent', () => {
         uid: 'foo',
         start: 'bac',
         description: 'abc'
-      }).value).to.exist
+      }).value.description).to.exist
     })
     it('url', () => {
       const { details } = validateEvent({
@@ -40,6 +40,12 @@ describe.only('.validateEvent', () => {
         url: 'abc'
       }).error
       expect(details.some(p => p.message === '"url" must be a valid uri')).to.be.true
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        url: 'abc'
+      }).value.url).to.exist
     })
     it('geolocation', () => {
       expect(validateEvent({
@@ -63,14 +69,65 @@ describe.only('.validateEvent', () => {
         geolocation: { lat: 13.23, lon: 32.1 },
       }).value.geolocation).to.exist
     })
-    xit('location', () => {
+    it('location', () => {
+      const { details } = validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        location: 1
+      }).error
 
+      expect(details.some(p => p.message === '"location" must be a string')).to.be.true
+
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        location: 'abc'
+      }).value.location).to.exist
     })
-    xit('status', () => {
-
+    it('status', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        status: 'tentativo'
+      }).error).to.exist
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        status: 'tentative'
+      }).value.status).to.equal('tentative')
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        status: 'cancelled'
+      }).value.status).to.equal('cancelled')
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        status: 'confirmed'
+      }).value.status).to.equal('confirmed')
     })
-    xit('categories', () => {
+    it('categories', () => {
+      const { details } = validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        categories: [1]
+      }).error
 
+      expect(details.some(p => p.message === '"0" must be a string')).to.be.true
+
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        categories: ['foo', 'bar']
+      }).value.categories).to.exist
     })
     xit('organizer', () => {
 
