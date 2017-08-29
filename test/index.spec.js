@@ -191,7 +191,7 @@ describe('ICS', () => {
     })
   })
 
-  describe.only('.createEvent', () => {
+  describe('.createEvent', () => {
     it('builds and formats a default event when no params passed', () => {
       const event = createEvent()
       expect(event).to.contain('BEGIN:VCALENDAR')

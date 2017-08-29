@@ -4,7 +4,8 @@ import {
   setDateWithUTCtime,
   setDateWithLocalTime,
   setDate,
-  maybe
+  maybe,
+  isValidStatus
 } from './utils'
 
 const DEFAULTS = {
@@ -15,18 +16,6 @@ const DEFAULTS = {
   timestamp: setDateWithUTCtime(),
   start: setDateWithUTCtime(),
   end: null
-}
-
-function isValidStatus(status) {
-  if (!status || typeof status !== 'string') {
-    return false
-  }
-
-  return [
-    'tentative',
-    'confirmed',
-    'cancelled'
-  ].indexOf(status) !== -1
 }
 
 function isValidCategories(categories) {
