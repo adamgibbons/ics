@@ -127,10 +127,23 @@ describe.only('.validateEvent', () => {
         uid: 'foo',
         start: 'bac',
         categories: ['foo', 'bar']
-      }).value.categories).to.exist
+      }).value.categories).to.include('foo', 'bar')
     })
-    xit('organizer', () => {
+    it('organizer', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        organizer: { name: 'Adam', email: 'adam@example.com' }
+      }).value.organizer).to.include({ name: 'Adam', email: 'adam@example.com' })
 
+      const { details } = validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        organizer: { foo: 'Adam' }
+      }).error
+      expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
     })
     xit('attendees', () => {
 

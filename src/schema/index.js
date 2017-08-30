@@ -12,8 +12,8 @@ const schema = Joi.object().keys({
   geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
   location: Joi.string(),
   status: Joi.string().regex(/tentative|cancelled|confirmed/),
-  categories: Joi.array().items(Joi.string())
-  // organizer,
+  categories: Joi.array().items(Joi.string()),
+  organizer: Joi.object().keys({ name: Joi.string(), email: Joi.string().email() })
   // attendees
 })
 
