@@ -5,7 +5,9 @@ import {
   setDateWithLocalTime,
   setDate,
   maybe,
-  isValidStatus
+  isValidStatus,
+  setGeolocation,
+  setContact
 } from './utils'
 
 const DEFAULTS = {
@@ -16,26 +18,6 @@ const DEFAULTS = {
   timestamp: setDateWithUTCtime(),
   start: setDateWithUTCtime(),
   end: null
-}
-
-function setGeolocation({ lat, lon }) {
-  if (lat && lon) {
-    return `${lat};${lon}`
-  }
-
-  return null
-}
-
-function setContact({ name, email }) {
-  let formattedAttendee = 'CN='
-  formattedAttendee += name || 'Unnamed attendee'
-  formattedAttendee += email ? `:mailto:${email}` : ''
-
-  return formattedAttendee
-}
-
-function setContacts(contacts) {
-  return contacts.map(setContact)
 }
 
 const buildEvent = (attributes = {}) => {
@@ -71,7 +53,7 @@ const buildEvent = (attributes = {}) => {
       return c.trim()
     }).join(',') : null,
     organizer: organizer ? setContact(organizer) : null,
-    attendees: attendees ? setContacts(attendees) : null
+    attendees: attendees ? attendees.map(setContact) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)

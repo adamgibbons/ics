@@ -4,6 +4,7 @@ import setDateWithLocalTime from './set-date-with-local-time'
 import maybe from './maybe'
 import isValidStatus from './is-valid-status'
 import setGeolocation from './set-geolocation'
+import setContact from './set-contact'
 
 export {
   setDate,
@@ -11,5 +12,6 @@ export {
   setDateWithLocalTime,
   maybe,
   isValidStatus,
-  setGeolocation
+  setGeolocation,
+  setContact
 }
