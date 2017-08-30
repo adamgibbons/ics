@@ -1,5 +1,7 @@
 import Joi from 'joi'
 
+const contactSchema = Joi.object().keys({ name: Joi.string(), email: Joi.string().email() })
+
 const schema = Joi.object().keys({
   title: Joi.string(),
   productId: Joi.string(),
@@ -13,8 +15,8 @@ const schema = Joi.object().keys({
   location: Joi.string(),
   status: Joi.string().regex(/tentative|cancelled|confirmed/),
   categories: Joi.array().items(Joi.string()),
-  organizer: Joi.object().keys({ name: Joi.string(), email: Joi.string().email() })
-  // attendees
+  organizer: contactSchema,
+  attendees: Joi.array().items(contactSchema)
 })
 
 export default function validateEvent(candidate) {

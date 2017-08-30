@@ -145,8 +145,25 @@ describe.only('.validateEvent', () => {
       }).error
       expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
     })
-    xit('attendees', () => {
+    it('attendees', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        attendees: [
+          { name: 'Adam', email: 'adam@example.com' },
+          { name: 'Brittany', email: 'brittany@example.com' }]
+      }).value.attendees).to.be.an('array').that.is.not.empty
 
+      const { details } = validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: 'bac',
+        attendees: [
+          { foo: 'Adam', email: 'adam@example.com' },
+          { name: 'Brittany', email: 'brittany@example.com' }]
+      }).error
+      expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
     })
   })
 
