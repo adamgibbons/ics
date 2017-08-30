@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import validateEvent from '../../src/schema'
 
-describe.only('.validateEvent', () => {
+describe('.validateEvent', () => {
   describe('must have one and only one occurance of', () => {
     it('uid', () => {
       const { error } = validateEvent({ title: 'foo' })
