@@ -1,24 +1,12 @@
-import uuidv1 from 'uuid/v1'
 import _ from 'lodash'
 import {
-  setDateWithUTCtime,
-  setDateWithLocalTime,
   setDate,
   maybe,
   isValidStatus,
   setGeolocation,
   setContact
 } from './utils'
-
-const DEFAULTS = {
-  isICSobject: true,
-  title: 'Untitled event',
-  productId: 'adamgibbons/ics',
-  uid: uuidv1(),
-  timestamp: setDateWithUTCtime(),
-  start: setDateWithUTCtime(),
-  end: null
-}
+import DEFAULTS from './defaults'
 
 const buildEvent = (attributes = {}) => {
   const {
