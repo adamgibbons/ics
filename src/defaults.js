@@ -1,3 +1,5 @@
+// change filename to config?
+
 import uuidv1 from 'uuid/v1'
 import {
   setDateWithUTCtime,
