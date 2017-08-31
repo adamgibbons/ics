@@ -17,8 +17,10 @@ describe('.createEvent', () => {
   })
   it('builds and formats an event supporting params', () => {
     const event = createEvent({
-      productId: 'my-event'
+      uid: 'foobar',
+      start: 'abc'
     })
-    expect(event).to.contain('my-event')
+
+    expect(event).to.contain('foobar')
   })
 })

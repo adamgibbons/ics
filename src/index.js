@@ -5,10 +5,12 @@ import {
 } from './pipeline'
 
 const createEvent = (attributes) => {
-  if (attributes) {
-    return formatEvent(buildEvent(attributes))
-  }
-  return formatEvent(buildEvent())
+
+  const { error, value } = validateEvent(attributes)
+
+  if (error) return error
+
+  return formatEvent(buildEvent(value))
 }
 
 export { createEvent }
