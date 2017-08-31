@@ -7,8 +7,8 @@ export const schema = Joi.object().keys({
   productId: Joi.string(),
   uid: Joi.string().required(),
   start: Joi.string().required(),
-  // startType,
-  // end,
+  startType: Joi.string(), // TODO test
+  end: Joi.string(), // TODO test
   description: Joi.string(),
   url: Joi.string().uri(),
   geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),

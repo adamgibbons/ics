@@ -28,21 +28,21 @@ export default function buildEvent (attributes = {}) {
   } = attributes
 
   const eventObject = {
-    title: maybe(title, DEFAULTS.title),
-    productId: maybe(productId, DEFAULTS.productId),
-    uid: maybe(uid, DEFAULTS.uid),
-    start: setDate(start, startType),
-    end: end ? setDate(end, startType) : null,
-    description: maybe(description, null),
-    url: maybe(url, null),
-    geolocation: geolocation ? setGeolocation(geolocation) : null,
-    location: maybe(location, null),
-    status: isValidStatus(status) ? status : null,
-    categories: _.isArray(categories) ? categories.map(function(c) {
-      return c.trim()
-    }).join(',') : null,
-    organizer: organizer ? setContact(organizer) : null,
-    attendees: attendees ? attendees.map(setContact) : null
+    title:        title || DEFAULTS.title,
+    productId:    productId || DEFAULTS.productId,
+    uid:          uid || DEFAULTS.uid,
+    start:        setDate(start, startType),
+    end:          end ? setDate(end, startType) : null,
+    description:  description || null,
+    url:          url || null,
+    geolocation:  geolocation ? setGeolocation(geolocation) : null,
+    location:     location || null,
+    status:       isValidStatus(status) ? status : null, // TODO remove
+    categories:   _.isArray(categories) ? categories.map(function(c) {
+                    return c.trim()
+                  }).join(',') : null,
+    organizer:    organizer ? setContact(organizer) : null,
+    attendees:    attendees ? attendees.map(setContact) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
