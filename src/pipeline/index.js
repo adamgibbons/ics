@@ -1,8 +1,9 @@
 import buildEvent from './build'
-// import formatEvent from './format'
+import formatEvent from './format'
 import validateEvent from './validate'
 
 export {
-  validateEvent,
-  buildEvent
+  buildEvent,
+  formatEvent,
+  validateEvent
 }
