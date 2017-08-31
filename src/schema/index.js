@@ -2,7 +2,7 @@ import Joi from 'joi'
 
 const contactSchema = Joi.object().keys({ name: Joi.string(), email: Joi.string().email() })
 
-const schema = Joi.object().keys({
+export const schema = Joi.object().keys({
   title: Joi.string(),
   productId: Joi.string(),
   uid: Joi.string().required(),
@@ -19,7 +19,7 @@ const schema = Joi.object().keys({
   attendees: Joi.array().items(contactSchema)
 })
 
-export default function validateEvent(candidate) {
+export default function validateEvent(candidate, cb) {
   const { error, value } = Joi.validate(candidate, schema)
   // console.log(error)
   // console.log(value)
