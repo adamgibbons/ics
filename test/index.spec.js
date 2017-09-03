@@ -18,9 +18,11 @@ describe('.createEvent', () => {
   it('builds and formats an event supporting params', () => {
     const event = createEvent({
       uid: 'foobar',
-      start: 'abc'
+      start: 'abc',
+      alarms: [{ action: 'AUDIO', trigger: '-PT30M' }]
     })
 
     expect(event).to.contain('foobar')
+    expect(event).to.contain('BEGIN:VALARM')
   })
 })

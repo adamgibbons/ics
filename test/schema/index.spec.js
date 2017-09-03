@@ -12,7 +12,6 @@ describe('.validateEvent', () => {
       const { error } = validateEvent({ title: 'foo', uid: 'foo' })
       expect(error.details.some(p => p.message === '"start" is required')).to.be.true
     })
-
   })
   describe('may have one and only one occurance of', () => {
     it('description', () => {
@@ -166,5 +165,22 @@ describe('.validateEvent', () => {
       expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
     })
   })
+  describe('may have one or more occurances of', () => {
+    describe('alarm component', () => {
+      it('must inlude action and trigger only once', () => {
+        const event = validateEvent({
+          uid: 'foo',
+          start: 'bac',
+          alarms: [{
+            action: 'audio',
+            trigger: 'bar'
+          }]
+        })
 
+        expect(event.error).to.be.null
+        expect(event.value.alarms).to.be.an('array')
+        expect(event.value.alarms[0]).to.have.all.keys('action', 'trigger')
+      })
+    })
+  })
 })
