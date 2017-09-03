@@ -16,10 +16,9 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 Generate an iCalendar event:
 
 ```javascript
-import ics from 'ics';
+import ics from 'ics'
 
 ics.createEvent({
-  uid: 'abc123',  // (optional)
   start: [2018, 4, 30, 6, 30], //  May 30, 2018 at 6:30am (footnote1)
   end: [2018, 4, 30, 15, 0], // May 30, 2018 at 3:00pm
   title: 'Bolder Boulder',
@@ -27,17 +26,19 @@ ics.createEvent({
   location: 'Folsom Field, University of Colorado (finish line)',
   url: 'http://www.bolderboulder.com/',
   status: 'confirmed',
-  geo: { lat: 40.0095, lon: 105.2669 },
+  geo: {
+    lat: 40.0095,
+    lon: 105.2669
+  },
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ],
-  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO', 'iRunToDrinkBeer']
-});
-
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO']
+})
 ```
 
-The above snippet will return this:
+The above snippet returns the following string:
 
 ```
 BEGIN:VCALENDAR
@@ -76,7 +77,7 @@ END:VCALENDAR
 
 ## API
 
-### `buildEvent(attributes)`
+### `createEvent(attributes[, options])`
 
 Returns an iCal-compliant text string.
 
@@ -96,22 +97,9 @@ Optional. Object literal attributes of the event. Accepts the following properti
 | status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled`.
 | attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
 | categories    | Array of string values.
-| alarms        | Array of object literals, e.g. `{ action: 'DISPLAY', trigger: '-PT30M' }`.  For details on parameters, see the [spec](https://icalendar.org/iCalendar-RFC-5545/3-6-6-alarm-component.html).
-
-### `createEvent(attributes[, options])`
-
-Returns an iCal-compliant string.
-(node exampel w/ 'fs' to write an .ics file)
+| alarms        | Array of object literals, e.g. `{ action: 'DISPLAY', trigger: '-PT30M' }`.
 
 #### `options`
-Optional. Object literal accepting the following properties:
-
-| Property      | Description   | Default  |
-| ------------- | ------------- | ----------
-| filepath      | Filename, relative path + filename, or absolute path + filename. | Absolute path to current working directory, plus `event.ics`. E.g. `/Users/gibber/my-project/event.ics`
-
-
-## References
 
 - [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
 - [iCalendar Validator](http://icalendar.org/validator.html#results)
