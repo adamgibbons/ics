@@ -7,9 +7,9 @@ const contactSchema = Joi.object().keys({
 
 const alarmSchema = Joi.object().keys({
   action: Joi.string().regex(/audio|display|email/).required(),
-  trigger: Joi.string().required(),
+  trigger: Joi.array().required(),
   description: Joi.string(),
-  duration: Joi.string(),
+  duration: Joi.array(),
   repeat: Joi.number(),
   attach: Joi.string().uri(),
   summary: Joi.string(),
@@ -22,7 +22,7 @@ export const schema = Joi.object().keys({
   title: Joi.string(),
   productId: Joi.string(),
   uid: Joi.string().required(),
-  start: Joi.string().required(),
+  start: Joi.array().required(),
   startType: Joi.string(), // TODO test
   end: Joi.string(), // TODO test
   description: Joi.string(),

@@ -5,10 +5,7 @@ import {
 } from '../../src/pipeline'
 
 describe('pipeline.formatEvent', () => {
-  it('exists', () => {
-    expect(formatEvent).to.exist
-  })
-  describe.only('.formatEvent', () => {
+  describe('.formatEvent', () => {
     it('returns null if ics flag is not passed as an attribute', () => {
       const event = formatEvent()
       expect(event).to.equal(null)
@@ -82,14 +79,14 @@ describe('pipeline.formatEvent', () => {
     it('writes an alarm', () => {
       const event = buildEvent({ alarms: [{
         action: 'audio',
-        trigger: [1997, 3, 17, 13, 30],
+        trigger: [1997, 2, 17, 1, 30],
         repeat: 4,
         duration: [0, 15],
         attach: 'ftp://example.com/pub/sounds/bell-01.aud'
       }]})
       const formattedEvent = formatEvent(event)
       expect(formattedEvent).to.contain('BEGIN:VALARM')
-      expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T133000Z')
+      expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T083000Z')
       expect(formattedEvent).to.contain('REPEAT:4')
       expect(formattedEvent).to.contain('DURATION:PT15M')
       expect(formattedEvent).to.contain('ACTION:audio')
