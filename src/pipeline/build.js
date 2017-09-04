@@ -6,7 +6,8 @@ import {
   maybe,
   isValidStatus,
   setGeolocation,
-  setContact
+  setContact,
+  setAlarm
 } from '../utils'
 
 export default function buildEvent (attributes = {}) {
@@ -24,7 +25,8 @@ export default function buildEvent (attributes = {}) {
     status,
     categories,
     organizer,
-    attendees
+    attendees,
+    alarms
   } = attributes
 
   const eventObject = {
@@ -42,7 +44,8 @@ export default function buildEvent (attributes = {}) {
                     return c.trim()
                   }).join(',') : null,
     organizer:    organizer ? setContact(organizer) : null,
-    attendees:    attendees ? attendees.map(setContact) : null
+    attendees:    attendees ? attendees.map(setContact) : null,
+    alarms:       alarms ? alarms.map(setAlarm) : null
   }
 
   const output = Object.assign({}, DEFAULTS, eventObject)
