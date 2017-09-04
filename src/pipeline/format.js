@@ -1,3 +1,5 @@
+import { formatAlarm } from '../utils'
+
 export default function formatEvent ({
   isICSobject: isICSobject,
   title,
@@ -13,7 +15,8 @@ export default function formatEvent ({
   status,
   categories,
   organizer,
-  attendees
+  attendees,
+  alarms
 } = {
   isICSobject: false
 }) {
@@ -38,6 +41,9 @@ export default function formatEvent ({
     icsFormat += organizer ? `ORGANIZER;${organizer}\r\n` : ''
     if (attendees) {
       attendees.map( attendee => icsFormat += `ATTENDEE;${attendee}\r\n` )
+    }
+    if (alarms) {
+      alarms.map( alarm => icsFormat += formatAlarm(alarm))
     }
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
