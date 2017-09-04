@@ -5,6 +5,7 @@ import maybe from './maybe'
 import isValidStatus from './is-valid-status'
 import setGeolocation from './set-geolocation'
 import setContact from './set-contact'
+import setAlarm from './set-alarm'
 
 export {
   setDate,
@@ -13,5 +14,6 @@ export {
   maybe,
   isValidStatus,
   setGeolocation,
-  setContact
+  setContact,
+  setAlarm
 }

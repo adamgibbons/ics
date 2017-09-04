@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { buildEvent } from '../../src/pipeline'
 
-describe('pipeline.build', () => {
+describe('pipeline.build properties', () => {
   describe('start', () => {
     xit('defaults to UTC date-time format', () => {
       const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
@@ -30,6 +30,31 @@ describe('pipeline.build', () => {
       expect(event.end).to.equal('20170119T013000')
     })
   })
+  describe('title', () => {
+    it('sets a default', () => {
+      const event = buildEvent()
+      expect(event.title).to.equal('Untitled event')
+      expect(event.productId).to.equal('adamgibbons/ics')
+    })
+    it('sets an argument', () => {
+      const event = buildEvent({ title: 'Hello event!' })
+      expect(event.title).to.equal('Hello event!')
+    })
+  })
+  describe('alarms', () => {
+    it('sets a default', () => {
+      const event = buildEvent({
+        alarms: [{
+          action: 'audio',
+          trigger: [1997, 3, 17, 13, 30, 0],
+          repeat: 4,
+          duration: 'PT15M',
+          description: 'Breakfast meeting with executive\nteam at 8:30 AM EST.'
+        }]
+      })
+      expect(event.alarms).to.exist
+    })
+  })
   it('sets default values when no attributes passed', () => {
     const event = buildEvent()
     expect(event.title).to.equal('Untitled event')
@@ -39,11 +64,7 @@ describe('pipeline.build', () => {
     expect(event.start).to.exist
     expect(event.url).not.to.exist
   })
-  it('sets a title', () => {
-    const event = buildEvent({ title: 'Hello event!' })
-    expect(event.title).to.equal('Hello event!')
-    expect(event.productId).to.equal('adamgibbons/ics')
-  })
+
   it('sets a productId', () => {
     const event = buildEvent({ productId: 'my-id' })
     expect(event.productId).to.equal('my-id')
@@ -105,6 +126,13 @@ describe('pipeline.build', () => {
     expect(event.attendees).to.include('CN=Brittany Seaton:mailto:brittany@example.com')
   })
   it('sets an organizer', () => {
+    const event = buildEvent({ organizer: {
+      name: 'Adam Gibbons',
+      email: 'adam@example.com'
+    }})
+    expect(event.organizer).to.include('CN=Adam Gibbons:mailto:adam@example.com')
+  })
+  it('sets an alarm', () => {
     const event = buildEvent({ organizer: {
       name: 'Adam Gibbons',
       email: 'adam@example.com'
