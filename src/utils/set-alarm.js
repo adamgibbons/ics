@@ -1,8 +1,21 @@
-export default function setAlarm({ name, email }) {
-  return null
-  // let formattedAttendee = 'CN='
-  // formattedAttendee += name || 'Unnamed attendee'
-  // formattedAttendee += email ? `:mailto:${email}` : ''
+export default function setAlarm (attributes = {}) {
+  const {
+    action,
+    trigger,
+    repeat,
+    attach,
+    description,
+    duration,
+    summary
+  } = attributes
 
-  // return formattedAttendee
+  return {
+    action,
+    trigger,
+    repeat,
+    attach,
+    description,
+    duration,
+    summary
+  }
 }
