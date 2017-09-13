@@ -7,6 +7,7 @@ describe.only('utils.setAlarm', () => {
       repeat: 5,
       description: 'Foo',
       action: 'audio',
+      attach: 'ftp://example.com/pub/sounds/bell-01.aud',
       duration: {
         weeks: 1,
         days: 15,
@@ -18,13 +19,13 @@ describe.only('utils.setAlarm', () => {
     const alarm = setAlarm(attributes)
     expect(alarm).to.contain('BEGIN:VALARM')
     expect(alarm).to.contain('ACTION:audio')
+    expect(alarm).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
     expect(alarm).to.contain('REPEAT:5')
     expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
     expect(alarm).to.contain('DESCRIPTION:Foo')
     expect(alarm).to.contain('END:VALARM')
   })
 })
-
 
 // BEGIN:VALARM
 // TRIGGER;VALUE=DATE-TIME:19970317T133000Z

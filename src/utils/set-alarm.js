@@ -20,13 +20,15 @@ export default function setAlarm({
   action,
   repeat,
   description,
-  duration
+  duration,
+  attach
 }) {
   let formattedString = 'BEGIN:VALARM\r\n'
   formattedString += `ACTION:${action}\r\n`
   formattedString += repeat ? `REPEAT:${repeat}\r\n` : ''
   formattedString += description ? `DESCRIPTION:${description}\r\n` : ''
   formattedString += duration ? `DURATION:${setDuration(duration)}\r\n` : ''
+  formattedString += attach ? `ATTACH;FMTTYPE=audio/basic:${attach}` : '',
   formattedString += 'END:VALARM\r\n'
 
   return formattedString
