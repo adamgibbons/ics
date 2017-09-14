@@ -14,7 +14,9 @@ describe.only('utils.setAlarm', () => {
         hours: 3,
         minutes: 4,
         seconds: 50
-      }
+      },
+      trigger: [1997, 2, 17, 6, 30],
+      summary: 'Bar baz'
     }
     const alarm = setAlarm(attributes)
     expect(alarm).to.contain('BEGIN:VALARM')
@@ -23,6 +25,8 @@ describe.only('utils.setAlarm', () => {
     expect(alarm).to.contain('REPEAT:5')
     expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
     expect(alarm).to.contain('DESCRIPTION:Foo')
+    expect(alarm).to.contain('SUMMARY:Bar baz')
+    expect(alarm).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T133000Z')
     expect(alarm).to.contain('END:VALARM')
   })
 })
