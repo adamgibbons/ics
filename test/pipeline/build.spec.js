@@ -41,7 +41,7 @@ describe('pipeline.build properties', () => {
       expect(event.title).to.equal('Hello event!')
     })
   })
-  describe('alarms', () => {
+  describe.only('alarms', () => {
     it('sets a default', () => {
       const event = buildEvent({
         alarms: [{
@@ -52,6 +52,7 @@ describe('pipeline.build properties', () => {
           description: 'Breakfast meeting with executive\nteam at 8:30 AM EST.'
         }]
       })
+      console.log(event)
       expect(event.alarms).to.exist
     })
   })
