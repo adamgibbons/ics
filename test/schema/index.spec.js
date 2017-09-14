@@ -18,7 +18,7 @@ describe('.validateEvent', () => {
       const { details } = validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         description: 1
       }).error
 
@@ -27,7 +27,7 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         description: 'abc'
       }).value.description).to.exist
     })
@@ -35,14 +35,14 @@ describe('.validateEvent', () => {
       const { details } = validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         url: 'abc'
       }).error
       expect(details.some(p => p.message === '"url" must be a valid uri')).to.be.true
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         url: 'abc'
       }).value.url).to.exist
     })
@@ -50,21 +50,21 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         geolocation: 'abc'
       }).error.details.some(p => p.message === '"geolocation" must be an object')).to.be.true
 
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         geolocation: { lat: 'thing', lon: 32.1 },
       }).error.details.some(p => p.path === 'geolocation.lat')).to.be.true
 
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         geolocation: { lat: 13.23, lon: 32.1 },
       }).value.geolocation).to.exist
     })
@@ -72,7 +72,7 @@ describe('.validateEvent', () => {
       const { details } = validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         location: 1
       }).error
 
@@ -81,7 +81,7 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         location: 'abc'
       }).value.location).to.exist
     })
@@ -89,25 +89,25 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         status: 'tentativo'
       }).error).to.exist
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         status: 'tentative'
       }).value.status).to.equal('tentative')
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         status: 'cancelled'
       }).value.status).to.equal('cancelled')
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         status: 'confirmed'
       }).value.status).to.equal('confirmed')
     })
@@ -115,7 +115,7 @@ describe('.validateEvent', () => {
       const { details } = validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         categories: [1]
       }).error
 
@@ -124,7 +124,7 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         categories: ['foo', 'bar']
       }).value.categories).to.include('foo', 'bar')
     })
@@ -132,14 +132,14 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         organizer: { name: 'Adam', email: 'adam@example.com' }
       }).value.organizer).to.include({ name: 'Adam', email: 'adam@example.com' })
 
       const { details } = validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         organizer: { foo: 'Adam' }
       }).error
       expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
@@ -148,7 +148,7 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         attendees: [
           { name: 'Adam', email: 'adam@example.com' },
           { name: 'Brittany', email: 'brittany@example.com' }]
@@ -157,7 +157,7 @@ describe('.validateEvent', () => {
       const { details } = validateEvent({
         title: 'foo',
         uid: 'foo',
-        start: 'bac',
+        start: [],
         attendees: [
           { foo: 'Adam', email: 'adam@example.com' },
           { name: 'Brittany', email: 'brittany@example.com' }]
@@ -170,10 +170,10 @@ describe('.validateEvent', () => {
       it('must inlude action and trigger only once', () => {
         const event = validateEvent({
           uid: 'foo',
-          start: 'bac',
+          start: [],
           alarms: [{
             action: 'audio',
-            trigger: 'bar'
+            trigger: []
           }]
         })
 
