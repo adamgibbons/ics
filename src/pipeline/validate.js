@@ -1,6 +1,3 @@
-import Joi from 'joi'
-import { schema } from '../schema'
+import validate from '../schema'
 
-export default function validateEvent(candidate, cb) {
-  return Joi.validate(candidate, schema, cb)
-}
+export default validate

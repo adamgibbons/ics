@@ -18,7 +18,7 @@ const alarmSchema = Joi.object().keys({
   'iana-prop': Joi.any()
 })
 
-export const schema = Joi.object().keys({
+const schema = Joi.object().keys({
   title: Joi.string(),
   productId: Joi.string(),
   uid: Joi.string().required(),
@@ -36,7 +36,7 @@ export const schema = Joi.object().keys({
   alarms: Joi.array().items(alarmSchema)
 })
 
-export default function validateEvent(candidate, cb) {
+export default function validateEvent(candidate) {
   const { error, value } = Joi.validate(candidate, schema)
   // console.log(error)
   // console.log(value)

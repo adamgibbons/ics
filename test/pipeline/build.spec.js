@@ -41,7 +41,7 @@ describe('pipeline.build properties', () => {
       expect(event.title).to.equal('Hello event!')
     })
   })
-  describe.only('alarms', () => {
+  describe('alarms', () => {
     it('sets a default', () => {
       const event = buildEvent({
         alarms: [{
