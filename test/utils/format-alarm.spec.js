@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { formatAlarm } from '../../src/utils'
 
-describe.only('utils.formatAlarm', () => {
+describe('utils.formatAlarm', () => {
   it('formats an alarm', () => {
     const attributes = {
       repeat: 5,
@@ -19,22 +19,21 @@ describe.only('utils.formatAlarm', () => {
       summary: 'Bar baz'
     }
     expect(formatAlarm).to.be.a('function')
-    // console.log(formatAlarm())
+
+    console.log(formatAlarm)
 
     const alarm = formatAlarm(attributes)
-    console.log('fooo')
-    console.log(alarm)
 
-    // const alarm = formatAlarm(attributes)
+    console.log(alarm)
 
     expect(alarm).to.contain('BEGIN:VALARM')
     expect(alarm).to.contain('ACTION:audio')
-    // expect(alarm).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
-    // expect(alarm).to.contain('REPEAT:5')
-    // expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
-    // expect(alarm).to.contain('DESCRIPTION:Foo')
-    // expect(alarm).to.contain('SUMMARY:Bar baz')
-    // expect(alarm).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T133000Z')
+    expect(alarm).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
+    expect(alarm).to.contain('REPEAT:5')
+    expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
+    expect(alarm).to.contain('DESCRIPTION:Foo')
+    expect(alarm).to.contain('SUMMARY:Bar baz')
+    expect(alarm).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T133000Z')
     expect(alarm).to.contain('END:VALARM')
   })
 })
