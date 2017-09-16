@@ -29,6 +29,10 @@ export default function buildEvent (attributes = {}) {
     alarms
   } = attributes
 
+  // console.log('foo alarm:')
+  // console.log(attributes)
+  // console.log('bar alarm:')
+
   const eventObject = {
     title:        title || DEFAULTS.title,
     productId:    productId || DEFAULTS.productId,

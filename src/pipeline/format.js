@@ -1,26 +1,28 @@
-import { formatAlarm } from '../utils'
+import { setAlarm } from '../utils'
 
-export default function formatEvent ({
-  isICSobject: isICSobject,
-  title,
-  productId,
-  uid,
-  timestamp,
-  start,
-  end,
-  description,
-  url,
-  geolocation,
-  location,
-  status,
-  categories,
-  organizer,
-  attendees,
-  alarms
-} = {
-  isICSobject: false
-}) {
-  if (isICSobject) {
+export default function formatEvent (attributes = {}) {
+  const {
+    title,
+    productId,
+    uid,
+    timestamp,
+    start,
+    end,
+    description,
+    url,
+    geolocation,
+    location,
+    status,
+    categories,
+    organizer,
+    attendees,
+    alarms
+  } = attributes
+
+    // console.log('begin')
+    // console.log(alarms)
+    // console.log('end')
+
     let icsFormat = ''
     icsFormat += 'BEGIN:VCALENDAR\r\n'
     icsFormat += 'VERSION:2.0\r\n'
@@ -43,13 +45,11 @@ export default function formatEvent ({
       attendees.map( attendee => icsFormat += `ATTENDEE;${attendee}\r\n` )
     }
     if (alarms) {
-      alarms.map( alarm => icsFormat += formatAlarm(alarm))
+      alarms.map( alarm => icsFormat += alarm)
     }
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
     return icsFormat
-  }
-
-  return null
+  
 }

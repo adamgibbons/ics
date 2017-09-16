@@ -18,24 +18,34 @@ function setDuration ({
   return formattedString
 }
 
-export default function setAlarm({
-  action,
-  repeat,
-  description,
-  duration,
-  attach,
-  trigger,
-  summary
-}) {
+export default function setAlarm(attributes = {}) {
+
+  const {
+    action,
+    repeat,
+    description,
+    duration,
+    attach,
+    trigger,
+    summary
+  } = attributes
+
+  // console.log('begin attributes')
+  // console.log(typeof attributes)
+  // console.log('end attributes')
+
   let formattedString = 'BEGIN:VALARM\r\n'
   formattedString += `ACTION:${action}\r\n`
   formattedString += repeat ? `REPEAT:${repeat}\r\n` : ''
   formattedString += description ? `DESCRIPTION:${description}\r\n` : ''
   formattedString += duration ? `DURATION:${setDuration(duration)}\r\n` : ''
-  formattedString += attach ? `ATTACH;FMTTYPE=audio/basic:${attach}\r\n` : '',
-  formattedString += trigger ? `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n` : '',
-  formattedString += summary ? `SUMMARY:${summary}\r\n` : '',
+  formattedString += attach ? `ATTACH;FMTTYPE=audio/basic:${attach}\r\n` : ''
+  formattedString += trigger ? `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n` : ''
+  formattedString += summary ? `SUMMARY:${summary}\r\n` : ''
   formattedString += 'END:VALARM\r\n'
+
+  // console.log('foooooo')
+  // console.log(formattedString)
 
   return formattedString
 }

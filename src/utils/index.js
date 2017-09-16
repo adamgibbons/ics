@@ -6,7 +6,6 @@ import isValidStatus from './is-valid-status'
 import setGeolocation from './set-geolocation'
 import setContact from './set-contact'
 import setAlarm from './set-alarm'
-import formatAlarm from './format-alarm'
 
 export {
   setDate,
@@ -16,6 +15,5 @@ export {
   isValidStatus,
   setGeolocation,
   setContact,
-  setAlarm,
-  formatAlarm
+  setAlarm
 }
