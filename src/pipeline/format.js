@@ -2,8 +2,8 @@ import {
     setAlarm
 } from '../utils'
 
-function setGeolocation ({ lat, lon }) {
-    return `${lat};${lon}`
+function formatGeolocation ({ lat, lon }) {
+  return `${lat};${lon}`
 }
 
 export default function formatEvent (attributes = {}) {
@@ -39,7 +39,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += end ? `DTEND:${end}\r\n` : ''
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
-    icsFormat += geolocation ? `GEO:${setGelolocation(geolocation)}\r\n` : ''
+    icsFormat += geolocation ? `GEO:${formatGeolocation(geolocation)}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
