@@ -38,7 +38,5 @@ const schema = Joi.object().keys({
 
 export default function validateEvent(candidate) {
   const { error, value } = Joi.validate(candidate, schema)
-  // console.log(error)
-  // console.log(value)
   return { error, value }
 }
