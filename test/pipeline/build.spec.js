@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { buildEvent } from '../../src/pipeline'
 
-describe.only('pipeline.build properties', () => {
+describe('pipeline.build properties', () => {
   describe('title', () => {
     it('sets a default', () => {
       const event = buildEvent()

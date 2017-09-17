@@ -5,7 +5,6 @@ import {
   setDate,
   maybe,
   isValidStatus,
-  setGeolocation,
   setContact,
   setAlarm
 } from '../utils'
@@ -17,6 +16,7 @@ export default function buildEvent (attributes = {}) {
     uid,
     start,
     startType,
+    duration,
     end,
     description,
     url,

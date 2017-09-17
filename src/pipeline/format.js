@@ -1,4 +1,10 @@
-import { setAlarm } from '../utils'
+import {
+    setAlarm
+} from '../utils'
+
+function setGeolocation ({ lat, lon }) {
+    return `${lat};${lon}`
+}
 
 export default function formatEvent (attributes = {}) {
   const {
@@ -7,6 +13,7 @@ export default function formatEvent (attributes = {}) {
     uid,
     timestamp,
     start,
+    duration,
     end,
     description,
     url,
@@ -18,10 +25,6 @@ export default function formatEvent (attributes = {}) {
     attendees,
     alarms
   } = attributes
-
-    // console.log('begin')
-    // console.log(alarms)
-    // console.log('end')
 
     let icsFormat = ''
     icsFormat += 'BEGIN:VCALENDAR\r\n'
@@ -36,7 +39,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += end ? `DTEND:${end}\r\n` : ''
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
-    icsFormat += geolocation ? `GEO:${geolocation}\r\n` : ''
+    icsFormat += geolocation ? `GEO:${setGelolocation(geolocation)}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''

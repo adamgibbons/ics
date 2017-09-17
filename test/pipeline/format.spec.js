@@ -4,7 +4,7 @@ import {
   buildEvent
 } from '../../src/pipeline'
 
-describe('pipeline.formatEvent', () => {
+describe.only('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)

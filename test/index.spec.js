@@ -15,14 +15,56 @@ describe('.createEvent', () => {
     expect(event).to.contain('END:VEVENT')
     expect(event).to.contain('END:VCALENDAR')
   })
-  it('builds and formats an event supporting params', () => {
+  it('handles arguments', () => {
     const event = createEvent({
-      uid: 'foobar',
-      start: [2017, 10, 10, 1, 30],
-      alarms: [{ action: 'audio', trigger: [1] }]
+      start: [2017],
+      title: 'Bolder Boulder',
+      uid: 'xyz',
+      productId: 'GibbonsInc',
+      description: 'Annual Memorial Day 10k Race in Boulder, Colorado',
+      url: 'http://bb10k.bolderboulder.com/',
+      location: 'Folsom Field, University of Colorado at Boulder',
+      geolocation: {
+        lat: 40.0095,
+        lon: -105.2669
+      },
+      status: 'tentative',
+      categories: ['Memorial Day', '10k races'],
+      organizer: {
+        name: 'John Smith',
+        email: 'jsmith@example.com'
+      },
+      attendees: [
+        {
+          name: 'Adam Gibbons',
+          email: 'agibbons@example.com'
+        },
+        {
+          name: 'Brittany Seaton',
+          email: 'bseaton@example.com'
+        }
+      ],
+      start: [1997, 6, 14, 11, 30],
+      duration: {
+        hours: 1
+      }
     })
 
-    expect(event).to.contain('foobar')
-    expect(event).to.contain('BEGIN:VALARM')
+    console.log(event)
+
+    expect(event).to.contain('PRODID:GibbonsInc')
+    expect(event).to.contain('SUMMARY:Bolder Boulder')
+    expect(event).to.contain('DESCRIPTION:Annual Memorial Day 10k Race in Boulder, Colorado')
+    expect(event).to.contain('UID:xyz')
+    expect(event).to.contain('URL:http://bb10k.bolderboulder.com/')
+    expect(event).to.contain('GEO:40.0095;-105.2669')
+    expect(event).to.contain('LOCATION:Folsom Field, University of Colorado at Boulder')
+    expect(event).to.contain('STATUS:tentative')
+    expect(event).to.contain('CATEGORIES:Memorial Day,10k races')
+    expect(event).to.contain('ORGANIZER;CN=John Smith:mailto:jsmith@example.com')
+    expect(event).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:agibbons@example.com')
+    expect(event).to.contain('ATTENDEE;CN=Brittany Seaton:mailto:bseaton@example.com')
+    expect(event).to.contain('DTSTART:19970714T173000Z')
+    expect(duration).to.contain('DURATION:P15DT5H0M20S')
   })
 })
