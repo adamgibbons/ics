@@ -1,5 +1,6 @@
 import {
-    setAlarm
+    setAlarm,
+    setContact
 } from '../utils'
 
 function formatGeolocation ({ lat, lon }) {
@@ -43,9 +44,9 @@ export default function formatEvent (attributes = {}) {
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
-    icsFormat += organizer ? `ORGANIZER;${organizer}\r\n` : ''
+    icsFormat += organizer ? `ORGANIZER;${setContact(organizer)}\r\n` : ''
     if (attendees) {
-      attendees.map( attendee => icsFormat += `ATTENDEE;${attendee}\r\n` )
+      attendees.map( attendee => icsFormat += `ATTENDEE;${setContact(attendee)}\r\n` )
     }
     if (alarms) {
       alarms.map( alarm => icsFormat += alarm)
