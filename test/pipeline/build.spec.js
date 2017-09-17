@@ -1,7 +1,37 @@
 import { expect } from 'chai'
 import { buildEvent } from '../../src/pipeline'
 
-describe('pipeline.build properties', () => {
+describe.only('pipeline.build properties', () => {
+  describe('title', () => {
+    it('sets a default', () => {
+      const event = buildEvent()
+      expect(event.title).to.equal('Untitled event')
+    })
+    it('sets a title', () => {
+      const event = buildEvent({ title: 'Hello event!' })
+      expect(event.title).to.equal('Hello event!')
+    })
+  })
+  describe('productId', () => {
+    it('sets a default', () => {
+      const event = buildEvent()
+      expect(event.productId).to.equal('adamgibbons/ics')
+    })
+    it('sets a product id', () => {
+      const event = buildEvent({ productId: 'myProductId' })
+      expect(event.productId).to.equal('myProductId')
+    })
+  })
+  describe('uid', () => {
+    it('sets a default', () => {
+      const event = buildEvent()
+      expect(event.uid).to.exist
+    })
+    it('sets a product id', () => {
+      const event = buildEvent({ uid: 'myuid' })
+      expect(event.uid).to.equal('myuid')
+    })
+  })  
   describe('start', () => {
     xit('defaults to UTC date-time format', () => {
       const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
@@ -30,19 +60,91 @@ describe('pipeline.build properties', () => {
       expect(event.end).to.equal('20170119T013000')
     })
   })
-  describe('title', () => {
-    it('sets a default', () => {
+  describe('description', () => {
+    it('removes a falsey value', () => {
       const event = buildEvent()
-      expect(event.title).to.equal('Untitled event')
-      expect(event.productId).to.equal('adamgibbons/ics')
+      expect(event.description).not.to.exist
     })
-    it('sets an argument', () => {
-      const event = buildEvent({ title: 'Hello event!' })
-      expect(event.title).to.equal('Hello event!')
+    it('sets a description', () => {
+      const event = buildEvent({ description: 'feels so good' })
+      expect(event.description).to.equal('feels so good')
+    })
+  })
+  describe('url', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.url).not.to.exist
+    })
+    it('sets a url', () => {
+      const event = buildEvent({ url: 'http://www.google.com' })
+      expect(event.url).to.equal('http://www.google.com')
+    })
+  })
+  describe('geolocation', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.geolocation).not.to.exist
+    })
+    it('sets a url', () => {
+      const event = buildEvent({ geolocation: {lat: 1, lon: 2} })
+      expect(event.geolocation).to.deep.equal({lat: 1, lon: 2})
+    })
+  })
+  describe('location', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.location).not.to.exist
+    })
+    it('sets a url', () => {
+      const event = buildEvent({ location: 'little boxes' })
+      expect(event.location).to.equal('little boxes')
+    })
+  })
+  describe('categories', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.categories).not.to.exist
+    })
+    it('sets categories', () => {
+      const event = buildEvent({ categories: ['foo', 'bar', 'baz'] })
+      expect(event.categories).to.include('foo', 'bar', 'baz')
+    })
+  })
+  describe('organizer', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.organizer).not.to.exist
+    })
+    it('sets an organizer', () => {
+      const event = buildEvent({ organizer: {
+        name: 'Adam Gibbons',
+        email: 'adam@example.com'
+      }})
+      expect(event.organizer).to.deep.equal({
+        name: 'Adam Gibbons',
+        email: 'adam@example.com'
+      })
+    })
+  })
+  describe('attendees', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.attendees).not.to.exist
+    })
+    it('sets attendees', () => {
+      const event = buildEvent({ attendees: [
+        { name: 'Adam Gibbons', email: 'adam@example.com' },
+        { name: 'Brittany Seaton', email: 'brittany@example.com' }
+      ]})
+      expect(event.attendees).to.be.an('array').to.have.length(2)
     })
   })
   describe('alarms', () => {
-    it('sets a default', () => {
+    it('removes falsey values', () => {
+      const event = buildEvent()
+      expect(event.alarms).not.to.exist
+    })
+    it('sets alarms', () => {
       const event = buildEvent({
         alarms: [{
           action: 'audio',
@@ -52,92 +154,7 @@ describe('pipeline.build properties', () => {
           description: 'Breakfast meeting with executive\nteam at 8:30 AM EST.'
         }]
       })
-      console.log(event)
-      expect(event.alarms).to.exist
+      expect(event.alarms).to.be.an('array').to.have.length(1)
     })
-  })
-  it('sets default values when no attributes passed', () => {
-    const event = buildEvent()
-    expect(event.title).to.equal('Untitled event')
-    expect(event.uid.length).to.equal(36)
-    expect(event.timestamp.length).to.equal(16)
-    expect(event.productId).to.equal('adamgibbons/ics')
-    expect(event.start).to.exist
-    expect(event.url).not.to.exist
-  })
-
-  it('sets a productId', () => {
-    const event = buildEvent({ productId: 'my-id' })
-    expect(event.productId).to.equal('my-id')
-    expect(event.title).to.equal('Untitled event')
-  })
-  it('sets a uid', () => {
-    const event = buildEvent({ uid: 123 })
-    expect(event.uid).to.equal(123)
-    expect(event.title).to.equal('Untitled event')
-  })
-  it('sets a description', () => {
-    const event = buildEvent({ description: 'chatanooga' })
-    expect(event.description).to.equal('chatanooga')
-    expect(event.title).to.equal('Untitled event')
-  })
-  it('sets a url', () => {
-    const event = buildEvent({ url: 'http://www.example.com/' })
-    expect(event.url).to.equal('http://www.example.com/')
-    expect(event.title).to.equal('Untitled event')
-  })
-  it('sets a geolocation', () => {
-    const event = buildEvent({ geolocation: { lat: 37.386013, lon: -122.082932 } })
-    expect(event.geolocation).to.equal('37.386013;-122.082932')
-    expect(event.title).to.equal('Untitled event')
-  })
-  it('sets a location', () => {
-    const event = buildEvent({ location: 'Folsom Field, University of Colorado at Boulder' })
-    expect(event.location).to.equal('Folsom Field, University of Colorado at Boulder')
-  })
-  it('sets no status when status is invalid', () => {
-    const event = buildEvent({ status: 'foo' })
-    expect(event.status).not.to.exist
-  })
-  it('sets a status when status is valid', () => {
-    const event1 = buildEvent({ status: 'tentative' })
-    const event2 = buildEvent({ status: 'confirmed' })
-    const event3 = buildEvent({ status: 'cancelled' })
-    
-    expect(event1.status).to.equal('tentative')
-    expect(event2.status).to.equal('confirmed')
-    expect(event3.status).to.equal('cancelled')
-  })
-  it ('sets no categories when categories are invalid', () => {
-    const event = buildEvent({ categories: 1 })
-    expect(event.categories).not.to.exist
-  })
-  it('sets categories', () => {
-    const event = buildEvent({ categories: ['running', 'races', 'boulder', 'huzzah'] })
-    expect(event.categories).to.equal('running,races,boulder,huzzah')
-  })
-  it('sets attendees', () => {
-    const event = buildEvent({ attendees: [
-      { name: 'Adam Gibbons', email: 'adam@example.com' },
-      { name: 'Brittany Seaton', email: 'brittany@example.com' }
-    ]})
-
-    expect(event.attendees.length).to.equal(2)
-    expect(event.attendees).to.include('CN=Adam Gibbons:mailto:adam@example.com')
-    expect(event.attendees).to.include('CN=Brittany Seaton:mailto:brittany@example.com')
-  })
-  it('sets an organizer', () => {
-    const event = buildEvent({ organizer: {
-      name: 'Adam Gibbons',
-      email: 'adam@example.com'
-    }})
-    expect(event.organizer).to.include('CN=Adam Gibbons:mailto:adam@example.com')
-  })
-  it('sets an alarm', () => {
-    const event = buildEvent({ organizer: {
-      name: 'Adam Gibbons',
-      email: 'adam@example.com'
-    }})
-    expect(event.organizer).to.include('CN=Adam Gibbons:mailto:adam@example.com')
   })
 })
