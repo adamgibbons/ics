@@ -5,10 +5,6 @@ import {
 } from '../../src/pipeline'
 
 describe('pipeline.formatEvent', () => {
-  xit('returns null if ics flag is not passed as an attribute', () => {
-    const event = formatEvent()
-    expect(event).to.equal(null)
-  })
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
