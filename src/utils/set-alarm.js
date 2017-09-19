@@ -30,10 +30,6 @@ export default function setAlarm(attributes = {}) {
     summary
   } = attributes
 
-  // console.log('begin attributes')
-  // console.log(typeof attributes)
-  // console.log('end attributes')
-
   let formattedString = 'BEGIN:VALARM\r\n'
   formattedString += `ACTION:${action}\r\n`
   formattedString += repeat ? `REPEAT:${repeat}\r\n` : ''
@@ -43,9 +39,6 @@ export default function setAlarm(attributes = {}) {
   formattedString += trigger ? `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n` : ''
   formattedString += summary ? `SUMMARY:${summary}\r\n` : ''
   formattedString += 'END:VALARM\r\n'
-
-  // console.log('foooooo')
-  // console.log(formattedString)
 
   return formattedString
 }

@@ -7,6 +7,20 @@ function formatGeolocation ({ lat, lon }) {
   return `${lat};${lon}`
 }
 
+function formatDuration ( attributes = {}) {
+  const { weeks, days, hours, minutes, seconds } = attributes
+
+  let formattedDuration = 'P'
+  formattedDuration += weeks ? `${weeks}W` : ''
+  formattedDuration += days ? `${days}D` : ''
+  formattedDuration += 'T'
+  formattedDuration += hours ? `${hours}H` : ''
+  formattedDuration += minutes ? `${minutes}M` : ''
+  formattedDuration += seconds ? `${seconds}S` : ''
+
+  return formattedDuration
+}
+
 export default function formatEvent (attributes = {}) {
   const {
     title,
@@ -51,6 +65,7 @@ export default function formatEvent (attributes = {}) {
     if (alarms) {
       alarms.map( alarm => icsFormat += alarm)
     }
+    icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 

@@ -4,7 +4,7 @@ import {
   buildEvent
 } from '../../src/pipeline'
 
-describe.only('pipeline.formatEvent', () => {
+describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
@@ -71,7 +71,7 @@ describe.only('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(event).to.contain('ORGANIZER;CN=Adam Gibbons:mailto:adam@example.com')
   })
-  it('writes an alarm', () => {
+  xit('writes an alarm', () => {
     const event = buildEvent({ alarms: [{
       action: 'audio',
       trigger: [1997, 2, 17, 1, 30],

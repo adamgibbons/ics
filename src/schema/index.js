@@ -1,5 +1,7 @@
 import Joi from 'joi'
 
+const dateTimeSchema = Joi.array().required()
+
 const durationSchema = Joi.object().keys({
   weeks: Joi.number(),
   days: Joi.number(),
@@ -30,7 +32,7 @@ const schema = Joi.object().keys({
   title: Joi.string(),
   productId: Joi.string(),
   uid: Joi.string().required(),
-  start: Joi.array().required(),
+  start: dateTimeSchema,
   duration: durationSchema,
   startType: Joi.string(), // TODO test
   end: Joi.string(), // TODO test

@@ -5,7 +5,7 @@ describe('pipeline.validate', () => {
   it('validates an event', () => {
     const { error, value } = validateEvent({
       uid: '1',
-      start: []
+      start: [1997, 10, 1, 22, 30]
     })
     expect(error).not.to.exist
     expect(value.uid).to.equal('1')
