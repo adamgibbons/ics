@@ -1,14 +1,6 @@
 import _ from 'lodash'
 import defaultAttributes from '../defaults'
 
-import {
-  setDate,
-  maybe,
-  isValidStatus,
-  setContact,
-  setAlarm
-} from '../utils'
-
 export default function buildEvent (attributes = {}) {
   const {
     title,
@@ -37,10 +29,3 @@ export default function buildEvent (attributes = {}) {
 
   return cleanOutput
 }
-
-// categories:   _.isArray(categories) ? categories.map(function(c) {
-//                 return c.trim()
-//               }).join(',') : null,
-// organizer:    organizer ? setContact(organizer) : null,
-// attendees:    attendees ? attendees.map(setContact) : null,
-// alarms:       alarms ? alarms.map(setAlarm) : null

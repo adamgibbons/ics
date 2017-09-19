@@ -150,11 +150,14 @@ describe('pipeline.build properties', () => {
           action: 'audio',
           trigger: [1997, 3, 17, 13, 30, 0],
           repeat: 4,
-          duration: 'PT15M',
-          description: 'Breakfast meeting with executive\nteam at 8:30 AM EST.'
+          duration: {
+            hours: 1
+          },
+          description: 'Breakfast meeting with executive\nteam.'
         }]
       })
-      expect(event.alarms).to.be.an('array').to.have.length(1)
+      console.log(event)
+      expect(event.alarms).to.be.an('array')
     })
   })
 })

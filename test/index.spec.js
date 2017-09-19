@@ -46,10 +46,15 @@ describe('.createEvent', () => {
       start: [1997, 6, 14, 11, 30, 0],
       duration: {
         hours: 1
-      }
+      },
+      alarms: [{
+        action: 'audio',
+        trigger: [1997, 2, 17, 1, 30],
+        repeat: 4,
+        duration: { minutes: 15 },
+        attach: 'ftp://example.com/pub/sounds/bell-01.aud'
+      }]
     })
-
-    console.log(event)
 
     expect(event).to.contain('PRODID:GibbonsInc')
     expect(event).to.contain('SUMMARY:Bolder Boulder')
@@ -64,6 +69,8 @@ describe('.createEvent', () => {
     expect(event).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:agibbons@example.com')
     expect(event).to.contain('ATTENDEE;CN=Brittany Seaton:mailto:bseaton@example.com')
     expect(event).to.contain('DTSTART:19970714T173000Z')
+    expect(event).to.contain('BEGIN:VALARM')
+    expect(event).to.contain('END:VALARM')
     expect(event).to.contain('DURATION:PT1H')
   })
 })

@@ -19,7 +19,7 @@ const alarmSchema = Joi.object().keys({
   action: Joi.string().regex(/audio|display|email/).required(),
   trigger: Joi.array().required(),
   description: Joi.string(),
-  duration: Joi.array(),
+  duration: durationSchema,
   repeat: Joi.number(),
   attach: Joi.string().uri(),
   summary: Joi.string(),

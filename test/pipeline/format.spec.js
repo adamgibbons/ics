@@ -4,7 +4,7 @@ import {
   buildEvent
 } from '../../src/pipeline'
 
-describe.only('pipeline.formatEvent', () => {
+describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
@@ -79,6 +79,8 @@ describe.only('pipeline.formatEvent', () => {
       duration: { minutes: 15 },
       attach: 'ftp://example.com/pub/sounds/bell-01.aud'
     }]})
+
+    console.log(formattedEvent)
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T083000Z')
