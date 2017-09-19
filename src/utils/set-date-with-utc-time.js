@@ -16,8 +16,8 @@ import moment from 'moment'
 
 export default function setDateWithUTCtime(args) {
   if (args) {
-    const [ year, month, day, hour, minute ] = args
-    const formattedDate = moment([year, month, day, hour, minute]).utc().format('YYYYMMDDTHHmm00') + 'Z'
+    const [year, month, date, hours, minutes, seconds] = args
+    const formattedDate = moment([year, month, date, hours, minutes, seconds || 0]).utc().format('YYYYMMDDTHHmm00') + 'Z'
     return formattedDate    
   }
 
