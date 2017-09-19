@@ -1,6 +1,7 @@
 import {
     setAlarm,
-    setContact
+    setContact,
+    setDate
 } from '../utils'
 
 function formatGeolocation ({ lat, lon }) {
@@ -28,6 +29,7 @@ export default function formatEvent (attributes = {}) {
     uid,
     timestamp,
     start,
+    startType,
     duration,
     end,
     description,
@@ -50,7 +52,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += `UID:${uid}\r\n`
     icsFormat += `SUMMARY:${title}\r\n`
     icsFormat += `DTSTAMP:${timestamp}\r\n`
-    icsFormat += `DTSTART:${start}\r\n`
+    icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
     icsFormat += end ? `DTEND:${end}\r\n` : ''
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
@@ -60,15 +62,14 @@ export default function formatEvent (attributes = {}) {
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
     icsFormat += organizer ? `ORGANIZER;${setContact(organizer)}\r\n` : ''
     if (attendees) {
-      attendees.map( attendee => icsFormat += `ATTENDEE;${setContact(attendee)}\r\n` )
+      attendees.map(attendee => icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`)
     }
     if (alarms) {
-      alarms.map( alarm => icsFormat += alarm)
+      alarms.map(alarm => icsFormat += alarm)
     }
     icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
-    return icsFormat
-  
+    return icsFormat  
 }

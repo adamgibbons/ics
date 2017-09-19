@@ -15,11 +15,6 @@ describe('.validateEvent', () => {
   })
   describe('may have one and only one occurance of', () => {
 
-    console.log(validateEvent({
-      uid: 'foo',
-      start: {}
-    }))
-
     it('description', () => {
       const { details } = validateEvent({
         title: 'foo',

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { createEvent } from '../src'
 
-describe('.createEvent', () => {
+describe.only('.createEvent', () => {
   it('builds and formats a default event when no params passed', () => {
     const event = createEvent()
     expect(event).to.contain('BEGIN:VCALENDAR')
@@ -17,7 +17,6 @@ describe('.createEvent', () => {
   })
   it('handles arguments', () => {
     const event = createEvent({
-      start: [2017],
       title: 'Bolder Boulder',
       uid: 'xyz',
       productId: 'GibbonsInc',
@@ -64,7 +63,7 @@ describe('.createEvent', () => {
     expect(event).to.contain('ORGANIZER;CN=John Smith:mailto:jsmith@example.com')
     expect(event).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:agibbons@example.com')
     expect(event).to.contain('ATTENDEE;CN=Brittany Seaton:mailto:bseaton@example.com')
-    // expect(event).to.contain('DTSTART:19970714T173000Z')
+    expect(event).to.contain('DTSTART:19970714T173000Z')
     expect(event).to.contain('DURATION:PT1H')
   })
 })
