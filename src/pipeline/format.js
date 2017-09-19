@@ -1,12 +1,9 @@
 import {
     setAlarm,
     setContact,
-    setDate
+    setDate,
+    setGeolocation
 } from '../utils'
-
-function formatGeolocation ({ lat, lon }) {
-  return `${lat};${lon}`
-}
 
 function formatDuration ( attributes = {}) {
   const { weeks, days, hours, minutes, seconds } = attributes
@@ -56,7 +53,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += end ? `DTEND:${end}\r\n` : ''
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
-    icsFormat += geolocation ? `GEO:${formatGeolocation(geolocation)}\r\n` : ''
+    icsFormat += geolocation ? `GEO:${setGeolocation(geolocation)}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
@@ -65,7 +62,7 @@ export default function formatEvent (attributes = {}) {
       attendees.map(attendee => icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`)
     }
     if (alarms) {
-      alarms.map(alarm => icsFormat += alarm)
+      alarms.map(alarm => icsFormat += setAlarm(alarm))
     }
     icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`

@@ -4,7 +4,7 @@ import {
   buildEvent
 } from '../../src/pipeline'
 
-describe('pipeline.formatEvent', () => {
+describe.only('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
@@ -71,16 +71,14 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(event).to.contain('ORGANIZER;CN=Adam Gibbons:mailto:adam@example.com')
   })
-  xit('writes an alarm', () => {
-    const event = buildEvent({ alarms: [{
+  it('writes an alarm', () => {
+    const formattedEvent = formatEvent({ alarms: [{
       action: 'audio',
       trigger: [1997, 2, 17, 1, 30],
       repeat: 4,
       duration: { minutes: 15 },
       attach: 'ftp://example.com/pub/sounds/bell-01.aud'
     }]})
-
-    const formattedEvent = formatEvent(event)
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T083000Z')

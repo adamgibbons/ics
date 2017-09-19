@@ -5,7 +5,6 @@ import {
 } from './pipeline'
 
 const createEvent = (attributes) => {
-
   const { error, value } = validateEvent(attributes)
 
   if (error) return error

@@ -19,7 +19,6 @@ function setDuration ({
 }
 
 export default function setAlarm(attributes = {}) {
-
   const {
     action,
     repeat,
