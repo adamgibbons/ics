@@ -35,8 +35,8 @@ const schema = Joi.object().keys({
   uid: Joi.string().required(),
   start: dateTimeSchema,
   duration: durationSchema,
-  startType: Joi.string(), // TODO test
-  end: Joi.string(), // TODO test
+  startType: Joi.string(),
+  end: dateTimeSchema,
   description: Joi.string(),
   url: Joi.string().uri(),
   geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
