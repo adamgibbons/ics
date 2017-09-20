@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { createEvent } from '../src'
+import { createEventSync } from '../src'
 
-describe('.createEvent', () => {
+describe('.createEventSync', () => {
   it('builds and formats a default event when no params passed', () => {
-    const event = createEvent()
+    const event = createEventSync()
     expect(event).to.contain('BEGIN:VCALENDAR')
     expect(event).to.contain('VERSION:2.0')
     expect(event).to.contain('PRODID:adamgibbons/ics')
@@ -16,7 +16,7 @@ describe('.createEvent', () => {
     expect(event).to.contain('END:VCALENDAR')
   })
   it('handles arguments', () => {
-    const event = createEvent({
+    const event = createEventSync({
       title: 'Bolder Boulder',
       uid: 'xyz',
       productId: 'GibbonsInc',

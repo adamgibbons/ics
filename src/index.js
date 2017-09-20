@@ -4,7 +4,7 @@ import {
   formatEvent
 } from './pipeline'
 
-const createEvent = (attributes) => {
+const createEventSync = (attributes) => {
   const { error, value } = validateEvent(attributes)
 
   if (error) return error
@@ -12,4 +12,4 @@ const createEvent = (attributes) => {
   return formatEvent(buildEvent(value))
 }
 
-export { createEvent }
+export { createEventSync }
