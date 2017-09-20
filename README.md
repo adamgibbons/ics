@@ -90,8 +90,8 @@ The following properties are accepted:
 
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | Array of numbers representing time at which event starst. Array has form: `[year, month, date, hours, minutes, seconds]` | `[2000, 0, 5, 10, 0]` // January 5, 2000 at 10am in the server's timezone
-| end           | Time at which event ends | `[2000, 0, 5, 13, 5]` // January 5, 2000 at 1pm in the server's timezone
+| start         | Array of numbers representing time at which event starts _in the server's timezone_. Array has form: `[year, month, date, hours, minutes, seconds]` | `[2000, 0, 5, 10, 0]` // January 5, 2000 at 10am
+| end           | Time at which event ends | `[2000, 0, 5, 13, 5]` // January 5, 2000 at 1pm
 | title         | String. Title of event. | `'Code review'`
 | description   | String. Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
 | location      | String. Intended venue | `Mountain Sun Pub and Brewery`.
@@ -108,9 +108,13 @@ Node-style callback that returns an error or formatted ical string
 
 ```
 function(error, success) {
-  
+  if (error) { /* handle error */ }
+
+  return success
 }
 ```
+
+## References
 
 - [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
 - [iCalendar Validator](http://icalendar.org/validator.html#results)
