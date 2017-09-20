@@ -5,7 +5,6 @@ import {
 } from './utils'
 
 const defaults = {
-  isICSobject: true,
   title: 'Untitled event',
   productId: 'adamgibbons/ics',
   uid: uuidv1(),
