@@ -83,21 +83,23 @@ Returns an iCal-compliant text string.
 
 #### `attributes`
 
-Optional. Object literal attributes of the event. Accepts the following properties:
+Object literal containing event information.
+Only the `start` property is required.
+The following properties are accepted:
 
-| Property      | Description   | Default  |
+| Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | ISO 8601 date (`yyyymmdd`) or datetime (`yyyymmddThhmm`) string. | Today (as ISO 8601 date string)
-| end           | Event end date/time string. Must match `start` ISO 8601 value type. | If `start` value is date, next day; if value is datetime, same value as `start`.
-| title         | String. Title of event.
-| description   | String. Description of event.
-| location      | String. Intended venue, e.g. `Room 101`.
-| geo           | Object literal. Geographic coordinates (lat/lon) as floats, e.g. `{lat: 38.9072, lon: 77.0369}`.
-| url           | String. URL associated with event.
-| status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled`.
-| attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
-| categories    | Array of string values.
-| alarms        | Array of object literals, e.g. `{ action: 'DISPLAY', trigger: '-PT30M' }`.
+| start         | Array of numbers representing time at which event starst. Array has form: `[year, month, date, hours, minutes, seconds]` | `[2000, 0, 5, 10, 0]` // January 5, 2000 at 10am in the server's timezone
+| end           | Time at which event ends | `[2000, 0, 5, 13, 5]` // January 5, 2000 at 1pm in the server's timezone
+| title         | String. Title of event. | `'Code review'`
+| description   | String. Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
+| location      | String. Intended venue | `Mountain Sun Pub and Brewery`.
+| geo           | Object literal. Geographic coordinates (lat/lon) as numbers | `{ lat: 38.9072, lon: 77.0369 }`
+| url           | URL associated with event | `'http://www.mountainsunpub.com/'`
+| status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled` | `confirmed`
+| attendees     | Array of object literals | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
+| categories    | Array of string | `['hacknight', 'stout month']`
+| alarms        | Array of object literals | `{ action: 'DISPLAY', trigger: '-PT30M' }`
 
 #### `options`
 
