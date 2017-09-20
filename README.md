@@ -35,49 +35,50 @@ ics.createEvent({
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ],
   categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO']
+}, (error, result) => {
+
+  console.log(result)
+
+  //  BEGIN:VCALENDAR
+  //  VERSION:2.0
+  //  CALSCALE:GREGORIAN
+  //  PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator
+  //  BEGIN:VEVENT
+  //  UID:2073c980-9545-11e6-99f9-791bff9883ed
+  //  DTSTAMP:20161018T151121Z
+  //  DTSTART:20160530T065000
+  //  DTEND:20160530T150000
+  //  SUMMARY:Bolder Boulder
+  //  DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
+  //  LOCATION:Folsom Field, University of Colorado (finish line)
+  //  URL:http://www.bolderboulder.com/
+  //  STATUS:confirmed
+  //  GEO:40.0095;105.2669
+  //  ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
+  //  ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
+  //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
+  //  BEGIN:VALARM
+  //  ACTION:DISPLAY
+  //  TRIGGER:-PT24H
+  //  DESCRIPTION:Reminder
+  //  REPEAT:1
+  //  DURATION:PT15M
+  //  END:VALARM
+  //  BEGIN:VALARM
+  //  ACTION:AUDIO
+  //  TRIGGER:-PT30M
+  //  END:VALARM
+  //  END:VEVENT
+  //  END:VCALENDAR
+
+
+
 })
-```
-
-The above snippet returns the following string:
-
-```
-BEGIN:VCALENDAR
-VERSION:2.0
-CALSCALE:GREGORIAN
-PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator
-BEGIN:VEVENT
-UID:2073c980-9545-11e6-99f9-791bff9883ed
-DTSTAMP:20161018T151121Z
-DTSTART:20160530T065000
-DTEND:20160530T150000
-SUMMARY:Bolder Boulder
-DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
-LOCATION:Folsom Field, University of Colorado (finish line)
-URL:http://www.bolderboulder.com/
-STATUS:confirmed
-GEO:40.0095;105.2669
-ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
-ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
-CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-BEGIN:VALARM
-ACTION:DISPLAY
-TRIGGER:-PT24H
-DESCRIPTION:Reminder
-REPEAT:1
-DURATION:PT15M
-END:VALARM
-BEGIN:VALARM
-ACTION:AUDIO
-TRIGGER:-PT30M
-END:VALARM
-END:VEVENT
-END:VCALENDAR
-
 ```
 
 ## API
 
-### `createEvent(attributes[, options])`
+### `createEvent(attributes, cb)`
 
 Returns an iCal-compliant text string.
 
@@ -101,7 +102,15 @@ The following properties are accepted:
 | categories    | Array of string | `['hacknight', 'stout month']`
 | alarms        | Array of object literals | `{ action: 'DISPLAY', trigger: '-PT30M' }`
 
-#### `options`
+#### `cb`
+
+Node-style callback that returns an error or formatted ical string
+
+```
+function(error, success) {
+  
+}
+```
 
 - [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
 - [iCalendar Validator](http://icalendar.org/validator.html#results)
