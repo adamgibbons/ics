@@ -64,7 +64,9 @@ export default function formatEvent (attributes = {}) {
       })
     }
     if (alarms) {
-      alarms.map(alarm => icsFormat += setAlarm(alarm))
+      alarms.map(function (alarm) {
+        icsFormat += setAlarm(alarm)
+      })
     }
     icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
