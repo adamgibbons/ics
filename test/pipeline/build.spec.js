@@ -156,7 +156,6 @@ describe('pipeline.build properties', () => {
           description: 'Breakfast meeting with executive\nteam.'
         }]
       })
-      console.log(event)
       expect(event.alarms).to.be.an('array')
     })
   })

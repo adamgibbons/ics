@@ -80,8 +80,6 @@ describe('pipeline.formatEvent', () => {
       attach: 'ftp://example.com/pub/sounds/bell-01.aud'
     }]})
 
-    console.log(formattedEvent)
-
     expect(formattedEvent).to.contain('BEGIN:VALARM')
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T083000Z')
     expect(formattedEvent).to.contain('REPEAT:4')
