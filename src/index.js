@@ -8,7 +8,7 @@ import {
 export function createEvent (attributes, cb) {
   
   if (!cb) {
-    new Error('callback argument is required')
+    Error('callback argument is required')
   }
 
   const { error, value } = validateEvent(buildEvent(attributes))
