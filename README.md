@@ -70,9 +70,25 @@ ics.createEvent({
   //  END:VALARM
   //  END:VEVENT
   //  END:VCALENDAR
+})
+```
 
+Generate an iCalendar file:
+```
+import { writeFileSync } from 'fs'
+import ics from 'ics'
 
+ics.createEvent({
+  title: 'Bolder Boulder',
+  description: 'Annual 10-kilometer run in Boulder, Colorado',
+  start: [2018, 4, 30, 6, 30],
+  end: [2018, 4, 30, 15, 0]
+}, (error, result) => {
+  if (error) {
+    console.log(error)
+  }
 
+  fs.writeFileSync('my-event.ics', result)
 })
 ```
 
@@ -109,8 +125,6 @@ Node-style callback that returns an error or formatted ical string
 ```
 function(error, success) {
   if (error) { /* handle error */ }
-
-  return success
 }
 ```
 
