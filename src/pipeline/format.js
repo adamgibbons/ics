@@ -59,7 +59,9 @@ export default function formatEvent (attributes = {}) {
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
     icsFormat += organizer ? `ORGANIZER;${setContact(organizer)}\r\n` : ''
     if (attendees) {
-      attendees.map(attendee => icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`)
+      attendees.map(function (attendee) {
+        icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`
+      })
     }
     if (alarms) {
       alarms.map(alarm => icsFormat += setAlarm(alarm))
