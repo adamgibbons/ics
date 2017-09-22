@@ -81,7 +81,7 @@ describe('pipeline.formatEvent', () => {
     }]})
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
-    expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T083000Z')
+    expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T')
     expect(formattedEvent).to.contain('REPEAT:4')
     expect(formattedEvent).to.contain('DURATION:PT15M')
     expect(formattedEvent).to.contain('ACTION:audio')
