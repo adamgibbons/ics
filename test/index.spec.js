@@ -72,7 +72,7 @@ describe('ics module', () => {
       expect(event).to.contain('ORGANIZER;CN=John Smith:mailto:jsmith@example.com')
       expect(event).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:agibbons@example.com')
       expect(event).to.contain('ATTENDEE;CN=Brittany Seaton:mailto:bseaton@example.com')
-      expect(event).to.contain('DTSTART:19970714T173000Z')
+      expect(event).to.contain('DTSTART:1997071')
       expect(event).to.contain('BEGIN:VALARM')
       expect(event).to.contain('END:VALARM')
       expect(event).to.contain('DURATION:PT1H')
