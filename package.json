@@ -4,7 +4,8 @@
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --watch --recursive",
+    "start": "mocha --compilers js:babel-core/register --watch --recursive",
+    "test": "mocha --compilers js:babel-core/register --recursive",
     "build": "gulp build"
   },
   "repository": {
