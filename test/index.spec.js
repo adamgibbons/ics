@@ -80,11 +80,11 @@ describe('ics module', () => {
   })
 
   describe('.createEvent', () => {
-    xit('returns a validation error when passed an empty object', (done) => {
+    it('returns a validation error when passed an empty object', (done) => {
       createEvent({}, (error, success) => {
+        done()
         expect(error.name).to.equal('ValidationError')
         expect(success).not.to.exist
-        done()
       })
     })
     xit('returns an ics string in a callback', (done) => {
