@@ -131,6 +131,23 @@ function(error, success) {
 }
 ```
 
+## Develop
+
+Run mocha tests and watch for changes:
+```
+npm start
+```
+
+Run tests once and exit:
+```
+npm test
+```
+
+Build the project, compiling all ES6 files within the `src` directory into vanilla JavaScript in the `dist` directory.
+```
+npm run build
+```
+
 ## References
 
 - [RFC 5545: Internet Calendaring and Scheduling Core Object Specification (iCalendar)](http://tools.ietf.org/html/rfc5545)
