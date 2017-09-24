@@ -116,7 +116,8 @@ The following properties are accepted:
 | geolocation   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `tentative`, `confirmed`, or `cancelled` | `confirmed`
-| attendees     | Persons invited to the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
+| organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
+| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com'}, { name: 'Bo', email: 'bo@bar.biz' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: '-PT30M' }`
 
