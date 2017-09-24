@@ -73,7 +73,7 @@ ics.createEvent({
 })
 ```
 
-Generate an iCalendar file:
+Create an iCalendar file:
 ```
 import { writeFileSync } from 'fs'
 import ics from 'ics'
@@ -106,17 +106,19 @@ The following properties are accepted:
 
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | Array of numbers representing time at which event starts _in the server's timezone_. Array has form: `[year, month, date, hours, minutes, seconds]` | `[2000, 0, 5, 10, 0]` // January 5, 2000 at 10am
-| end           | Time at which event ends | `[2000, 0, 5, 13, 5]` // January 5, 2000 at 1pm
-| title         | String. Title of event. | `'Code review'`
-| description   | String. Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
-| location      | String. Intended venue | `Mountain Sun Pub and Brewery`.
-| geo           | Object literal. Geographic coordinates (lat/lon) as numbers | `{ lat: 38.9072, lon: 77.0369 }`
+| start         | Required. Array of numbers representing time at which event starts _in the server's timezone_. Array has form: `[year, month, date, hours, minutes, seconds]` | `[2000, 0, 5, 10, 0]` (January 5, 2000 at 10am)
+| startType     | 
+| end           | Time at which event ends. Either `end` or `duration` is required, but **not** both. | `[2000, 0, 5, 13, 5]` (January 5, 2000 at 1pm)
+| duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` Either `end` or `duration` is required, but **not** both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
+| title         | Title of event. | `'Code review'`
+| description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
+| location      | Intended venue | `Mountain Sun Pub and Brewery`.
+| geolocation   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
-| status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled` | `confirmed`
-| attendees     | Array of object literals | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
-| categories    | Array of string | `['hacknight', 'stout month']`
-| alarms        | Array of object literals | `{ action: 'DISPLAY', trigger: '-PT30M' }`
+| status        | Three statuses are allowed: `tentative`, `confirmed`, or `cancelled` | `confirmed`
+| attendees     | Persons invited to the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
+| categories    | Categories associated with the event | `['hacknight', 'stout month']`
+| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: '-PT30M' }`
 
 #### `cb`
 
