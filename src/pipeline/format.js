@@ -31,7 +31,7 @@ export default function formatEvent (attributes = {}) {
     end,
     description,
     url,
-    geolocation,
+    geo,
     location,
     status,
     categories,
@@ -53,7 +53,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += end ? `DTEND:${end}\r\n` : ''
     icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
-    icsFormat += geolocation ? `GEO:${setGeolocation(geolocation)}\r\n` : ''
+    icsFormat += geo ? `GEO:${setGeolocation(geo)}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''

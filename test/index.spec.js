@@ -27,7 +27,7 @@ describe('ics module', () => {
         description: 'Annual Memorial Day 10k Race in Boulder, Colorado',
         url: 'http://bb10k.bolderboulder.com/',
         location: 'Folsom Field, University of Colorado at Boulder',
-        geolocation: {
+        geo: {
           lat: 40.0095,
           lon: -105.2669
         },

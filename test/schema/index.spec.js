@@ -48,27 +48,27 @@ describe('.validateEvent', () => {
         url: 'abc'
       }).value.url).to.exist
     })
-    it('geolocation', () => {
+    it('geo', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [],
-        geolocation: 'abc'
-      }).error.details.some(p => p.message === '"geolocation" must be an object')).to.be.true
+        geo: 'abc'
+      }).error.details.some(p => p.message === '"geo" must be an object')).to.be.true
 
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [],
-        geolocation: { lat: 'thing', lon: 32.1 },
-      }).error.details.some(p => p.path === 'geolocation.lat')).to.be.true
+        geo: { lat: 'thing', lon: 32.1 },
+      }).error.details.some(p => p.path === 'geo.lat')).to.be.true
 
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [],
-        geolocation: { lat: 13.23, lon: 32.1 },
-      }).value.geolocation).to.exist
+        geo: { lat: 13.23, lon: 32.1 },
+      }).value.geo).to.exist
     })
     it('location', () => {
       const { details } = validateEvent({

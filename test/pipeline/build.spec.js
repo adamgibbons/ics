@@ -80,14 +80,14 @@ describe('pipeline.build properties', () => {
       expect(event.url).to.equal('http://www.google.com')
     })
   })
-  describe('geolocation', () => {
+  describe('geo', () => {
     it('removes a falsey value', () => {
       const event = buildEvent()
-      expect(event.geolocation).not.to.exist
+      expect(event.geo).not.to.exist
     })
     it('sets a url', () => {
-      const event = buildEvent({ geolocation: {lat: 1, lon: 2} })
-      expect(event.geolocation).to.deep.equal({lat: 1, lon: 2})
+      const event = buildEvent({ geo: {lat: 1, lon: 2} })
+      expect(event.geo).to.deep.equal({lat: 1, lon: 2})
     })
   })
   describe('location', () => {

@@ -34,8 +34,8 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('URL:http://www.example.com/')
   })
-  it('writes a geolocation', () => {
-    const event = buildEvent({ geolocation: { lat: 1.234, lon: -9.876 } })
+  it('writes a geo', () => {
+    const event = buildEvent({ geo: { lat: 1.234, lon: -9.876 } })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('GEO:1.234;-9.876')
   })

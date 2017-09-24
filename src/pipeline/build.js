@@ -12,7 +12,7 @@ export default function buildEvent (attributes = {}) {
     end,
     description,
     url,
-    geolocation,
+    geo,
     location,
     status,
     categories,

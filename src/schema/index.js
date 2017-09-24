@@ -39,7 +39,7 @@ const schema = Joi.object().keys({
   end: dateTimeSchema,
   description: Joi.string(),
   url: Joi.string().uri(),
-  geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
+  geo: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
   location: Joi.string(),
   status: Joi.string().regex(/tentative|cancelled|confirmed/),
   categories: Joi.array().items(Joi.string()),
