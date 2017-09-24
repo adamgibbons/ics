@@ -106,10 +106,10 @@ The following properties are accepted:
 
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | Required. Array of numbers representing time at which event starts _in the server's timezone_. Array has form: `[year, month, date, hours, minutes, seconds]` | `[2000, 0, 5, 10, 0]` (January 5, 2000 at 10am)
+| start         | **Required**. Date and time in your timezone at which the event begins. | `[2000, 0, 5, 10, 0]` (January 5, 2000 at 10am in your timezone)
 | startType     | 
-| end           | Time at which event ends. Either `end` or `duration` is required, but **not** both. | `[2000, 0, 5, 13, 5]` (January 5, 2000 at 1pm)
-| duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` Either `end` or `duration` is required, but **not** both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
+| end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 0, 5, 13, 5]` (January 5, 2000 at 1pm)
+| duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
 | title         | Title of event. | `'Code review'`
 | description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
 | location      | Intended venue | `Mountain Sun Pub and Brewery`.
