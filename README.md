@@ -70,17 +70,16 @@ import { writeFileSync } from 'fs'
 import ics from 'ics'
 
 ics.createEvent({
-  title: 'Bolder Boulder',
-  description: 'Annual 10-kilometer run in Boulder, Colorado',
-  start: [2018, 4, 30, 6, 30],
-  end: [2018, 4, 30, 15, 0]
-}, (error, result) => {
-
+  title: 'Dinner',
+  description: 'Nightly thing I do',
+  start: [2018, 1, 15, 6, 30],
+  duration: { minutes: 50 }
+}, (error, value) => {
   if (error) {
     console.log(error)
   }
 
-  fs.writeFileSync('my-event.ics', result)
+  fs.writeFileSync('event.ics', value)
 })
 ```
 
@@ -127,12 +126,6 @@ function (err, value) {
   }
 
   console.log(value) // iCal-compliant text string
-}
-```
-
-```
-function(error, success) {
-  if (error) { /* handle error */ }
 }
 ```
 
