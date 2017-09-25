@@ -36,8 +36,9 @@ const event = {
 }
 
 ics.createEvent(event, (error, value) => {
-  console.log(error) 
-  // null
+  if (err) {
+    console.log(err)
+  }
 
   console.log(value)
   //  BEGIN:VCALENDAR
@@ -88,6 +89,8 @@ ics.createEvent({
 ### `createEvent(attributes, [callback])`
 
 Returns an iCal-compliant text string.
+If callback is provided, returns a Node-style callback.
+If callback is not provided, returns an object with error and value properties.
 
 #### `attributes`
 
@@ -119,22 +122,13 @@ Node-style callback.
 ```
 function (err, value) {
   if (err) {
-    // if iCal generation fails, err is an object containing error details
-    // if iCal generation success, err is null
+    // if iCal generation fails, err is an object containing the reason
+    // if iCal generation succeeds, err is null
   }
 
-  console.log(value) // formatted iCal string
+  console.log(value) // iCal-compliant text string
 }
 ```
-
-
-
-callback - the optional synchronous callback method using the signature function(err, value) where:
-err - if validation failed, the error reason, otherwise null.
-value - the validated value with any type conversions and other modifiers applied (the input is left unchanged). value can be incomplete if validation failed and abortEarly is true. If callback is not provided, then returns an object with error and value properties.
-
-
-
 
 ```
 function(error, success) {
