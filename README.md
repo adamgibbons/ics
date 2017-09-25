@@ -13,63 +13,53 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ## Example Usage
 
-Generate an iCalendar event:
+Create an iCalendar event:
 
 ```javascript
 import ics from 'ics'
 
-ics.createEvent({
-  start: [2018, 4, 30, 6, 30], //  May 30, 2018 at 6:30am (footnote1)
-  end: [2018, 4, 30, 15, 0], // May 30, 2018 at 3:00pm
+const event = {
+  start: [2018, 5, 30, 6, 30],
+  duration: [{ hours: 6, minutes: 30 }],
   title: 'Bolder Boulder',
   description: 'Annual 10-kilometer run in Boulder, Colorado',
   location: 'Folsom Field, University of Colorado (finish line)',
   url: 'http://www.bolderboulder.com/',
-  status: 'confirmed',
-  geo: {
-    lat: 40.0095,
-    lon: 105.2669
-  },
+  geolocation: { lat: 40.0095, lon: 105.2669 },
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
+  status: 'CONFIRMED',
+  organizer: [{ name: 'Admin', email: 'Race@BolderBOULDER.com' }],
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
-  ],
-  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO']
-}, (error, result) => {
+  ]
+}
 
-  console.log(result)
+ics.createEvent(event, (error, value) => {
+  console.log(error) 
+  // null
 
+  console.log(value)
   //  BEGIN:VCALENDAR
   //  VERSION:2.0
   //  CALSCALE:GREGORIAN
-  //  PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator
+  //  PRODID:adamgibbons/ics
   //  BEGIN:VEVENT
-  //  UID:2073c980-9545-11e6-99f9-791bff9883ed
-  //  DTSTAMP:20161018T151121Z
-  //  DTSTART:20160530T065000
-  //  DTEND:20160530T150000
+  //  UID:4c897030-a1a9-11e7-8f07-f32dee16cf9b
   //  SUMMARY:Bolder Boulder
+  //  DTSTAMP:20170925T102300Z
+  //  DTSTART:20180530T123000Z
   //  DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
-  //  LOCATION:Folsom Field, University of Colorado (finish line)
   //  URL:http://www.bolderboulder.com/
-  //  STATUS:confirmed
-  //  GEO:40.0095;105.2669
+  //  LOCATION:Folsom Field, University of Colorado (finish line)
+  //  STATUS:CONFIRMED
+  //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
   //  ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
   //  ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
-  //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-  //  BEGIN:VALARM
-  //  ACTION:DISPLAY
-  //  TRIGGER:-PT24H
-  //  DESCRIPTION:Reminder
-  //  REPEAT:1
-  //  DURATION:PT15M
-  //  END:VALARM
-  //  BEGIN:VALARM
-  //  ACTION:AUDIO
-  //  TRIGGER:-PT30M
-  //  END:VALARM
+  //  DURATION:PT1H
   //  END:VEVENT
   //  END:VCALENDAR
+
 })
 ```
 
@@ -84,6 +74,7 @@ ics.createEvent({
   start: [2018, 4, 30, 6, 30],
   end: [2018, 4, 30, 15, 0]
 }, (error, result) => {
+
   if (error) {
     console.log(error)
   }
@@ -94,7 +85,7 @@ ics.createEvent({
 
 ## API
 
-### `createEvent(attributes, cb)`
+### `createEvent(attributes, [callback])`
 
 Returns an iCal-compliant text string.
 
@@ -106,9 +97,8 @@ The following properties are accepted:
 
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | **Required**. Date and time in your timezone at which the event begins. | `[2000, 0, 5, 10, 0]` (January 5, 2000 at 10am in your timezone)
-| startType     | 
-| end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 0, 5, 13, 5]` (January 5, 2000 at 1pm)
+| start         | **Required**. Date and time in your timezone at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000 at 10am in your timezone)
+| end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm)
 | duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
 | title         | Title of event. | `'Code review'`
 | description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
@@ -121,9 +111,30 @@ The following properties are accepted:
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: '-PT30M' }`
 
-#### `cb`
+#### `callback`
 
-Node-style callback that returns an error or formatted ical string
+Optional. 
+Node-style callback. 
+
+```
+function (err, value) {
+  if (err) {
+    // if iCal generation fails, err is an object containing error details
+    // if iCal generation success, err is null
+  }
+
+  console.log(value) // formatted iCal string
+}
+```
+
+
+
+callback - the optional synchronous callback method using the signature function(err, value) where:
+err - if validation failed, the error reason, otherwise null.
+value - the validated value with any type conversions and other modifiers applied (the input is left unchanged). value can be incomplete if validation failed and abortEarly is true. If callback is not provided, then returns an object with error and value properties.
+
+
+
 
 ```
 function(error, success) {
