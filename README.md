@@ -13,7 +13,7 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ## Example Usage
 
-Create an iCalendar event:
+1. Create an iCalendar event:
 
 ```javascript
 import ics from 'ics'
@@ -64,8 +64,8 @@ ics.createEvent(event, (error, value) => {
 })
 ```
 
-Create an iCalendar file:
-```
+Write an iCalendar file:
+```javascript
 import { writeFileSync } from 'fs'
 import ics from 'ics'
 
@@ -79,7 +79,7 @@ ics.createEvent({
     console.log(error)
   }
 
-  fs.writeFileSync('event.ics', value)
+  fs.writeFileSync(`${__dirname}/event.ics`, value)
 })
 ```
 
