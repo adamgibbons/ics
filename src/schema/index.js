@@ -48,7 +48,7 @@ const schema = Joi.object().keys({
   url: Joi.string().uri(),
   geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
   location: Joi.string(),
-  status: Joi.string().regex(/tentative|cancelled|confirmed/),
+  status: Joi.string().regex(/TENTATIVE|CANCELLED|CONFIRMED/),
   categories: Joi.array().items(Joi.string()),
   organizer: contactSchema,
   attendees: Joi.array().items(contactSchema),
