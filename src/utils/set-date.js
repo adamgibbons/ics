@@ -3,12 +3,13 @@ import {
   setDateWithUTCtime
 } from './index'
 
-export default function setDate(args, type) {
-  if (!type) {
-    return setDateWithUTCtime(args)
+export default function setDate(args = [], type = 'utc') {
+  const [year, month, date, hours, minutes, seconds] = args
+  
+  if (type === 'local') {
+    return setDateWithLocalTime([year, month, date, hours, minutes, seconds || 0])
   }
 
-  if (type === 'local') {
-    return setDateWithLocalTime(args)
-  }
+  // type === 'utc'
+  return setDateWithUTCtime([year, month, date, hours, minutes, seconds || 0])
 }

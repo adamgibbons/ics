@@ -34,15 +34,16 @@ describe('pipeline.build properties', () => {
   })  
   describe('start', () => {
     xit('defaults to UTC date-time format', () => {
-      const event = buildEvent({ start: [2017, 0, 19, 1, 30] })
+      const event = buildEvent({ start: [2017, 1, 19, 1, 30] })
       expect(event.start).to.equal('20170119T083000Z')
       expect(event.title).to.equal('Untitled event')
     })
     xit('sets local time when specified', () => {
       const event = buildEvent({
-        start: [2017, 0, 19, 1, 30],
+        start: [2017, 1, 19, 1, 30],
         startType: 'local'
       })
+      console.log(event)
       expect(event.start).to.equal('20170119T013000')
     })
   })

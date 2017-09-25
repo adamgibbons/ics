@@ -12,17 +12,13 @@
 // 
 // 19980118T230000
 // 
-// @args [year, month, day, hour, minute]
-// note: month is zero-indexed
-// note: hour is military time
-// 
 
 import moment from 'moment'
 
-export default function setDateWithLocalTime(args) {
-  if (args) {
-    const [year, month, day, hour, minute ] = args
-    const formattedDate = moment(args).format('YYYYMMDDTHHmm00')
+export default function setDateWithLocalTime(args = []) {
+  if (args.length > 0) {
+    const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
+    const formattedDate = moment([year, month - 1, date, hours, minutes, seconds]).format('YYYYMMDDTHHmm00')
     return formattedDate
   }
 

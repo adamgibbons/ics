@@ -26,7 +26,7 @@ describe('utils.setAlarm', () => {
     expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
     expect(alarm).to.contain('DESCRIPTION:Foo')
     expect(alarm).to.contain('SUMMARY:Bar baz')
-    expect(alarm).to.contain('TRIGGER;VALUE=DATE-TIME:19970317T')
+    expect(alarm).to.contain('TRIGGER;VALUE=DATE-TIME:19970217T')
     expect(alarm).to.contain('END:VALARM')
   })
 })

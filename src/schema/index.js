@@ -1,6 +1,13 @@
 import Joi from 'joi'
 
-const dateTimeSchema = Joi.array()
+const dateTimeSchema = Joi.array().min(5).max(7).ordered(
+  Joi.number().integer(),
+  Joi.number().integer().min(1).max(12),
+  Joi.number().integer().min(1).max(31),
+  Joi.number().integer().min(0).max(23),
+  Joi.number().integer().min(0).max(60),
+  Joi.number().integer().min(0).max(60)
+)
 
 const durationSchema = Joi.object().keys({
   weeks: Joi.number(),
@@ -39,7 +46,7 @@ const schema = Joi.object().keys({
   end: dateTimeSchema,
   description: Joi.string(),
   url: Joi.string().uri(),
-  geo: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
+  geolocation: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
   location: Joi.string(),
   status: Joi.string().regex(/tentative|cancelled|confirmed/),
   categories: Joi.array().items(Joi.string()),
