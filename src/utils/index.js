@@ -4,6 +4,7 @@ import setDateWithLocalTime from './set-date-with-local-time'
 import setGeolocation from './set-geolocation'
 import setContact from './set-contact'
 import setAlarm from './set-alarm'
+import formatDuration from './format-duration'
 
 export {
   setDate,
@@ -11,5 +12,6 @@ export {
   setDateWithLocalTime,
   setGeolocation,
   setContact,
-  setAlarm
+  setAlarm,
+  formatDuration
 }
