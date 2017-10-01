@@ -46,25 +46,32 @@ ics.createEvent(event, (error, value) => {
   //  CALSCALE:GREGORIAN
   //  PRODID:adamgibbons/ics
   //  BEGIN:VEVENT
-  //  UID:4c897030-a1a9-11e7-8f07-f32dee16cf9b
+  //  UID:070bbdd0-a6de-11e7-9552-4faa901a846b
   //  SUMMARY:Bolder Boulder
-  //  DTSTAMP:20170925T102300Z
-  //  DTSTART:20180530T123000Z
+  //  DTSTAMP:20171002T012300Z
+  //  DTSTART:20180530T125000Z
   //  DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
   //  URL:http://www.bolderboulder.com/
+  //  GEO:40.0095;105.2669
   //  LOCATION:Folsom Field, University of Colorado (finish line)
   //  STATUS:CONFIRMED
   //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
   //  ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
   //  ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
-  //  DURATION:PT1H
+  //  BEGIN:VALARM
+  //  ACTION:display
+  //  DESCRIPTION:Reminder
+  //  TRIGGER;VALUE=DATE-TIME:20180530T020000Z
+  //  END:VALARM
+  //  DURATION:PT5H
   //  END:VEVENT
   //  END:VCALENDAR
+
 
 })
 ```
 
-Write an iCalendar file:
+2. Write an iCalendar file:
 ```javascript
 import { writeFileSync } from 'fs'
 import ics from 'ics'
@@ -99,7 +106,7 @@ The following properties are accepted:
 
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | **Required**. Date and time in your timezone at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000 at 10am in your timezone)
+| start         | **Required**. Date and time at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000 in my timezone)
 | end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm)
 | duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
 | title         | Title of event. | `'Code review'`
@@ -107,18 +114,18 @@ The following properties are accepted:
 | location      | Intended venue | `Mountain Sun Pub and Brewery`.
 | geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
-| status        | Three statuses are allowed: `tentative`, `confirmed`, or `cancelled` | `confirmed`
+| status        | Three statuses are allowed: `TENTATIVE, `CONFIRMED`, or `CANCELLED` | `CONFIRMED`
 | organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
 | attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com'}, { name: 'Bo', email: 'bo@bar.biz' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
-| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: '-PT30M' }`
+| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }`
 
 #### `callback`
 
 Optional. 
 Node-style callback. 
 
-```
+```javascript
 function (err, value) {
   if (err) {
     // if iCal generation fails, err is an object containing the reason
