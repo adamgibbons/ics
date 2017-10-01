@@ -53,15 +53,15 @@ describe('.validateEvent', () => {
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        geolocation: 'abc'
-      }).error.details.some(p => p.message === '"geolocation" must be an object')).to.be.true
+        geo: 'abc'
+      }).error.details.some(p => p.message === '"geo" must be an object')).to.be.true
 
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        geolocation: { lat: 'thing', lon: 32.1 },
-      }).error.details.some(p => p.path === 'geolocation.lat')).to.be.true
+        geo: { lat: 'thing', lon: 32.1 },
+      }).error.details.some(p => p.path === 'geo.lat')).to.be.true
 
       expect(validateEvent({
         title: 'foo',

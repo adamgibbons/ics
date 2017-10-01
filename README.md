@@ -25,7 +25,7 @@ const event = {
   description: 'Annual 10-kilometer run in Boulder, Colorado',
   location: 'Folsom Field, University of Colorado (finish line)',
   url: 'http://www.bolderboulder.com/',
-  geolocation: { lat: 40.0095, lon: 105.2669 },
+  geo: { lat: 40.0095, lon: 105.2669 },
   categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
   status: 'CONFIRMED',
   organizer: [{ name: 'Admin', email: 'Race@BolderBOULDER.com' }],
@@ -105,7 +105,7 @@ The following properties are accepted:
 | title         | Title of event. | `'Code review'`
 | description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
 | location      | Intended venue | `Mountain Sun Pub and Brewery`.
-| geolocation   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
+| geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `tentative`, `confirmed`, or `cancelled` | `confirmed`
 | organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
