@@ -32,33 +32,20 @@ describe('pipeline.build properties', () => {
       expect(event.uid).to.equal('myuid')
     })
   })  
-  describe('start', () => {
-    xit('defaults to UTC date-time format', () => {
-      const event = buildEvent({ start: [2017, 1, 19, 1, 30] })
-      expect(event.start).to.equal('20170119T083000Z')
-      expect(event.title).to.equal('Untitled event')
-    })
-    xit('sets local time when specified', () => {
+  describe('start and end', () => {
+    it('defaults to UTC date-time format', () => {
       const event = buildEvent({
         start: [2017, 1, 19, 1, 30],
-        startType: 'local'
+        end: [2017, 1, 19, 12, 0]
       })
-      console.log(event)
-      expect(event.start).to.equal('20170119T013000')
+      expect(event.start).to.be.an('array')
+      expect(event.end).to.be.an('array')
     })
   })
   describe('end', () => {
-    xit('defaults to UTC date-time format', () => {
-      const event = buildEvent({ end: [2017, 0, 19, 22, 0] })
-      expect(event.end).to.equal('20170120T050000Z')
-      expect(event.title).to.equal('Untitled event')
-    })
-    xit('sets local time when local start time specified', () => {
-      const event = buildEvent({
-        end: [2017, 0, 19, 1, 30],
-        startType: 'local'
-      })
-      expect(event.end).to.equal('20170119T013000')
+    it('defaults to UTC date-time format', () => {
+      const event = buildEvent({ start: [2017, 1, 19, 1, 30] })
+      expect(event.start).to.be.an('array')
     })
   })
   describe('description', () => {

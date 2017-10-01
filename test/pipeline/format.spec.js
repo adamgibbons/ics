@@ -5,7 +5,7 @@ import {
 } from '../../src/pipeline'
 
 describe('pipeline.formatEvent', () => {
-  xit('writes default values when no attributes passed', () => {
+  it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
@@ -15,6 +15,7 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
     expect(formattedEvent).to.contain('DTSTART:')
+    expect(formattedEvent).to.contain('DURATION:')
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
     expect(formattedEvent).to.contain('END:VCALENDAR')
@@ -23,6 +24,16 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ title: 'foo bar' })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('SUMMARY:foo bar')
+  })
+  it('writes a start date-time', () => {
+    const event = buildEvent({ start: [2017, 5, 15, 10, 0] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTSTART:2017051')
+  })
+  it('writes an end date-time', () => {
+    const event = buildEvent({ end: [2017, 5, 15, 11, 0] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTEND:2017051')
   })
   it('writes a description', () => {
     const event = buildEvent({ description: 'bar baz' })

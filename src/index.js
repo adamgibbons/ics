@@ -11,7 +11,7 @@ export function createEvent (attributes, cb) {
   }
 
   if (!cb) {
-    // No callback, so return a synchronous pattern
+    // No callback, so return error or value in an object
     const { error, value } = validateEvent(buildEvent(attributes))
 
     if (error) return { error, value }
