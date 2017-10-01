@@ -13,120 +13,138 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ## Example Usage
 
-Generate an iCalendar event:
+1. Create an iCalendar event:
 
 ```javascript
-var ICS = require('ics');
+import ics from 'ics'
 
-var ics = new ICS();
-
-ics.buildEvent({
-  uid: 'abc123', // (optional)
-  start: '2016-05-30 06:50',
-  end: '2016-05-30 15:00',
+const event = {
+  start: [2018, 5, 30, 6, 30],
+  duration: [{ hours: 6, minutes: 30 }],
   title: 'Bolder Boulder',
   description: 'Annual 10-kilometer run in Boulder, Colorado',
   location: 'Folsom Field, University of Colorado (finish line)',
   url: 'http://www.bolderboulder.com/',
-  status: 'confirmed',
   geo: { lat: 40.0095, lon: 105.2669 },
+  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
+  status: 'CONFIRMED',
+  organizer: [{ name: 'Admin', email: 'Race@BolderBOULDER.com' }],
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
-  ],
-  categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
-  alarms:[
-    { action: 'DISPLAY', trigger: '-PT24H', description: 'Reminder', repeat: true, duration: 'PT15M' },
-    { action: 'AUDIO', trigger: '-PT30M' }
   ]
-});
+}
 
+ics.createEvent(event, (error, value) => {
+  if (err) {
+    console.log(err)
+  }
+
+  console.log(value)
+  //  BEGIN:VCALENDAR
+  //  VERSION:2.0
+  //  CALSCALE:GREGORIAN
+  //  PRODID:adamgibbons/ics
+  //  BEGIN:VEVENT
+  //  UID:4c897030-a1a9-11e7-8f07-f32dee16cf9b
+  //  SUMMARY:Bolder Boulder
+  //  DTSTAMP:20170925T102300Z
+  //  DTSTART:20180530T123000Z
+  //  DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
+  //  URL:http://www.bolderboulder.com/
+  //  LOCATION:Folsom Field, University of Colorado (finish line)
+  //  STATUS:CONFIRMED
+  //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
+  //  ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
+  //  ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
+  //  DURATION:PT1H
+  //  END:VEVENT
+  //  END:VCALENDAR
+
+})
 ```
 
-The above snippet will return this:
+Write an iCalendar file:
+```javascript
+import { writeFileSync } from 'fs'
+import ics from 'ics'
 
-```
-BEGIN:VCALENDAR
-VERSION:2.0
-CALSCALE:GREGORIAN
-PRODID:-//Adam Gibbons//agibbons.com//ICS: iCalendar Generator
-BEGIN:VEVENT
-UID:2073c980-9545-11e6-99f9-791bff9883ed
-DTSTAMP:20161018T151121Z
-DTSTART:20160530T065000
-DTEND:20160530T150000
-SUMMARY:Bolder Boulder
-DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
-LOCATION:Folsom Field, University of Colorado (finish line)
-URL:http://www.bolderboulder.com/
-STATUS:confirmed
-GEO:40.0095;105.2669
-ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
-ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
-CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-BEGIN:VALARM
-ACTION:DISPLAY
-TRIGGER:-PT24H
-DESCRIPTION:Reminder
-REPEAT:1
-DURATION:PT15M
-END:VALARM
-BEGIN:VALARM
-ACTION:AUDIO
-TRIGGER:-PT30M
-END:VALARM
-END:VEVENT
-END:VCALENDAR
+ics.createEvent({
+  title: 'Dinner',
+  description: 'Nightly thing I do',
+  start: [2018, 1, 15, 6, 30],
+  duration: { minutes: 50 }
+}, (error, value) => {
+  if (error) {
+    console.log(error)
+  }
 
+  fs.writeFileSync(`${__dirname}/event.ics`, value)
+})
 ```
 
 ## API
 
-### `buildEvent(attributes)`
+### `createEvent(attributes, [callback])`
 
 Returns an iCal-compliant text string.
+If callback is provided, returns a Node-style callback.
+If callback is not provided, returns an object with error and value properties.
 
 #### `attributes`
 
-Optional. Object literal attributes of the event. Accepts the following properties:
+Object literal containing event information.
+Only the `start` property is required.
+The following properties are accepted:
 
-| Property      | Description   | Default  |
+| Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | ISO 8601 date (`yyyymmdd`) or datetime (`yyyymmddThhmm`) string. | Today (as ISO 8601 date string)
-| end           | Event end date/time string. Must match `start` ISO 8601 value type. | If `start` value is date, next day; if value is datetime, same value as `start`.
-| title         | String. Title of event.
-| description   | String. Description of event.
-| location      | String. Intended venue, e.g. `Room 101`.
-| geo           | Object literal. Geographic coordinates (lat/lon) as floats, e.g. `{lat: 38.9072, lon: 77.0369}`.
-| url           | String. URL associated with event.
-| status        | String. Must be one of: `tentative`, `confirmed`, or `cancelled`.
-| attendees     | Array of object literals, e.g. `{name: 'Foo', email: 'foo@example.com'}`.
-| categories    | Array of string values.
-| alarms        | Array of object literals, e.g. `{ action: 'DISPLAY', trigger: '-PT30M' }`.  For details on parameters, see the [spec](https://icalendar.org/iCalendar-RFC-5545/3-6-6-alarm-component.html).
+| start         | **Required**. Date and time in your timezone at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000 at 10am in your timezone)
+| end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm)
+| duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
+| title         | Title of event. | `'Code review'`
+| description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
+| location      | Intended venue | `Mountain Sun Pub and Brewery`.
+| geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
+| url           | URL associated with event | `'http://www.mountainsunpub.com/'`
+| status        | Three statuses are allowed: `tentative`, `confirmed`, or `cancelled` | `confirmed`
+| organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
+| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com'}, { name: 'Bo', email: 'bo@bar.biz' }]`
+| categories    | Categories associated with the event | `['hacknight', 'stout month']`
+| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: '-PT30M' }`
 
-### `createEvent(attributes[, options], cb)`
+#### `callback`
 
-Asynchronously writes an iCal file. Returns a callback with the stringified event.
+Optional. 
+Node-style callback. 
 
-#### `options`
-Optional. Object literal accepting the following properties:
+```
+function (err, value) {
+  if (err) {
+    // if iCal generation fails, err is an object containing the reason
+    // if iCal generation succeeds, err is null
+  }
 
-| Property      | Description   | Default  |
-| ------------- | ------------- | ----------
-| filepath      | Filename, relative path + filename, or absolute path + filename. | Absolute path to current working directory, plus `event.ics`. E.g. `/Users/gibber/my-project/event.ics`
+  console.log(value) // iCal-compliant text string
+}
+```
 
-`filepath` accepts relative or absolute paths. For example, these
-values resolve to `/Users/gibber/my-event.ics` when executed from `/Users/gibber`:
+## Develop
 
-- `my-event` 
-- `my-event.ics`
-- `/Users/gibber/my-event`
-- `/Users/gibber/my-event.ics`
+Run mocha tests and watch for changes:
+```
+npm start
+```
 
-...and these will resolve to `/Users/my-event.ics` when executed from `/Users/gibber`:
+Run tests once and exit:
+```
+npm test
+```
 
-- `../my-event`
-- `../my-event.ics`
+Build the project, compiling all ES6 files within the `src` directory into vanilla JavaScript in the `dist` directory.
+```
+npm run build
+```
 
 ## References
 
