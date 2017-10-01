@@ -6,7 +6,7 @@ function getUtcOffset () {
 
 }
 
-describe.only('utils.setDateWithUTCtime', () => {  
+describe('utils.setDateWithUTCtime', () => {  
   it('defaults to NOW in UTC date-time when no args passed', () => {
     const now = moment().utc().format('YYYYMMDDTHHmm00') + 'Z'
     expect(now).to.equal(setDateWithUTCtime())
