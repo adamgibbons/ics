@@ -13,6 +13,17 @@ describe('.validateEvent', () => {
       expect(error.details.some(p => p.message === '"start" is required')).to.be.true
     })
   })
+  describe('must have duration XOR end', () => {
+    it('duration and end are not allowed together', () => {
+      const { error, value } = validateEvent({
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        duration: { hours: 1 },
+        end: [2018, 12, 1, 11, 45]
+      })
+      expect(error).to.exist
+    })
+  })
   describe('may have one and only one occurance of', () => {
 
     it('description', () => {
@@ -168,21 +179,20 @@ describe('.validateEvent', () => {
     })
   })
   describe('may have one or more occurances of', () => {
-    describe('alarm component', () => {
-      it('must inlude action and trigger only once', () => {
-        const event = validateEvent({
-          uid: 'foo',
-          start: [2018, 12, 1, 10, 30],
-          alarms: [{
-            action: 'audio',
-            trigger: []
-          }]
-        })
-
-        expect(event.error).to.be.null
-        expect(event.value.alarms).to.be.an('array')
-        expect(event.value.alarms[0]).to.have.all.keys('action', 'trigger')
+    it('alarm component', () => {
+      const event = validateEvent({
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        duration: { hours: 1 },
+        alarms: [{
+          action: 'audio',
+          trigger: []
+        }]
       })
+
+      expect(event.error).to.be.null
+      expect(event.value.alarms).to.be.an('array')
+      expect(event.value.alarms[0]).to.have.all.keys('action', 'trigger')
     })
   })
 })

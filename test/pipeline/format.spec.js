@@ -15,7 +15,6 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
     expect(formattedEvent).to.contain('DTSTART:')
-    expect(formattedEvent).to.contain('DURATION:')
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
     expect(formattedEvent).to.contain('END:VCALENDAR')

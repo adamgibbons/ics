@@ -57,7 +57,7 @@ var schema = _joi2.default.object().keys({
   organizer: contactSchema,
   attendees: _joi2.default.array().items(contactSchema),
   alarms: _joi2.default.array().items(alarmSchema)
-});
+}).xor('end', 'duration');
 
 function validateEvent(candidate) {
   var _Joi$validate = _joi2.default.validate(candidate, schema),

@@ -14,22 +14,6 @@
 
 import moment from 'moment'
 
-const BASE = 60
-
-// function getOffset(args = []) {
-//   const [year, month, date, hhours, mminutes] = args
-//   const offset = moment([year, month, date, hhours, mminutes]).utcOffset()
-
-//   let hours = Math.floor(offset / BASE)
-//   let minutes = offset % BASE
-
-//   if (Math.abs(minutes) === 0) {
-//     minutes = 0
-//   }
-
-//   return { hours, minutes }
-// }
-
 export default function setDateWithUTCtime(args = []) {
   if (args.length > 0) {
     const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args

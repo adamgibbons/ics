@@ -54,6 +54,7 @@ const schema = Joi.object().keys({
   attendees: Joi.array().items(contactSchema),
   alarms: Joi.array().items(alarmSchema)
 })
+.xor('end', 'duration')
 
 export default function validateEvent(candidate) {
   const { error, value } = Joi.validate(candidate, schema)

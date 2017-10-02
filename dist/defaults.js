@@ -23,10 +23,7 @@ var defaults = {
   productId: 'adamgibbons/ics',
   uid: (0, _v2.default)(),
   timestamp: (0, _utils.setDateWithUTCtime)([now.get('year'), now.get('month') + 1, now.get('date'), now.get('hours'), now.get('minutes'), now.get('seconds')]),
-  start: (0, _utils.setDateWithUTCtime)(),
-  duration: {
-    hours: 1
-  }
+  start: (0, _utils.setDateWithUTCtime)()
 };
 
 exports.default = defaults;
