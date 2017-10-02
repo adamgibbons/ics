@@ -26,22 +26,6 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var BASE = 60;
-
-// function getOffset(args = []) {
-//   const [year, month, date, hhours, mminutes] = args
-//   const offset = moment([year, month, date, hhours, mminutes]).utcOffset()
-
-//   let hours = Math.floor(offset / BASE)
-//   let minutes = offset % BASE
-
-//   if (Math.abs(minutes) === 0) {
-//     minutes = 0
-//   }
-
-//   return { hours, minutes }
-// }
-
 function setDateWithUTCtime() {
   var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
