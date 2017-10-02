@@ -1,9 +1,6 @@
 import uuidv1 from 'uuid/v1'
 import moment from 'moment'
-import {
-  setDateWithUTCtime,
-  setDateWithLocalTime
-} from './utils'
+import { setDateWithUTCtime } from './utils'
 
 const now = moment().utc()
 
@@ -20,9 +17,6 @@ const defaults = {
     now.get('seconds')
   ]),
   start: setDateWithUTCtime(),
-  duration: {
-    hours: 1
-  }
 }
 
 export default defaults
