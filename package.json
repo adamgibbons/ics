@@ -23,7 +23,7 @@
     "events",
     "alarms"
   ],
-  "author": "Adam Gibbons <adam@agibbons.com>",
+  "author": "Adam Gibbons <adam@agibbons.com> (http://agibbons.com/)",
   "contributors": [
     "Green Pioneer <info@greenpioneersolutions.com>",
     "Reda <reeda.bx@gmail.com>",
@@ -54,5 +54,8 @@
     "joi": "^10.6.0",
     "moment": "^2.18.1",
     "uuid": "^3.1.0"
-  }
+  },
+  "files": [
+    "dist/"
+  ]
 }
