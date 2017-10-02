@@ -13,6 +13,17 @@ describe('.validateEvent', () => {
       expect(error.details.some(p => p.message === '"start" is required')).to.be.true
     })
   })
+  describe.only('must have duration XOR end', () => {
+    it('duration and end are not allowed together', () => {
+      const { error, value } = validateEvent({
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        duration: { hours: 1 },
+        end: [2018, 12, 1, 11, 45]
+      })
+      expect(error).to.exist
+    })
+  })
   describe('may have one and only one occurance of', () => {
 
     it('description', () => {
