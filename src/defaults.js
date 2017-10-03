@@ -16,7 +16,7 @@ const defaults = {
     now.get('minutes'),
     now.get('seconds')
   ]),
-  start: setDateWithUTCtime(),
+  start: setDateWithUTCtime()
 }
 
 export default defaults
