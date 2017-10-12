@@ -37,8 +37,8 @@ const event = {
 }
 
 ics.createEvent(event, (error, value) => {
-  if (err) {
-    console.log(err)
+  if (error) {
+    console.log(error)
   }
 
   console.log(value)
