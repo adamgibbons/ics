@@ -23,7 +23,8 @@ var durationSchema = _joi2.default.object().keys({
 
 var contactSchema = _joi2.default.object().keys({
   name: _joi2.default.string(),
-  email: _joi2.default.string().email()
+  email: _joi2.default.string().email(),
+  rsvp: _joi2.default.boolean()
 });
 
 var alarmSchema = _joi2.default.object().keys({
