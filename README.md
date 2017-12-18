@@ -18,6 +18,7 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ```javascript
 import ics from 'ics'
+// ics = require("ics");
 
 const event = {
   start: [2018, 5, 30, 6, 30],
@@ -31,7 +32,7 @@ const event = {
   status: 'CONFIRMED',
   organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
-    { name: 'Adam Gibbons', email: 'adam@example.com' },
+    { name: 'Adam Gibbons', email: 'adam@example.com', rsvp : true },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ]
 }
@@ -122,7 +123,7 @@ The following properties are accepted:
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `TENTATIVE, `CONFIRMED`, or `CANCELLED` | `CONFIRMED`
 | organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
-| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com'}, { name: 'Bo', email: 'bo@bar.biz' }]`
+| attendees     | Persons invited to the event (add rsvp : true to help outlook track response) | `[{ name: 'Mo', email: 'mo@foo.com'}, { name: 'Bo', email: 'bo@bar.biz' }]` <br /> example with rsvp `[{ name: 'Mo', email: 'mo@foo.com', rsvp : true}]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
