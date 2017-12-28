@@ -8,30 +8,20 @@ import {
 
 export function generateEvent (attributes, cb) {
   if (!attributes) throw('attributes argument is required')
-
+  const { error, value } = validateEvent(buildEvent(attributes))
   if (!cb) {
     // No callback, so return error or value in an object
-    const { error, value } = validateEvent(buildEvent(attributes))
-
     if (error) return { error, value }
-
     let event = ''
-
     try {
       event = formatEvent(value)
     } catch(error) {
       return { error, value: null }
     }
-    if(event=="") Error('Not a valid events')
-
     return { error: null, value: event }
   }
-
   // Return a node-style callback
-  const { error, value } = validateEvent(buildEvent(attributes))
-
   if (error) return cb(error)
-
   return cb(null, formatEvent(value))
 }
 export function createEvent (data,productId, cb) {

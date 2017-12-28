@@ -8,8 +8,6 @@ describe('.createEvent', () => {
   it('returns an error or value when not passed a callback', () => {
     const event1 = createEvent(validAttributes,"test")
     const event2 = createEvent(invalidAttributes,"")
-    console.log("event1 ",event1)
-    console.log("event2 ",event2)
     expect(event1.error).to.be.null
     expect(event1.value).to.be.a('string')
     expect(event2.error).to.exist

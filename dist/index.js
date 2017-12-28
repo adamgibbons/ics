@@ -17,34 +17,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function generateEvent(attributes, cb) {
   if (!attributes) throw 'attributes argument is required';
 
+  var _validateEvent = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
+      error = _validateEvent.error,
+      value = _validateEvent.value;
+
   if (!cb) {
     // No callback, so return error or value in an object
-    var _validateEvent = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
-        _error = _validateEvent.error,
-        _value = _validateEvent.value;
-
-    if (_error) return { error: _error, value: _value };
-
+    if (error) return { error: error, value: value };
     var event = '';
-
     try {
-      event = (0, _pipeline.formatEvent)(_value);
+      event = (0, _pipeline.formatEvent)(value);
     } catch (error) {
       return { error: error, value: null };
     }
-    if (event == "") Error('Not a valid events');
-
     return { error: null, value: event };
   }
-
   // Return a node-style callback
-
-  var _validateEvent2 = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
-      error = _validateEvent2.error,
-      value = _validateEvent2.value;
-
   if (error) return cb(error);
-
   return cb(null, (0, _pipeline.formatEvent)(value));
 }
 function createEvent(data, productId, cb) {
