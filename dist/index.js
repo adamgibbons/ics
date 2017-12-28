@@ -15,8 +15,6 @@ var _pipeline = require('./pipeline');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function generateEvent(attributes, cb) {
-  if (!attributes) throw 'attributes argument is required';
-
   var _validateEvent = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
       error = _validateEvent.error,
       value = _validateEvent.value;

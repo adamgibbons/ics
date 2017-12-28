@@ -7,7 +7,6 @@ import {
 } from './pipeline'
 
 export function generateEvent (attributes, cb) {
-  if (!attributes) throw('attributes argument is required')
   const { error, value } = validateEvent(buildEvent(attributes))
   if (!cb) {
     // No callback, so return error or value in an object
