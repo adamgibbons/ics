@@ -8,9 +8,7 @@ import {
 } from './pipeline'
 
 export function generateEvent (attributes, cb) {
-  if (!attributes) {
-    Error('attributes argument is required')
-  }
+  if (!attributes) Error('attributes argument is required')
 
   if (!cb) {
     // No callback, so return error or value in an object
@@ -39,7 +37,7 @@ export function generateEvent (attributes, cb) {
 export function createEvent (data,productId, cb) {
   let formatedEvents = ""
   let events = []
-  if (!data || !productId) {
+  if (!data || !productId || !cb) {
     Error('attributes & productId is required')
   }
   if(_.isObject(data) && !_.isArray(data)){
