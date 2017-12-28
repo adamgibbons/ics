@@ -51,7 +51,6 @@
     "mocha": "^3.5.0"
   },
   "dependencies": {
-    "bluebird": "^3.5.1",
     "joi": "^10.6.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",

@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import Promise from 'bluebird'
 import {
   buildEvent,
   validateEvent,
@@ -8,7 +7,7 @@ import {
 } from './pipeline'
 
 export function generateEvent (attributes, cb) {
-  if (!attributes) Error('attributes argument is required')
+  if (!attributes) throw('attributes argument is required')
 
   if (!cb) {
     // No callback, so return error or value in an object
@@ -23,8 +22,9 @@ export function generateEvent (attributes, cb) {
     } catch(error) {
       return { error, value: null }
     }
+    if(event=="") Error('Not a valid events')
 
-    return { error: null, value: formatCalendar(event) }
+    return { error: null, value: event }
   }
 
   // Return a node-style callback
@@ -37,23 +37,25 @@ export function generateEvent (attributes, cb) {
 export function createEvent (data,productId, cb) {
   let formatedEvents = ""
   let events = []
-  if (!data || !productId || !cb) {
-    Error('attributes & productId is required')
-  }
+  if (!data || !productId) Error('attributes & productId is required')
   if(_.isObject(data) && !_.isArray(data)){
     events.push(data)
   }else{
     events = data
   }
-  Promise.each(events, (attributes)=> {
-    if (!attributes)
-    {
-      Error('attributes argument is required')
-    }
-    return generateEvent(attributes,(error,val)=>{
-      formatedEvents+=val
+  try {
+    _.forEach(events, (attributes)=> {
+      if (!attributes) throw Error('attributes argument is required')
+      generateEvent(attributes,(error,val)=>{
+        if(error) throw error
+          formatedEvents+=val
+      })
     })
-  }).then((events)=>{
-    return cb(null, formatCalendar(formatedEvents,productId))
-  })
+    formatedEvents = formatCalendar(formatedEvents,productId)
+  } catch(error) {
+    if (!cb) return { error: error, value: null}
+    return cb(error, null)
+  }
+  if (!cb) return { error: null, value: formatedEvents}
+  return cb(null, formatedEvents)
 }

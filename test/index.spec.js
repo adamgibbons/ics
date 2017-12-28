@@ -1,14 +1,15 @@
 import { expect } from 'chai'
 import { createEvent } from '../src'
 
-const invalidAttributes = { start: [] }
-const validAttributes = { start: [2000, 10, 5, 5, 0], duration: { hours: 1 } }
+const invalidAttributes = [{ start: [] }]
+const validAttributes = [{ start: [2000, 10, 5, 5, 0], duration: { hours: 1 } }]
 
 describe('.createEvent', () => {
   it('returns an error or value when not passed a callback', () => {
     const event1 = createEvent(validAttributes,"test")
     const event2 = createEvent(invalidAttributes,"")
-
+    console.log("event1 ",event1)
+    console.log("event2 ",event2)
     expect(event1.error).to.be.null
     expect(event1.value).to.be.a('string')
     expect(event2.error).to.exist
