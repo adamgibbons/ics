@@ -1,23 +1,24 @@
 import { expect } from 'chai'
 import {
   formatEvent,
+  formatCalendar,
   buildEvent
 } from '../../src/pipeline'
 
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
-    const formattedEvent = formatEvent(event)
-    // expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
-    // expect(formattedEvent).to.contain('VERSION:2.0')
-    // expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
+    const formattedEvent = formatCalendar(formatEvent(event),"adamgibbons/ics")
+    expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
+    expect(formattedEvent).to.contain('VERSION:2.0')
+    expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
     expect(formattedEvent).to.contain('DTSTART:')
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
-    // expect(formattedEvent).to.contain('END:VCALENDAR')
+    expect(formattedEvent).to.contain('END:VCALENDAR')
   })
   it('writes a title', () => {
     const event = buildEvent({ title: 'foo bar' })
