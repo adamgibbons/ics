@@ -84,10 +84,11 @@ describe('pipeline.formatEvent', () => {
   })
   it('writes an alarm', () => {
     const formattedEvent = formatEvent({ alarms: [{
-      action: 'audio',
+      action: 'AUDIO',
       trigger: [1997, 2, 17, 1, 30],
       repeat: 4,
       duration: { minutes: 15 },
+      attachType:'FMTTYPE=audio/basic',
       attach: 'ftp://example.com/pub/sounds/bell-01.aud'
     }]})
 
@@ -95,7 +96,7 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970217T')
     expect(formattedEvent).to.contain('REPEAT:4')
     expect(formattedEvent).to.contain('DURATION:PT15M')
-    expect(formattedEvent).to.contain('ACTION:audio')
+    expect(formattedEvent).to.contain('ACTION:AUDIO')
     expect(formattedEvent).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
     expect(formattedEvent).to.contain('END:VALARM')
   })
