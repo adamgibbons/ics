@@ -9,6 +9,10 @@ var _setDate = require('./set-date');
 
 var _setDate2 = _interopRequireDefault(_setDate);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function setDuration(_ref) {
@@ -28,6 +32,17 @@ function setDuration(_ref) {
 
   return formattedString;
 }
+function setTrigger(trigger) {
+  var formattedString = '';
+  if (_lodash2.default.isArray(trigger)) {
+    formattedString = 'TRIGGER;VALUE=DATE-TIME:' + (0, _setDate2.default)(trigger) + '\r\n';
+  } else {
+    var alert = trigger.before ? '-' : '';
+    formattedString = 'TRIGGER:' + (alert + setDuration(trigger)) + '\r\n';
+  }
+
+  return formattedString;
+}
 
 function setAlarm() {
   var attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -35,6 +50,7 @@ function setAlarm() {
       repeat = attributes.repeat,
       description = attributes.description,
       duration = attributes.duration,
+      attachType = attributes.attachType,
       attach = attributes.attach,
       trigger = attributes.trigger,
       summary = attributes.summary;
@@ -45,8 +61,8 @@ function setAlarm() {
   formattedString += repeat ? 'REPEAT:' + repeat + '\r\n' : '';
   formattedString += description ? 'DESCRIPTION:' + description + '\r\n' : '';
   formattedString += duration ? 'DURATION:' + setDuration(duration) + '\r\n' : '';
-  formattedString += attach ? 'ATTACH;FMTTYPE=audio/basic:' + attach + '\r\n' : '';
-  formattedString += trigger ? 'TRIGGER;VALUE=DATE-TIME:' + (0, _setDate2.default)(trigger) + '\r\n' : '';
+  formattedString += attach ? 'ATTACH;' + attachType + ':' + attach + '\r\n' : '';
+  formattedString += trigger ? setTrigger(trigger) : '';
   formattedString += summary ? 'SUMMARY:' + summary + '\r\n' : '';
   formattedString += 'END:VALARM\r\n';
 

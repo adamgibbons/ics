@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var dateTimeSchema = _joi2.default.array().min(5).max(7).ordered(_joi2.default.number().integer(), _joi2.default.number().integer().min(1).max(12), _joi2.default.number().integer().min(1).max(31), _joi2.default.number().integer().min(0).max(23), _joi2.default.number().integer().min(0).max(60), _joi2.default.number().integer().min(0).max(60));
 
 var durationSchema = _joi2.default.object().keys({
+  before: _joi2.default.boolean(),
   weeks: _joi2.default.number(),
   days: _joi2.default.number(),
   hours: _joi2.default.number(),
@@ -27,12 +28,14 @@ var contactSchema = _joi2.default.object().keys({
 });
 
 var alarmSchema = _joi2.default.object().keys({
-  action: _joi2.default.string().regex(/audio|display|email/).required(),
-  trigger: _joi2.default.array().required(),
+  action: _joi2.default.string().regex(/AUDIO|DISPLAY|EMAIL/).required(),
+  //Allowd array or durationSchema
+  trigger: _joi2.default.any().required(),
   description: _joi2.default.string(),
   duration: durationSchema,
   repeat: _joi2.default.number(),
-  attach: _joi2.default.string().uri(),
+  attach: _joi2.default.string(),
+  attachType: _joi2.default.string(),
   summary: _joi2.default.string(),
   attendee: contactSchema,
   'x-prop': _joi2.default.any(),

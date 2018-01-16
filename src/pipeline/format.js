@@ -57,7 +57,7 @@ function formatEvent (attributes = {}) {
     return icsFormat
 }
 function formatCalendar (icsEvents,productId) {
-  if(icsEvents=="") throw "Events Required"
+  // if(icsEvents=="") throw "Events Required"
   let icsFormat = ''
   icsFormat += 'BEGIN:VCALENDAR\r\n'
   icsFormat += 'VERSION:2.0\r\n'
