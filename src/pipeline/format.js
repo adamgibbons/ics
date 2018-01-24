@@ -63,6 +63,8 @@ function formatCalendar (icsEvents,productId) {
   icsFormat += 'VERSION:2.0\r\n'
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
   icsFormat += `PRODID:${productId}\r\n`
+  icsFormat += `METHOD:PUBLISH\r\n`
+  icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += icsEvents
 
   icsFormat += `END:VCALENDAR\r\n`

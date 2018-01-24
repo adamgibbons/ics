@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
@@ -29,7 +29,8 @@
     "Reda <reeda.bx@gmail.com>",
     "David Schlachter",
     "Andrew Crowell",
-    "Michael Bina <michael.bina@creativelive.com>"
+    "Michael Bina <michael.bina@creativelive.com>",
+    "SanjithKumar V<svnindia@live.com>"
   ],
   "license": "ISC",
   "bugs": {
