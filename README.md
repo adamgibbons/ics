@@ -37,7 +37,7 @@ const events = [{
   alarms:[{action: 'display', trigger: [2018,1,3,16,50]}]
 }]
 
-ics.createEvent(events,"PRODID", (error, value) => {
+ics.createCalendar(events, {productId: "PRODID"}, (error, value) => {
   if (error) {
     console.log(error)
   }
@@ -97,11 +97,9 @@ ics.createEvent({
 `ics.createEvents` functionality is on the roadmap, but in the meanwhile, you can do this easily
 by following [this example](https://github.com/adamgibbons/ics/wiki/Creating-multiple-events).
 
-***in the above example each events are wrapped with calendar wrapper. Now its available just pass the array of events and ProdID***
-
 ## API
 
-### `createEvent([attributes],productId, [callback])`
+### `createEvent([attributes], {properties}, [callback])`
 
 Returns an iCal-compliant text string.
 If callback is provided, returns a Node-style callback.
@@ -129,8 +127,6 @@ The following properties are accepted:
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event | `[{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }]`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
-#### `productId`
-| productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 #### `callback`
 
 Optional. 
@@ -146,6 +142,27 @@ function (err, value) {
   console.log(value) // iCal-compliant text string
 }
 ```
+
+3. Write multiple iCalendar files:
+
+***in the above example each events are wrapped with calendar wrapper. Now its available just pass the array of events and ProdID***
+
+## API
+
+### `createEvent([attributes], {properties}, [callback])`
+
+Returns an iCal-compliant text string.
+If callback is provided, returns a Node-style callback.
+If callback is not provided, returns an object with error and value properties.
+
+#### `attributes`
+The same of the `createEvent` method `attributes` param.
+#### `properties`
+| Property      | Description   | Example  |
+| ------------- | ------------- | ----------
+| productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
+#### `callback`
+The same of the `createEvent` method `callback` param.
 
 ## Develop
 
