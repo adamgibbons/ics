@@ -30,8 +30,18 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTSTART:2017051')
   })
+  it('writes a start date-time only with [year,month,date]', () => {
+    const event = buildEvent({ start: [2017, 5, 15] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTSTART:2017051')
+  })
   it('writes an end date-time', () => {
     const event = buildEvent({ end: [2017, 5, 15, 11, 0] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTEND:2017051')
+  })
+  it('writes a end date-time only with [year,month,date]', () => {
+    const event = buildEvent({ end: [2017, 5, 15] })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
   })

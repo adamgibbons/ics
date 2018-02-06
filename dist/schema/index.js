@@ -11,7 +11,7 @@ var _joi2 = _interopRequireDefault(_joi);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var dateTimeSchema = _joi2.default.array().min(5).max(7).ordered(_joi2.default.number().integer(), _joi2.default.number().integer().min(1).max(12), _joi2.default.number().integer().min(1).max(31), _joi2.default.number().integer().min(0).max(23), _joi2.default.number().integer().min(0).max(60), _joi2.default.number().integer().min(0).max(60));
+var dateTimeSchema = _joi2.default.array().min(3).max(7).ordered(_joi2.default.number().integer().positive(), _joi2.default.number().integer().min(1).max(12), _joi2.default.number().integer().min(1).max(31), _joi2.default.number().integer().min(0).max(23), _joi2.default.number().integer().min(0).max(60), _joi2.default.number().integer().min(0).max(60));
 
 var durationSchema = _joi2.default.object().keys({
   before: _joi2.default.boolean(),

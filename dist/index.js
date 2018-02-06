@@ -16,6 +16,7 @@ var _pipeline = require('./pipeline');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function generateEvent(attributes, cb) {
+  if (!attributes) throw Error('attributes argument is required');
   var err = null;
 
   var _validateEvent = (0, _pipeline.validateEvent)((0, _pipeline.buildEvent)(attributes)),
@@ -37,16 +38,10 @@ function generateEvent(attributes, cb) {
 
 function createCalendar(data, properties, cb) {
   var formatedEvents = "";
-  var events = [];
   if (!data || !properties) Error('attributes & properties is required');
-  if (_lodash2.default.isObject(data) && !_lodash2.default.isArray(data)) {
-    events.push(data);
-  } else {
-    events = data;
-  }
+  var events = _lodash2.default.isArray(data) ? data : [data];
   try {
     _lodash2.default.forEach(events, function (attributes) {
-      if (!attributes) throw Error('attributes argument is required');
       generateEvent(attributes, function (error, val) {
         if (error) throw error;
         formatedEvents += val;

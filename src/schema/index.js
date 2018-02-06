@@ -1,7 +1,7 @@
 import Joi from 'joi'
 
-const dateTimeSchema = Joi.array().min(5).max(7).ordered(
-  Joi.number().integer(),
+const dateTimeSchema = Joi.array().min(3).max(7).ordered(
+  Joi.number().integer().positive(),
   Joi.number().integer().min(1).max(12),
   Joi.number().integer().min(1).max(31),
   Joi.number().integer().min(0).max(23),

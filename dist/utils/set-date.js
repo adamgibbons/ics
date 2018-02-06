@@ -8,7 +8,13 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.default = setDate;
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var _index = require('./index');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function setDate() {
   var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -21,6 +27,13 @@ function setDate() {
       hours = _args[3],
       minutes = _args[4],
       seconds = _args[5];
+
+  // All day event
+
+
+  if (args.length === 3) {
+    return (0, _moment2.default)([year, month - 1, date]).utc().format('YYYYMMDD');
+  }
 
   if (type === 'local') {
     return (0, _index.setDateWithLocalTime)([year, month, date, hours, minutes, seconds || 0]);
