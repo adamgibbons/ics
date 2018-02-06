@@ -33,10 +33,11 @@ function generateEvent(attributes, cb) {
     // Return a node-style callback
   };return cb(err, event);
 }
-function createEvent(data, productId, cb) {
+
+function createEvent(data, properties, cb) {
   var formatedEvents = "";
   var events = [];
-  if (!data || !productId) Error('attributes & productId is required');
+  if (!data || !properties) Error('attributes & properties is required');
   if (_lodash2.default.isObject(data) && !_lodash2.default.isArray(data)) {
     events.push(data);
   } else {
@@ -50,7 +51,7 @@ function createEvent(data, productId, cb) {
         formatedEvents += val;
       });
     });
-    formatedEvents = (0, _pipeline.formatCalendar)(formatedEvents, productId);
+    formatedEvents = (0, _pipeline.formatCalendar)(formatedEvents, properties);
   } catch (error) {
     if (!cb) return { error: error, value: null };
     return cb(error, null);

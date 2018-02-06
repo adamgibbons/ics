@@ -6,8 +6,8 @@ const validAttributes = [{ start: [2000, 10, 5, 5, 0], duration: { hours: 1 } }]
 
 describe('.createEvent', () => {
   it('returns an error or value when not passed a callback', () => {
-    const event1 = createEvent(validAttributes,"test")
-    const event2 = createEvent(invalidAttributes,"")
+    const event1 = createEvent(validAttributes,{productId:"test"})
+    const event2 = createEvent(invalidAttributes,{})
     expect(event1.error).to.be.null
     expect(event1.value).to.be.a('string')
     expect(event2.error).to.exist
@@ -20,9 +20,23 @@ describe('.createEvent', () => {
     })
   })
   it('returns a node-style callback', (done) => {
-    createEvent(validAttributes,"test", (error, success) => {
+    createEvent(validAttributes,{productId:"test"}, (error, success) => {
       expect(error).not.to.exist
       expect(success).to.contain('DTSTART:200010')
+      done()
+    })
+  })
+  it('contain PRODID if is passed as property', (done) => {
+    createEvent(validAttributes,{productId:"test"}, (error, success) => {
+      expect(error).not.to.exist
+      expect(success).to.contain('PRODID:test')
+      done()
+    })
+  })
+  it('blank PRODID if is not passed as property', (done) => {
+    createEvent(validAttributes,null, (error, success) => {
+      expect(error).not.to.exist
+      expect(success).to.contain('PRODID:\r\n')
       done()
     })
   })

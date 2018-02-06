@@ -21,10 +21,11 @@ export function generateEvent (attributes, cb) {
   // Return a node-style callback
   return cb(err, event)
 }
-export function createEvent (data,productId, cb) {
+
+export function createEvent (data, properties, cb) {
   let formatedEvents = ""
   let events = []
-  if (!data || !productId) Error('attributes & productId is required')
+  if (!data || !properties) Error('attributes & properties is required')
   if(_.isObject(data) && !_.isArray(data)){
     events.push(data)
   }else{
@@ -38,7 +39,7 @@ export function createEvent (data,productId, cb) {
           formatedEvents+=val
       })
     })
-    formatedEvents = formatCalendar(formatedEvents,productId)
+    formatedEvents = formatCalendar(formatedEvents, properties)
   } catch(error) {
     if (!cb) return { error: error, value: null}
     return cb(error, null)

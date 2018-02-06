@@ -9,7 +9,6 @@ import {
 function formatEvent (attributes = {}) {
   const {
     title,
-    productId,
     uid,
     timestamp,
     start,
@@ -56,13 +55,18 @@ function formatEvent (attributes = {}) {
     icsFormat += `END:VEVENT\r\n`
     return icsFormat
 }
-function formatCalendar (icsEvents,productId) {
+function formatCalendar (icsEvents, properties) {
+  properties = properties || {}
+  const {
+    productId
+  } = properties
+
   // if(icsEvents=="") throw "Events Required"
   let icsFormat = ''
   icsFormat += 'BEGIN:VCALENDAR\r\n'
   icsFormat += 'VERSION:2.0\r\n'
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
-  icsFormat += `PRODID:${productId}\r\n`
+  icsFormat += `PRODID:${productId || ''}\r\n`
   icsFormat += `METHOD:PUBLISH\r\n`
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += icsEvents

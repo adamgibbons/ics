@@ -10,7 +10,6 @@ var _utils = require('../utils');
 function formatEvent() {
   var attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var title = attributes.title,
-      productId = attributes.productId,
       uid = attributes.uid,
       timestamp = attributes.timestamp,
       start = attributes.start,
@@ -57,13 +56,18 @@ function formatEvent() {
   icsFormat += 'END:VEVENT\r\n';
   return icsFormat;
 }
-function formatCalendar(icsEvents, productId) {
+function formatCalendar(icsEvents, properties) {
+  properties = properties || {};
+  var _properties = properties,
+      productId = _properties.productId;
+
   // if(icsEvents=="") throw "Events Required"
+
   var icsFormat = '';
   icsFormat += 'BEGIN:VCALENDAR\r\n';
   icsFormat += 'VERSION:2.0\r\n';
   icsFormat += 'CALSCALE:GREGORIAN\r\n';
-  icsFormat += 'PRODID:' + productId + '\r\n';
+  icsFormat += 'PRODID:' + (productId || '') + '\r\n';
   icsFormat += 'METHOD:PUBLISH\r\n';
   icsFormat += 'X-PUBLISHED-TTL:PT1H\r\n';
   icsFormat += icsEvents;
