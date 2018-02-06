@@ -7,6 +7,7 @@ import {
 } from './pipeline'
 
 export function generateEvent (attributes, cb) {
+  if (!attributes) throw Error('attributes argument is required')
   let err = null
   const { error, value } = validateEvent(buildEvent(attributes))
   if (error && !cb) return { error, value }
@@ -24,19 +25,13 @@ export function generateEvent (attributes, cb) {
 
 export function createCalendar (data, properties, cb) {
   let formatedEvents = ""
-  let events = []
   if (!data || !properties) Error('attributes & properties is required')
-  if(_.isObject(data) && !_.isArray(data)){
-    events.push(data)
-  }else{
-    events = data
-  }
+  let events = _.isArray(data) ? data : [data];
   try {
     _.forEach(events, (attributes)=> {
-      if (!attributes) throw Error('attributes argument is required')
       generateEvent(attributes,(error,val)=>{
         if(error) throw error
-          formatedEvents+=val
+        formatedEvents+=val
       })
     })
     formatedEvents = formatCalendar(formatedEvents, properties)
