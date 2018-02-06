@@ -22,7 +22,7 @@ export function generateEvent (attributes, cb) {
   return cb(err, event)
 }
 
-export function createEvent (data, properties, cb) {
+export function createCalendar (data, properties, cb) {
   let formatedEvents = ""
   let events = []
   if (!data || !properties) Error('attributes & properties is required')
@@ -46,4 +46,9 @@ export function createEvent (data, properties, cb) {
   }
   if (!cb) return { error: null, value: formatedEvents}
   return cb(null, formatedEvents)
+}
+
+/* For support old version */
+export function createEvent (data, cb) {
+  createCalendar(data, {}, cb);
 }

@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.generateEvent = generateEvent;
+exports.createCalendar = createCalendar;
 exports.createEvent = createEvent;
 
 var _lodash = require('lodash');
@@ -34,7 +35,7 @@ function generateEvent(attributes, cb) {
   };return cb(err, event);
 }
 
-function createEvent(data, properties, cb) {
+function createCalendar(data, properties, cb) {
   var formatedEvents = "";
   var events = [];
   if (!data || !properties) Error('attributes & properties is required');
@@ -58,4 +59,9 @@ function createEvent(data, properties, cb) {
   }
   if (!cb) return { error: null, value: formatedEvents };
   return cb(null, formatedEvents);
+}
+
+/* For support old version */
+function createEvent(data, cb) {
+  createCalendar(data, {}, cb);
 }
