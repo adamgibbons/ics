@@ -18,7 +18,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function buildEvent() {
   var attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var title = attributes.title,
-      productId = attributes.productId,
       uid = attributes.uid,
       start = attributes.start,
       startType = attributes.startType,

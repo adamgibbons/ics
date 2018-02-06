@@ -4,7 +4,6 @@ import defaultAttributes from '../defaults'
 export default function buildEvent (attributes = {}) {
   const {
     title,
-    productId,
     uid,
     start,
     startType,
