@@ -10,6 +10,7 @@ const dateTimeSchema = Joi.array().min(5).max(7).ordered(
 )
 
 const durationSchema = Joi.object().keys({
+  before: Joi.boolean(),
   weeks: Joi.number(),
   days: Joi.number(),
   hours: Joi.number(),
@@ -23,12 +24,14 @@ const contactSchema = Joi.object().keys({
 })
 
 const alarmSchema = Joi.object().keys({
-  action: Joi.string().regex(/audio|display|email/).required(),
-  trigger: Joi.array().required(),
+  action: Joi.string().regex(/AUDIO|DISPLAY|EMAIL/).required(),
+  //Allowd array or durationSchema
+  trigger: Joi.any().required(),
   description: Joi.string(),
   duration: durationSchema,
   repeat: Joi.number(),
-  attach: Joi.string().uri(),
+  attach: Joi.string(),
+  attachType: Joi.string(),
   summary: Joi.string(),
   attendee: contactSchema,
   'x-prop': Joi.any(),

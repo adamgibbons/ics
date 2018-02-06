@@ -6,10 +6,9 @@ import {
     formatDuration
 } from '../utils'
 
-export default function formatEvent (attributes = {}) {
+function formatEvent (attributes = {}) {
   const {
     title,
-    productId,
     uid,
     timestamp,
     start,
@@ -28,10 +27,6 @@ export default function formatEvent (attributes = {}) {
   } = attributes
 
     let icsFormat = ''
-    icsFormat += 'BEGIN:VCALENDAR\r\n'
-    icsFormat += 'VERSION:2.0\r\n'
-    icsFormat += 'CALSCALE:GREGORIAN\r\n'
-    icsFormat += `PRODID:${productId}\r\n`
     icsFormat += 'BEGIN:VEVENT\r\n'
     icsFormat += `UID:${uid}\r\n`
     icsFormat += `SUMMARY:${title}\r\n`
@@ -55,9 +50,29 @@ export default function formatEvent (attributes = {}) {
         icsFormat += setAlarm(alarm)
       })
     }
+
     icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
-    icsFormat += `END:VCALENDAR\r\n`
-
-    return icsFormat  
+    return icsFormat
 }
+function formatCalendar (icsEvents, properties) {
+  properties = properties || {}
+  const {
+    productId
+  } = properties
+
+  // if(icsEvents=="") throw "Events Required"
+  let icsFormat = ''
+  icsFormat += 'BEGIN:VCALENDAR\r\n'
+  icsFormat += 'VERSION:2.0\r\n'
+  icsFormat += 'CALSCALE:GREGORIAN\r\n'
+  icsFormat += `PRODID:${productId || ''}\r\n`
+  icsFormat += `METHOD:PUBLISH\r\n`
+  icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
+  icsFormat += icsEvents
+
+  icsFormat += `END:VCALENDAR\r\n`
+  return icsFormat
+}
+
+export {formatEvent, formatCalendar }

@@ -3,14 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = formatEvent;
+exports.formatCalendar = exports.formatEvent = undefined;
 
 var _utils = require('../utils');
 
 function formatEvent() {
   var attributes = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var title = attributes.title,
-      productId = attributes.productId,
       uid = attributes.uid,
       timestamp = attributes.timestamp,
       start = attributes.start,
@@ -29,10 +28,6 @@ function formatEvent() {
 
 
   var icsFormat = '';
-  icsFormat += 'BEGIN:VCALENDAR\r\n';
-  icsFormat += 'VERSION:2.0\r\n';
-  icsFormat += 'CALSCALE:GREGORIAN\r\n';
-  icsFormat += 'PRODID:' + productId + '\r\n';
   icsFormat += 'BEGIN:VEVENT\r\n';
   icsFormat += 'UID:' + uid + '\r\n';
   icsFormat += 'SUMMARY:' + title + '\r\n';
@@ -56,9 +51,30 @@ function formatEvent() {
       icsFormat += (0, _utils.setAlarm)(alarm);
     });
   }
+
   icsFormat += duration ? 'DURATION:' + (0, _utils.formatDuration)(duration) + '\r\n' : '';
   icsFormat += 'END:VEVENT\r\n';
-  icsFormat += 'END:VCALENDAR\r\n';
-
   return icsFormat;
 }
+function formatCalendar(icsEvents, properties) {
+  properties = properties || {};
+  var _properties = properties,
+      productId = _properties.productId;
+
+  // if(icsEvents=="") throw "Events Required"
+
+  var icsFormat = '';
+  icsFormat += 'BEGIN:VCALENDAR\r\n';
+  icsFormat += 'VERSION:2.0\r\n';
+  icsFormat += 'CALSCALE:GREGORIAN\r\n';
+  icsFormat += 'PRODID:' + (productId || '') + '\r\n';
+  icsFormat += 'METHOD:PUBLISH\r\n';
+  icsFormat += 'X-PUBLISHED-TTL:PT1H\r\n';
+  icsFormat += icsEvents;
+
+  icsFormat += 'END:VCALENDAR\r\n';
+  return icsFormat;
+}
+
+exports.formatEvent = formatEvent;
+exports.formatCalendar = formatCalendar;

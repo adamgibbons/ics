@@ -31,7 +31,7 @@ describe('pipeline.build properties', () => {
       const event = buildEvent({ uid: 'myuid' })
       expect(event.uid).to.equal('myuid')
     })
-  })  
+  })
   describe('start and end', () => {
     it('defaults to UTC date-time format', () => {
       const event = buildEvent({
@@ -135,7 +135,7 @@ describe('pipeline.build properties', () => {
     it('sets alarms', () => {
       const event = buildEvent({
         alarms: [{
-          action: 'audio',
+          action: 'DISPLAY',
           trigger: [1997, 3, 17, 13, 30, 0],
           repeat: 4,
           duration: {
