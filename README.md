@@ -92,7 +92,7 @@ ics.createEvent({
 })
 ```
 
-3. Write multiple iCalendar files:
+4. Generate multiple events in one iCalendar:
 
 `ics.createEvents` functionality is on the roadmap, but in the meanwhile, you can do this easily
 by following [this example](https://github.com/adamgibbons/ics/wiki/Creating-multiple-events).
