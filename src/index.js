@@ -2,35 +2,48 @@ import _ from 'lodash'
 import {
   buildEvent,
   validateEvent,
-  formatEvent
+  formatEvent,
+  formatCalendar
 } from './pipeline'
 
-export function createEvent (attributes, cb) {
-  if (!attributes) {
-    Error('attributes argument is required')
-  }
-
-  if (!cb) {
-    // No callback, so return error or value in an object
-    const { error, value } = validateEvent(buildEvent(attributes))
-
-    if (error) return { error, value }
-
-    let event = ''
-
-    try {
-      event = formatEvent(value)
-    } catch(error) {
-      return { error, value: null }
-    }
-
-    return { error: null, value: event }
-  }
-
-  // Return a node-style callback
+export function generateEvent (attributes, cb) {
+  if (!attributes) throw Error('attributes argument is required')
+  let err = null
   const { error, value } = validateEvent(buildEvent(attributes))
-  
+  if (error && !cb) return { error, value }
   if (error) return cb(error)
+  let event = ''
+  try {
+    event = formatEvent(value)
+  } catch(error) {
+    err = error
+  }
+  if (!cb) return { error: err, value: event }
+  // Return a node-style callback
+  return cb(err, event)
+}
 
-  return cb(null, formatEvent(value))
+export function createCalendar (data, properties, cb) {
+  let formatedEvents = ""
+  if (!data || !properties) Error('attributes & properties is required')
+  let events = _.isArray(data) ? data : [data];
+  try {
+    _.forEach(events, (attributes)=> {
+      generateEvent(attributes,(error,val)=>{
+        if(error) throw error
+        formatedEvents+=val
+      })
+    })
+    formatedEvents = formatCalendar(formatedEvents, properties)
+  } catch(error) {
+    if (!cb) return { error: error, value: null}
+    return cb(error, null)
+  }
+  if (!cb) return { error: null, value: formatedEvents}
+  return cb(null, formatedEvents)
+}
+
+/* For support old version */
+export function createEvent (data, cb) {
+  createCalendar(data, {}, cb);
 }

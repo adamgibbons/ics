@@ -6,7 +6,7 @@ describe('.validateEvent', () => {
     it('uid', () => {
       const { error } = validateEvent({ title: 'foo' })
       expect(error.details.some(p => p.message === '"uid" is required')).to.be.true
-    })  
+    })
 
     it('start', () => {
       const { error } = validateEvent({ title: 'foo', uid: 'foo' })
@@ -185,7 +185,7 @@ describe('.validateEvent', () => {
         start: [2018, 12, 1, 10, 30],
         duration: { hours: 1 },
         alarms: [{
-          action: 'audio',
+          action: 'AUDIO',
           trigger: []
         }]
       })

@@ -1,9 +1,10 @@
 import buildEvent from './build'
-import formatEvent from './format'
+import {formatCalendar,formatEvent} from './format'
 import validateEvent from './validate'
 
 export {
   buildEvent,
   formatEvent,
+  formatCalendar,
   validateEvent
 }
