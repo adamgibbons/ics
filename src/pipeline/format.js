@@ -2,6 +2,7 @@ import {
     setAlarm,
     setContact,
     setDate,
+    setDescription,
     setGeolocation,
     formatDuration
 } from '../utils'
@@ -38,7 +39,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
     icsFormat += end ? `DTEND:${setDate(end, startType)}\r\n` : ''
-    icsFormat += description ? `DESCRIPTION:${description}\r\n` : ''
+    icsFormat += description ? `DESCRIPTION:${setDescription(description)}\r\n` : ''
     icsFormat += url ? `URL:${url}\r\n` : ''
     icsFormat += geo ? `GEO:${setGeolocation(geo)}\r\n` : ''
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
@@ -59,5 +60,5 @@ export default function formatEvent (attributes = {}) {
     icsFormat += `END:VEVENT\r\n`
     icsFormat += `END:VCALENDAR\r\n`
 
-    return icsFormat  
+    return icsFormat
 }
