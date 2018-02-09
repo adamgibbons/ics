@@ -91,7 +91,7 @@ ics.createEvent({
 })
 ```
 
-3. Create multiple iCalendar files:
+3. Create multiple iCalendar events:
 ```javascript
 const ics = require('ics')
 
