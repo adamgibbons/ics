@@ -67,8 +67,6 @@ ics.createEvent(event, (error, value) => {
   //  DURATION:PT5H
   //  END:VEVENT
   //  END:VCALENDAR
-
-
 })
 ```
 
