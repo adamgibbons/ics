@@ -6,7 +6,8 @@ describe('utils.setAlarm', () => {
     const attributes = {
       repeat: 5,
       description: 'Foo',
-      action: 'audio',
+      action: 'AUDIO',
+      attachType:'FMTTYPE=audio/basic',
       attach: 'ftp://example.com/pub/sounds/bell-01.aud',
       duration: {
         weeks: 1,
@@ -20,7 +21,7 @@ describe('utils.setAlarm', () => {
     }
     const alarm = setAlarm(attributes)
     expect(alarm).to.contain('BEGIN:VALARM')
-    expect(alarm).to.contain('ACTION:audio')
+    expect(alarm).to.contain('ACTION:AUDIO')
     expect(alarm).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
     expect(alarm).to.contain('REPEAT:5')
     expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
