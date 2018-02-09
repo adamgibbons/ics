@@ -95,7 +95,26 @@ ics.createEvent({
 ```javascript
 const ics = require('ics')
 
-ics.createEvents()
+const events = ics.createEvents([
+  {
+    title: 'Lunch',
+    start: [2018, 1, 15, 12, 15],
+    duration: { minutes: 45 }
+  },
+  {
+    title: 'Dinner',
+    start: [2018, 1, 15, 12, 15],
+    duration: { hours: 1, minutes: 30 }
+  }
+])
+
+console.log(events)
+// [ { error: null,
+//     value: 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:adamgibbons/ics\r\nBEGIN:VEVENT\r\nUID:0e71b0fd-c193-4c2d-a953-cf8a503b11c1\r\nSUMMARY:Lunch\r\nDTSTAMP:20180209T131000Z\r\nDTSTART:20180115T191500Z\r\nDURATION:PT45M\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n' },
+//   { error: null, 
+//    value: 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:adamgibbons/ics\r\nBEGIN:VEVENT\r\nUID:d2aeaa76-bb07-4a71-8495-7e13f657eec9\r\nSUMMARY:Dinner\r\nDTSTAMP:20180209T131000Z\r\nDTSTART:20180115T191500Z\r\nDURATION:PT1H30M\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n' } ]
+
+
 
 ```
 
