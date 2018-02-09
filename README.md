@@ -91,14 +91,17 @@ ics.createEvent({
 })
 ```
 
-3. Write multiple iCalendar files:
+3. Create multiple iCalendar files:
+```javascript
+import ics from 'ics'
 
-`ics.createEvents` functionality is on the roadmap, but in the meanwhile, you can do this easily
-by following [this example](https://github.com/adamgibbons/ics/wiki/Creating-multiple-events).
+ics.createEvents()
+
+```
 
 ## API
 
-### `createEvent(attributes, [callback])`
+### `createEvent(attributes[, callback])`
 
 Returns an iCal-compliant text string.
 If callback is provided, returns a Node-style callback.
@@ -143,6 +146,20 @@ function (err, value) {
   console.log(value) // iCal-compliant text string
 }
 ```
+
+### `createEvents(events[, callback])`
+
+#### `events`
+
+Array of `attributes` objects (as described in `createEvent`).
+
+Returns an object iCal-compliant text string.
+
+If callback is not provided, returns an array of objects, each having the form `{ error, value }`.
+If `value` exists, it is an iCal-compliant text string.
+
+If callback is provided, returns a Node-style callback, where the first argument is an error, and the second
+is an array of objects, each having the form `{ error, value }`.
 
 ## Develop
 
