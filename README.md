@@ -74,8 +74,8 @@ ics.createEvent(event, (error, value) => {
 
 2. Write an iCalendar file:
 ```javascript
-import { writeFileSync } from 'fs'
-import ics from 'ics'
+const { writeFileSync } = require('fs')
+const ics = require('ics')
 
 ics.createEvent({
   title: 'Dinner',
@@ -93,7 +93,7 @@ ics.createEvent({
 
 3. Create multiple iCalendar files:
 ```javascript
-import ics from 'ics'
+const ics = require('ics')
 
 ics.createEvents()
 
