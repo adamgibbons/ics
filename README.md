@@ -17,7 +17,7 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 1. Create an iCalendar event:
 
 ```javascript
-import ics from 'ics'
+const ics = require('ics')
 
 const event = {
   start: [2018, 5, 30, 6, 30],
