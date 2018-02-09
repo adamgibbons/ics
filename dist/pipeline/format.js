@@ -35,7 +35,7 @@ function formatEvent() {
   icsFormat += 'DTSTAMP:' + timestamp + '\r\n';
   icsFormat += 'DTSTART:' + (0, _utils.setDate)(start, startType) + '\r\n';
   icsFormat += end ? 'DTEND:' + (0, _utils.setDate)(end, startType) + '\r\n' : '';
-  icsFormat += description ? 'DESCRIPTION:' + description + '\r\n' : '';
+  icsFormat += description ? 'DESCRIPTION:' + (0, _utils.setDescription)(description) + '\r\n' : '';
   icsFormat += url ? 'URL:' + url + '\r\n' : '';
   icsFormat += geo ? 'GEO:' + (0, _utils.setGeolocation)(geo) + '\r\n' : '';
   icsFormat += location ? 'LOCATION:' + location + '\r\n' : '';
