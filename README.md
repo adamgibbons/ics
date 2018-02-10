@@ -57,8 +57,8 @@ ics.createEvent(event, (error, value) => {
   //  LOCATION:Folsom Field, University of Colorado (finish line)
   //  STATUS:CONFIRMED
   //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-  //  ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com
-  //  ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example2.org
+  //  ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
+  //  ATTENDEE;RSVP=FALSE;CN=Brittany Seaton:mailto:brittany@example2.org
   //  BEGIN:VALARM
   //  ACTION:display
   //  DESCRIPTION:Reminder
