@@ -83,14 +83,16 @@ export function createEvents (events, cb) {
     return { error: Error('one argument is required'), value: null }
   }
 
-  const result = events.map(assignUniqueId)
+  const { error, value } = events.map(assignUniqueId)
     .map(applyInitialFormatting)
     .map(reformatEventsByPosition)
     .reduce(catenateEvents, { error: null, value: null })
 
   if (!cb) {
-    return result
+    return { error, value }
   }
 
-  return cb(null, result)
+  console.log(error, value)
+
+  return cb(error, value)
 }

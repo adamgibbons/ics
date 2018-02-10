@@ -14,7 +14,7 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ## Example Usage
 
-1. Create an iCalendar event:
+1) Create an iCalendar event:
 
 ```javascript
 const ics = require('ics')
@@ -70,7 +70,7 @@ ics.createEvent(event, (error, value) => {
 })
 ```
 
-2. Write an iCalendar file:
+2) Write an iCalendar file:
 ```javascript
 const { writeFileSync } = require('fs')
 const ics = require('ics')
@@ -89,7 +89,7 @@ ics.createEvent({
 })
 ```
 
-3. Create multiple iCalendar events:
+3) Create multiple iCalendar events:
 ```javascript
 const ics = require('./dist')
 
@@ -132,9 +132,10 @@ console.log(value)
 
 ### `createEvent(attributes[, callback])`
 
-Returns an iCal-compliant text string.
-If callback is provided, returns a Node-style callback.
-If callback is not provided, returns an object with error and value properties.
+Generates an iCal-compliant VCALENDAR string with one VEVENT.
+If a callback is not provided, returns an object having the form `{ error, value }`,
+where `value` contains an iCal-compliant string if there are no errors.
+If a callback is provided, returns a Node-style callback.
 
 #### `attributes`
 
@@ -178,17 +179,32 @@ function (err, value) {
 
 ### `createEvents(events[, callback])`
 
+Generates an iCal-compliant VCALENDAR string with multiple VEVENTS.
+
+If a callback is not provided, returns an object having the form `{ error, value }`, where value is an iCal-compliant text string
+if `error` is `null`.
+
+If a callback is provided, returns a Node-style callback.
+
 #### `events`
 
 Array of `attributes` objects (as described in `createEvent`).
 
-Returns an object iCal-compliant text string.
+#### `callback`
 
-If callback is not provided, returns an array of objects, each having the form `{ error, value }`.
-If `value` exists, it is an iCal-compliant text string.
+Optional. 
+Node-style callback. 
 
-If callback is provided, returns a Node-style callback, where the first argument is an error, and the second
-is an array of objects, each having the form `{ error, value }`.
+```javascript
+function (err, value) {
+  if (err) {
+    // if iCal generation fails, err is an object containing the reason
+    // if iCal generation succeeds, err is null
+  }
+
+  console.log(value) // iCal-compliant text string
+}
+```
 
 ## Develop
 
