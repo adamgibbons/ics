@@ -17,7 +17,7 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 1. Create an iCalendar event:
 
 ```javascript
-import ics from 'ics'
+const ics = require('ics')
 
 const event = {
   start: [2018, 5, 30, 6, 30],
@@ -67,15 +67,13 @@ ics.createEvent(event, (error, value) => {
   //  DURATION:PT5H
   //  END:VEVENT
   //  END:VCALENDAR
-
-
 })
 ```
 
 2. Write an iCalendar file:
 ```javascript
-import { writeFileSync } from 'fs'
-import ics from 'ics'
+const { writeFileSync } = require('fs')
+const ics = require('ics')
 
 ics.createEvent({
   title: 'Dinner',
@@ -91,14 +89,48 @@ ics.createEvent({
 })
 ```
 
-3. Write multiple iCalendar files:
+3. Create multiple iCalendar events:
+```javascript
+const ics = require('./dist')
 
-`ics.createEvents` functionality is on the roadmap, but in the meanwhile, you can do this easily
-by following [this example](https://github.com/adamgibbons/ics/wiki/Creating-multiple-events).
+const { error, value } = ics.createEvents([
+  {
+    title: 'Lunch',
+    start: [2018, 1, 15, 12, 15],
+    duration: { minutes: 45 }
+  },
+  {
+    title: 'Dinner',
+    start: [2018, 1, 15, 12, 15],
+    duration: { hours: 1, minutes: 30 }
+  }
+])
+
+console.log(value)
+// BEGIN:VCALENDAR
+// VERSION:2.0
+// CALSCALE:GREGORIAN
+// PRODID:adamgibbons/ics
+// BEGIN:VEVENT
+// UID:3c6d44e8-79a7-428d-acac-9586c9e06e5c
+// SUMMARY:Lunch
+// DTSTAMP:20180210T093900Z
+// DTSTART:20180115T191500Z
+// DURATION:PT45M
+// END:VEVENT
+// BEGIN:VEVENT
+// UID:253cc897-fc26-4f25-9a01-b6bb57fa174d
+// SUMMARY:Dinner
+// DTSTAMP:20180210T093900Z
+// DTSTART:20180115T191500Z
+// DURATION:PT1H30M
+// END:VEVENT
+// END:VCALENDAR
+```
 
 ## API
 
-### `createEvent(attributes, [callback])`
+### `createEvent(attributes[, callback])`
 
 Returns an iCal-compliant text string.
 If callback is provided, returns a Node-style callback.
@@ -143,6 +175,20 @@ function (err, value) {
   console.log(value) // iCal-compliant text string
 }
 ```
+
+### `createEvents(events[, callback])`
+
+#### `events`
+
+Array of `attributes` objects (as described in `createEvent`).
+
+Returns an object iCal-compliant text string.
+
+If callback is not provided, returns an array of objects, each having the form `{ error, value }`.
+If `value` exists, it is an iCal-compliant text string.
+
+If callback is provided, returns a Node-style callback, where the first argument is an error, and the second
+is an array of objects, each having the form `{ error, value }`.
 
 ## Develop
 
