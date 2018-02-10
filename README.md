@@ -31,7 +31,7 @@ const event = {
   status: 'CONFIRMED',
   organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
-    { name: 'Adam Gibbons', email: 'adam@example.com' },
+    { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true },
     { name: 'Brittany Seaton', email: 'brittany@example2.org' }
   ]
 }
@@ -57,8 +57,8 @@ ics.createEvent(event, (error, value) => {
   //  LOCATION:Folsom Field, University of Colorado (finish line)
   //  STATUS:CONFIRMED
   //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-  //  ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com
-  //  ATTENDEE;CN=Brittany Seaton:mailto:brittany@example2.org
+  //  ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com
+  //  ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example2.org
   //  BEGIN:VALARM
   //  ACTION:display
   //  DESCRIPTION:Reminder
@@ -155,7 +155,7 @@ The following properties are accepted:
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `TENTATIVE, `CONFIRMED`, or `CANCELLED` | `CONFIRMED`
 | organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
-| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com'}, { name: 'Bo', email: 'bo@bar.biz' }]`
+| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
