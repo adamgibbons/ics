@@ -91,9 +91,9 @@ ics.createEvent({
 
 3. Create multiple iCalendar events:
 ```javascript
-const ics = require('ics')
+const ics = require('./dist')
 
-const events = ics.createEvents([
+const { error, value } = ics.createEvents([
   {
     title: 'Lunch',
     start: [2018, 1, 15, 12, 15],
@@ -106,14 +106,26 @@ const events = ics.createEvents([
   }
 ])
 
-console.log(events)
-// [ { error: null,
-//     value: 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:adamgibbons/ics\r\nBEGIN:VEVENT\r\nUID:0e71b0fd-c193-4c2d-a953-cf8a503b11c1\r\nSUMMARY:Lunch\r\nDTSTAMP:20180209T131000Z\r\nDTSTART:20180115T191500Z\r\nDURATION:PT45M\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n' },
-//   { error: null, 
-//    value: 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:adamgibbons/ics\r\nBEGIN:VEVENT\r\nUID:d2aeaa76-bb07-4a71-8495-7e13f657eec9\r\nSUMMARY:Dinner\r\nDTSTAMP:20180209T131000Z\r\nDTSTART:20180115T191500Z\r\nDURATION:PT1H30M\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n' } ]
-
-
-
+console.log(value)
+// BEGIN:VCALENDAR
+// VERSION:2.0
+// CALSCALE:GREGORIAN
+// PRODID:adamgibbons/ics
+// BEGIN:VEVENT
+// UID:3c6d44e8-79a7-428d-acac-9586c9e06e5c
+// SUMMARY:Lunch
+// DTSTAMP:20180210T093900Z
+// DTSTART:20180115T191500Z
+// DURATION:PT45M
+// END:VEVENT
+// BEGIN:VEVENT
+// UID:253cc897-fc26-4f25-9a01-b6bb57fa174d
+// SUMMARY:Dinner
+// DTSTAMP:20180210T093900Z
+// DTSTART:20180115T191500Z
+// DURATION:PT1H30M
+// END:VEVENT
+// END:VCALENDAR
 ```
 
 ## API
