@@ -19,6 +19,12 @@ const durationSchema = Joi.object().keys({
 
 const contactSchema = Joi.object().keys({
   name: Joi.string(),
+  email: Joi.string().email(),
+  rsvp: Joi.boolean()
+})
+
+const organizerSchema = Joi.object().keys({
+  name: Joi.string(),
   email: Joi.string().email()
 })
 
@@ -50,7 +56,7 @@ const schema = Joi.object().keys({
   location: Joi.string(),
   status: Joi.string().regex(/TENTATIVE|CANCELLED|CONFIRMED/),
   categories: Joi.array().items(Joi.string()),
-  organizer: contactSchema,
+  organizer: organizerSchema,
   attendees: Joi.array().items(contactSchema),
   alarms: Joi.array().items(alarmSchema)
 })

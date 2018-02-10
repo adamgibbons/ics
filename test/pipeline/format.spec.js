@@ -67,11 +67,11 @@ describe('pipeline.formatEvent', () => {
   it('writes attendees', () => {
     const event = buildEvent({ attendees: [
       {name: 'Adam Gibbons', email: 'adam@example.com'},
-      {name: 'Brittany Seaton', email: 'brittany@example.com'}
+      {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
     ]})
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com')
-    expect(formattedEvent).to.contain('ATTENDEE;CN=Brittany Seaton:mailto:brittany@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
   })
   it('writes an organizer', () => {
     const event = formatEvent({ organizer: {
