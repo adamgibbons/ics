@@ -1,8 +1,8 @@
-export default function setContact({ name, email }) {
-  let formattedAttendee = ''
-  formattedAttendee += 'CN='
-  formattedAttendee += name || 'Organizer'
-  formattedAttendee += email ? `:mailto:${email}` : ''
+export default function setOrganizer({ name, email }) {
+  let formattedOrganizer = ''
+  formattedOrganizer += 'CN='
+  formattedOrganizer += name || 'Organizer'
+  formattedOrganizer += email ? `:mailto:${email}` : ''
 
-  return formattedAttendee
+  return formattedOrganizer
 }
