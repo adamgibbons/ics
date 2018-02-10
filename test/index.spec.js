@@ -41,5 +41,10 @@ describe('ics', () => {
       expect(error).to.be.null
       expect(value).to.contain('BEGIN:VCALENDAR')
     })
+    it('returns an error when an event is invalid', () => {
+      const { error, value } = createEvents([validAttributes, validAttributes2, invalidAttributes])
+      expect(error).to.exist
+      expect(value).not.to.exist
+    })
   })
 })
