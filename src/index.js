@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import uuid from 'uuid/v4'
 import {
   buildEvent,
@@ -20,7 +19,6 @@ function applyInitialFormatting({ error, value }) {
 }
 
 function reformatEventsByPosition({ error, value }, idx, list) {
-
   if (error) return { error, value }
 
   if (idx === 0) {
