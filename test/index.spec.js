@@ -31,7 +31,7 @@ describe('ics', () => {
       })
     })
   })
-  describe.only('.createEvents', () => {
+  describe('.createEvents', () => {
     it('returns an error when no arguments are passed', () => {
       const events = createEvents()
       expect(events.error).to.exist
