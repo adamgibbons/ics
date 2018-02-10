@@ -1,6 +1,7 @@
 import {
     setAlarm,
     setContact,
+    setOrganizer,
     setDate,
     setDescription,
     setGeolocation,
@@ -45,7 +46,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += location ? `LOCATION:${location}\r\n` : ''
     icsFormat += status ? `STATUS:${status}\r\n` : ''
     icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
-    icsFormat += organizer ? `ORGANIZER;${setContact(organizer)}\r\n` : ''
+    icsFormat += organizer ? `ORGANIZER;${setOrganizer(organizer)}\r\n` : ''
     if (attendees) {
       attendees.map(function (attendee) {
         icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`
