@@ -4,6 +4,7 @@ import { createEvent, createEvents } from '../src'
 const invalidAttributes = { start: [] }
 const validAttributes = { start: [2000, 10, 5, 5, 0], duration: { hours: 1 } }
 const validAttributes2 = { start: [2001, 10, 5, 5, 0], duration: { hours: 1 } }
+const validAttributes3 = { start: [2002, 10, 5, 5, 0], duration: { hours: 1 } }
 
 describe('ics', () => {
   describe('.createEvent', () => {
@@ -30,16 +31,15 @@ describe('ics', () => {
       })
     })
   })
-  describe('.createEvents', () => {
+  describe.only('.createEvents', () => {
     it('returns an error when no arguments are passed', () => {
       const events = createEvents()
       expect(events.error).to.exist
     })
     it('returns a list of events', () => {
-      const [ first, second, third ] = createEvents([validAttributes, validAttributes2, invalidAttributes])
-      expect(first.value).to.contain('BEGIN:VCALENDAR')
-      expect(second.value).to.contain('BEGIN:VCALENDAR')
-      expect(third.error.name).to.equal('ValidationError')
+      const { error, value } = createEvents([validAttributes, validAttributes2, validAttributes3])
+      expect(error).to.be.null
+      expect(value).to.contain('BEGIN:VCALENDAR')
     })
   })
 })

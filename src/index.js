@@ -43,6 +43,7 @@ export function createEvents (events, cb) {
 
   const result = events.map((event) => {
     event.uid = event.uid || uuid()
+
     return validateEvent(buildEvent(event))
   }).map(({ error, value }) => {
     if (error) {
@@ -50,7 +51,38 @@ export function createEvents (events, cb) {
     }
 
     return { error: null, value: formatEvent(value) }
-  })
+  }).map(({ error, value }, idx, list) => {
+
+    if (error) return { error, value }
+
+    if (idx === 0) {
+      // beginning of list
+      return { value: value.slice(0, value.indexOf('END:VCALENDAR')), error: null }
+    }
+
+    if (idx === list.length - 1) {
+      // end of list
+      return { value: value.slice(value.indexOf('BEGIN:VEVENT')), error: null}
+    }
+
+    return { error: null, value: value.slice(value.indexOf('BEGIN:VEVENT'), value.indexOf('END:VEVENT') + 12) }
+
+  }).reduce((accumulator, { error, value }, idx) => {
+
+    if (error) {
+      accumulator.error = error
+      return accumulator
+    }
+
+    if (accumulator.value) {
+      accumulator.value = accumulator.value.concat(value)
+      return accumulator
+    }
+
+    accumulator.value = value
+    return accumulator
+
+  }, { error: null, value: null })
 
   if (!cb) {
     return result
