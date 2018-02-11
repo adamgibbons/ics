@@ -6,7 +6,7 @@
   "scripts": {
     "start": "mocha --compilers js:babel-core/register --watch --recursive",
     "test": "mocha --compilers js:babel-core/register --recursive",
-    "build": "gulp build"
+    "build": "rm -r dist; gulp build"
   },
   "repository": {
     "type": "git",
