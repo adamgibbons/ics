@@ -161,6 +161,29 @@ The following properties are accepted:
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
 
+To create an all-day event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
+The date of the `end` property should be the day *after* your all-day event.
+For example, in order to create an all-day event occuring on October 15, 2018:
+```
+const eventAttributes = {
+  start: [2018, 10, 15],
+  end: [2018, 10, 16],
+  /* rest of attributes */
+}
+
+```
+{ start: }
+
+BEGIN:VEVENT
+UID:19970901T130000Z-123403@host.com
+DTSTAMP:19970901T1300Z
+DTSTART:20181015
+SUMMARY:Our Blissful Anniversary
+CLASS:CONFIDENTIAL
+CATEGORIES:ANNIVERSARY,PERSONAL,SPECIAL OCCASION
+RRULE:FREQ=YEARLY
+END:VEVENT
+
 #### `callback`
 
 Optional. 
