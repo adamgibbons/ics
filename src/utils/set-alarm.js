@@ -18,6 +18,10 @@ function setDuration ({
   return formattedString
 }
 
+function setAction (action){
+  return action.toUpperCase();
+}
+
 export default function setAlarm(attributes = {}) {
   const {
     action,
@@ -30,7 +34,7 @@ export default function setAlarm(attributes = {}) {
   } = attributes
 
   let formattedString = 'BEGIN:VALARM\r\n'
-  formattedString += `ACTION:${action}\r\n`
+  formattedString += `ACTION:${setAction(action)}\r\n`
   formattedString += repeat ? `REPEAT:${repeat}\r\n` : ''
   formattedString += description ? `DESCRIPTION:${description}\r\n` : ''
   formattedString += duration ? `DURATION:${setDuration(duration)}\r\n` : ''
