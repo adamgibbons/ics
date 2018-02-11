@@ -2,10 +2,6 @@ import moment from 'moment'
 import { setDateWithUTCtime } from '../../src/utils'
 import { expect } from 'chai'
 
-function getUtcOffset () {
-
-}
-
 describe('utils.setDateWithUTCtime', () => {  
   it('defaults to NOW in UTC date-time when no args passed', () => {
     const now = moment().utc().format('YYYYMMDDTHHmm00') + 'Z'

@@ -92,7 +92,5 @@ export function createEvents (events, cb) {
     return { error, value }
   }
 
-  console.log(error, value)
-
   return cb(error, value)
 }
