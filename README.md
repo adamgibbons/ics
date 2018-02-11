@@ -60,7 +60,7 @@ ics.createEvent(event, (error, value) => {
   //  ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
   //  ATTENDEE;RSVP=FALSE;CN=Brittany Seaton:mailto:brittany@example2.org
   //  BEGIN:VALARM
-  //  ACTION:display
+  //  ACTION:DISPLAY
   //  DESCRIPTION:Reminder
   //  TRIGGER;VALUE=DATE-TIME:20180530T020000Z
   //  END:VALARM
