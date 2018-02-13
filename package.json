@@ -1,12 +1,12 @@
 {
   "name": "ics",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "scripts": {
     "start": "mocha --compilers js:babel-core/register --watch --recursive",
     "test": "mocha --compilers js:babel-core/register --recursive",
-    "build": "gulp build"
+    "build": "rm -r dist; gulp build"
   },
   "repository": {
     "type": "git",

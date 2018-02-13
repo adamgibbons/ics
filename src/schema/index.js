@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const dateTimeSchema = Joi.array().min(5).max(7).ordered(
+const dateTimeSchema = Joi.array().min(3).max(7).ordered(
   Joi.number().integer(),
   Joi.number().integer().min(1).max(12),
   Joi.number().integer().min(1).max(31),
@@ -61,8 +61,7 @@ const schema = Joi.object().keys({
   organizer: organizerSchema,
   attendees: Joi.array().items(contactSchema),
   alarms: Joi.array().items(alarmSchema)
-})
-.xor('end', 'duration')
+}).xor('end', 'duration')
 
 export default function validateEvent(candidate) {
   const { error, value } = Joi.validate(candidate, schema)

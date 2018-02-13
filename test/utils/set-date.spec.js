@@ -9,4 +9,7 @@ describe('utils.setDate', () => {
   it('sets a local (i.e. floating) time when specified', () => {
     expect(setDate([1998, 1, 18, 23, 0], 'local')).to.contain('199801')
   })
+  it('sets a date value when passed only three args', () => {
+    expect(setDate([2018, 2, 11])).to.equal('20180211')
+  })
 })
