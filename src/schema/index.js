@@ -10,6 +10,7 @@ const dateTimeSchema = Joi.array().min(5).max(7).ordered(
 )
 
 const durationSchema = Joi.object().keys({
+  before: Joi.boolean(),//option to set before alaram
   weeks: Joi.number(),
   days: Joi.number(),
   hours: Joi.number(),
@@ -30,11 +31,12 @@ const organizerSchema = Joi.object().keys({
 
 const alarmSchema = Joi.object().keys({
   action: Joi.string().regex(/audio|display|email/).required(),
-  trigger: Joi.array().required(),
+  trigger: Joi.any().required(),
   description: Joi.string(),
   duration: durationSchema,
   repeat: Joi.number(),
-  attach: Joi.string().uri(),
+  attach: Joi.string(),//To Support inbuilt iOS sounds
+  attachType: Joi.string(),
   summary: Joi.string(),
   attendee: contactSchema,
   'x-prop': Joi.any(),

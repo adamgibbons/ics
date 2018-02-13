@@ -1,9 +1,12 @@
 import uuid from 'uuid/v4'
+import _ from 'lodash'
 import {
   buildEvent,
   validateEvent,
+  formatCalendar,
   formatEvent
 } from './pipeline'
+import defaultAttributes from './defaults'
 
 function assignUniqueId(event) {
   event.uid = event.uid || uuid()
@@ -72,7 +75,7 @@ export function createEvent (attributes, cb) {
 
   // Return a node-style callback
   const { error, value } = validateEvent(buildEvent(attributes))
-  
+
   if (error) return cb(error)
 
   return cb(null, formatEvent(value))
@@ -83,16 +86,17 @@ export function createEvents (events, cb) {
     return { error: Error('one argument is required'), value: null }
   }
 
-  const { error, value } = events.map(assignUniqueId)
+  let { error, value } = events.map(assignUniqueId)
     .map(applyInitialFormatting)
-    .map(reformatEventsByPosition)
     .reduce(catenateEvents, { error: null, value: null })
+  let calendar = {
+    icsEvents:value,
+    productId:_.get(events[0],"productId",defaultAttributes.productId)
+  }
+  value = formatCalendar(calendar)
 
   if (!cb) {
     return { error, value }
   }
-
-  console.log(error, value)
-
   return cb(error, value)
 }
