@@ -63,8 +63,8 @@ export default function formatEvent(attributes = {}) {
 
     return icsFormat
         .map(line => {
-            let res = "";
-            for (let i = 0; i < line.length; i += 70) {
+            let res = line.substr(0, 70);
+            for (let i = 70; i < line.length; i += 70) {
                 res += line.substr(i, i + 70) + "\r\n ";
             }
             return res;
