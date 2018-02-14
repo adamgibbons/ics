@@ -56,31 +56,28 @@ function catenateEvents(accumulator, { error, value }, idx) {
 export function createEvent (attributes, cb) {
   if (!attributes) { Error('Attributes argument is required') }
 
+  const { error, value } = validateEvent(buildEvent(attributes))
+  let calendar = {
+    icsEvents:'',
+    productId:_.get(value,"productId",defaultAttributes.productId)
+  }
+
   if (!cb) {
     // No callback, so return error or value in an object
-    const { error, value } = validateEvent(buildEvent(attributes))
-
     if (error) return { error, value }
-
     let event = ''
-
     try {
-      event = formatEvent(value)
+      calendar.icsEvents = formatEvent(value)
+      event = formatCalendar(calendar)
     } catch(error) {
       return { error, value: null }
     }
-
     return { error: null, value: event }
   }
 
   // Return a node-style callback
-  const { error, value } = validateEvent(buildEvent(attributes))
-
   if (error) return cb(error)
-  let calendar = {
-    icsEvents:formatEvent(value),
-    productId:_.get(value,"productId",defaultAttributes.productId)
-  }
+  calendar.icsEvents = formatEvent(value)
 
   return cb(null, formatCalendar(calendar))
 }
