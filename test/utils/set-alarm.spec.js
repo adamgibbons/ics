@@ -18,7 +18,7 @@ describe('utils.setAlarm', () => {
       trigger: [1997, 2, 17, 6, 30],
       summary: 'Bar baz'
     }
-    const alarm = setAlarm(attributes).replace("\r\n ", "")
+    const alarm = setAlarm(attributes).replace(/\r\n /g, "")
     expect(alarm).to.contain('BEGIN:VALARM')
     expect(alarm).to.contain('ACTION:AUDIO')
     expect(alarm).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
