@@ -60,7 +60,7 @@ ics.createEvent(event, (error, value) => {
   //  ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
   //  ATTENDEE;RSVP=FALSE;CN=Brittany Seaton:mailto:brittany@example2.org
   //  BEGIN:VALARM
-  //  ACTION:display
+  //  ACTION:DISPLAY
   //  DESCRIPTION:Reminder
   //  TRIGGER;VALUE=DATE-TIME:20180530T020000Z
   //  END:VALARM
@@ -160,6 +160,17 @@ The following properties are accepted:
 | alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
+
+To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
+The date of the `end` property should be the day *after* your all-day event.
+For example, in order to create an all-day event occuring on October 15, 2018:
+```javascript
+const eventAttributes = {
+  start: [2018, 10, 15],
+  end: [2018, 10, 16],
+  /* rest of attributes */
+}
+```
 
 #### `callback`
 
