@@ -77,8 +77,12 @@ export function createEvent (attributes, cb) {
   const { error, value } = validateEvent(buildEvent(attributes))
 
   if (error) return cb(error)
+  let calendar = {
+    icsEvents:formatEvent(value),
+    productId:_.get(value,"productId",defaultAttributes.productId)
+  }
 
-  return cb(null, formatEvent(value))
+  return cb(null, formatCalendar(calendar))
 }
 
 export function createEvents (events, cb) {
