@@ -55,7 +55,7 @@ export default function formatEvent(attributes = {}) {
     }
 
     if (alarms) {
-        icsFormat = icsFormat.concat(alarms.map(alarm => `ALARM;${setAlarm(alarm)}`));
+        icsFormat = icsFormat.concat(alarms.map(alarm => setAlarm(alarm)));
     }
 
     if (duration) icsFormat.push(`DURATION:${formatDuration(duration)}`);
@@ -63,10 +63,11 @@ export default function formatEvent(attributes = {}) {
 
     return icsFormat
         .map(line => {
+            let res = "";
             for (let i = 0; i < line.length; i += 70) {
-                line += line.substr(i, i + 70) + "\r\n ";
+                res += line.substr(i, i + 70) + "\r\n ";
             }
-            return line;
+            return res;
         })
         .join("\r\n");
 }
