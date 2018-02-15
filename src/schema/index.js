@@ -10,6 +10,7 @@ const dateTimeSchema = Joi.array().min(3).max(7).ordered(
 )
 
 const durationSchema = Joi.object().keys({
+  before: Joi.boolean(),//option to set before alaram
   weeks: Joi.number(),
   days: Joi.number(),
   hours: Joi.number(),
