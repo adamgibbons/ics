@@ -1,3 +1,3 @@
-var ics = require('./dist');
+const ics = require('./dist');
 
 module.exports = ics;

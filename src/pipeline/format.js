@@ -8,58 +8,66 @@ import {
     formatDuration
 } from '../utils'
 
-export default function formatEvent (attributes = {}) {
-  const {
-    title,
-    productId,
-    uid,
-    timestamp,
-    start,
-    startType,
-    duration,
-    end,
-    description,
-    url,
-    geo,
-    location,
-    status,
-    categories,
-    organizer,
-    attendees,
-    alarms
-  } = attributes
+export default function formatEvent(attributes = {}) {
+    const {
+        title,
+        productId,
+        uid,
+        timestamp,
+        start,
+        startType,
+        duration,
+        end,
+        description,
+        url,
+        geo,
+        location,
+        status,
+        categories,
+        organizer,
+        attendees,
+        alarms
+    } = attributes;
 
-    let icsFormat = ''
-    icsFormat += 'BEGIN:VCALENDAR\r\n'
-    icsFormat += 'VERSION:2.0\r\n'
-    icsFormat += 'CALSCALE:GREGORIAN\r\n'
-    icsFormat += `PRODID:${productId}\r\n`
-    icsFormat += 'BEGIN:VEVENT\r\n'
-    icsFormat += `UID:${uid}\r\n`
-    icsFormat += `SUMMARY:${title}\r\n`
-    icsFormat += `DTSTAMP:${timestamp}\r\n`
-    icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
-    icsFormat += end ? `DTEND:${setDate(end, startType)}\r\n` : ''
-    icsFormat += description ? `DESCRIPTION:${setDescription(description)}\r\n` : ''
-    icsFormat += url ? `URL:${url}\r\n` : ''
-    icsFormat += geo ? `GEO:${setGeolocation(geo)}\r\n` : ''
-    icsFormat += location ? `LOCATION:${location}\r\n` : ''
-    icsFormat += status ? `STATUS:${status}\r\n` : ''
-    icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
-    icsFormat += organizer ? `ORGANIZER;${setOrganizer(organizer)}\r\n` : ''
+    let icsFormat = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'CALSCALE:GREGORIAN',
+        `PRODID:${productId}`,
+        'BEGIN:VEVENT',
+        `UID:${uid}`,
+        `SUMMARY:${title}`,
+        `DTSTAMP:${timestamp}`,
+        `DTSTART:${setDate(start, startType)}`
+    ];
+
+    if (end) icsFormat.push(`DTEND:${setDate(end, startType)}`);
+    if (description) icsFormat.push(`DESCRIPTION:${setDescription(description)}`);
+    if (url) icsFormat.push(`URL:${url}`);
+    if (geo) icsFormat.push(`GEO:${setGeolocation(geo)}`);
+    if (location) icsFormat.push(`LOCATION:${location}`);
+    if (status) icsFormat.push(`STATUS:${status}`);
+    if (categories) icsFormat.push(`CATEGORIES:${categories}`);
+    if (organizer) icsFormat.push(`ORGANIZER;${setOrganizer(organizer)}`);
+
     if (attendees) {
-      attendees.map(function (attendee) {
-        icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`
-      })
+        icsFormat = icsFormat.concat(attendees.map(attendee => `ATTENDEE;${setContact(attendee)}`));
     }
+
     if (alarms) {
-      alarms.map(function (alarm) {
-        icsFormat += setAlarm(alarm)
-      })
+        icsFormat = icsFormat.concat(alarms.map(alarm => setAlarm(alarm)));
     }
-    icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
-    icsFormat += `END:VEVENT\r\n`
-    icsFormat += `END:VCALENDAR\r\n`
+
+    if (duration) icsFormat.push(`DURATION:${formatDuration(duration)}`);
+    icsFormat = icsFormat.concat(`END:VEVENT`, `END:VCALENDAR`);
 
     return icsFormat
+        .map(line => {
+            let res = line.substr(0, 70);
+            for (let i = 70; i < line.length; i += 70) {
+                res += line.substr(i, i + 70) + "\r\n ";
+            }
+            return res;
+        })
+        .join("\r\n");
 }
