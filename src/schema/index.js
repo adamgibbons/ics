@@ -31,7 +31,7 @@ const organizerSchema = Joi.object().keys({
 
 const alarmSchema = Joi.object().keys({
   action: Joi.string().regex(/audio|display|email/).required(),
-  trigger: Joi.array().required(),
+  trigger: Joi.any().required(),
   description: Joi.string(),
   duration: durationSchema,
   repeat: Joi.number(),
