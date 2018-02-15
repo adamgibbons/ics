@@ -30,10 +30,6 @@ export default function formatEvent (attributes = {}) {
   } = attributes
 
     let icsFormat = ''
-    icsFormat += 'BEGIN:VCALENDAR\r\n'
-    icsFormat += 'VERSION:2.0\r\n'
-    icsFormat += 'CALSCALE:GREGORIAN\r\n'
-    icsFormat += `PRODID:${productId}\r\n`
     icsFormat += 'BEGIN:VEVENT\r\n'
     icsFormat += `UID:${uid}\r\n`
     icsFormat += `SUMMARY:${title}\r\n`
@@ -59,7 +55,6 @@ export default function formatEvent (attributes = {}) {
     }
     icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
     icsFormat += `END:VEVENT\r\n`
-    icsFormat += `END:VCALENDAR\r\n`
 
     return icsFormat
 }

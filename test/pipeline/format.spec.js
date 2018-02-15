@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import {
+  formatCalendar,
   formatEvent,
   buildEvent
 } from '../../src/pipeline'
@@ -7,7 +8,7 @@ import {
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
-    const formattedEvent = formatEvent(event)
+    const formattedEvent = formatCalendar({icsEvents:formatEvent(event),productId:"adamgibbons/ics"})
     expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
     expect(formattedEvent).to.contain('VERSION:2.0')
     expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
