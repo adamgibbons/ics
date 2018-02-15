@@ -1,4 +1,5 @@
 import setDate from './set-date'
+import _ from 'lodash'
 
 function setDuration ({
   weeks,
