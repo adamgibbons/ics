@@ -42,6 +42,7 @@ export default function setAlarm(attributes = {}) {
     description,
     duration,
     attach,
+    attachType,
     trigger,
     summary
   } = attributes
@@ -51,7 +52,8 @@ export default function setAlarm(attributes = {}) {
   formattedString += repeat ? `REPEAT:${repeat}\r\n` : ''
   formattedString += description ? `DESCRIPTION:${description}\r\n` : ''
   formattedString += duration ? `DURATION:${setDuration(duration)}\r\n` : ''
-  formattedString += attach ? `ATTACH;FMTTYPE=audio/basic:${attach}\r\n` : ''
+  let attachInfo = attachType ? attachType : 'FMTTYPE=audio/basic'
+  formattedString += attach ? `ATTACH;${attachInfo}:${attach}\r\n` : ''
   formattedString += trigger ? setTrigger(trigger) : ''
   formattedString += summary ? `SUMMARY:${summary}\r\n` : ''
   formattedString += 'END:VALARM\r\n'
