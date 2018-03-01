@@ -204,7 +204,7 @@ Array of `attributes` objects (as described in `createEvent`).
 #### `callback`
 
 Optional. 
-Node-style callback. 
+Node-style callback.
 
 ```javascript
 function (err, value) {
