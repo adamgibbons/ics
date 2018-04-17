@@ -41,13 +41,13 @@ export default function formatEvent(attributes = {}) {
   icsFormat += `DTSTAMP:${timestamp}\r\n`
 
   // All day events like anniversaries must be specified as VALUE type DATE
-  icsFormat += `DTSTART${start.length == 3 ? ";VALUE=DATE" : ""}:${setDate(start, startType)}\r\n`
+  icsFormat += `DTSTART${start && start.length == 3 ? ";VALUE=DATE" : ""}:${setDate(start, startType)}\r\n`
 
   // End is not required for all day events on single days (like anniversaries)
-  if (!(_.isEqual(start, end) && end.length == 3)) {
-    if (end.length == 3) {
+  if (!(_.isEqual(start, end) && end && end.length == 3)) {
+    if (end && end.length == 3) {
       icsFormat += `DTEND;VALUE=DATE:${setDate(end, startType)}\r\n`;
-    } else {
+    } else if (end) {
       icsFormat += `DTEND:${setDate(end, startType)}\r\n`;
     }
   }
