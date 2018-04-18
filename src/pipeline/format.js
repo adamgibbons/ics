@@ -5,7 +5,8 @@ import {
     setDate,
     setDescription,
     setGeolocation,
-    formatDuration
+    formatDuration,
+    foldLine
 } from '../utils'
 
 export default function formatEvent (attributes = {}) {
@@ -33,23 +34,23 @@ export default function formatEvent (attributes = {}) {
     icsFormat += 'BEGIN:VCALENDAR\r\n'
     icsFormat += 'VERSION:2.0\r\n'
     icsFormat += 'CALSCALE:GREGORIAN\r\n'
-    icsFormat += `PRODID:${productId}\r\n`
+    icsFormat += foldLine(`PRODID:${productId}`) + '\r\n'
     icsFormat += 'BEGIN:VEVENT\r\n'
     icsFormat += `UID:${uid}\r\n`
-    icsFormat += `SUMMARY:${title}\r\n`
+    icsFormat += foldLine(`SUMMARY:${title}`) + '\r\n'
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
     icsFormat += end ? `DTEND:${setDate(end, startType)}\r\n` : ''
-    icsFormat += description ? `DESCRIPTION:${setDescription(description)}\r\n` : ''
-    icsFormat += url ? `URL:${url}\r\n` : ''
-    icsFormat += geo ? `GEO:${setGeolocation(geo)}\r\n` : ''
-    icsFormat += location ? `LOCATION:${location}\r\n` : ''
-    icsFormat += status ? `STATUS:${status}\r\n` : ''
-    icsFormat += categories ? `CATEGORIES:${categories}\r\n` : ''
-    icsFormat += organizer ? `ORGANIZER;${setOrganizer(organizer)}\r\n` : ''
+    icsFormat += description ? (foldLine(`DESCRIPTION:${setDescription(description)}`) + '\r\n') : ''
+    icsFormat += url ? (foldLine(`URL:${url}`) + '\r\n') : ''
+    icsFormat += geo ? (foldLine(`GEO:${setGeolocation(geo)}`) + '\r\n') : ''
+    icsFormat += location ? (foldLine(`LOCATION:${location}`) + '\r\n') : ''
+    icsFormat += status ? (foldLine(`STATUS:${status}`) + '\r\n') : ''
+    icsFormat += categories ? (foldLine(`CATEGORIES:${categories}`) + '\r\n') : ''
+    icsFormat += organizer ? (foldLine(`ORGANIZER;${setOrganizer(organizer)}`) + '\r\n') : ''
     if (attendees) {
       attendees.map(function (attendee) {
-        icsFormat += `ATTENDEE;${setContact(attendee)}\r\n`
+        icsFormat += foldLine(`ATTENDEE;${setContact(attendee)}`) + '\r\n'
       })
     }
     if (alarms) {
