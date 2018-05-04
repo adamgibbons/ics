@@ -6,6 +6,7 @@ import setContact from './set-contact'
 import setOrganizer from './set-organizer'
 import setAlarm from './set-alarm'
 import setDescription from './set-description'
+import setSummary from './set-summary'
 import formatDuration from './format-duration'
 
 export {
@@ -17,5 +18,6 @@ export {
   setOrganizer,
   setAlarm,
   formatDuration,
-  setDescription
+  setDescription,
+  setSummary
 }

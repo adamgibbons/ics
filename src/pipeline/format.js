@@ -4,6 +4,7 @@ import {
     setOrganizer,
     setDate,
     setDescription,
+    setSummary,
     setGeolocation,
     formatDuration
 } from '../utils'
@@ -36,7 +37,7 @@ export default function formatEvent (attributes = {}) {
     icsFormat += `PRODID:${productId}\r\n`
     icsFormat += 'BEGIN:VEVENT\r\n'
     icsFormat += `UID:${uid}\r\n`
-    icsFormat += `SUMMARY:${title}\r\n`
+    icsFormat += `SUMMARY:${setSummary(title)}\r\n`
     icsFormat += `DTSTAMP:${timestamp}\r\n`
     icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
     icsFormat += end ? `DTEND:${setDate(end, startType)}\r\n` : ''
