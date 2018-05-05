@@ -56,6 +56,7 @@ const schema = Joi.object().keys({
   url: Joi.string().uri(),
   geo: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
   location: Joi.string(),
+  timezone: Joi.string(),
   status: Joi.string().regex(/TENTATIVE|CANCELLED|CONFIRMED/),
   categories: Joi.array().items(Joi.string()),
   organizer: organizerSchema,
