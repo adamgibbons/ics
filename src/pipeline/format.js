@@ -6,6 +6,7 @@ import {
     setDescription,
     setSummary,
     setGeolocation,
+    setTimezone,
     formatDuration,
     foldLine
 } from '../utils'
@@ -24,6 +25,7 @@ export default function formatEvent (attributes = {}) {
     url,
     geo,
     location,
+    timezone,
     status,
     categories,
     organizer,
@@ -42,8 +44,8 @@ export default function formatEvent (attributes = {}) {
     icsFormat += `UID:${uid}\r\n`
     icsFormat +=  foldLine(`SUMMARY:${title ? setSummary(title) : title}`) + '\r\n'
     icsFormat += `DTSTAMP:${timestamp}\r\n`
-    icsFormat += `DTSTART:${setDate(start, startType)}\r\n`
-    icsFormat += end ? `DTEND:${setDate(end, startType)}\r\n` : ''
+    icsFormat += `DTSTART${setTimezone(timezone)}:${setDate(start, startType)}\r\n`
+    icsFormat += end ? `DTEND${setTimezone(timezone)}:${setDate(end, startType)}\r\n` : ''
     icsFormat += description ? (foldLine(`DESCRIPTION:${setDescription(description)}`) + '\r\n') : ''
     icsFormat += url ? (foldLine(`URL:${url}`) + '\r\n') : ''
     icsFormat += geo ? (foldLine(`GEO:${setGeolocation(geo)}`) + '\r\n') : ''

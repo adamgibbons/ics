@@ -34,6 +34,12 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
   })
+  it('writes a start and end with timezone', () => {
+    const event = buildEvent({ start: [2017, 5, 15, 10, 0], end: [2017, 5, 15, 11, 0], timezone: 'America/Chicago' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTSTART;TZID=America/Chicago:2017051')
+    expect(formattedEvent).to.contain('DTEND;TZID=America/Chicago:2017051')
+  })
   it('writes a description', () => {
     const event = buildEvent({ description: 'bar baz' })
     const formattedEvent = formatEvent(event)
