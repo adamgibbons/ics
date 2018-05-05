@@ -41,7 +41,8 @@
     "chai": "^4.1.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
-    "mocha": "^3.5.0"
+    "mocha": "^3.5.0",
+    "prettier": "1.12.1"
   },
   "dependencies": {
     "joi": "^10.6.0",

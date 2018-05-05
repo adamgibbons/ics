@@ -14,6 +14,7 @@ export default function buildEvent (attributes = {}) {
     url,
     geo,
     location,
+    timezone,
     status,
     categories,
     organizer,

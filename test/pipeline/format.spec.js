@@ -34,15 +34,27 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
   })
+  it('writes a start and end with timezone', () => {
+    const event = buildEvent({ start: [2017, 5, 15, 10, 0], end: [2017, 5, 15, 11, 0], timezone: 'America/Chicago' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTSTART;TZID=America/Chicago:2017051')
+    expect(formattedEvent).to.contain('DTEND;TZID=America/Chicago:2017051')
+  })
   it('writes a description', () => {
     const event = buildEvent({ description: 'bar baz' })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DESCRIPTION:bar baz')
   })
+  it('escapes characters in text types', () => {
+    const event = buildEvent({ title: 'colon: semi; comma, period. slash\\', description: 'colon: semi; comma, period. slash\\' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DESCRIPTION:colon: semi\\; comma\\, period. slash\\\\')
+    expect(formattedEvent).to.contain('SUMMARY:colon: semi\\; comma\\, period. slash\\\\')
+  })
   it('folds a long description', () => {
     const event = buildEvent({ description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' })
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('DESCRIPTION:Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do\r\n\t eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad mi\r\n\tnim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex e\r\n\ta commodo consequat. Duis aute irure dolor in reprehenderit in voluptate v\r\n\telit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat \r\n\tcupidatat non proident, sunt in culpa qui officia deserunt mollit anim id \r\n\test laborum.')
+    expect(formattedEvent).to.contain('DESCRIPTION:Lorem ipsum dolor sit amet\\, consectetur adipiscing elit\\, sed \r\n\tdo eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad \r\n\tminim veniam\\, quis nostrud exercitation ullamco laboris nisi ut aliquip e\r\n\tx ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptat\r\n\te velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaec\r\n\tat cupidatat non proident\\, sunt in culpa qui officia deserunt mollit anim\r\n\t id est laborum.')
   })
   it('writes a url', () => {
     const event = buildEvent({ url: 'http://www.example.com/' })
