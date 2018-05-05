@@ -2,4 +2,3 @@ node_modules
 .DS_Store
 write-event.js
 output.ics
-dist/
