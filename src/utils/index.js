@@ -6,7 +6,9 @@ import setContact from './set-contact'
 import setOrganizer from './set-organizer'
 import setAlarm from './set-alarm'
 import setDescription from './set-description'
+import setSummary from './set-summary'
 import formatDuration from './format-duration'
+import foldLine from './fold-line'
 
 export {
   setDate,
@@ -17,5 +19,7 @@ export {
   setOrganizer,
   setAlarm,
   formatDuration,
-  setDescription
+  setSummary,
+  setDescription,
+  foldLine
 }

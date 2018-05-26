@@ -128,6 +128,62 @@ console.log(value)
 // END:VCALENDAR
 ```
 
+4) Create iCalendar events with Audio (Mac):
+```'use strict';
+let ics = require("ics")
+let moment = require("moment")
+let events = []
+let alarms = []
+
+let start = moment().format('YYYY-M-D').split("-")
+let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D").split("-")
+alarms.push({
+  action: 'audio',
+  trigger: {hours:2,minutes:30,before:true},
+  repeat: 2,
+  attachType:'VALUE=URI',
+  attach: 'Glass'
+})
+
+let event = {
+  productId:"myCalendarId",
+  uid: "123"+"@ics.com",
+  startType:"local",
+  start: start,
+  end: end,
+  title: "test here",
+  alarms: alarms
+}
+events.push(event)
+console.log(ics.createEvents(events))
+
+// BEGIN:VCALENDAR
+// VERSION:2.0
+// CALSCALE:GREGORIAN
+// PRODID:MyCalendarId
+// METHOD:PUBLISH
+// X-PUBLISHED-TTL:PT1H
+// BEGIN:VEVENT
+// UID:123@MyCalendarIdics.com
+// SUMMARY:test here
+// DTSTAMP:20180409T072100Z
+// DTSTART:20180409
+// DTEND:20180409
+// BEGIN:VALARM
+// ACTION:DISPLAY
+// DESCRIPTION:Reminder
+// TRIGGER:-PT2H30M
+// END:VALARM
+// BEGIN:VALARM
+// ACTION:AUDIO
+// REPEAT:2
+// ATTACH;VALUE=URI:Glass
+// TRIGGER:PT2H
+// END:VALARM
+// END:VEVENT
+// END:VCALENDAR
+
+```
 ## API
 
 ### `createEvent(attributes[, callback])`
@@ -157,9 +213,11 @@ The following properties are accepted:
 | organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
 | attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
-| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }`
+| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: {hours:2,minutes:30,before:true} OR `{ action: 'DISPLAY', trigger: {hours:2,minutes:30,before:false}` OR `{action: 'audio',trigger: {hours:2,minutes:30,before:true}, repeat: 2,attachType:'VALUE=URI',attach: 'Glass'}`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
+
+Alarams attach property can have these values for Mac : Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.
@@ -204,7 +262,7 @@ Array of `attributes` objects (as described in `createEvent`).
 #### `callback`
 
 Optional. 
-Node-style callback. 
+Node-style callback.
 
 ```javascript
 function (err, value) {

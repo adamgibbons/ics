@@ -39,6 +39,17 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DESCRIPTION:bar baz')
   })
+  it('escapes characters in text types', () => {
+    const event = buildEvent({ title: 'colon: semi; comma, period. slash\\', description: 'colon: semi; comma, period. slash\\' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DESCRIPTION:colon: semi\\; comma\\, period. slash\\\\')
+    expect(formattedEvent).to.contain('SUMMARY:colon: semi\\; comma\\, period. slash\\\\')
+  })
+  it('folds a long description', () => {
+    const event = buildEvent({ description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DESCRIPTION:Lorem ipsum dolor sit amet\\, consectetur adipiscing elit\\, sed \r\n\tdo eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad \r\n\tminim veniam\\, quis nostrud exercitation ullamco laboris nisi ut aliquip e\r\n\tx ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptat\r\n\te velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaec\r\n\tat cupidatat non proident\\, sunt in culpa qui officia deserunt mollit anim\r\n\t id est laborum.')
+  })
   it('writes a url', () => {
     const event = buildEvent({ url: 'http://www.example.com/' })
     const formattedEvent = formatEvent(event)
@@ -110,5 +121,24 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('ACTION:AUDIO')
     expect(formattedEvent).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
     expect(formattedEvent).to.contain('END:VALARM')
+  })
+  it('never writes lines longer than 75 characters, excluding CRLF', () => {
+    const formattedEvent = formatEvent({
+      productId: '*'.repeat(1000),
+      title: '*'.repeat(1000),
+      description: '*'.repeat(1000),
+      url: '*'.repeat(1000),
+      geo: '*'.repeat(1000),
+      location: '*'.repeat(1000),
+      status: '*'.repeat(1000),
+      categories: '*'.repeat(1000),
+      organizer: '*'.repeat(1000),
+      attendees: [
+        {name: '*'.repeat(1000), email: '*'.repeat(1000)},
+        {name: '*'.repeat(1000), email: '*'.repeat(1000), rsvp: true}
+      ]
+    })
+    const max = Math.max(...formattedEvent.split('\r\n').map(line => line.length))
+    expect(max).to.be.at.most(75)
   })
 })
