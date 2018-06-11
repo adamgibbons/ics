@@ -217,7 +217,7 @@ The following properties are accepted:
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
 
-Alarams attach property can have these values for Mac : Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink
+The `alarms`' `attach` property can have these values for Mac : Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.
