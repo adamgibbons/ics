@@ -75,6 +75,19 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('CATEGORIES:boulder,running')
   })
+
+  it('writes all-day events', () => {
+    const eventWithOnlyStart = buildEvent({ start: [2017, 5, 15] })
+    const formattedStartEvent = formatEvent(eventWithOnlyStart)
+    expect(formattedStartEvent).to.contain('DTSTART;VALUE=DATE:20170515')
+    expect(formattedStartEvent).to.not.contain('DTEND')
+
+    const eventWithStartAndEnd = buildEvent({ start: [2017, 5, 15], end: [2017, 5, 18] })
+    const formattedStartEndEvent = formatEvent(eventWithStartAndEnd)
+    expect(formattedStartEndEvent).to.contain('DTSTART;VALUE=DATE:20170515')
+    expect(formattedStartEndEvent).to.contain('DTEND;VALUE=DATE:20170518')
+  })
+
   it('writes attendees', () => {
     const event = buildEvent({ attendees: [
       {name: 'Adam Gibbons', email: 'adam@example.com'},
