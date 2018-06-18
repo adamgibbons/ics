@@ -25,9 +25,9 @@ describe('pipeline.build properties', () => {
   describe('method', () => {
     it('sets a default', () => {
       const event = buildEvent()
-      expect(event.method).to.equal('adamgibbons/ics')
+      expect(event.method).to.equal('PUBLISH')
     })
-    it('sets a product id', () => {
+    it('sets a method', () => {
       const event = buildEvent({ method: 'REQUEST' })
       expect(event.method).to.equal('REQUEST')
     })
