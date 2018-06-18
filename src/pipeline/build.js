@@ -5,6 +5,7 @@ export default function buildEvent (attributes = {}) {
   const {
     title,
     productId,
+    method,
     uid,
     start,
     startType,

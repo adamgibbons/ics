@@ -15,6 +15,7 @@ export default function formatEvent(attributes = {}) {
   const {
     title,
     productId,
+    method,
     uid,
     timestamp,
     start,
@@ -37,7 +38,7 @@ export default function formatEvent(attributes = {}) {
   icsFormat += 'VERSION:2.0\r\n'
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
   icsFormat += foldLine(`PRODID:${productId}`) + '\r\n'
-  icsFormat += `METHOD:REQUEST\r\n`
+  icsFormat += foldLine(`METHOD:${method}`) + '\r\n'
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += 'BEGIN:VEVENT\r\n'
   icsFormat += `UID:${uid}\r\n`
