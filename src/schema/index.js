@@ -47,6 +47,7 @@ const schema = Joi.object().keys({
   timestamp: Joi.any(),
   title: Joi.string(),
   productId: Joi.string(),
+  method: Joi.string(),
   uid: Joi.string().required(),
   start: dateTimeSchema.required(),
   duration: durationSchema,

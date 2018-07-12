@@ -7,6 +7,7 @@ const now = moment().utc()
 const defaults = {
   title: 'Untitled event',
   productId: 'adamgibbons/ics',
+  method: 'PUBLISH',
   uid: uuidv1(),
   timestamp: setDateWithUTCtime([
     now.get('year'),

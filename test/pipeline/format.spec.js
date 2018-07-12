@@ -125,6 +125,7 @@ describe('pipeline.formatEvent', () => {
   it('never writes lines longer than 75 characters, excluding CRLF', () => {
     const formattedEvent = formatEvent({
       productId: '*'.repeat(1000),
+      method: '*'.repeat(1000),
       title: '*'.repeat(1000),
       description: '*'.repeat(1000),
       url: '*'.repeat(1000),
