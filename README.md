@@ -206,19 +206,17 @@ The following properties are accepted:
 | duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
 | title         | Title of event. | `'Code review'`
 | description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
-| location      | Intended venue | `Mountain Sun Pub and Brewery`.
+| location      | Intended venue | `Mountain Sun Pub and Brewery`
 | geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
-| status        | Three statuses are allowed: `TENTATIVE, `CONFIRMED`, or `CANCELLED` | `CONFIRMED`
-| organizer     | Person organizing the event | `{name: 'Adam Gibbons', email: 'adam@example.com'}`
+| status        | Three statuses are allowed: `TENTATIVE`, `CONFIRMED`, `CANCELLED` | `CONFIRMED`
+| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com' }`
 | attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
-| alarms        | Alerts that can be set to trigger before, during, or after the event | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: {hours:2,minutes:30,before:true} OR `{ action: 'DISPLAY', trigger: {hours:2,minutes:30,before:false}` OR `{action: 'audio',trigger: {hours:2,minutes:30,before:true}, repeat: 2,attachType:'VALUE=URI',attach: 'Glass'}`
+| alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'AUDIO', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }` 
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
-| method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | Default o PUBLISH
-
-The `alarms`' `attach` property can have these values for Mac : Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink
+| method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.
