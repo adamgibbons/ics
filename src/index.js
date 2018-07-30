@@ -83,6 +83,10 @@ export function createEvents (events, cb) {
     return { error: Error('one argument is required'), value: null }
   }
 
+  if (events.length === 1) {
+    return createEvent(events[0], cb)
+  }
+
   const { error, value } = events.map(assignUniqueId)
     .map(applyInitialFormatting)
     .map(reformatEventsByPosition)
