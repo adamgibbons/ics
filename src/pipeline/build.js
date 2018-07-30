@@ -3,6 +3,8 @@ import defaultAttributes from '../defaults'
 
 export default function buildEvent (attributes = {}) {
   const {
+    calendarName,
+    ttl,
     title,
     productId,
     method,

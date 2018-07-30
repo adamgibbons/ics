@@ -2,6 +2,16 @@ import { expect } from 'chai'
 import { buildEvent } from '../../src/pipeline'
 
 describe('pipeline.build properties', () => {
+  describe('calendarName', () => {
+    it('removes a falsey value', () => {
+      const event = buildEvent()
+      expect(event.description).not.to.exist
+    })
+    it('sets a calendar name', () => {
+      const event = buildEvent({ calendarName: 'feels so good' })
+      expect(event.calendarName).to.equal('feels so good')
+    })
+  })
   describe('title', () => {
     it('sets a default', () => {
       const event = buildEvent()

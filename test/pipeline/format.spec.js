@@ -10,6 +10,7 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
     expect(formattedEvent).to.contain('VERSION:2.0')
+    expect(formattedEvent).to.contain('X-PUBLISHED-TTL:PT1H')
     expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
@@ -18,6 +19,16 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
     expect(formattedEvent).to.contain('END:VCALENDAR')
+  })
+  it('writes a calendar name', () => {
+    const event = buildEvent({ calendarName: 'bar baz' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('X-WR-CALNAME:bar baz')
+  })
+  it('writes a published TTL', () => {
+    const event = buildEvent({ ttl: { minutes: 30 } })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('X-PUBLISHED-TTL:PT30M')
   })
   it('writes a title', () => {
     const event = buildEvent({ title: 'foo bar' })

@@ -13,6 +13,8 @@ import _ from 'lodash'
 
 export default function formatEvent(attributes = {}) {
   const {
+    calendarName,
+    ttl,
     title,
     productId,
     method,
@@ -39,7 +41,8 @@ export default function formatEvent(attributes = {}) {
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
   icsFormat += foldLine(`PRODID:${productId}`) + '\r\n'
   icsFormat += foldLine(`METHOD:${method}`) + '\r\n'
-  icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
+  icsFormat += calendarName ? (foldLine(`X-WR-CALNAME:${calendarName}`) + '\r\n') : ''
+  icsFormat += `X-PUBLISHED-TTL:${ttl ? formatDuration(ttl) : "PT1H"}\r\n`
   icsFormat += 'BEGIN:VEVENT\r\n'
   icsFormat += `UID:${uid}\r\n`
   icsFormat +=  foldLine(`SUMMARY:${title ? setSummary(title) : title}`) + '\r\n'
