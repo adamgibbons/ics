@@ -37,6 +37,13 @@ describe('ics', () => {
       const events = createEvents()
       expect(events.error).to.exist
     })
+    it('writes begin and end calendar tags', () => {
+      const { error, value } = createEvents([validAttributes])
+      console.log(error, value)
+      expect(error).to.be.null
+      expect(value).to.contain('BEGIN:VCALENDAR')
+      expect(value).to.contain('END:VCALENDAR')
+    })
 
     describe('when no callback is provided', () => {
       it('returns an iCal string and a null error when passed valid events', () => {
