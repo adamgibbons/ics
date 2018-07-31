@@ -49,6 +49,7 @@ const schema = Joi.object().keys({
   productId: Joi.string(),
   method: Joi.string(),
   uid: Joi.string().required(),
+  sequence: Joi.number(),
   start: dateTimeSchema.required(),
   duration: durationSchema,
   startType: Joi.string(),

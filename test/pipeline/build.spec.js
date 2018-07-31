@@ -41,7 +41,13 @@ describe('pipeline.build properties', () => {
       const event = buildEvent({ uid: 'myuid' })
       expect(event.uid).to.equal('myuid')
     })
-  })  
+  })
+  describe('sequence', () => {
+    it('sets a sequence number', () => {
+      const event = buildEvent({ sequence: 5 })
+      expect(event.sequence).to.equal(5)
+    })
+  })
   describe('start and end', () => {
     it('defaults to UTC date-time format', () => {
       const event = buildEvent({

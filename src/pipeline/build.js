@@ -7,6 +7,7 @@ export default function buildEvent (attributes = {}) {
     productId,
     method,
     uid,
+    sequence,
     start,
     startType,
     duration,
