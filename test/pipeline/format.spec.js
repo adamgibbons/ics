@@ -142,4 +142,9 @@ describe('pipeline.formatEvent', () => {
     const max = Math.max(...formattedEvent.split('\r\n').map(line => line.length))
     expect(max).to.be.at.most(75)
   })
+  it('writes a recurrence rule', () => {
+    const formattedEvent = formatEvent({ recurrenceRule: 'FREQ=DAILY'})
+    
+    expect(formattedEvent).to.contain('RRULE:FREQ=DAILY')
+  })
 })
