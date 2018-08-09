@@ -37,9 +37,9 @@
   "devDependencies": {
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^6.1.2",
-    "mocha": "^3.5.0"
+    "mocha": "^5.2.0"
   },
   "dependencies": {
     "joi": "^10.6.0",
