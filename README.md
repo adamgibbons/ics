@@ -135,8 +135,9 @@ let moment = require("moment")
 let events = []
 let alarms = []
 
-let start = moment().format('YYYY-M-D').split("-")
-let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D").split("-")
+let start = moment().format('YYYY-M-D-H-m').split("-")
+let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D-H-m").split("-")
+
 alarms.push({
   action: 'audio',
   trigger: {hours:2,minutes:30,before:true},
