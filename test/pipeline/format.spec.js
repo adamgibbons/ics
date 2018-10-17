@@ -35,7 +35,7 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
   })
-  it('writes a url', () => {
+  it('writes a sequence', () => {
     const event = buildEvent({ sequence: 8 })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('SEQUENCE:8')
