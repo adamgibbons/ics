@@ -14,6 +14,7 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
+    expect(formattedEvent).to.not.contain('SEQUENCE:')
     expect(formattedEvent).to.contain('DTSTART:')
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
@@ -33,6 +34,11 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ end: [2017, 5, 15, 11, 0] })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
+  })
+  it('writes a sequence', () => {
+    const event = buildEvent({ sequence: 8 })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('SEQUENCE:8')
   })
   it('writes a description', () => {
     const event = buildEvent({ description: 'bar baz' })
