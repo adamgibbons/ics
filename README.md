@@ -32,41 +32,41 @@ const event = {
   organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true },
-    { name: 'Brittany Seaton', email: 'brittany@example2.org' }
+    { name: 'Brittany Seaton', email: 'brittany@example2.org', dir: 'https://linkedin.com/in/brittanyseaton' }
   ]
 }
 
 ics.createEvent(event, (error, value) => {
   if (error) {
     console.log(error)
+    return
   }
 
-  console.log(value)
-  //  BEGIN:VCALENDAR
-  //  VERSION:2.0
-  //  CALSCALE:GREGORIAN
-  //  PRODID:adamgibbons/ics
-  //  BEGIN:VEVENT
-  //  UID:070bbdd0-a6de-11e7-9552-4faa901a846b
-  //  SUMMARY:Bolder Boulder
-  //  DTSTAMP:20171002T012300Z
-  //  DTSTART:20180530T125000Z
-  //  DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
-  //  URL:http://www.bolderboulder.com/
-  //  GEO:40.0095;105.2669
-  //  LOCATION:Folsom Field, University of Colorado (finish line)
-  //  STATUS:CONFIRMED
-  //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-  //  ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
-  //  ATTENDEE;RSVP=FALSE;CN=Brittany Seaton:mailto:brittany@example2.org
-  //  BEGIN:VALARM
-  //  ACTION:DISPLAY
-  //  DESCRIPTION:Reminder
-  //  TRIGGER;VALUE=DATE-TIME:20180530T020000Z
-  //  END:VALARM
-  //  DURATION:PT5H
-  //  END:VEVENT
-  //  END:VCALENDAR
+  console.log(value)  
+  // BEGIN:VCALENDAR
+  // VERSION:2.0
+  // CALSCALE:GREGORIAN
+  // PRODID:adamgibbons/ics
+  // METHOD:PUBLISH
+  // X-PUBLISHED-TTL:PT1H
+  // BEGIN:VEVENT
+  // UID:d9e5e080-d25e-11e8-806a-e73a41d3e47b
+  // SUMMARY:Bolder Boulder
+  // DTSTAMP:20181017T204900Z
+  // DTSTART:20180530T043000Z
+  // DESCRIPTION:Annual 10-kilometer run in Boulder\, Colorado
+  // URL:http://www.bolderboulder.com/
+  // GEO:40.0095;105.2669
+  // LOCATION:Folsom Field, University of Colorado (finish line)
+  // STATUS:CONFIRMED
+  // CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
+  // ORGANIZER;CN=Admin:mailto:Race@BolderBOULDER.com
+  // ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
+  // ATTENDEE;RSVP=FALSE;DIR=https://linkedin.com/in/brittanyseaton;CN=Brittany
+  //   Seaton:mailto:brittany@example2.org
+  // DURATION:PT6H30M
+  // END:VEVENT
+  // END:VCALENDAR
 })
 ```
 
@@ -105,6 +105,11 @@ const { error, value } = ics.createEvents([
     duration: { hours: 1, minutes: 30 }
   }
 ])
+
+if (error) {
+  console.log(error)
+  return
+}
 
 console.log(value)
 // BEGIN:VCALENDAR
@@ -211,8 +216,8 @@ The following properties are accepted:
 | geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `TENTATIVE`, `CONFIRMED`, `CANCELLED` | `CONFIRMED`
-| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com' }`
-| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz' }]`
+| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' }`
+| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz', dir: 'https://twitter.com/bo1234' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'AUDIO', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
