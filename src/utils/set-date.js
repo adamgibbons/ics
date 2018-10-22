@@ -1,20 +1,23 @@
-import moment from 'moment'
 import {
   setDateWithLocalTime,
   setDateWithUTCtime
 } from './index'
 
+import { getDateStringComponents } from './date';
+
 export default function setDate(args = [], type = 'utc') {
-  const [year, month, date, hours, minutes, seconds] = args
 
   if (args.length === 3) {
-    return moment([year, month - 1, date]).format('YYYYMMDD')
+    const [year, month, _date] = args
+    const date = new Date(year, month - 1, _date);
+    const [Y, m, d] = getDateStringComponents(date);
+    return Y + m + d;
   }
   
   if (type === 'local') {
-    return setDateWithLocalTime([year, month, date, hours, minutes, seconds || 0])
+    return setDateWithLocalTime(args);
   }
 
   // type === 'utc'
-  return setDateWithUTCtime([year, month, date, hours, minutes, seconds || 0])
+  return setDateWithUTCtime(args);
 }

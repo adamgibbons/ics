@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import defaultAttributes from '../defaults'
 
 export default function buildEvent (attributes = {}) {
@@ -27,7 +26,12 @@ export default function buildEvent (attributes = {}) {
   const output = Object.assign({}, defaultAttributes, attributes)
 
   // remove falsey values
-  const cleanOutput = _.pickBy(output, _.identity)
+  const cleanOutput = {};
+  for (let key in output) {
+    if (output[key]) {
+      cleanOutput[key] = output[key];
+    }
+  }
 
   return cleanOutput
 }

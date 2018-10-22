@@ -12,15 +12,18 @@
 // 
 // 19980118T230000
 // 
-
-import moment from 'moment'
+import { formatDate } from './date';
 
 export default function setDateWithLocalTime(args = []) {
+  let date;
   if (args.length > 0) {
-    const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
-    const formattedDate = moment([year, month - 1, date, hours, minutes, seconds]).format('YYYYMMDDTHHmm00')
-    return formattedDate
+    const [year, month, _date, hours = 0, minutes = 0, seconds = 0] = args
+    date = new Date(year, month - 1, _date, hours, minutes, seconds)
+  } else {
+    date = new Date()
   }
 
-  return moment().format('YYYYMMDDTHHmm00')
+  const formattedDate = formatDate(date)
+
+  return formattedDate
 }

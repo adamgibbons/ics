@@ -11,24 +11,18 @@
 // The "TZID" property parameter MUST NOT be applied to DATE-TIME
 // properties whose time values are specified in UTC.
 // 
-
-import moment from 'moment'
+import { formatDateUTC } from './date';
 
 export default function setDateWithUTCtime(args = []) {
+  let date;
   if (args.length > 0) {
-    const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
-
-    const formattedDate = moment([
-      year,
-      month - 1,
-      date,
-      hours,
-      minutes,
-      seconds
-    ]).utc().format('YYYYMMDDTHHmm00') + 'Z'
-
-    return formattedDate
+    const [year, month, _date, hours = 0, minutes = 0, seconds = 0] = args
+    date = new Date(Date.UTC(year, month - 1, _date, hours, minutes, seconds))
+  } else {
+    date = new Date()
   }
 
-  return moment().utc().format('YYYYMMDDTHHmm00') + 'Z'
+  const formattedDate = formatDateUTC(date)
+
+  return formattedDate
 }

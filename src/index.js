@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4'
+import nanoid from 'nanoid'
 import {
   buildEvent,
   validateEvent,
@@ -6,7 +6,7 @@ import {
 } from './pipeline'
 
 function assignUniqueId(event) {
-  event.uid = event.uid || uuid()
+  event.uid = event.uid || nanoid()
   return validateEvent(buildEvent(event))
 }
 

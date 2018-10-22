@@ -1,6 +1,6 @@
 // FORM #1: DATE WITH LOCAL TIME
 
-import moment from 'moment'
+import { formatDate } from '../../src/utils/date';
 import { setDateWithLocalTime } from '../../src/utils'
 import { expect } from 'chai'
 
@@ -9,7 +9,7 @@ describe('utils.setDateWithLocalTime', () => {
     expect(setDateWithLocalTime).to.exist
   })
   xit('sets a DATE-TIME value to NOW when passed nothing', () => {
-    const now = moment().format('YYYYMMDDTHHmm00')
+    const now = formatDate(new Date());
     expect(setDateWithLocalTime()).to.equal(now)
   })
   xit('sets a DATE-TIME value when passed args', () => {

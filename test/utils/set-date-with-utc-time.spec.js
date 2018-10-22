@@ -1,31 +1,23 @@
-import moment from 'moment'
+import { formatDate, formatDateUTC } from '../../src/utils/date';
 import { setDateWithUTCtime } from '../../src/utils'
 import { expect } from 'chai'
 
 describe('utils.setDateWithUTCtime', () => {  
   it('defaults to NOW in UTC date-time when no args passed', () => {
-    const now = moment().utc().format('YYYYMMDDTHHmm00') + 'Z'
+    const now = formatDateUTC(new Date())
     expect(now).to.equal(setDateWithUTCtime())
   })
   it('sets a UTC date-time when passed well-formed args', () => {
-    const local = moment([2017, 9, 25, 0, 30])
-    const absolute = moment([2017, 9, 25, 0, 30]).utc()
-    const offset = local.utcOffset()
+    const args = [2017, 9, 25, 0, 30]
+    const local = new Date(args[0], args[1] - 1, ...args.slice(2))
+    const offset = local.getTimezoneOffset()
 
     if (offset === 0) {
-      expect(setDateWithUTCtime([2017, 10, 25, 0, 30]))
-        .to.equal(absolute.format('YYYYMMDDTHHmm00') + 'Z')
+      expect(setDateWithUTCtime(args)).to.equal(formatDate(local) + 'Z')
     } else {
-      let event
+      const event = new Date(local + offset * 3.6e6)
 
-      if (Math.sign(offset) === -1) {
-        event = moment(local).subtract(offset, 'minutes')
-      } else {
-        event = moment(local).add(offset, 'minutes')
-      }
-
-      expect(setDateWithUTCtime([2017, 10, 25, 0, 30]))
-        .to.equal(event.format('YYYYMMDDTHHmm00') + 'Z')
+      expect(setDateWithUTCtime(args)).to.equal(formatDate(event) + 'Z')
     }
   })
 })

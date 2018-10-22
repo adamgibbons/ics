@@ -1,4 +1,3 @@
-import moment from 'moment'
 import { setDate } from '../../src/utils'
 import { expect } from 'chai'
 
