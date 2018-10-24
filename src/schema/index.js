@@ -22,7 +22,8 @@ const contactSchema = Joi.object().keys({
   name: Joi.string(),
   email: Joi.string().email(),
   rsvp: Joi.boolean(),
-  dir: Joi.string().uri()
+  dir: Joi.string().uri(),
+  partstat: Joi.string()
 })
 
 const organizerSchema = Joi.object().keys({
