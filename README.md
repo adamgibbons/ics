@@ -31,7 +31,7 @@ const event = {
   status: 'CONFIRMED',
   organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
-    { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true },
+    { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true, partstat: 'ACCEPTED' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org', dir: 'https://linkedin.com/in/brittanyseaton' }
   ]
 }
@@ -61,7 +61,7 @@ ics.createEvent(event, (error, value) => {
   // STATUS:CONFIRMED
   // CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
   // ORGANIZER;CN=Admin:mailto:Race@BolderBOULDER.com
-  // ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
+  // ATTENDEE;PARTSTAT=ACCEPTED;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
   // ATTENDEE;RSVP=FALSE;DIR=https://linkedin.com/in/brittanyseaton;CN=Brittany
   //   Seaton:mailto:brittany@example2.org
   // DURATION:PT6H30M
@@ -217,7 +217,7 @@ The following properties are accepted:
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `TENTATIVE`, `CONFIRMED`, `CANCELLED` | `CONFIRMED`
 | organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' }`
-| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz', dir: 'https://twitter.com/bo1234' }]`
+| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz', dir: 'https://twitter.com/bo1234', partstat: 'ACCEPTED' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'AUDIO', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
