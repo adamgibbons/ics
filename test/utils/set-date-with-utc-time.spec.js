@@ -18,7 +18,7 @@ describe('utils.setDateWithUTCtime', () => {
     } else {
       let event
 
-      if (Math.sign(offset) === -1) {
+      if (Math.sign(offset) === 1) {
         event = moment(local).subtract(offset, 'minutes')
       } else {
         event = moment(local).add(offset, 'minutes')
