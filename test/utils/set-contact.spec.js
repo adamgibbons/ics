@@ -2,6 +2,23 @@ import { expect } from 'chai'
 import { setContact } from '../../src/utils'
 
 describe('utils.setContact', () => {
+  it('set a contact with role', () => {
+    const contact = { name: 'm-vinc', email: 'vinc@example.com' }
+    const contactChair = Object.assign({role: 'CHAIR'}, contact)
+    const contactRequired = Object.assign({role: 'REQ-PARTICIPANT' }, contact)
+    const contactOptional = Object.assign({role: 'OPT-PARTICIPANT' }, contact)
+    const contactNon = Object.assign({role: 'NON-PARTICIPANT' }, contact)
+    expect(setContact(contactChair))
+    .to.equal(`RSVP=FALSE;ROLE=CHAIR;CN=m-vinc:mailto:vinc@example.com`)
+    expect(setContact(contactRequired))
+    .to.equal(`RSVP=FALSE;ROLE=REQ-PARTICIPANT;CN=m-vinc:mailto:vinc@example.com`)
+    expect(setContact(contactOptional))
+    .to.equal(`RSVP=FALSE;ROLE=OPT-PARTICIPANT;CN=m-vinc:mailto:vinc@example.com`)
+    expect(setContact(contactNon))
+    .to.equal(`RSVP=FALSE;ROLE=NON-PARTICIPANT;CN=m-vinc:mailto:vinc@example.com`)
+    expect(setContact(contact))
+    .to.equal(`RSVP=FALSE;CN=m-vinc:mailto:vinc@example.com`)
+  })
   it('set a contact with partstat', () => {
     const contact = { name: 'm-vinc', email: 'vinc@example.com' }
     const contactUndefined = Object.assign({partstat: undefined}, contact)
@@ -14,16 +31,16 @@ describe('utils.setContact', () => {
     .to.equal('RSVP=FALSE;CN=m-vinc:mailto:vinc@example.com')
 
     expect(setContact(contactNeedsAction))
-    .to.equal('PARTSTAT=NEEDS-ACTION;RSVP=FALSE;CN=m-vinc:mailto:vinc@example.com')
+    .to.equal('RSVP=FALSE;PARTSTAT=NEEDS-ACTION;CN=m-vinc:mailto:vinc@example.com')
 
     expect(setContact(contactDeclined))
-    .to.equal('PARTSTAT=DECLINED;RSVP=FALSE;CN=m-vinc:mailto:vinc@example.com')
+    .to.equal('RSVP=FALSE;PARTSTAT=DECLINED;CN=m-vinc:mailto:vinc@example.com')
 
     expect(setContact(contactTentative))
-    .to.equal('PARTSTAT=TENTATIVE;RSVP=FALSE;CN=m-vinc:mailto:vinc@example.com')
+    .to.equal('RSVP=FALSE;PARTSTAT=TENTATIVE;CN=m-vinc:mailto:vinc@example.com')
     
     expect(setContact(contactAccepted))
-    .to.equal('PARTSTAT=ACCEPTED;RSVP=FALSE;CN=m-vinc:mailto:vinc@example.com')
+    .to.equal('RSVP=FALSE;PARTSTAT=ACCEPTED;CN=m-vinc:mailto:vinc@example.com')
   })
   it('sets a contact and defaults RSVP to false', () => {
     const contact1 = {
