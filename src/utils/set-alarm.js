@@ -20,10 +20,10 @@ function setDuration ({
   return formattedString
 }
 
-function setTrigger (trigger) {
+function setTrigger (trigger, dateType = 'utc') {
   let formattedString = ''
   if(_.isArray(trigger)){
-    formattedString = `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n`
+    formattedString = `TRIGGER;VALUE=DATE-TIME:${setDate(trigger, dateType)}\r\n`
   }else{
     let alert = trigger.before ? '-' : ''
     formattedString = `TRIGGER:${alert+setDuration(trigger)}\r\n`
@@ -45,6 +45,7 @@ export default function setAlarm(attributes = {}) {
     attach,
     attachType,
     trigger,
+    triggerDateType,
     summary
   } = attributes
 
@@ -55,7 +56,7 @@ export default function setAlarm(attributes = {}) {
   formattedString += duration ? foldLine(`DURATION:${setDuration(duration)}`) + '\r\n' : ''
   let attachInfo = attachType ? attachType : 'FMTTYPE=audio/basic'
   formattedString += attach ? foldLine(`ATTACH;${attachInfo}:${attach}`) + '\r\n' : ''
-  formattedString += trigger ? setTrigger(trigger) : ''
+  formattedString += trigger ? setTrigger(trigger, triggerDateType) : ''
   formattedString += summary ? (foldLine(`SUMMARY:${summary}`) + '\r\n') : ''
   formattedString += 'END:VALARM\r\n'
 
