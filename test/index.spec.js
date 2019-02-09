@@ -30,6 +30,16 @@ describe('ics', () => {
         expect(success).to.contain('DTSTART:200010')
       })
     })
+    it('returns unique uid\'s for multiple calls', () => {
+      const event1 = createEvent(validAttributes);
+      const event2 = createEvent(validAttributes2);
+
+      var uidRegex = /UID:(.*)/;
+
+      const event1Id = uidRegex.exec(event1.value)[1];
+      const event2Id = uidRegex.exec(event2.value)[1];
+      expect(event1Id).to.not.equal(event2Id);
+    });
   })
 
   describe('.createEvents', () => {
