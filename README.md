@@ -32,41 +32,41 @@ const event = {
   organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true },
-    { name: 'Brittany Seaton', email: 'brittany@example2.org' }
+    { name: 'Brittany Seaton', email: 'brittany@example2.org', dir: 'https://linkedin.com/in/brittanyseaton' }
   ]
 }
 
 ics.createEvent(event, (error, value) => {
   if (error) {
     console.log(error)
+    return
   }
 
-  console.log(value)
-  //  BEGIN:VCALENDAR
-  //  VERSION:2.0
-  //  CALSCALE:GREGORIAN
-  //  PRODID:adamgibbons/ics
-  //  BEGIN:VEVENT
-  //  UID:070bbdd0-a6de-11e7-9552-4faa901a846b
-  //  SUMMARY:Bolder Boulder
-  //  DTSTAMP:20171002T012300Z
-  //  DTSTART:20180530T125000Z
-  //  DESCRIPTION:Annual 10-kilometer run in Boulder, Colorado
-  //  URL:http://www.bolderboulder.com/
-  //  GEO:40.0095;105.2669
-  //  LOCATION:Folsom Field, University of Colorado (finish line)
-  //  STATUS:CONFIRMED
-  //  CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-  //  ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
-  //  ATTENDEE;RSVP=FALSE;CN=Brittany Seaton:mailto:brittany@example2.org
-  //  BEGIN:VALARM
-  //  ACTION:DISPLAY
-  //  DESCRIPTION:Reminder
-  //  TRIGGER;VALUE=DATE-TIME:20180530T020000Z
-  //  END:VALARM
-  //  DURATION:PT5H
-  //  END:VEVENT
-  //  END:VCALENDAR
+  console.log(value)  
+  // BEGIN:VCALENDAR
+  // VERSION:2.0
+  // CALSCALE:GREGORIAN
+  // PRODID:adamgibbons/ics
+  // METHOD:PUBLISH
+  // X-PUBLISHED-TTL:PT1H
+  // BEGIN:VEVENT
+  // UID:d9e5e080-d25e-11e8-806a-e73a41d3e47b
+  // SUMMARY:Bolder Boulder
+  // DTSTAMP:20181017T204900Z
+  // DTSTART:20180530T043000Z
+  // DESCRIPTION:Annual 10-kilometer run in Boulder\, Colorado
+  // URL:http://www.bolderboulder.com/
+  // GEO:40.0095;105.2669
+  // LOCATION:Folsom Field, University of Colorado (finish line)
+  // STATUS:CONFIRMED
+  // CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
+  // ORGANIZER;CN=Admin:mailto:Race@BolderBOULDER.com
+  // ATTENDEE;RSVP=TRUE;CN=Adam Gibbons:mailto:adam@example.com
+  // ATTENDEE;RSVP=FALSE;DIR=https://linkedin.com/in/brittanyseaton;CN=Brittany
+  //   Seaton:mailto:brittany@example2.org
+  // DURATION:PT6H30M
+  // END:VEVENT
+  // END:VCALENDAR
 })
 ```
 
@@ -85,7 +85,7 @@ ics.createEvent({
     console.log(error)
   }
 
-  fs.writeFileSync(`${__dirname}/event.ics`, value)
+  writeFileSync(`${__dirname}/event.ics`, value)
 })
 ```
 
@@ -105,6 +105,11 @@ const { error, value } = ics.createEvents([
     duration: { hours: 1, minutes: 30 }
   }
 ])
+
+if (error) {
+  console.log(error)
+  return
+}
 
 console.log(value)
 // BEGIN:VCALENDAR
@@ -135,8 +140,9 @@ let moment = require("moment")
 let events = []
 let alarms = []
 
-let start = moment().format('YYYY-M-D').split("-")
-let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D").split("-")
+let start = moment().format('YYYY-M-D-H-m').split("-")
+let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D-H-m").split("-")
+
 alarms.push({
   action: 'audio',
   trigger: {hours:2,minutes:30,before:true},
@@ -210,14 +216,15 @@ The following properties are accepted:
 | geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `TENTATIVE`, `CONFIRMED`, `CANCELLED` | `CONFIRMED`
-| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com' }`
-| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz' }]`
+| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' }`
+| attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz', dir: 'https://twitter.com/bo1234' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
-| alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'AUDIO', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }` 
+| alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'AUDIO', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 | recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator) | `FREQ=DAILY`
+| sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.
@@ -232,8 +239,8 @@ const eventAttributes = {
 
 #### `callback`
 
-Optional. 
-Node-style callback. 
+Optional.
+Node-style callback.
 
 ```javascript
 function (err, value) {
@@ -261,7 +268,7 @@ Array of `attributes` objects (as described in `createEvent`).
 
 #### `callback`
 
-Optional. 
+Optional.
 Node-style callback.
 
 ```javascript

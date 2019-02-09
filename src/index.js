@@ -7,6 +7,9 @@ import {
 
 function assignUniqueId(event) {
   event.uid = event.uid || uuid()
+  return event
+}
+function validateAndBuildEvent(event) {
   return validateEvent(buildEvent(event))
 }
 
@@ -53,9 +56,11 @@ function catenateEvents(accumulator, { error, value }, idx) {
 export function createEvent (attributes, cb) {
   if (!attributes) { Error('Attributes argument is required') }
 
+  assignUniqueId(attributes)
+
   if (!cb) {
     // No callback, so return error or value in an object
-    const { error, value } = validateEvent(buildEvent(attributes))
+    const { error, value } = validateAndBuildEvent(attributes)
 
     if (error) return { error, value }
 
@@ -71,8 +76,8 @@ export function createEvent (attributes, cb) {
   }
 
   // Return a node-style callback
-  const { error, value } = validateEvent(buildEvent(attributes))
-  
+  const { error, value } = validateAndBuildEvent(attributes)
+
   if (error) return cb(error)
 
   return cb(null, formatEvent(value))
@@ -88,6 +93,7 @@ export function createEvents (events, cb) {
   }
 
   const { error, value } = events.map(assignUniqueId)
+    .map(validateAndBuildEvent)
     .map(applyInitialFormatting)
     .map(reformatEventsByPosition)
     .reduce(catenateEvents, { error: null, value: null })

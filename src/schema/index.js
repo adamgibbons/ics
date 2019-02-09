@@ -21,7 +21,8 @@ const durationSchema = Joi.object().keys({
 const contactSchema = Joi.object().keys({
   name: Joi.string(),
   email: Joi.string().email(),
-  rsvp: Joi.boolean()
+  rsvp: Joi.boolean(),
+  dir: Joi.string().uri()
 })
 
 const organizerSchema = Joi.object().keys({
@@ -49,6 +50,7 @@ const schema = Joi.object().keys({
   productId: Joi.string(),
   method: Joi.string(),
   uid: Joi.string().required(),
+  sequence: Joi.number(),
   start: dateTimeSchema.required(),
   duration: durationSchema,
   startType: Joi.string(),
