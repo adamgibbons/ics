@@ -31,7 +31,8 @@ export default function formatEvent(attributes = {}) {
     categories,
     organizer,
     attendees,
-    alarms
+    alarms,
+    recurrenceRule
   } = attributes
 
   let icsFormat = ''
@@ -79,6 +80,7 @@ export default function formatEvent(attributes = {}) {
     })
   }
 
+  icsFormat += recurrenceRule ? `RRULE:${recurrenceRule}\r\n` : ''
   icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
   icsFormat += `END:VEVENT\r\n`
   icsFormat += `END:VCALENDAR\r\n`
