@@ -23,7 +23,8 @@ const contactSchema = Joi.object().keys({
   email: Joi.string().email(),
   rsvp: Joi.boolean(),
   dir: Joi.string().uri(),
-  partstat: Joi.string()
+  partstat: Joi.string(),
+  role: Joi.string()
 })
 
 const organizerSchema = Joi.object().keys({

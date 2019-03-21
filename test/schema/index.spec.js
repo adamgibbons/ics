@@ -176,6 +176,17 @@ describe('.validateEvent', () => {
           { name: 'Brittany', email: 'brittany@example.com' }]
       }).error
       expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
+
+      const res = validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        end: [2018, 12, 1, 11, 0],
+        attendees: [
+          { name: 'toto', email: 'toto@toto.fr', role: 'REQ-PARTICIPANT', partstat: 'ACCEPTED' }
+        ]
+      }).error
+      expect(res).to.be.null;
     })
   })
   describe('may have one or more occurances of', () => {
