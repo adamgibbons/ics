@@ -1,7 +1,8 @@
-import _ from 'lodash'
-import defaultAttributes from '../defaults'
+import pickBy from "lodash/pickBy";
+import identity from "lodash/identity";
+import defaultAttributes from "../defaults";
 
-export default function buildEvent (attributes = {}) {
+export default function buildEvent(attributes = {}) {
   const {
     title,
     productId,
@@ -22,13 +23,13 @@ export default function buildEvent (attributes = {}) {
     attendees,
     alarms,
     recurrenceRule
-  } = attributes
+  } = attributes;
 
   // fill in default values where necessary
-  const output = Object.assign({}, defaultAttributes, attributes)
+  const output = Object.assign({}, defaultAttributes, attributes);
 
   // remove falsey values
-  const cleanOutput = _.pickBy(output, _.identity)
+  const cleanOutput = pickBy(output, identity);
 
-  return cleanOutput
+  return cleanOutput;
 }
