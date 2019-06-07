@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '7'
+- '8'
 deploy:
   provider: npm
   email: adam.d.gibbons+ics@gmail.com
