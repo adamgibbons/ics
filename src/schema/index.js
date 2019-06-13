@@ -66,7 +66,7 @@ const schema = Joi.object().keys({
   organizer: organizerSchema,
   attendees: Joi.array().items(contactSchema),
   alarms: Joi.array().items(alarmSchema),
-  recurrenceRule: Joi.string(),
+  recurrenceRule: Joi.string()
 }).xor('end', 'duration')
 
 export default function validateEvent(candidate) {

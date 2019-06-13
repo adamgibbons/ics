@@ -3,6 +3,7 @@ import {
   formatEvent,
   buildEvent
 } from '../../src/pipeline'
+import moment from 'moment'
 
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
@@ -34,6 +35,16 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ end: [2017, 5, 15, 11, 0] })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('DTEND:2017051')
+  })
+  it('write a timezone', () => {
+    const start = moment().startOf('day')
+    const event = buildEvent({
+      timezone: 'Europe/Paris',
+      start: [2017, 5, 15, 11, 0],
+      end: [2017, 5, 15, 14, 0]
+    })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('DTSTART;TZID=Europe/Paris')
   })
   it('writes a sequence', () => {
     const event = buildEvent({ sequence: 8 })
