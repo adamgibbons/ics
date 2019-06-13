@@ -47,6 +47,7 @@ const alarmSchema = Joi.object().keys({
 })
 
 const schema = Joi.object().keys({
+  timezone: joi.string(),
   timestamp: Joi.any(),
   title: Joi.string(),
   productId: Joi.string(),
