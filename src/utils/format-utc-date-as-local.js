@@ -15,12 +15,12 @@
 
 import moment from 'moment'
 
-export default function setDateWithLocalTime(args = []) {
+export default function formatLocalDateAsLocal(args = []) {
   if (args.length > 0) {
     const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
-    const formattedDate = moment([year, month - 1, date, hours, minutes, seconds]).format('YYYYMMDDTHHmm00')
+    const formattedDate = moment.utc([year, month - 1, date, hours, minutes, seconds]).format('YYYYMMDDTHHmm00')
     return formattedDate
   }
 
-  return moment().format('YYYYMMDDTHHmm00')
+  return moment().utc().format('YYYYMMDDTHHmm00')
 }

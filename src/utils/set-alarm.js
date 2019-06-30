@@ -1,4 +1,4 @@
-import setDate from './set-date'
+import formatDate from './format-date'
 import foldLine from './fold-line'
 import _ from 'lodash'
 
@@ -23,7 +23,7 @@ function setDuration ({
 function setTrigger (trigger) {
   let formattedString = ''
   if(_.isArray(trigger)){
-    formattedString = `TRIGGER;VALUE=DATE-TIME:${setDate(trigger)}\r\n`
+    formattedString = `TRIGGER;VALUE=DATE-TIME:${formatDate(trigger)}\r\n`
   }else{
     let alert = trigger.before ? '-' : ''
     formattedString = `TRIGGER:${alert+setDuration(trigger)}\r\n`

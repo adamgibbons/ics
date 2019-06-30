@@ -1,6 +1,6 @@
 import uuidv1 from 'uuid/v1'
 import moment from 'moment'
-import { setDateWithUTCtime } from './utils'
+import { formatUTCDateAsUTC } from './utils'
 
 const now = moment().utc()
 
@@ -9,7 +9,7 @@ const defaults = {
   productId: 'adamgibbons/ics',
   method: 'PUBLISH',
   uid: uuidv1(),
-  timestamp: setDateWithUTCtime([
+  timestamp: formatUTCDateAsUTC([
     now.get('year'),
     now.get('month') + 1,
     now.get('date'),
@@ -17,7 +17,7 @@ const defaults = {
     now.get('minutes'),
     now.get('seconds')
   ]),
-  start: setDateWithUTCtime()
+  start: formatUTCDateAsUTC()
 }
 
 export default defaults
