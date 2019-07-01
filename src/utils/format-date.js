@@ -6,6 +6,20 @@ import {
   formatUTCDateAsUTC
 } from './index'
 
+function formatLocalDate(args = [], outputType) {
+    if (outputType == 'utc') {
+      return formatLocalDateAsUTC(args, outputType)
+    }
+    return formatLocalDateAsLocal(args, outputType)
+}
+
+function formatUTCDate(args = [], outputType) {
+    if (outputType == 'utc') {
+      return formatUTCDateAsUTC(args, outputType)
+    }
+    return formatUTCDateAsLocal(args, outputType)
+}
+
 export default function formatDate(args = [], outputType = 'utc', inputType = 'local') {
   const [year, month, date, hours, minutes, seconds] = args
 
@@ -14,15 +28,9 @@ export default function formatDate(args = [], outputType = 'utc', inputType = 'l
   }
   
   if (inputType === 'local') {
-    if (outputType == 'utc') {
-      return formatLocalDateAsUTC([year, month, date, hours, minutes, seconds || 0])
-    }
-    return formatLocalDateAsLocal([year, month, date, hours, minutes, seconds || 0])
+    return formatLocalDate([year, month, date, hours, minutes, seconds || 0], outputType);
   }
 
   // type === 'utc'
-  if (outputType == 'utc') {
-    return formatUTCDateAsUTC([year, month, date, hours, minutes, seconds || 0])
-  }
-  return formatUTCDateAsLocal([year, month, date, hours, minutes, seconds || 0])
+  return formatUTCDate([year, month, date, hours, minutes, seconds || 0], outputType);
 }
