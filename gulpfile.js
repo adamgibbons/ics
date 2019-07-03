@@ -17,4 +17,4 @@ gulp.task('build', function () {
     .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('dev', ['watch', 'build']);
+gulp.task('dev', gulp.series(['watch', 'build']));
