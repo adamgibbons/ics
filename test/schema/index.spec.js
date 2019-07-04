@@ -41,7 +41,6 @@ describe('.validateEvent', () => {
         start: [2018, 12, 1, 10, 30],
         summary: 'be concise'
       }).value.summary).to.exist
-
     })
 
     it('description', () => {
