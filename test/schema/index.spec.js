@@ -25,6 +25,25 @@ describe('.validateEvent', () => {
     })
   })
   describe('may have one and only one occurance of', () => {
+    it('summary', () => {
+      const { details } = validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        summary: 1
+      }).error
+
+      expect(details.some(p => p.message === '"summary" must be a string')).to.be.true
+
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        summary: 'be concise'
+      }).value.summary).to.exist
+
+    })
+
     it('description', () => {
       const { details } = validateEvent({
         title: 'foo',
