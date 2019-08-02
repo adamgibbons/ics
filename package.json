@@ -3,6 +3,7 @@
   "version": "2.15.1",
   "description": "iCal (ics) file generator",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "start": "mocha --require @babel/register --watch --recursive",
     "test": "mocha --require @babel/register --recursive",
@@ -45,6 +46,7 @@
     "uuid": "^3.3.2"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "index.d.ts"
   ]
 }
