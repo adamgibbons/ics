@@ -157,6 +157,20 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com')
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
   })
+  it('writes a busystatus', () => {
+    const eventFree = buildEvent({ busyStatus: "FREE" })
+    const eventBusy = buildEvent({ busyStatus: "BUSY"})
+    const eventTent = buildEvent({ busyStatus: "TENTATIVE"})
+    const eventOOF = buildEvent({ busyStatus: "OOF" })
+    const formattedEventFree = formatEvent(eventFree)
+    const formattedEventBusy = formatEvent(eventBusy)
+    const formattedEventTent = formatEvent(eventTent)
+    const formattedEventOOF = formatEvent(eventOOF)
+    expect(formattedEventFree).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:FREE')
+    expect(formattedEventBusy).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:BUSY')
+    expect(formattedEventTent).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE')
+    expect(formattedEventOOF).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:OOF')
+  })
   it('writes an organizer', () => {
     const event = formatEvent({ organizer: {
       name: 'Adam Gibbons',

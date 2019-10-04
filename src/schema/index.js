@@ -50,6 +50,7 @@ const schema = Joi.object().keys({
   summary: Joi.string(),
   timestamp: Joi.any(),
   title: Joi.string(),
+  busy: Joi.bool(),
   productId: Joi.string(),
   method: Joi.string(),
   uid: Joi.string().required(),

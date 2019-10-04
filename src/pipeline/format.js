@@ -36,7 +36,8 @@ export default function formatEvent(attributes = {}) {
     organizer,
     attendees,
     alarms,
-    recurrenceRule
+    recurrenceRule,
+    busyStatus
   } = attributes
 
   let icsFormat = ''
@@ -69,6 +70,7 @@ export default function formatEvent(attributes = {}) {
   icsFormat += status ? (foldLine(`STATUS:${status}`) + '\r\n') : ''
   icsFormat += categories ? (foldLine(`CATEGORIES:${categories}`) + '\r\n') : ''
   icsFormat += organizer ? (foldLine(`ORGANIZER;${setOrganizer(organizer)}`) + '\r\n') : ''
+  icsFormat += busyStatus ? (foldLine(`X-MICROSOFT-CDO-BUSYSTATUS:${busyStatus}`) + '\r\n') : ''
 
   if (attendees) {
     attendees.map(function (attendee) {
