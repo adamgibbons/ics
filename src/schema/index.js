@@ -50,7 +50,6 @@ const schema = Joi.object().keys({
   summary: Joi.string(),
   timestamp: Joi.any(),
   title: Joi.string(),
-  busy: Joi.bool(),
   productId: Joi.string(),
   method: Joi.string(),
   uid: Joi.string().required(),
@@ -73,6 +72,7 @@ const schema = Joi.object().keys({
   attendees: Joi.array().items(contactSchema),
   alarms: Joi.array().items(alarmSchema),
   recurrenceRule: Joi.string(),
+  busyStatus: Joi.string().regex(/TENTATIVE|FREE|BUSY|OOF/),
 }).xor('end', 'duration')
 
 export default function validateEvent(candidate) {
