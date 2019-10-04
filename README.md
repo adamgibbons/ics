@@ -28,6 +28,7 @@ const event = {
   geo: { lat: 40.0095, lon: 105.2669 },
   categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
   status: 'CONFIRMED',
+  busyStatus: 'BUSY',
   organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true, partstat: 'ACCEPTED', role: 'REQ-PARTICIPANT' },
@@ -54,6 +55,7 @@ ics.createEvent(event, (error, value) => {
   // DTSTAMP:20181017T204900Z
   // DTSTART:20180530T043000Z
   // DESCRIPTION:Annual 10-kilometer run in Boulder\, Colorado
+  // X-MICROSOFT-CDO-BUSYSTATUS:BUSY
   // URL:http://www.bolderboulder.com/
   // GEO:40.0095;105.2669
   // LOCATION:Folsom Field, University of Colorado (finish line)
@@ -77,6 +79,7 @@ const ics = require('ics')
 ics.createEvent({
   title: 'Dinner',
   description: 'Nightly thing I do',
+  busyStatus: 'FREE',
   start: [2018, 1, 15, 6, 30],
   duration: { minutes: 50 }
 }, (error, value) => {
@@ -228,6 +231,7 @@ The following properties are accepted:
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 | recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator) | `FREQ=DAILY`
 | sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
+| busyStatus    | Used to specify busy status for Microsoft applications, like Outlook. See [Microsoft spec](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/cd68eae7-ed65-4dd3-8ea7-ad585c76c736). | `'BUSY'` OR `'FREE'` OR `'TENTATIVE`' OR `'OOF'`
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.
