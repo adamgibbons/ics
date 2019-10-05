@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "2.17.0",
+  "version": "2.18.0",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "types": "index.d.ts",
@@ -31,19 +31,19 @@
   },
   "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/register": "^7.4.4",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0-beta.2",
-    "mocha": "^6.1.4"
+    "gulp-babel": "^8.0.0",
+    "mocha": "^6.2.1"
   },
   "dependencies": {
-    "@hapi/joi": "^15.0.3",
-    "lodash": "^4.17.11",
+    "@hapi/joi": "^15.1.1",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.3"
   },
   "files": [
     "dist/",
