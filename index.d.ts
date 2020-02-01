@@ -46,7 +46,7 @@ export type Attendee = Person & {
   role?: ParticipationRole;
 };
 
-export type ActionType = 'AUDIO' | 'DISPLAY' | 'EMAIL' | 'PROCEDURE';
+export type ActionType = 'audio' | 'display' | 'email' | 'procedure';
 
 export type Alarm = {
   action?: ActionType;

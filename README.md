@@ -42,7 +42,7 @@ ics.createEvent(event, (error, value) => {
     return
   }
 
-  console.log(value)  
+  console.log(value)
   // BEGIN:VCALENDAR
   // VERSION:2.0
   // CALSCALE:GREGORIAN
@@ -210,11 +210,11 @@ The following properties are accepted:
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
 | start         | **Required**. Date and time at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000)
-| startInputType | Type of the date/time data in `start`:<br>`local` (default): passed data is in local time.<br>`utc`: passed data is UTC | 
-| startOutputType | Format of the start date/time in the output:<br>`utc` (default): the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)) | 
+| startInputType | Type of the date/time data in `start`:<br>`local` (default): passed data is in local time.<br>`utc`: passed data is UTC |
+| startOutputType | Format of the start date/time in the output:<br>`utc` (default): the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)) |
 | end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm)
-| endInputType | Type of the date/time data in `end`:<br>`local`: passed data is in local time.<br>`utc`: passed data is UTC.<br>The default is the value of `startInputType` | 
-| endOutputType | Format of the start date/time in the output:<br>`utc`: the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)).<br>The default is the value of `startOutputType` | 
+| endInputType | Type of the date/time data in `end`:<br>`local`: passed data is in local time.<br>`utc`: passed data is UTC.<br>The default is the value of `startInputType` |
+| endOutputType | Format of the start date/time in the output:<br>`utc`: the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)).<br>The default is the value of `startOutputType` |
 | duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
 | title         | Title of event. | `'Code review'`
 | description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
@@ -225,7 +225,7 @@ The following properties are accepted:
 | organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' }`
 | attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz', dir: 'https://twitter.com/bo1234', partstat: 'ACCEPTED', role: 'REQ-PARTICIPANT' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
-| alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'DISPLAY', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'DISPLAY', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'AUDIO', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
+| alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'display', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'display', trigger: { hours: 2, minutes: 30, before: true }` OR `{ action: 'display', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'audio', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
