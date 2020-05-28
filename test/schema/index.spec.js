@@ -150,7 +150,7 @@ describe('.validateEvent', () => {
         categories: [1]
       }).error
 
-      expect(details.some(p => p.message === '"0" must be a string')).to.be.true
+      expect(details.some(p => p.message === '"categories[0]" must be a string')).to.be.true
 
       expect(validateEvent({
         title: 'foo',
@@ -173,7 +173,7 @@ describe('.validateEvent', () => {
         start: [2018, 12, 1, 10, 30],
         organizer: { foo: 'Adam' }
       }).error
-      expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
+      expect(details.some(p => p.message === '"organizer.foo" is not allowed')).to.be.true
     })
     it('attendees', () => {
       expect(validateEvent({
@@ -193,7 +193,7 @@ describe('.validateEvent', () => {
           { foo: 'Adam', email: 'adam@example.com' },
           { name: 'Brittany', email: 'brittany@example.com' }]
       }).error
-      expect(details.some(p => p.message === '"foo" is not allowed')).to.be.true
+      expect(details.some(p => p.message === '"attendees[0].foo" is not allowed')).to.be.true
 
       const res = validateEvent({
         title: 'foo',

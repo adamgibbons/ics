@@ -20,7 +20,7 @@ const durationSchema = Joi.object().keys({
 
 const contactSchema = Joi.object().keys({
   name: Joi.string(),
-  email: Joi.string().email(),
+  email: Joi.string().email({ tlds: { allow: false } }),
   rsvp: Joi.boolean(),
   dir: Joi.string().uri(),
   partstat: Joi.string(),
@@ -29,7 +29,7 @@ const contactSchema = Joi.object().keys({
 
 const organizerSchema = Joi.object().keys({
   name: Joi.string(),
-  email: Joi.string().email()
+  email: Joi.string().email({ tlds: { allow: false } })
 })
 
 const alarmSchema = Joi.object().keys({
@@ -76,6 +76,6 @@ const schema = Joi.object().keys({
 }).xor('end', 'duration')
 
 export default function validateEvent(candidate) {
-  const { error, value } = Joi.validate(candidate, schema)
+  const { error = null, value } = schema.validate(candidate)
   return { error, value }
 }
