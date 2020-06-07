@@ -39,7 +39,8 @@ export default function formatEvent(attributes = {}) {
     recurrenceRule,
     busyStatus,
     created,
-    lastModified
+    lastModified,
+    calName
   } = attributes
 
   let icsFormat = ''
@@ -48,6 +49,7 @@ export default function formatEvent(attributes = {}) {
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
   icsFormat += foldLine(`PRODID:${productId}`) + '\r\n'
   icsFormat += foldLine(`METHOD:${method}`) + '\r\n'
+  icsFormat += calName ? (foldLine(`X-WR-CALNAME:${calName}`) + '\r\n') : ''
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += 'BEGIN:VEVENT\r\n'
   icsFormat += `UID:${uid}\r\n`

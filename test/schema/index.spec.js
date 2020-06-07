@@ -228,6 +228,14 @@ describe('.validateEvent', () => {
         lastModified: [2018, 12, 1, 9, 30]
       }).value.lastModified).to.exist
     })
+
+    it('calName', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        calName: 'John\'s Calendar'
+      }).value.calName).to.exist
+    })
   })
 
   describe('may have one or more occurances of', () => {

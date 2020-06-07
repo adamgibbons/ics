@@ -99,6 +99,11 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('LAST-MODIFIED:20170515')
   })
+  it('writes a cal name', () => {
+    const event = buildEvent({ calName: 'John\'s Calendar' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('X-WR-CALNAME:John\'s Calendar')
+  })
   it('writes a sequence', () => {
     const event = buildEvent({ sequence: 8 })
     const formattedEvent = formatEvent(event)

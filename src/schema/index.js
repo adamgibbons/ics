@@ -74,7 +74,8 @@ const schema = Joi.object().keys({
   recurrenceRule: Joi.string(),
   busyStatus: Joi.string().regex(/TENTATIVE|FREE|BUSY|OOF/),
   created: dateTimeSchema,
-  lastModified: dateTimeSchema
+  lastModified: dateTimeSchema,
+  calName: Joi.string()
 }).xor('end', 'duration')
 
 export default function validateEvent(candidate) {
