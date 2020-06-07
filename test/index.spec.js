@@ -16,6 +16,7 @@ describe('ics', () => {
       expect(event1.value).to.be.a('string')
       expect(event2.error).to.exist
     })
+
     it('returns an error when passed an empty object', (done) => {
       createEvent({}, (error, success) => {
         done()
@@ -23,6 +24,7 @@ describe('ics', () => {
         expect(success).not.to.exist
       })
     })
+
     it('returns a node-style callback', (done) => {
       createEvent(validAttributes, (error, success) => {
         done()
@@ -30,7 +32,8 @@ describe('ics', () => {
         expect(success).to.contain('DTSTART:200010')
       })
     })
-    it('returns unique uid\'s for multiple calls', () => {
+
+    it('returns UUIDs for multiple calls', () => {
       const event1 = createEvent(validAttributes);
       const event2 = createEvent(validAttributes2);
 
@@ -47,9 +50,9 @@ describe('ics', () => {
       const events = createEvents()
       expect(events.error).to.exist
     })
+
     it('writes begin and end calendar tags', () => {
       const { error, value } = createEvents([validAttributes])
-      console.log(error, value)
       expect(error).to.be.null
       expect(value).to.contain('BEGIN:VCALENDAR')
       expect(value).to.contain('END:VCALENDAR')
@@ -67,19 +70,21 @@ describe('ics', () => {
         expect(value).not.to.exist
       })
     })
+
     describe('when a callback is provided', () => {
       it('returns an iCal string as the second argument when passed valid events', (done) => {
         createEvents([validAttributes, validAttributes2, validAttributes3], (error, success) => {
-          done()
           expect(error).not.to.exist
           expect(success).to.contain('BEGIN:VCALENDAR')
+          done()
         })
       })
+
       it('returns an error when passed an invalid event', (done) => {
         createEvents([validAttributes, validAttributes2, invalidAttributes], (error, success) => {
-          done()
           expect(error).to.exist
           expect(success).not.to.exist
+          done()
         })
       })
     })

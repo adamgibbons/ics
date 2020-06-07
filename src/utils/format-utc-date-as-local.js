@@ -18,9 +18,9 @@ import moment from 'moment'
 export default function formatLocalDateAsLocal(args = []) {
   if (args.length > 0) {
     const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
-    const formattedDate = moment.utc([year, month - 1, date, hours, minutes, seconds]).format('YYYYMMDDTHHmm00')
+    const formattedDate = moment.utc([year, month - 1, date, hours, minutes, seconds]).format('YYYYMMDDTHHmmss')
     return formattedDate
   }
 
-  return moment().utc().format('YYYYMMDDTHHmm00')
+  return moment().utc().format('YYYYMMDDTHHmmss')
 }

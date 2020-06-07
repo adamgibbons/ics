@@ -25,10 +25,10 @@ export default function formatLocalDateAsUTC(args = []) {
       hours,
       minutes,
       seconds
-    ]).utc().format('YYYYMMDDTHHmm00') + 'Z'
+    ]).utc().format('YYYYMMDDTHHmmss') + 'Z'
 
     return formattedDate
   }
 
-  return moment.utc().format('YYYYMMDDTHHmm00') + 'Z'
+  return moment.utc().format('YYYYMMDDTHHmmss') + 'Z'
 }

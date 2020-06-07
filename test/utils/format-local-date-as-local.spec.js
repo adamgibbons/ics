@@ -9,11 +9,11 @@ describe('utils.formatLocalDateAsLocal', () => {
     expect(formatLocalDateAsLocal).to.exist
   })
   it('sets a DATE-TIME value to NOW when passed nothing', () => {
-    const now = moment().format('YYYYMMDDTHHmm00')
+    const now = moment().format('YYYYMMDDTHHmmss')
     expect(formatLocalDateAsLocal()).to.equal(now)
   })
   it('sets a DATE-TIME value when passed args', () => {
-    expect(formatLocalDateAsLocal([1998, 1, 18, 23, 0]))
-      .to.equal('19980118T230000')
+    expect(formatLocalDateAsLocal([1998, 1, 18, 23, 9, 59]))
+      .to.equal('19980118T230959')
   })
 })
