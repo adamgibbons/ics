@@ -25,7 +25,7 @@ export default function formatUTCDateAsUTC(args = []) {
       hours,
       minutes,
       seconds
-    ]).format('YYYYMMDDTHHmm00') + 'Z'
+    ]).format('YYYYMMDDTHHmmss') + 'Z'
 
     return formattedDate
   }
