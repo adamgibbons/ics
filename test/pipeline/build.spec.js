@@ -77,6 +77,12 @@ describe('pipeline.build properties', () => {
       expect(event.lastModified).to.be.an('array')
     })
   })
+  describe('calName', () => {
+    it('sets a cal name', () => {
+      const event = buildEvent({ calName: 'John\'s Calendar' })
+      expect(event.calName).to.equal('John\'s Calendar')
+    })
+  })
   describe('description', () => {
     it('removes a falsey value', () => {
       const event = buildEvent()

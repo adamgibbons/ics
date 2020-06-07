@@ -24,7 +24,8 @@ export default function buildEvent(attributes = {}) {
     alarms,
     recurrenceRule,
     created,
-    lastModified
+    lastModified,
+    calName
   } = attributes;
 
   // fill in default values where necessary
