@@ -22,7 +22,9 @@ export default function buildEvent(attributes = {}) {
     organizer,
     attendees,
     alarms,
-    recurrenceRule
+    recurrenceRule,
+    created,
+    lastModified
   } = attributes;
 
   // fill in default values where necessary

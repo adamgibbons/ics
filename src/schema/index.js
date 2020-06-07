@@ -73,6 +73,8 @@ const schema = Joi.object().keys({
   alarms: Joi.array().items(alarmSchema),
   recurrenceRule: Joi.string(),
   busyStatus: Joi.string().regex(/TENTATIVE|FREE|BUSY|OOF/),
+  created: dateTimeSchema,
+  lastModified: dateTimeSchema
 }).xor('end', 'duration')
 
 export default function validateEvent(candidate) {

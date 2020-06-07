@@ -19,17 +19,17 @@ describe('ics', () => {
 
     it('returns an error when passed an empty object', (done) => {
       createEvent({}, (error, success) => {
-        done()
         expect(error.name).to.equal('ValidationError')
         expect(success).not.to.exist
+        done()
       })
     })
 
     it('returns a node-style callback', (done) => {
       createEvent(validAttributes, (error, success) => {
-        done()
         expect(error).not.to.exist
         expect(success).to.contain('DTSTART:200010')
+        done()
       })
     })
 
