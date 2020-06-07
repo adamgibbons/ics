@@ -13,6 +13,7 @@ describe('.validateEvent', () => {
       expect(error.details.some(p => p.message === '"start" is required')).to.be.true
     })
   })
+
   describe('must have duration XOR end', () => {
     it('duration and end are not allowed together', () => {
       const { error, value } = validateEvent({
@@ -24,6 +25,7 @@ describe('.validateEvent', () => {
       expect(error).to.exist
     })
   })
+
   describe('may have one and only one occurance of', () => {
     it('summary', () => {
       const { details } = validateEvent({
@@ -116,6 +118,7 @@ describe('.validateEvent', () => {
         location: 'abc'
       }).value.location).to.exist
     })
+
     it('status', () => {
       expect(validateEvent({
         title: 'foo',
@@ -142,6 +145,7 @@ describe('.validateEvent', () => {
         status: 'confirmed'
       }).value.status).to.equal('confirmed')
     })
+
     it('categories', () => {
       const { details } = validateEvent({
         title: 'foo',
@@ -159,6 +163,7 @@ describe('.validateEvent', () => {
         categories: ['foo', 'bar']
       }).value.categories).to.include('foo', 'bar')
     })
+
     it('organizer', () => {
       expect(validateEvent({
         title: 'foo',
@@ -175,6 +180,7 @@ describe('.validateEvent', () => {
       }).error
       expect(details.some(p => p.message === '"organizer.foo" is not allowed')).to.be.true
     })
+
     it('attendees', () => {
       expect(validateEvent({
         title: 'foo',
@@ -206,7 +212,24 @@ describe('.validateEvent', () => {
       }).error
       expect(res).to.be.null;
     })
+
+    it('created', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        created: [2018, 12, 1, 9, 30]
+      }).value.created).to.exist
+    })
+
+    it('lastModified', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        lastModified: [2018, 12, 1, 9, 30]
+      }).value.lastModified).to.exist
+    })
   })
+
   describe('may have one or more occurances of', () => {
     it('alarm component', () => {
       const event = validateEvent({

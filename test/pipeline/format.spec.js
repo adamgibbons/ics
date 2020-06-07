@@ -89,6 +89,16 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('DTSTART:'+now)
     expect(formattedEvent).to.not.contain('DTSTART:'+now+'Z')
   })
+  it('writes a created timestamp', () => {
+    const event = buildEvent({ created: [2017, 5, 15, 10, 0] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('CREATED:20170515')
+  })
+  it('writes a lastModified timestamp', () => {
+    const event = buildEvent({ lastModified: [2017, 5, 15, 10, 0] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('LAST-MODIFIED:20170515')
+  })
   it('writes a sequence', () => {
     const event = buildEvent({ sequence: 8 })
     const formattedEvent = formatEvent(event)

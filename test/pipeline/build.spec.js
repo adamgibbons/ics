@@ -64,6 +64,19 @@ describe('pipeline.build properties', () => {
       expect(event.start).to.be.an('array')
     })
   })
+  describe('created', () => {
+    it('sets a created timestamp', () => {
+      const event = buildEvent({ created: [2017, 1, 19, 1, 30] })
+      console.log(event)
+      expect(event.created).to.be.an('array')
+    })
+  })
+  describe('lastModified', () => {
+    it('sets a last last modified timestamp', () => {
+      const event = buildEvent({ lastModified: [2017, 1, 19, 1, 30] })
+      expect(event.lastModified).to.be.an('array')
+    })
+  })
   describe('description', () => {
     it('removes a falsey value', () => {
       const event = buildEvent()
