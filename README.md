@@ -1,5 +1,7 @@
-ics
+ics-dayjs
 ==================
+
+This is a fork of the [original ics library](https://github.com/adamgibbons/ics) to use dayjs instead of momentjs
 
 The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
