@@ -15,7 +15,7 @@ describe('pipeline.build properties', () => {
   describe('productId', () => {
     it('sets a default', () => {
       const event = buildEvent()
-      expect(event.productId).to.equal('adamgibbons/ics')
+      expect(event.productId).to.equal('jmsunseri/ics-dayjs')
     })
     it('sets a product id', () => {
       const event = buildEvent({ productId: 'myProductId' })
