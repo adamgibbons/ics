@@ -11,7 +11,7 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
     expect(formattedEvent).to.contain('VERSION:2.0')
-    expect(formattedEvent).to.contain('PRODID:jmsunseri/ics-dayjs')
+    expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')

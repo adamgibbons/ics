@@ -9,7 +9,7 @@ const now = dayjs().utc()
 
 const defaults = {
   title: 'Untitled event',
-  productId: 'jmsunseri/ics-dayjs',
+  productId: 'adamgibbons/ics',
   method: 'PUBLISH',
   uid: uuidv1(),
   timestamp: formatUTCDateAsUTC([

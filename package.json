@@ -7,11 +7,11 @@
   "scripts": {
     "start": "mocha --require @babel/register --watch --recursive",
     "test": "mocha --require @babel/register --recursive",
-    "build": "gulp build"
+    "build": "rm -r dist; gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jmsunseri/ics-dayjs.git"
+    "url": "https://github.com/adamgibbons/ics.git"
   },
   "keywords": [
     "ical",
@@ -24,12 +24,12 @@
     "events",
     "alarms"
   ],
-  "author": "Justin Sunseri <jmsunseri@gmail.com>",
+  "author": "Adam Gibbons <adam@agibbons.com> (http://agibbons.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jmsunseri/ics-dayjs/issues"
+    "url": "https://github.com/adamgibbons/ics/issues"
   },
-  "homepage": "https://github.com/jmsunseri/ics-dayjs",
+  "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
@@ -37,8 +37,7 @@
     "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "mocha": "^6.2.1",
-    "moment": "^2.24.0"
+    "mocha": "^6.2.1"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
