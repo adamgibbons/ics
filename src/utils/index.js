@@ -11,6 +11,7 @@ import setDescription from './set-description'
 import setSummary from './set-summary'
 import formatDuration from './format-duration'
 import foldLine from './fold-line'
+import setLocation from './set-location'
 
 export {
   formatDate,
@@ -25,5 +26,6 @@ export {
   formatDuration,
   setSummary,
   setDescription,
-  foldLine
+  foldLine,
+  setLocation
 }
