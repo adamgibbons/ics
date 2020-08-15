@@ -4,6 +4,7 @@ import {
     setOrganizer,
     formatDate,
     setDescription,
+    setLocation,
     setSummary,
     setGeolocation,
     formatDuration,
@@ -70,7 +71,7 @@ export default function formatEvent(attributes = {}) {
   icsFormat += description ? (foldLine(`DESCRIPTION:${setDescription(description)}`) + '\r\n') : ''
   icsFormat += url ? (foldLine(`URL:${url}`) + '\r\n') : ''
   icsFormat += geo ? (foldLine(`GEO:${setGeolocation(geo)}`) + '\r\n') : ''
-  icsFormat += location ? (foldLine(`LOCATION:${location}`) + '\r\n') : ''
+  icsFormat += location ? (foldLine(`LOCATION:${setLocation(location)}`) + '\r\n') : ''
   icsFormat += status ? (foldLine(`STATUS:${status}`) + '\r\n') : ''
   icsFormat += categories ? (foldLine(`CATEGORIES:${categories}`) + '\r\n') : ''
   icsFormat += organizer ? (foldLine(`ORGANIZER;${setOrganizer(organizer)}`) + '\r\n') : ''
@@ -82,7 +83,7 @@ export default function formatEvent(attributes = {}) {
       icsFormat += foldLine(`ATTENDEE;${setContact(attendee)}`) + '\r\n'
     })
   }
-  
+
   if (alarms) {
     alarms.map(function (alarm) {
       icsFormat += setAlarm(alarm)
