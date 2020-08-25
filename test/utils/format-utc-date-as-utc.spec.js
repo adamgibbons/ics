@@ -1,10 +1,10 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { formatUTCDateAsUTC } from '../../src/utils'
 import { expect } from 'chai'
 
 describe('utils.formatUTCDateAsUTC', () => {  
   it('defaults to NOW in UTC date-time when no args passed', () => {
-    const now = moment().utc().format('YYYYMMDDTHHmm00') + 'Z'
+    const now = dayjs().utc().format('YYYYMMDDTHHmm00') + 'Z'
     expect(now).to.equal(formatUTCDateAsUTC())
   })
 

@@ -1,6 +1,6 @@
 // FORM #1: DATE WITH LOCAL TIME
 
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { formatLocalDateAsLocal } from '../../src/utils'
 import { expect } from 'chai'
 
@@ -9,7 +9,7 @@ describe('utils.formatLocalDateAsLocal', () => {
     expect(formatLocalDateAsLocal).to.exist
   })
   it('sets a DATE-TIME value to NOW when passed nothing', () => {
-    const now = moment().format('YYYYMMDDTHHmmss')
+    const now = dayjs().format('YYYYMMDDTHHmmss')
     expect(formatLocalDateAsLocal()).to.equal(now)
   })
   it('sets a DATE-TIME value when passed args', () => {

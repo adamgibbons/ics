@@ -1,10 +1,11 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
+
 import { formatDate } from '../../src/utils'
 import { expect } from 'chai'
 
 describe('utils.formatDate', () => {  
   it('defaults to local time input and UTC time output when no type passed', () => {
-    const now = moment([2017, 7-1, 16, 22, 30]).utc().format('YYYYMMDDTHHmm00')
+    const now = dayjs(new Date(2017, 7-1, 16, 22, 30)).utc().format('YYYYMMDDTHHmm00')
     expect(formatDate([2017, 7, 16, 22, 30])).to.equal(now+'Z')
   })
   it('sets a local (i.e. floating) time when specified', () => {
