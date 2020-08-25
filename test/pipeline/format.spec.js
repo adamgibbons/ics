@@ -138,7 +138,7 @@ describe('pipeline.formatEvent', () => {
   it('writes a location', () => {
     const event = buildEvent({ location: 'Folsom Field, University of Colorado at Boulder' })
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('LOCATION:Folsom Field, University of Colorado at Boulder')
+    expect(formattedEvent).to.contain('LOCATION:Folsom Field\\, University of Colorado at Boulder')
   })
   it('writes a status', () => {
     const event = buildEvent({ status: 'tentative' })
