@@ -39,13 +39,13 @@ describe('pipeline.formatEvent', () => {
   it('writes a start date-time, taking the given date as local by default and outputting is as UTC by default', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0] })
     const formattedEvent = formatEvent(event)
-    const now = moment([2017, 5-1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
+    const now = moment([2017, 5 - 1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
   })
   it('writes a start date-time, taking the given date as local by default and outputting is as UTC if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startOutputType: 'utc' })
     const formattedEvent = formatEvent(event)
-    const now = moment([2017, 5-1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
+    const now = moment([2017, 5 - 1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
   })
   it('writes a start date-time, taking the given date as local by default and outputting is as Local (floating) if requested', () => {
@@ -57,13 +57,13 @@ describe('pipeline.formatEvent', () => {
   it('writes a start date-time, taking the given date as local if requested and outputting is as UTC by default', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local' })
     const formattedEvent = formatEvent(event)
-    const now = moment([2017, 5-1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
+    const now = moment([2017, 5 - 1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
   })
   it('writes a start date-time, taking the given date as local if requested and outputting is as UTC if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local', startOutputType: 'utc' })
     const formattedEvent = formatEvent(event)
-    const now = moment([2017, 5-1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
+    const now = moment([2017, 5 - 1, 15, 10, 0]).utc().format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
   })
   it('writes a start date-time, taking the given date as local if requested and outputting is as Local (floating) if requested', () => {
@@ -85,7 +85,7 @@ describe('pipeline.formatEvent', () => {
   it('writes a start date-time, taking the given date as UTC if requested and outputting is as Local (floating) if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'utc', startOutputType: 'local' })
     const formattedEvent = formatEvent(event)
-    const now = moment.utc([2017, 5-1, 15, 10, 0]).format('YYYYMMDDTHHmm00')
+    const now = moment.utc([2017, 5 - 1, 15, 10, 0]).format('YYYYMMDDTHHmm00')
     expect(formattedEvent).to.contain('DTSTART:'+now)
     expect(formattedEvent).to.not.contain('DTSTART:'+now+'Z')
   })
@@ -204,7 +204,7 @@ describe('pipeline.formatEvent', () => {
     }]})
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
-    expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:19970217T')
+    expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:199702')
     expect(formattedEvent).to.contain('REPEAT:4')
     expect(formattedEvent).to.contain('DURATION:PT15M')
     expect(formattedEvent).to.contain('ACTION:AUDIO')
@@ -232,7 +232,7 @@ describe('pipeline.formatEvent', () => {
     expect(max).to.be.at.most(75)
   })
   it('writes a recurrence rule', () => {
-    const formattedEvent = formatEvent({ recurrenceRule: 'FREQ=DAILY'})
+    const formattedEvent = formatEvent({ recurrenceRule: 'FREQ=DAILY' })
 
     expect(formattedEvent).to.contain('RRULE:FREQ=DAILY')
   })

@@ -1,8 +1,11 @@
 import uuidv1 from 'uuid/v1'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc';
 import { formatUTCDateAsUTC } from './utils'
 
-const now = moment().utc()
+dayjs.extend(utc);
+
+const now = dayjs().utc()
 
 const defaults = {
   title: 'Untitled event',

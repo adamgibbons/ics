@@ -42,8 +42,8 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "dayjs": "^1.8.33"
   },
   "files": [
     "dist/",

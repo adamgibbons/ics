@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import {
   formatLocalDateAsLocal,
   formatLocalDateAsUTC,
@@ -24,9 +24,9 @@ export default function formatDate(args = [], outputType = 'utc', inputType = 'l
   const [year, month, date, hours, minutes, seconds] = args
 
   if (args.length === 3) {
-    return moment([year, month - 1, date]).format('YYYYMMDD')
+    return dayjs(new Date(year, month - 1, date)).format('YYYYMMDD')
   }
-  
+
   if (inputType === 'local') {
     return formatLocalDate([year, month, date, hours, minutes, seconds || 0], outputType);
   }
