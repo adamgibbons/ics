@@ -1,36 +1,41 @@
-import dayjs from 'dayjs'
-import {
-  formatLocalDateAsLocal,
-  formatLocalDateAsUTC,
-  formatUTCDateAsLocal,
-  formatUTCDateAsUTC
-} from './index'
-
-function formatLocalDate(args = [], outputType) {
-    if (outputType == 'utc') {
-      return formatLocalDateAsUTC(args, outputType)
-    }
-    return formatLocalDateAsLocal(args, outputType)
-}
-
-function formatUTCDate(args = [], outputType) {
-    if (outputType == 'utc') {
-      return formatUTCDateAsUTC(args, outputType)
-    }
-    return formatUTCDateAsLocal(args, outputType)
-}
+const pad = n => n < 10 ? `0${n}` : `${n}`
 
 export default function formatDate(args = [], outputType = 'utc', inputType = 'local') {
-  const [year, month, date, hours, minutes, seconds] = args
-
-  if (args.length === 3) {
-    return dayjs(new Date(year, month - 1, date)).format('YYYYMMDD')
+  if (Array.isArray(args) && args.length === 3) {
+    const [year, month, date] = args
+    return `${year}${pad(month)}${pad(date)}`
   }
 
-  if (inputType === 'local') {
-    return formatLocalDate([year, month, date, hours, minutes, seconds || 0], outputType);
+  let outDate = new Date(new Date().setUTCSeconds(0, 0))
+  if (Array.isArray(args) && args.length > 0 && args[0]) {
+    const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
+    if (inputType === 'local') {
+      outDate = new Date(year, month - 1, date, hours, minutes, seconds)
+    } else {
+      outDate = new Date(Date.UTC(year, month - 1, date, hours, minutes, seconds))
+    }
   }
 
-  // type === 'utc'
-  return formatUTCDate([year, month, date, hours, minutes, seconds || 0], outputType);
+  if (outputType === 'local') {
+    return [
+      outDate.getFullYear(),
+      pad(outDate.getMonth() + 1),
+      pad(outDate.getDate()),
+      'T',
+      pad(outDate.getHours()),
+      pad(outDate.getMinutes()),
+      pad(outDate.getSeconds())
+    ].join('')
+  }
+
+  return [
+    outDate.getUTCFullYear(),
+    pad(outDate.getUTCMonth() + 1),
+    pad(outDate.getUTCDate()),
+    'T',
+    pad(outDate.getUTCHours()),
+    pad(outDate.getUTCMinutes()),
+    pad(outDate.getUTCSeconds()),
+    'Z'
+  ].join('')
 }

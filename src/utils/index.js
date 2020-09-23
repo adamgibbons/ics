@@ -1,8 +1,4 @@
 import formatDate from './format-date'
-import formatLocalDateAsUTC from './format-local-date-as-utc'
-import formatLocalDateAsLocal from './format-local-date-as-local'
-import formatUTCDateAsUTC from './format-utc-date-as-utc'
-import formatUTCDateAsLocal from './format-utc-date-as-local'
 import setGeolocation from './set-geolocation'
 import setContact from './set-contact'
 import setOrganizer from './set-organizer'
@@ -15,10 +11,6 @@ import setLocation from './set-location'
 
 export {
   formatDate,
-  formatLocalDateAsUTC,
-  formatLocalDateAsLocal,
-  formatUTCDateAsUTC,
-  formatUTCDateAsLocal,
   setGeolocation,
   setContact,
   setOrganizer,

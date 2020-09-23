@@ -35,6 +35,7 @@
     "@babel/preset-env": "^7.6.2",
     "@babel/register": "^7.6.2",
     "chai": "^4.2.0",
+    "dayjs": "^1.8.33",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "mocha": "^6.2.1"
@@ -42,8 +43,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "lodash": "^4.17.15",
-    "uuid": "^3.3.3",
-    "dayjs": "^1.8.33"
+    "uuid": "^3.3.3"
   },
   "files": [
     "dist/",
