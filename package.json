@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "2.24.0",
+  "version": "2.25.0",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "types": "index.d.ts",
@@ -38,7 +38,8 @@
     "dayjs": "^1.8.33",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "mocha": "^6.2.1"
+    "mocha": "^6.2.1",
+    "yargs-parser": "^20.2.0"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
