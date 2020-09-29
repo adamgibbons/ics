@@ -39,7 +39,7 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "mocha": "^6.2.1",
-    "yargs-parser": "^20.2.0"
+    "yargs-parser": ">=13.1.2"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
