@@ -10,7 +10,6 @@ import {
     formatDuration,
     foldLine
 } from '../utils'
-import isEqual from 'lodash/isEqual'
 
 export default function formatEvent(attributes = {}) {
   const {
@@ -61,9 +60,9 @@ export default function formatEvent(attributes = {}) {
   icsFormat += `DTSTART${start && start.length == 3 ? ";VALUE=DATE" : ""}:${formatDate(start, startOutputType || startType, startInputType)}\r\n`
 
   // End is not required for all day events on single days (like anniversaries)
-  if (!(isEqual(start, end) && end && end.length == 3)) {
+  if (!end || end.length !== 3 || start.length !== end.length || start.some((val, i) => val !== end[i])) {
     if (end) {
-      icsFormat += `DTEND${end.length == 3 ? ";VALUE=DATE" : ""}:${formatDate(end, endOutputType || startOutputType || startType, endInputType || startInputType)}\r\n`;
+      icsFormat += `DTEND${end.length === 3 ? ";VALUE=DATE" : ""}:${formatDate(end, endOutputType || startOutputType || startType, endInputType || startInputType)}\r\n`;
     }
   }
 
