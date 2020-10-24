@@ -136,7 +136,7 @@ console.log(value)
 ```
 
 4) Create iCalendar events with Audio (Mac):
-```'use strict';
+```javascript
 let ics = require("ics")
 let moment = require("moment")
 let events = []
