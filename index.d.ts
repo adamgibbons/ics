@@ -85,6 +85,8 @@ export type EventAttributes = {
   recurrenceRule?: string;
   sequence?: number;
   calName?: string;
+  created?: DateArray;
+  lastModified?: DateArray;
 } & ({ end: DateArray } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };
