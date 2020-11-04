@@ -1,14 +1,14 @@
 import {
-  setAlarm,
-  setContact,
-  setOrganizer,
-  formatDate,
-  setDescription,
-  setLocation,
-  setSummary,
-  setGeolocation,
-  formatDuration,
-  foldLine
+    setAlarm,
+    setContact,
+    setOrganizer,
+    formatDate,
+    setDescription,
+    setLocation,
+    setSummary,
+    setGeolocation,
+    formatDuration,
+    foldLine
 } from '../utils'
 
 export default function formatEvent(attributes = {}) {
