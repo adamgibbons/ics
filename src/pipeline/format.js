@@ -40,7 +40,8 @@ export default function formatEvent(attributes = {}) {
     busyStatus,
     created,
     lastModified,
-    calName
+    calName,
+    disableDatestamp
   } = attributes
 
   let icsFormat = ''
@@ -53,8 +54,8 @@ export default function formatEvent(attributes = {}) {
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += 'BEGIN:VEVENT\r\n'
   icsFormat += `UID:${uid}\r\n`
-  icsFormat +=  foldLine(`SUMMARY:${title ? setSummary(title) : title}`) + '\r\n'
-  icsFormat += `DTSTAMP:${timestamp}\r\n`
+  icsFormat += foldLine(`SUMMARY:${title ? setSummary(title) : title}`) + '\r\n'
+  icsFormat += !disableDatestamp ? `DTSTAMP:${timestamp}\r\n` : ''
 
   // All day events like anniversaries must be specified as VALUE type DATE
   icsFormat += `DTSTART${start && start.length == 3 ? ";VALUE=DATE" : ""}:${formatDate(start, startOutputType || startType, startInputType)}\r\n`

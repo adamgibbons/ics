@@ -87,6 +87,7 @@ export type EventAttributes = {
   calName?: string;
   created?: DateArray;
   lastModified?: DateArray;
+  disableTimestamp?: boolean;
 } & ({ end: DateArray } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };

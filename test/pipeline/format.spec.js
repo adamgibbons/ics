@@ -236,4 +236,9 @@ describe('pipeline.formatEvent', () => {
 
     expect(formattedEvent).to.contain('RRULE:FREQ=DAILY')
   })
+  it('writes event without DTSTAMP timestamp', () => {
+    const event = buildEvent({ disableDatestamp: true })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.not.contain('DTSTAMP:20')
+  })
 })

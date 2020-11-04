@@ -75,7 +75,8 @@ const schema = Joi.object().keys({
   busyStatus: Joi.string().regex(/TENTATIVE|FREE|BUSY|OOF/),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
-  calName: Joi.string()
+  calName: Joi.string(),
+  disableDatestamp: Joi.boolean()
 }).xor('end', 'duration')
 
 export default function validateEvent(candidate) {
