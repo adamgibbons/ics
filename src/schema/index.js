@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi'
+import Joi from 'joi'
 
 const dateTimeSchema = Joi.array().min(3).max(7).ordered(
   Joi.number().integer(),
