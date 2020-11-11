@@ -1,5 +1,4 @@
 import pickBy from "lodash/pickBy";
-import identity from "lodash/identity";
 import defaultAttributes from "../defaults";
 
 export default function buildEvent(attributes = {}) {
@@ -31,8 +30,8 @@ export default function buildEvent(attributes = {}) {
   // fill in default values where necessary
   const output = Object.assign({}, defaultAttributes, attributes);
 
-  // remove falsey values
-  const cleanOutput = pickBy(output, identity);
+  // remove undefined values
+  const cleanOutput = pickBy(output, value => value !== undefined);
 
   return cleanOutput;
 }

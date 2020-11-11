@@ -109,6 +109,11 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('SEQUENCE:8')
   })
+  it("supports sequence as 0", () => {
+    const event = buildEvent({ sequence: 0 })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain("SEQUENCE:0")
+  })
   it('writes a description', () => {
     const event = buildEvent({ description: 'bar baz' })
     const formattedEvent = formatEvent(event)
