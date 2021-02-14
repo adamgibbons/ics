@@ -42,7 +42,7 @@
     "yargs-parser": ">=13.1.2"
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.1.1",
     "uuid": "^3.3.3"
   },
   "files": [
