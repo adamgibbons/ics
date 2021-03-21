@@ -72,6 +72,7 @@ export type EventAttributes = {
 
   url?: string;
   status?: EventStatus;
+  busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
 
   organizer?: Person;
   attendees?: Attendee[];
