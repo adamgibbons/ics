@@ -1,12 +1,10 @@
 
 export default function foldLine (line) {
-  const parts = []
-  let length = 75
-  while (line.length > length) {
-    parts.push(line.slice(0, length))
-    line = line.slice(length)
-    length = 74
+  let result = line.slice(0, 75);
+  line = line.slice(75);
+  while (line.length > 74) {
+    result += '\r\n\t' + line.slice(0, 74);
+    line = line.slice(74);
   }
-  parts.push(line)
-  return parts.join('\r\n\t')
+  return result + (line ? '\r\n\t' + line : '');
 }

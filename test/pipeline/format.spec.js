@@ -189,10 +189,11 @@ describe('pipeline.formatEvent', () => {
   it('writes an organizer', () => {
     const event = formatEvent({ organizer: {
       name: 'Adam Gibbons',
-      email: 'adam@example.com'
+      email: 'adam@example.com',
+      dir: 'https://linkedin.com/in/adamgibbons'
     }})
     const formattedEvent = formatEvent(event)
-    expect(event).to.contain('ORGANIZER;CN=Adam Gibbons:mailto:adam@example.com')
+    expect(event).to.contain('ORGANIZER;DIR=https://linkedin.com/in/adamgibbons;CN=Adam Gibbons:mailto:adam@example.com')
   })
   it('writes an alarm', () => {
     const formattedEvent = formatEvent({ alarms: [{

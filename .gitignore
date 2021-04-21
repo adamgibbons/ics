@@ -4,3 +4,4 @@ write-event.js
 output.ics
 dist/
 package-lock.json
+.idea
