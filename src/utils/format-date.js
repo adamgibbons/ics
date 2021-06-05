@@ -1,13 +1,14 @@
 const pad = n => n < 10 ? `0${n}` : `${n}`
 
 export default function formatDate(args = [], outputType = 'utc', inputType = 'local') {
-  if (Array.isArray(args) && args.length === 3) {
+  const isArray = Array.isArray(args);
+  if (isArray && args.length === 3) {
     const [year, month, date] = args
     return `${year}${pad(month)}${pad(date)}`
   }
 
   let outDate = new Date(new Date().setUTCSeconds(0, 0))
-  if (Array.isArray(args) && args.length > 0 && args[0]) {
+  if (isArray && args.length > 0 && args[0]) {
     const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
     if (inputType === 'local') {
       outDate = new Date(year, month - 1, date, hours, minutes, seconds)
