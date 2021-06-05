@@ -29,7 +29,7 @@ const event = {
   categories: ['10k races', 'Memorial Day Weekend', 'Boulder CO'],
   status: 'CONFIRMED',
   busyStatus: 'BUSY',
-  organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com', dir: 'https://linkedin.com/in/adamgibbons' },
+  organizer: { name: 'Admin', email: 'Race@BolderBOULDER.com' },
   attendees: [
     { name: 'Adam Gibbons', email: 'adam@example.com', rsvp: true, partstat: 'ACCEPTED', role: 'REQ-PARTICIPANT' },
     { name: 'Brittany Seaton', email: 'brittany@example2.org', dir: 'https://linkedin.com/in/brittanyseaton', role: 'OPT-PARTICIPANT' }
@@ -61,7 +61,7 @@ ics.createEvent(event, (error, value) => {
   // LOCATION:Folsom Field, University of Colorado (finish line)
   // STATUS:CONFIRMED
   // CATEGORIES:10k races,Memorial Day Weekend,Boulder CO
-  // ORGANIZER;DIR=https://linkedin.com/in/adamgibbons;CN=Admin:mailto:Race@BolderBOULDER.com
+  // ORGANIZER;CN=Admin:mailto:Race@BolderBOULDER.com
   // ATTENDEE;RSVP=TRUE;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Adam Gibbons:mailto:adam@example.com
   // ATTENDEE;RSVP=FALSE;ROLE=OPT-PARTICIPANT;DIR=https://linkedin.com/in/brittanyseaton;CN=Brittany
   //   Seaton:mailto:brittany@example2.org

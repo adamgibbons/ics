@@ -29,7 +29,6 @@ const contactSchema = Joi.object().keys({
 
 const organizerSchema = Joi.object().keys({
   name: Joi.string(),
-  dir: Joi.string().uri(),
   email: Joi.string().email({ tlds: { allow: false } })
 })
 

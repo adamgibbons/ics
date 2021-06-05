@@ -141,13 +141,11 @@ describe('pipeline.build properties', () => {
     it('sets an organizer', () => {
       const event = buildEvent({ organizer: {
         name: 'Adam Gibbons',
-        email: 'adam@example.com',
-        dir: 'https://linkedin.com/in/adamgibbons'
+        email: 'adam@example.com'
       }})
       expect(event.organizer).to.deep.equal({
         name: 'Adam Gibbons',
-        email: 'adam@example.com',
-        dir: 'https://linkedin.com/in/adamgibbons'
+        email: 'adam@example.com'
       })
     })
   })

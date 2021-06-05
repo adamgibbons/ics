@@ -6,7 +6,7 @@ describe('.validateEvent', () => {
     it('uid', () => {
       const { error } = validateEvent({ title: 'foo' })
       expect(error.details.some(p => p.message === '"uid" is required')).to.be.true
-    })
+    })  
 
     it('start', () => {
       const { error } = validateEvent({ title: 'foo', uid: 'foo' })
@@ -169,8 +169,8 @@ describe('.validateEvent', () => {
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        organizer: { name: 'Adam', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' }
-      }).value.organizer).to.include({ name: 'Adam', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' })
+        organizer: { name: 'Adam', email: 'adam@example.com' }
+      }).value.organizer).to.include({ name: 'Adam', email: 'adam@example.com' })
 
       const { details } = validateEvent({
         title: 'foo',
