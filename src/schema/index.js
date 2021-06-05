@@ -1,84 +1,103 @@
-import Joi from 'joi'
+import * as yup from 'yup'
 
-const dateTimeSchema = Joi.array().min(3).max(7).ordered(
-  Joi.number().integer(),
-  Joi.number().integer().min(1).max(12),
-  Joi.number().integer().min(1).max(31),
-  Joi.number().integer().min(0).max(23),
-  Joi.number().integer().min(0).max(60),
-  Joi.number().integer().min(0).max(60)
+// yup url validation blocks localhost, so use a more flexible regex instead
+// taken from https://github.com/jquense/yup/issues/224#issuecomment-417172609
+// This does mean that the url validation error is
+// "url must match the following: ...." as opposed to "url must be a valid URL"
+const urlRegex = /^(?:([a-z0-9+.-]+):\/\/)(?:\S+(?::\S*)?@)?(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/
+
+const dateTimeSchema = yup.array().min(3).max(7).of(yup.lazy((item, options) => {
+    const itemIndex = parseInt(options.path.match(/.*\[(\d+)]/)[1])
+    return [
+      yup.number().integer(),
+      yup.number().integer().min(1).max(12),
+      yup.number().integer().min(1).max(31),
+      yup.number().integer().min(0).max(23),
+      yup.number().integer().min(0).max(60),
+      yup.number().integer().min(0).max(60)
+    ][itemIndex]
+  })
 )
 
-const durationSchema = Joi.object().keys({
-  before: Joi.boolean(),//option to set before alaram
-  weeks: Joi.number(),
-  days: Joi.number(),
-  hours: Joi.number(),
-  minutes: Joi.number(),
-  seconds: Joi.number()
-})
+const durationSchema = yup.object().shape({
+  before: yup.boolean(),//option to set before alaram
+  weeks: yup.number(),
+  days: yup.number(),
+  hours: yup.number(),
+  minutes: yup.number(),
+  seconds: yup.number()
+}).noUnknown()
 
-const contactSchema = Joi.object().keys({
-  name: Joi.string(),
-  email: Joi.string().email({ tlds: { allow: false } }),
-  rsvp: Joi.boolean(),
-  dir: Joi.string().uri(),
-  partstat: Joi.string(),
-  role: Joi.string()
-})
+const contactSchema = yup.object().shape({
+  name: yup.string(),
+  email: yup.string().email(),
+  rsvp: yup.boolean(),
+  dir: yup.string().matches(urlRegex),
+  partstat: yup.string(),
+  role: yup.string()
+}).noUnknown()
 
-const organizerSchema = Joi.object().keys({
-  name: Joi.string(),
-  email: Joi.string().email({ tlds: { allow: false } })
-})
+const organizerSchema = yup.object().shape({
+  name: yup.string(),
+  email: yup.string().email()
+}).noUnknown()
 
-const alarmSchema = Joi.object().keys({
-  action: Joi.string().regex(/audio|display|email/).required(),
-  trigger: Joi.any().required(),
-  description: Joi.string(),
+const alarmSchema = yup.object().shape({
+  action: yup.string().matches(/audio|display|email/).required(),
+  trigger: yup.mixed().required(),
+  description: yup.string(),
   duration: durationSchema,
-  repeat: Joi.number(),
-  attach: Joi.string(),
-  attachType: Joi.string(),
-  summary: Joi.string(),
+  repeat: yup.number(),
+  attach: yup.string(),
+  attachType: yup.string(),
+  summary: yup.string(),
   attendee: contactSchema,
-  'x-prop': Joi.any(),
-  'iana-prop': Joi.any()
-})
+  'x-prop': yup.mixed(),
+  'iana-prop': yup.mixed()
+}).noUnknown()
 
-const schema = Joi.object().keys({
-  summary: Joi.string(),
-  timestamp: Joi.any(),
-  title: Joi.string(),
-  productId: Joi.string(),
-  method: Joi.string(),
-  uid: Joi.string().required(),
-  sequence: Joi.number(),
+const schema = yup.object().shape({
+  summary: yup.string(),
+  timestamp: yup.mixed(),
+  title: yup.string(),
+  productId: yup.string(),
+  method: yup.string(),
+  uid: yup.string().required(),
+  sequence: yup.number(),
   start: dateTimeSchema.required(),
   duration: durationSchema,
-  startType: Joi.string().regex(/utc|local/),
-  startInputType: Joi.string().regex(/utc|local/),
-  startOutputType: Joi.string().regex(/utc|local/),
+  startType: yup.string().matches(/utc|local/),
+  startInputType: yup.string().matches(/utc|local/),
+  startOutputType: yup.string().matches(/utc|local/),
   end: dateTimeSchema,
-  endInputType: Joi.string().regex(/utc|local/),
-  endOutputType: Joi.string().regex(/utc|local/),
-  description: Joi.string(),
-  url: Joi.string().uri(),
-  geo: Joi.object().keys({ lat: Joi.number(), lon: Joi.number() }),
-  location: Joi.string(),
-  status: Joi.string().regex(/TENTATIVE|CANCELLED|CONFIRMED/),
-  categories: Joi.array().items(Joi.string()),
+  endInputType: yup.string().matches(/utc|local/),
+  endOutputType: yup.string().matches(/utc|local/),
+  description: yup.string(),
+  url: yup.string().matches(urlRegex),
+  geo: yup.object().shape({lat: yup.number(), lon: yup.number()}),
+  location: yup.string(),
+  status: yup.string().matches(/TENTATIVE|CANCELLED|CONFIRMED/i),
+  categories: yup.array().of(yup.string()),
   organizer: organizerSchema,
-  attendees: Joi.array().items(contactSchema),
-  alarms: Joi.array().items(alarmSchema),
-  recurrenceRule: Joi.string(),
-  busyStatus: Joi.string().regex(/TENTATIVE|FREE|BUSY|OOF/),
+  attendees: yup.array().of(contactSchema),
+  alarms: yup.array().of(alarmSchema),
+  recurrenceRule: yup.string(),
+  busyStatus: yup.string().matches(/TENTATIVE|FREE|BUSY|OOF/i),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
-  calName: Joi.string()
-}).xor('end', 'duration')
+  calName: yup.string()
+}).test('xor', `object should have end or duration`, val => {
+  const hasEnd = !!val.end
+  const hasDuration = !!val.duration
+  return ((hasEnd && !hasDuration) || (!hasEnd && hasDuration) || (!hasEnd && !hasDuration))
+}).noUnknown()
 
-export default function validateEvent(candidate) {
-  const { error = null, value } = schema.validate(candidate)
-  return { error, value }
+export default function validateEvent (candidate) {
+
+  try {
+    const value = schema.validateSync(candidate, {abortEarly: false, strict: true})
+    return {error: null, value}
+  } catch (error) {
+    return {error, value: undefined}
+  }
 }

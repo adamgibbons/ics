@@ -2,40 +2,40 @@ import { expect } from 'chai'
 import validateEvent from '../../src/schema'
 
 describe('.validateEvent', () => {
-  describe('must have one and only one occurance of', () => {
+  describe('must have one and only one occurrence of', () => {
     it('uid', () => {
-      const { error } = validateEvent({ title: 'foo' })
-      expect(error.details.some(p => p.message === '"uid" is required')).to.be.true
-    })  
+      const {error} = validateEvent({title: 'foo'})
+      expect(error.errors.some(p => p === 'uid is a required field')).to.be.true
+    })
 
     it('start', () => {
-      const { error } = validateEvent({ title: 'foo', uid: 'foo' })
-      expect(error.details.some(p => p.message === '"start" is required')).to.be.true
+      const {error} = validateEvent({title: 'foo', uid: 'foo'})
+      expect(error.errors.some(p => p === 'start is a required field')).to.be.true
     })
   })
 
   describe('must have duration XOR end', () => {
     it('duration and end are not allowed together', () => {
-      const { error, value } = validateEvent({
+      const {error, value} = validateEvent({
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        duration: { hours: 1 },
+        duration: {hours: 1},
         end: [2018, 12, 1, 11, 45]
       })
       expect(error).to.exist
     })
   })
 
-  describe('may have one and only one occurance of', () => {
+  describe('may have one and only one occurrence of', () => {
     it('summary', () => {
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         summary: 1
       }).error
 
-      expect(details.some(p => p.message === '"summary" must be a string')).to.be.true
+      expect(errors.some(p => p.match(/summary must be a `string` type/))).to.be.true
 
       expect(validateEvent({
         title: 'foo',
@@ -46,14 +46,13 @@ describe('.validateEvent', () => {
     })
 
     it('description', () => {
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         description: 1
       }).error
-
-      expect(details.some(p => p.message === '"description" must be a string')).to.be.true
+      expect(errors.some(p => p.match(/description must be a `string` type/))).to.be.true
 
       expect(validateEvent({
         title: 'foo',
@@ -64,18 +63,18 @@ describe('.validateEvent', () => {
 
     })
     it('url', () => {
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         url: 'abc'
       }).error
-      expect(details.some(p => p.message === '"url" must be a valid uri')).to.be.true
+      expect(errors.some(p => p.match(/url must/))).to.be.true
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        url: 'abc'
+        url: 'http://github.com'
       }).value.url).to.exist
     })
 
@@ -91,25 +90,24 @@ describe('.validateEvent', () => {
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        geo: { lat: 'thing', lon: 32.1 },
+        geo: {lat: 'thing', lon: 32.1},
       }).error.name === 'ValidationError')
 
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        geo: { lat: 13.23, lon: 32.1 },
+        geo: {lat: 13.23, lon: 32.1},
       }).value.geo).to.exist
     })
     it('location', () => {
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         location: 1
       }).error
-
-      expect(details.some(p => p.message === '"location" must be a string')).to.be.true
+      expect(errors.some(p => p.match(/location must be a `string` type/))).to.be.true
 
       expect(validateEvent({
         title: 'foo',
@@ -147,14 +145,14 @@ describe('.validateEvent', () => {
     })
 
     it('categories', () => {
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         categories: [1]
       }).error
 
-      expect(details.some(p => p.message === '"categories[0]" must be a string')).to.be.true
+      expect(errors.some(p => p.match(/categories\[0] must be a `string` type/))).to.be.true
 
       expect(validateEvent({
         title: 'foo',
@@ -169,16 +167,16 @@ describe('.validateEvent', () => {
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        organizer: { name: 'Adam', email: 'adam@example.com' }
-      }).value.organizer).to.include({ name: 'Adam', email: 'adam@example.com' })
+        organizer: {name: 'Adam', email: 'adam@example.com'}
+      }).value.organizer).to.include({name: 'Adam', email: 'adam@example.com'})
 
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        organizer: { foo: 'Adam' }
+        organizer: {foo: 'Adam'}
       }).error
-      expect(details.some(p => p.message === '"organizer.foo" is not allowed')).to.be.true
+      expect(errors.some(p => p === 'organizer field has unspecified keys: foo')).to.be.true
     })
 
     it('attendees', () => {
@@ -187,19 +185,19 @@ describe('.validateEvent', () => {
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         attendees: [
-          { name: 'Adam', email: 'adam@example.com' },
-          { name: 'Brittany', email: 'brittany@example.com' }]
+          {name: 'Adam', email: 'adam@example.com'},
+          {name: 'Brittany', email: 'brittany@example.com'}]
       }).value.attendees).to.be.an('array').that.is.not.empty
 
-      const { details } = validateEvent({
+      const {errors} = validateEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         attendees: [
-          { foo: 'Adam', email: 'adam@example.com' },
-          { name: 'Brittany', email: 'brittany@example.com' }]
+          {foo: 'Adam', email: 'adam@example.com'},
+          {name: 'Brittany', email: 'brittany@example.com'}]
       }).error
-      expect(details.some(p => p.message === '"attendees[0].foo" is not allowed')).to.be.true
+      expect(errors.some(p => p === 'attendees[0] field has unspecified keys: foo')).to.be.true
 
       const res = validateEvent({
         title: 'foo',
@@ -207,16 +205,17 @@ describe('.validateEvent', () => {
         start: [2018, 12, 1, 10, 30],
         end: [2018, 12, 1, 11, 0],
         attendees: [
-          { name: 'toto', email: 'toto@toto.fr', role: 'REQ-PARTICIPANT', partstat: 'ACCEPTED' }
+          {name: 'toto', email: 'toto@toto.fr', role: 'REQ-PARTICIPANT', partstat: 'ACCEPTED'}
         ]
       }).error
-      expect(res).to.be.null;
+      expect(res).to.be.null
     })
 
     it('created', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
         created: [2018, 12, 1, 9, 30]
       }).value.created).to.exist
     })
@@ -225,6 +224,7 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
         lastModified: [2018, 12, 1, 9, 30]
       }).value.lastModified).to.exist
     })
@@ -233,17 +233,18 @@ describe('.validateEvent', () => {
       expect(validateEvent({
         title: 'foo',
         uid: 'foo',
-        calName: 'John\'s Calendar'
+        calName: 'John\'s Calendar',
+        start: [2018, 12, 1, 10, 30],
       }).value.calName).to.exist
     })
   })
 
-  describe('may have one or more occurances of', () => {
+  describe('may have one or more occurrences of', () => {
     it('alarm component', () => {
       const event = validateEvent({
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
-        duration: { hours: 1 },
+        duration: {hours: 1},
         alarms: [{
           action: 'audio',
           trigger: []
