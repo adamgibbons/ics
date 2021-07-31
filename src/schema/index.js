@@ -98,6 +98,6 @@ export default function validateEvent (candidate) {
     const value = schema.validateSync(candidate, {abortEarly: false, strict: true})
     return {error: null, value}
   } catch (error) {
-    return {error, value: undefined}
+    return {error: Object.assign({}, error), value: undefined}
   }
 }
