@@ -67,7 +67,6 @@ describe('pipeline.build properties', () => {
   describe('created', () => {
     it('sets a created timestamp', () => {
       const event = buildEvent({ created: [2017, 1, 19, 1, 30] })
-      console.log(event)
       expect(event.created).to.be.an('array')
     })
   })
