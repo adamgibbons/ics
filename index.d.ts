@@ -101,3 +101,5 @@ export function createEvent(attributes: EventAttributes): ReturnObject;
 export function createEvents(events: EventAttributes[], callback: NodeCallback): void;
 
 export function createEvents(events: EventAttributes[]): ReturnObject;
+
+export function convertTimestampToArray(timestamp: Number, inputType: String): DateArray;

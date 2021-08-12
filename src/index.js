@@ -53,6 +53,17 @@ function catenateEvents(accumulator, { error, value }, idx) {
   return accumulator
 }
 
+export function convertTimestampToArray(timestamp, inputType = 'local') {
+  const dateArray = [];
+  const d = new Date(timestamp);
+  dateArray.push(inputType === 'local' ? d.getFullYear() : d.getUTCFullYear());
+  dateArray.push((inputType === 'local' ? d.getMonth() : d.getUTCMonth()) + 1);
+  dateArray.push(inputType === 'local' ? d.getDate() : d.getUTCDate());
+  dateArray.push(inputType === 'local' ? d.getHours() : d.getUTCHours());
+  dateArray.push(inputType === 'local' ? d.getMinutes() : d.getUTCMinutes());
+  return dateArray;
+}
+
 export function createEvent (attributes, cb) {
   if (!attributes) { Error('Attributes argument is required') }
 
