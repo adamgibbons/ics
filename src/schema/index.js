@@ -85,7 +85,8 @@ const schema = yup.object().shape({
   busyStatus: yup.string().matches(/TENTATIVE|FREE|BUSY|OOF/i),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
-  calName: yup.string()
+  calName: yup.string(),
+  htmlContent: yup.string()
 }).test('xor', `object should have end or duration`, val => {
   const hasEnd = !!val.end
   const hasDuration = !!val.duration

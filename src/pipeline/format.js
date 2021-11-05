@@ -40,7 +40,8 @@ export default function formatEvent(attributes = {}) {
     busyStatus,
     created,
     lastModified,
-    calName
+    calName,
+    htmlContent
   } = attributes
 
   let icsFormat = ''
@@ -77,6 +78,7 @@ export default function formatEvent(attributes = {}) {
   icsFormat += busyStatus ? (foldLine(`X-MICROSOFT-CDO-BUSYSTATUS:${busyStatus}`) + '\r\n') : ''
   icsFormat += created ? ('CREATED:' + formatDate(created) + '\r\n') : ''
   icsFormat += lastModified ? ('LAST-MODIFIED:' + formatDate(lastModified) + '\r\n') : ''
+  icsFormat += htmlContent ? (foldLine(`X-ALT-DESC;FMTTYPE=text/html:${htmlContent}`) + '\r\n') : ''
   if (attendees) {
     attendees.map(function (attendee) {
       icsFormat += foldLine(`ATTENDEE;${setContact(attendee)}`) + '\r\n'

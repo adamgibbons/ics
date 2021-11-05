@@ -23,7 +23,8 @@ export default function buildEvent(attributes = {}) {
     recurrenceRule,
     created,
     lastModified,
-    calName
+    calName,
+    htmlContent
   } = attributes;
 
   // fill in default values where necessary

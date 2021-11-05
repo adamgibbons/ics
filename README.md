@@ -236,6 +236,7 @@ The following properties are accepted:
 | created | Date-time representing event's creation date. Provide a date-time in UTC | [2000, 1, 5, 10, 0] (January 5, 2000 GMT +00:00)
 | lastModified | Date-time representing date when event was last modified. Provide a date-time in UTC | [2000, 1, 5, 10, 0] (January 5, 2000 GMT +00:00)
 | calName       |  Specifies the _calendar_ (not event) name. Used by Apple iCal and Microsoft Outlook; see [Open Specification](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/1da58449-b97e-46bd-b018-a1ce576f3e6d) | `'Example Calendar'` |
+| htmlContent       | Used to include HTML markup in an event's description. Standard DESCRIPTION tag should contain non-HTML version. | `<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>` |
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.

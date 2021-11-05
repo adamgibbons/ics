@@ -104,6 +104,11 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('X-WR-CALNAME:John\'s Calendar')
   })
+  it('writes a html content and folds correctly', () => {
+    const event = buildEvent({ htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain(`X-ALT-DESC;FMTTYPE=text/html:<!DOCTYPE html><html><body><p>This is<br>test<\r\n\tbr>html code.</p></body></html>`)
+  })
   it('writes a sequence', () => {
     const event = buildEvent({ sequence: 8 })
     const formattedEvent = formatEvent(event)
