@@ -82,6 +82,12 @@ describe('pipeline.build properties', () => {
       expect(event.calName).to.equal('John\'s Calendar')
     })
   })
+  describe('htmlContent', () => {
+    it('sets a html content', () => {
+      const event = buildEvent({ htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>' })
+      expect(event.htmlContent).to.equal('<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>')
+    })
+  })
   describe('description', () => {
     it('removes a falsey value', () => {
       const event = buildEvent()

@@ -237,6 +237,15 @@ describe('.validateEvent', () => {
         start: [2018, 12, 1, 10, 30],
       }).value.calName).to.exist
     })
+
+    it('htmlContent', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>',
+        start: [2018, 12, 1, 10, 30],
+      }).value.htmlContent).to.exist
+    })
   })
 
   describe('may have one or more occurrences of', () => {
