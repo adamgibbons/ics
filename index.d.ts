@@ -94,6 +94,7 @@ export type EventAttributes = {
   classification?: classificationType;
   created?: DateArray;
   lastModified?: DateArray;
+  htmlContent: string;
 } & ({ end: DateArray } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };
@@ -107,3 +108,5 @@ export function createEvent(attributes: EventAttributes): ReturnObject;
 export function createEvents(events: EventAttributes[], callback: NodeCallback): void;
 
 export function createEvents(events: EventAttributes[]): ReturnObject;
+
+export function dateArrayConverter(jsDate: Date): DateArray;

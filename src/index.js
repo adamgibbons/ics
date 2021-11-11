@@ -88,6 +88,22 @@ export function createEvents (events, cb) {
     return { error: Error('one argument is required'), value: null }
   }
 
+  if (events.length === 0) {
+    const {error, value: dummy} = createEvent({
+      start: [2000, 10, 5, 5, 0],
+      duration: { hours: 1 }
+    })
+    if (error) return {error, value: null}
+
+    return {
+      error: null,
+      value: (
+        dummy.slice(0, dummy.indexOf('BEGIN:VEVENT')) +
+        dummy.slice(dummy.indexOf('END:VEVENT') + 10 + 2)
+      )
+    }
+  }
+
   if (events.length === 1) {
     return createEvent(events[0], cb)
   }

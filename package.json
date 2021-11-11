@@ -1,7 +1,7 @@
 {
-  "name": "ics",
-  "version": "2.32.0",
-  "description": "iCal (ics) file generator",
+  "name": "@flowr-es/ics",
+  "version": "2.32.1",
+  "description": "iCal (ics) file generator and parser",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/adamgibbons/ics.git"
+    "url": "https://github.com/Flowr-es/ics.git"
   },
   "keywords": [
     "ical",
@@ -25,25 +25,28 @@
     "alarms"
   ],
   "author": "Adam Gibbons <adam@agibbons.com> (http://agibbons.com/)",
+  "contributors": [
+    { "name": "Carlos Knoke Flores", "email": "carlos@knoke.net" }
+  ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/adamgibbons/ics/issues"
+    "url": "https://github.com/Flowr-es/ics/issues"
   },
-  "homepage": "https://github.com/adamgibbons/ics",
+  "homepage": "https://github.com/Flowr-es/ics",
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/register": "^7.6.2",
-    "chai": "^4.2.0",
-    "dayjs": "^1.8.33",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/register": "^7.16.0",
+    "chai": "^4.3.4",
+    "dayjs": "^1.10.7",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "mocha": "^6.2.1",
-    "yargs-parser": ">=13.1.2"
+    "yargs-parser": "^20.2.9"
   },
   "dependencies": {
-    "nanoid": "^3.1.23",
-    "yup": "^0.32.9"
+    "nanoid": "^3.1.30",
+    "yup": "^0.32.11"
   },
   "files": [
     "dist/",

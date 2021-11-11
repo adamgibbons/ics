@@ -8,6 +8,7 @@ import setSummary from './set-summary'
 import formatDuration from './format-duration'
 import foldLine from './fold-line'
 import setLocation from './set-location'
+import dateArrayConverter from './date-array-converter';
 
 export {
   formatDate,
@@ -19,5 +20,6 @@ export {
   setSummary,
   setDescription,
   foldLine,
-  setLocation
+  setLocation,
+  dateArrayConverter
 }

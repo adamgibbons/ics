@@ -3,13 +3,20 @@ ics
 
 The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
-[![npm version](https://badge.fury.io/js/ics.svg)](http://badge.fury.io/js/ics)
-[![TravisCI build status](https://travis-ci.org/adamgibbons/ics.svg?branch=master)](https://travis-ci.org/adamgibbons/ics.svg?branch=master)
-[![Downloads](https://img.shields.io/npm/dm/ics.svg)](http://npm-stat.com/charts.html?package=ics)
+[![npm version](https://badge.fury.io/js/@flowr-es/ics.svg)](http://badge.fury.io/js/@flowr-es/ics)
+
+[![Downloads](https://img.shields.io/npm/dm/@flowr-es/ics.svg)](http://npm-stat.com/charts.html?package=@flowr-es/ics)
+
+## This is a Fork!
+
+Due to some inactivity, I decided to make a fork and merge the latest PRs and add some more stuff
+The original package is here: https://www.npmjs.com/package/ics
+
+Contains: classification, html support - util for DateArray creation and a bugfix with 0 events
 
 ## Install
 
-`npm install -S ics`
+`npm install -S @flowr-es/ics`
 
 ## Example Usage
 
@@ -237,6 +244,7 @@ The following properties are accepted:
 | created | Date-time representing event's creation date. Provide a date-time in UTC | [2000, 1, 5, 10, 0] (January 5, 2000 GMT +00:00)
 | lastModified | Date-time representing date when event was last modified. Provide a date-time in UTC | [2000, 1, 5, 10, 0] (January 5, 2000 GMT +00:00)
 | calName       |  Specifies the _calendar_ (not event) name. Used by Apple iCal and Microsoft Outlook; see [Open Specification](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/1da58449-b97e-46bd-b018-a1ce576f3e6d) | `'Example Calendar'` |
+| htmlContent       | Used to include HTML markup in an event's description. Standard DESCRIPTION tag should contain non-HTML version. | `<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>` |
 
 To create an **all-day** event, pass only three values (`year`, `month`, and `date`) to the `start` and `end` properties.
 The date of the `end` property should be the day *after* your all-day event.
