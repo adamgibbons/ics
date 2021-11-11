@@ -186,6 +186,20 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventTent).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE')
     expect(formattedEventOOF).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:OOF')
   })
+  it('writes a access classification', () => {
+    const eventPublic = buildEvent({ classification: "PUBLIC" })
+    const eventPrivate = buildEvent({ classification: "PRIVATE"})
+    const eventConfidential = buildEvent({ classification: "CONFIDENTIAL"})
+    const eventAnyClass = buildEvent({ classification: "non-standard-property" })
+    const formattedEventPublic = formatEvent(eventPublic)
+    const formattedEventPrivate = formatEvent(eventPrivate)
+    const formattedEventConfidential = formatEvent(eventConfidential)
+    const formattedEventAnyClass = formatEvent(eventAnyClass)
+    expect(formattedEventPublic).to.contain('CLASS:PUBLIC')
+    expect(formattedEventPrivate).to.contain('CLASS:PRIVATE')
+    expect(formattedEventConfidential).to.contain('CLASS:CONFIDENTIAL')
+    expect(formattedEventAnyClass).to.contain('CLASS:non-standard-property')
+  })
   it('writes an organizer', () => {
     const event = formatEvent({ organizer: {
       name: 'Adam Gibbons',

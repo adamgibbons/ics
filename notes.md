@@ -46,7 +46,7 @@ TZID=America/New_York:19980119T020000
 - [x] dtstart
 
 ### OPTIONAL but MUST NOT occur more than once
-- [ ] class
+- [x] class
 - [ ] created
 - [x] description
 - [x] geo

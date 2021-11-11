@@ -48,6 +48,11 @@ export type Attendee = Person & {
 
 export type ActionType = 'audio' | 'display' | 'email' | 'procedure';
 
+/**
+ * This property defines the access classification for a calendar component.
+ */
+export type classificationType = 'PUBLIC' | 'PRIVATE' | 'CONFIDENTIAL' | string;
+
 export type Alarm = {
   action?: ActionType;
   trigger?: DurationObject; // @todo DateArray | DurationObject;
@@ -73,19 +78,20 @@ export type EventAttributes = {
   url?: string;
   status?: EventStatus;
   busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
-
+  
   organizer?: Person;
   attendees?: Attendee[];
-
+  
   categories?: string[];
   alarms?: Alarm[];
-
+  
   productId?: string;
   uid?: string;
   method?: string;
   recurrenceRule?: string;
   sequence?: number;
   calName?: string;
+  classification?: classificationType;
   created?: DateArray;
   lastModified?: DateArray;
 } & ({ end: DateArray } | { duration: DurationObject });
