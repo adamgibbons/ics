@@ -69,6 +69,12 @@ describe('ics', () => {
         expect(error).to.exist
         expect(value).not.to.exist
       })
+
+      it('returns an iCal string when passed 0 events', () => {
+        const { error, value } = createEvents([])
+        expect(error).to.be.null
+        expect(value).to.contain('BEGIN:VCALENDAR')
+      })
     })
 
     describe('when a callback is provided', () => {
@@ -84,6 +90,14 @@ describe('ics', () => {
         createEvents([validAttributes, validAttributes2, invalidAttributes], (error, success) => {
           expect(error).to.exist
           expect(success).not.to.exist
+          done()
+        })
+      })
+
+      it('returns an iCal string when passed 0 events', () => {
+        createEvents([], (error, value) => {
+          expect(error).to.be.null
+          expect(value).to.contain('BEGIN:VCALENDAR')
           done()
         })
       })
