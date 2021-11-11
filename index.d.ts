@@ -88,7 +88,7 @@ export type EventAttributes = {
   calName?: string;
   created?: DateArray;
   lastModified?: DateArray;
-  htmlContent: string;
+  htmlContent?: string;
 } & ({ end: DateArray } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };
