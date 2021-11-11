@@ -1,6 +1,6 @@
 {
-  "name": "ics",
-  "version": "2.32.0",
+  "name": "@flowr-es/ics",
+  "version": "2.32.1",
   "description": "iCal (ics) file generator",
   "main": "index.js",
   "types": "index.d.ts",
