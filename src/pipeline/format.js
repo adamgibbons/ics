@@ -38,6 +38,7 @@ export default function formatEvent(attributes = {}) {
     alarms,
     recurrenceRule,
     busyStatus,
+    classification,
     created,
     lastModified,
     calName
@@ -75,6 +76,7 @@ export default function formatEvent(attributes = {}) {
   icsFormat += categories ? (foldLine(`CATEGORIES:${categories}`) + '\r\n') : ''
   icsFormat += organizer ? (foldLine(`ORGANIZER;${setOrganizer(organizer)}`) + '\r\n') : ''
   icsFormat += busyStatus ? (foldLine(`X-MICROSOFT-CDO-BUSYSTATUS:${busyStatus}`) + '\r\n') : ''
+  icsFormat += classification ? (foldLine(`CLASS:${classification}`) + '\r\n') : ''
   icsFormat += created ? ('CREATED:' + formatDate(created) + '\r\n') : ''
   icsFormat += lastModified ? ('LAST-MODIFIED:' + formatDate(lastModified) + '\r\n') : ''
   if (attendees) {

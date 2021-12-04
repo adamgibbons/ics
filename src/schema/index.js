@@ -83,6 +83,7 @@ const schema = yup.object().shape({
   alarms: yup.array().of(alarmSchema),
   recurrenceRule: yup.string(),
   busyStatus: yup.string().matches(/TENTATIVE|FREE|BUSY|OOF/i),
+  classification: yup.string(),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
   calName: yup.string()
