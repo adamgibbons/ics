@@ -94,6 +94,7 @@ export type EventAttributes = {
   classification?: classificationType;
   created?: DateArray;
   lastModified?: DateArray;
+  htmlContent?: string;
 } & ({ end: DateArray } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };

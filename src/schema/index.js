@@ -86,7 +86,8 @@ const schema = yup.object().shape({
   classification: yup.string(),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
-  calName: yup.string()
+  calName: yup.string(),
+  htmlContent: yup.string()
 }).test('xor', `object should have end or duration`, val => {
   const hasEnd = !!val.end
   const hasDuration = !!val.duration
