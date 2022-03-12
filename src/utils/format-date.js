@@ -6,7 +6,7 @@ export default function formatDate(args = [], outputType = 'utc', inputType = 'l
     return `${year}${pad(month)}${pad(date)}`
   }
 
-  let outDate = new Date(new Date().setUTCSeconds(0, 0))
+  let outDate = new Date()
   if (Array.isArray(args) && args.length > 0 && args[0]) {
     const [year, month, date, hours = 0, minutes = 0, seconds = 0] = args
     if (inputType === 'local') {
