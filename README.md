@@ -50,7 +50,7 @@ ics.createEvent(event, (error, value) => {
   // METHOD:PUBLISH
   // X-PUBLISHED-TTL:PT1H
   // BEGIN:VEVENT
-  // UID:d9e5e080-d25e-11e8-806a-e73a41d3e47b
+  // UID:S8h0Vj7mTB74p9vt5pQzJ
   // SUMMARY:Bolder Boulder
   // DTSTAMP:20181017T204900Z
   // DTSTART:20180530T043000Z
@@ -119,14 +119,14 @@ console.log(value)
 // CALSCALE:GREGORIAN
 // PRODID:adamgibbons/ics
 // BEGIN:VEVENT
-// UID:3c6d44e8-79a7-428d-acac-9586c9e06e5c
+// UID:mPfHOGi_sif_xO493Mgi6
 // SUMMARY:Lunch
 // DTSTAMP:20180210T093900Z
 // DTSTART:20180115T191500Z
 // DURATION:PT45M
 // END:VEVENT
 // BEGIN:VEVENT
-// UID:253cc897-fc26-4f25-9a01-b6bb57fa174d
+// UID:ho-KcKyhNaQVDqJCcGfXD
 // SUMMARY:Dinner
 // DTSTAMP:20180210T093900Z
 // DTSTART:20180115T191500Z
@@ -228,7 +228,7 @@ The following properties are accepted:
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'display', description: 'Reminder', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'display', description: 'Reminder', trigger: { hours: 2, minutes: 30, before: true } }` OR `{ action: 'display', description: 'Reminder', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'audio', description: 'Reminder', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
-| uid           | Universal unique id for event, produced by default with `uuid/v1`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'28021620-be61-11e7-be87-5f3ab42f0785'`
+| uid           | Universal unique id for event, produced by default with `nanoid`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'LZfXLFzPPR4NNrgjlWDxn'`
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 | recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator) | `FREQ=DAILY`
 | sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
