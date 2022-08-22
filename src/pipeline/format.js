@@ -86,15 +86,13 @@ export default function formatEvent(attributes = {}) {
       icsFormat += foldLine(`ATTENDEE;${setContact(attendee)}`) + '\r\n'
     })
   }
-
+  icsFormat += recurrenceRule ? `RRULE:${recurrenceRule}\r\n` : ''
+  icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
   if (alarms) {
     alarms.map(function (alarm) {
       icsFormat += setAlarm(alarm)
     })
   }
-
-  icsFormat += recurrenceRule ? `RRULE:${recurrenceRule}\r\n` : ''
-  icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
   icsFormat += `END:VEVENT\r\n`
   icsFormat += `END:VCALENDAR\r\n`
 

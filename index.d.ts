@@ -55,6 +55,9 @@ export type classificationType = 'PUBLIC' | 'PRIVATE' | 'CONFIDENTIAL' | string;
 
 export type Alarm = {
   action?: ActionType;
+  description?: string;
+  summary?: string;
+  duration?: DurationObject;
   trigger?: DurationObject; // @todo DateArray | DurationObject;
   repeat?: number;
   attachType?: string;
