@@ -2,7 +2,12 @@
   "name": "ics",
   "version": "2.37.0",
   "description": "iCal (ics) file generator",
+  "exports": {
+    "require": "./index.js",
+    "default": "./dist/index.js"
+  },
   "main": "index.js",
+  "module": "./dist/index.js",
   "types": "index.d.ts",
   "scripts": {
     "start": "mocha --require @babel/register --watch --recursive",
