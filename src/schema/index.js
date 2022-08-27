@@ -39,7 +39,8 @@ const contactSchema = yup.object().shape({
 
 const organizerSchema = yup.object().shape({
   name: yup.string(),
-  email: yup.string().email()
+  email: yup.string().email(),
+  dir: yup.string()
 }).noUnknown()
 
 const alarmSchema = yup.object().shape({
