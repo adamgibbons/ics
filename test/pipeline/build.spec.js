@@ -47,6 +47,10 @@ describe('pipeline.build properties', () => {
       const event = buildEvent({ sequence: 5 })
       expect(event.sequence).to.equal(5)
     })
+    it('sets a sequence number when the sequence is 0', () => {
+      const event = buildEvent({ sequence: 0 })
+      expect(event.sequence).to.equal(0)
+    })
   })
   describe('start and end', () => {
     it('defaults to UTC date-time format', () => {
