@@ -30,9 +30,9 @@ export default function buildEvent(attributes = {}) {
   // fill in default values where necessary
   const output = Object.assign({}, defaultAttributes, attributes);
 
-  // remove falsey values
+  // remove undefined values
   return Object.entries(output).reduce(
-      (clean, entry) => entry[1] ? Object.assign(clean, {[entry[0]]: entry[1]}) : clean,
+      (clean, entry) => typeof entry[1] !== 'undefined' ? Object.assign(clean, {[entry[0]]: entry[1]}) : clean,
       {}
   )
 }
