@@ -68,7 +68,7 @@ export default function formatEvent(attributes = {}) {
     }
   }
 
-  icsFormat += sequence ? (`SEQUENCE:${sequence}\r\n`) : ''
+  icsFormat += typeof sequence !== 'undefined' ? (`SEQUENCE:${sequence}\r\n`) : ''
   icsFormat += description ? (foldLine(`DESCRIPTION:${setDescription(description)}`) + '\r\n') : ''
   icsFormat += url ? (foldLine(`URL:${url}`) + '\r\n') : ''
   icsFormat += geo ? (foldLine(`GEO:${setGeolocation(geo)}`) + '\r\n') : ''
