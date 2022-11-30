@@ -13,6 +13,8 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ## Example Usage
 
+#### In node / CommonJS
+
 1) Create an iCalendar event:
 
 ```javascript
@@ -193,6 +195,43 @@ console.log(ics.createEvents(events))
 // END:VCALENDAR
 
 ```
+
+#### Using ESModules & in the browser
+
+```javascript
+import { createEvent} from 'ics';
+
+const event = {
+  ...
+}
+
+async function handleDownload() {
+  const filename = 'ExampleEvent.ics'
+  const file = await new Promise((resolve, reject) => {
+    createEvent(event, (error, value) => {
+      if (error) {
+        reject(error)
+      }
+      
+      resolve(new File([value], filename, { type: 'plain/text' }))
+    })
+  })
+  const url = URL.createObjectURL(file);
+  
+  // trying to assign the file URL to a window could cause cross-site
+  // issues so this is a workaround using HTML5
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+  
+  URL.revokeObjectURL(url);
+}
+```
+
 ## API
 
 ### `createEvent(attributes[, callback])`
