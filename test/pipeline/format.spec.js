@@ -4,6 +4,7 @@ import {
   formatEvent,
   buildEvent
 } from '../../src/pipeline'
+import {foldLine} from "../../src/utils";
 
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
@@ -206,12 +207,13 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventAnyClass).to.contain('CLASS:non-standard-property')
   })
   it('writes an organizer', () => {
-    const event = formatEvent({ organizer: {
-      name: 'Adam Gibbons',
-      email: 'adam@example.com'
-    }})
-    const formattedEvent = formatEvent(event)
-    expect(event).to.contain('ORGANIZER;CN=Adam Gibbons:mailto:adam@example.com')
+    const formattedEvent = formatEvent({ organizer: {
+        name: 'Adam Gibbons',
+        email: 'adam@example.com',
+        dir: 'test-dir-value',
+        sentBy: 'test@example.com'
+      }})
+    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";CN=Adam Gibbons:MAILTO:adam@example.com'))
   })
   it('writes an alarm', () => {
     const formattedEvent = formatEvent({ alarms: [{

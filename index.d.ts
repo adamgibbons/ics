@@ -82,7 +82,9 @@ export type EventAttributes = {
   status?: EventStatus;
   busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
   
-  organizer?: Person;
+  organizer?: Person & {
+    sentBy?: string;
+  };
   attendees?: Attendee[];
   
   categories?: string[];
