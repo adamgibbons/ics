@@ -1,5 +1,5 @@
 {
-  "name": "ics",
+  "name": "ics-html",
   "version": "2.41.0",
   "description": "iCal (ics) file generator",
   "exports": {
