@@ -40,13 +40,13 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0] })
     const formattedEvent = formatEvent(event)
     const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
+    expect(formattedEvent).to.contain('DTSTART:' + now + 'Z')
   })
   it('writes a start date-time, taking the given date as local by default and outputting is as UTC if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startOutputType: 'utc' })
     const formattedEvent = formatEvent(event)
     const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
+    expect(formattedEvent).to.contain('DTSTART:' + now + 'Z')
   })
   it('writes a start date-time, taking the given date as local by default and outputting is as Local (floating) if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startOutputType: 'local' })
@@ -58,13 +58,13 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local' })
     const formattedEvent = formatEvent(event)
     const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
+    expect(formattedEvent).to.contain('DTSTART:' + now + 'Z')
   })
   it('writes a start date-time, taking the given date as local if requested and outputting is as UTC if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local', startOutputType: 'utc' })
     const formattedEvent = formatEvent(event)
     const now = dayjs(new Date(2017, 5 - 1, 15, 10, 0)).utc().format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now+'Z')
+    expect(formattedEvent).to.contain('DTSTART:' + now + 'Z')
   })
   it('writes a start date-time, taking the given date as local if requested and outputting is as Local (floating) if requested', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'local', startOutputType: 'local' })
@@ -86,8 +86,8 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ start: [2017, 5, 15, 10, 0], startInputType: 'utc', startOutputType: 'local' })
     const formattedEvent = formatEvent(event)
     const now = dayjs(Date.UTC(2017, 5 - 1, 15, 10, 0)).format('YYYYMMDDTHHmm00')
-    expect(formattedEvent).to.contain('DTSTART:'+now)
-    expect(formattedEvent).to.not.contain('DTSTART:'+now+'Z')
+    expect(formattedEvent).to.contain('DTSTART:' + now)
+    expect(formattedEvent).to.not.contain('DTSTART:' + now + 'Z')
   })
   it('writes a created timestamp', () => {
     const event = buildEvent({ created: [2017, 5, 15, 10, 0] })
@@ -109,6 +109,14 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain(`X-ALT-DESC;FMTTYPE=text/html:<!DOCTYPE html><html><body><p>This is<br>test<\r\n\tbr>html code.</p></body></html>`)
   })
+  it('writes a html content as altrep and folds correctly', () => {
+    const event = buildEvent({ htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain(`DESCRIPTION;ALTREP="CID:`)
+    expect(formattedEvent).to.contain(`<!DOCTYPE html><html><body><p>This is<br>test<\r\n\tbr>html code.</p></body></html>`)
+
+  })
+
   it('writes a sequence', () => {
     const event = buildEvent({ sequence: 8 })
     const formattedEvent = formatEvent(event)
@@ -169,18 +177,20 @@ describe('pipeline.formatEvent', () => {
   })
 
   it('writes attendees', () => {
-    const event = buildEvent({ attendees: [
-      {name: 'Adam Gibbons', email: 'adam@example.com'},
-      {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
-    ]})
+    const event = buildEvent({
+      attendees: [
+        { name: 'Adam Gibbons', email: 'adam@example.com' },
+        { name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
+      ]
+    })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com')
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
   })
   it('writes a busystatus', () => {
     const eventFree = buildEvent({ busyStatus: "FREE" })
-    const eventBusy = buildEvent({ busyStatus: "BUSY"})
-    const eventTent = buildEvent({ busyStatus: "TENTATIVE"})
+    const eventBusy = buildEvent({ busyStatus: "BUSY" })
+    const eventTent = buildEvent({ busyStatus: "TENTATIVE" })
     const eventOOF = buildEvent({ busyStatus: "OOF" })
     const formattedEventFree = formatEvent(eventFree)
     const formattedEventBusy = formatEvent(eventBusy)
@@ -193,8 +203,8 @@ describe('pipeline.formatEvent', () => {
   })
   it('writes a access classification', () => {
     const eventPublic = buildEvent({ classification: "PUBLIC" })
-    const eventPrivate = buildEvent({ classification: "PRIVATE"})
-    const eventConfidential = buildEvent({ classification: "CONFIDENTIAL"})
+    const eventPrivate = buildEvent({ classification: "PRIVATE" })
+    const eventConfidential = buildEvent({ classification: "CONFIDENTIAL" })
     const eventAnyClass = buildEvent({ classification: "non-standard-property" })
     const formattedEventPublic = formatEvent(eventPublic)
     const formattedEventPrivate = formatEvent(eventPrivate)
@@ -206,21 +216,25 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventAnyClass).to.contain('CLASS:non-standard-property')
   })
   it('writes an organizer', () => {
-    const event = formatEvent({ organizer: {
-      name: 'Adam Gibbons',
-      email: 'adam@example.com'
-    }})
+    const event = formatEvent({
+      organizer: {
+        name: 'Adam Gibbons',
+        email: 'adam@example.com'
+      }
+    })
     const formattedEvent = formatEvent(event)
     expect(event).to.contain('ORGANIZER;CN=Adam Gibbons:mailto:adam@example.com')
   })
   it('writes an alarm', () => {
-    const formattedEvent = formatEvent({ alarms: [{
-      action: 'audio',
-      trigger: [1997, 2, 17, 1, 30],
-      repeat: 4,
-      duration: { minutes: 15 },
-      attach: 'ftp://example.com/pub/sounds/bell-01.aud'
-    }]})
+    const formattedEvent = formatEvent({
+      alarms: [{
+        action: 'audio',
+        trigger: [1997, 2, 17, 1, 30],
+        repeat: 4,
+        duration: { minutes: 15 },
+        attach: 'ftp://example.com/pub/sounds/bell-01.aud'
+      }]
+    })
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:199702')
@@ -243,8 +257,8 @@ describe('pipeline.formatEvent', () => {
       categories: '*'.repeat(1000),
       organizer: '*'.repeat(1000),
       attendees: [
-        {name: '*'.repeat(1000), email: '*'.repeat(1000)},
-        {name: '*'.repeat(1000), email: '*'.repeat(1000), rsvp: true}
+        { name: '*'.repeat(1000), email: '*'.repeat(1000) },
+        { name: '*'.repeat(1000), email: '*'.repeat(1000), rsvp: true }
       ]
     })
     const max = Math.max(...formattedEvent.split('\r\n').map(line => line.length))
