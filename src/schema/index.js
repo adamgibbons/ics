@@ -40,7 +40,8 @@ const contactSchema = yup.object().shape({
 const organizerSchema = yup.object().shape({
   name: yup.string(),
   email: yup.string().email(),
-  dir: yup.string()
+  dir: yup.string(),
+  sentBy: yup.string()
 }).noUnknown()
 
 const alarmSchema = yup.object().shape({

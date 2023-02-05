@@ -263,7 +263,7 @@ The following properties are accepted:
 | geo   | Geographic coordinates (lat/lon) | `{ lat: 38.9072, lon: 77.0369 }`
 | url           | URL associated with event | `'http://www.mountainsunpub.com/'`
 | status        | Three statuses are allowed: `TENTATIVE`, `CONFIRMED`, `CANCELLED` | `CONFIRMED`
-| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons' }`
+| organizer     | Person organizing the event | `{ name: 'Adam Gibbons', email: 'adam@example.com', dir: 'https://linkedin.com/in/adamgibbons', sentBy: 'test@example.com' }`
 | attendees     | Persons invited to the event | `[{ name: 'Mo', email: 'mo@foo.com', rsvp: true }, { name: 'Bo', email: 'bo@bar.biz', dir: 'https://twitter.com/bo1234', partstat: 'ACCEPTED', role: 'REQ-PARTICIPANT' }]`
 | categories    | Categories associated with the event | `['hacknight', 'stout month']`
 | alarms        | Alerts that can be set to trigger before, during, or after the event. The following `attach` properties work on Mac OS: Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sousumi, Submarine, Tink | `{ action: 'display', description: 'Reminder', trigger: [2000, 1, 4, 18, 30] }` OR `{ action: 'display', description: 'Reminder', trigger: { hours: 2, minutes: 30, before: true } }` OR `{ action: 'display', description: 'Reminder', trigger: { hours: 2, minutes: 30, before: false }` OR `{ action: 'audio', description: 'Reminder', trigger: { hours: 2, minutes: 30, before: true }, repeat: 2, attachType: 'VALUE=URI', attach: 'Glass' }`
