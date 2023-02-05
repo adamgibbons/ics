@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "iCal (ics) file generator",
   "exports": {
     "require": "./index.js",
