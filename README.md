@@ -17,6 +17,7 @@ The [iCalendar](http://tools.ietf.org/html/rfc5545) generator
 
 ```javascript
 const ics = require('ics')
+// or, in ESM: import * as ics from 'ics'
 
 const event = {
   start: [2018, 5, 30, 6, 30],
