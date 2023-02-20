@@ -3,11 +3,10 @@
   "version": "3.0.1",
   "description": "iCal (ics) file generator",
   "exports": {
-    "require": "./index.js",
+    "types": "./index.d.ts",
     "default": "./dist/index.js"
   },
-  "main": "index.js",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
   "types": "index.d.ts",
   "scripts": {
     "start": "mocha --require @babel/register --watch --recursive",
