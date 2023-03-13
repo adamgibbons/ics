@@ -34,6 +34,13 @@ export type ParticipationRole =
   | 'OPT-PARTICIPANT'
   | 'NON-PARTICIPANT';
 
+export type ParticipationType =
+  | 'INDIVIDUAL'
+  | 'GROUP'
+  | 'RESOURCE'
+  | 'ROOM'
+  | 'UNKNOWN';
+
 export type Person = {
   name?: string;
   email?: string;
@@ -44,6 +51,8 @@ export type Attendee = Person & {
   rsvp?: boolean;
   partstat?: ParticipationStatus;
   role?: ParticipationRole;
+  cutype?: ParticipationType;
+  xNumGuests?: string;
 };
 
 export type ActionType = 'audio' | 'display' | 'email' | 'procedure';
