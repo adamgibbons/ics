@@ -34,7 +34,9 @@ const contactSchema = yup.object().shape({
   rsvp: yup.boolean(),
   dir: yup.string().matches(urlRegex),
   partstat: yup.string(),
-  role: yup.string()
+  role: yup.string(),
+  cutype: yup.string(),
+  xNumGuests: yup.string()
 }).noUnknown()
 
 const organizerSchema = yup.object().shape({
