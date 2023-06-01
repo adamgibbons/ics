@@ -36,7 +36,7 @@ const contactSchema = yup.object().shape({
   partstat: yup.string(),
   role: yup.string(),
   cutype: yup.string(),
-  xNumGuests: yup.string()
+  xNumGuests: yup.number()
 }).noUnknown()
 
 const organizerSchema = yup.object().shape({
@@ -67,7 +67,7 @@ const schema = yup.object().shape({
   productId: yup.string(),
   method: yup.string(),
   uid: yup.string().required(),
-  sequence: yup.number(),
+  sequence: yup.number().integer().max(2_147_483_647),
   start: dateTimeSchema.required(),
   duration: durationSchema,
   startType: yup.string().matches(/utc|local/),

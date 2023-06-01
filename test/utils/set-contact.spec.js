@@ -38,7 +38,7 @@ describe('utils.setContact', () => {
 
     expect(setContact(contactTentative))
     .to.equal('RSVP=FALSE;PARTSTAT=TENTATIVE;CN=m-vinc:mailto:vinc@example.com')
-    
+
     expect(setContact(contactAccepted))
     .to.equal('RSVP=FALSE;PARTSTAT=ACCEPTED;CN=m-vinc:mailto:vinc@example.com')
   })
@@ -60,5 +60,13 @@ describe('utils.setContact', () => {
 
     expect(setContact(contact2))
     .to.equal('RSVP=TRUE;DIR=https://example.com/contacts/adam;CN=Adam Gibbons:mailto:adam@example.com')
+  })
+  it('set a contact with cutype and guests', () => {
+    const contact = { name: 'm-vinc', email: 'vinc@example.com' }
+    const contactCuGuests = Object.assign({ cutype: 'INDIVIDUAL', xNumGuests: 0 }, contact)
+    const contactString = setContact(contactCuGuests)
+
+    expect(contactString).to.contain('CUTYPE=INDIVIDUAL')
+    expect(contactString).to.contain('X-NUM-GUESTS=0')
   })
 })

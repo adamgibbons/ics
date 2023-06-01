@@ -52,7 +52,7 @@ export type Attendee = Person & {
   partstat?: ParticipationStatus;
   role?: ParticipationRole;
   cutype?: ParticipationType;
-  xNumGuests?: string;
+  xNumGuests?: number;
 };
 
 export type ActionType = 'audio' | 'display' | 'email' | 'procedure';
@@ -90,15 +90,15 @@ export type EventAttributes = {
   url?: string;
   status?: EventStatus;
   busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
-  
+
   organizer?: Person & {
     sentBy?: string;
   };
   attendees?: Attendee[];
-  
+
   categories?: string[];
   alarms?: Alarm[];
-  
+
   productId?: string;
   uid?: string;
   method?: string;
