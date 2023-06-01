@@ -1,10 +1,12 @@
 export default function setContact({ name, email, rsvp, dir, partstat, role, cutype, xNumGuests }) {
   let formattedParts = [];
 
+  if(typeof rsvp !== 'undefined'){
+    formattedParts.push(rsvp ? 'RSVP=TRUE' : 'RSVP=FALSE');
+  }
   if(cutype){
     formattedParts.push("CUTYPE=".concat(cutype));
   }
-  formattedParts.push(rsvp ? 'RSVP=TRUE' : 'RSVP=FALSE');
   if(typeof xNumGuests !== 'undefined'){
     formattedParts.push(`X-NUM-GUESTS=${xNumGuests}`);
   }
