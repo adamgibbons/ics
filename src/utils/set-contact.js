@@ -1,13 +1,13 @@
 export default function setContact({ name, email, rsvp, dir, partstat, role, cutype, xNumGuests }) {
   let formattedParts = [];
 
-  if(typeof rsvp !== 'undefined'){
+  if(rsvp !== undefined){
     formattedParts.push(rsvp ? 'RSVP=TRUE' : 'RSVP=FALSE');
   }
   if(cutype){
     formattedParts.push("CUTYPE=".concat(cutype));
   }
-  if(typeof xNumGuests !== 'undefined'){
+  if(xNumGuests !== undefined){
     formattedParts.push(`X-NUM-GUESTS=${xNumGuests}`);
   }
   if(role){
