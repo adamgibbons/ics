@@ -214,7 +214,7 @@ async function handleDownload() {
         reject(error)
       }
       
-      resolve(new File([value], filename, { type: 'plain/text' }))
+      resolve(new File([value], filename, { type: 'text/calendar' }))
     })
   })
   const url = URL.createObjectURL(file);
