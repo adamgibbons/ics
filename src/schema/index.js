@@ -90,7 +90,7 @@ const schema = yup.object().shape({
   lastModified: dateTimeSchema,
   calName: yup.string(),
   htmlContent: yup.string()
-}).test('xor', `object should have end or duration`, val => {
+}).test('xor', `object should have end or duration (but not both)`, val => {
   const hasEnd = !!val.end
   const hasDuration = !!val.duration
   return ((hasEnd && !hasDuration) || (!hasEnd && hasDuration) || (!hasEnd && !hasDuration))
