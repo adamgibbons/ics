@@ -81,19 +81,20 @@ export type EventAttributes = {
   url?: string;
   status?: EventStatus;
   busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
-  
+
   organizer?: Person & {
     sentBy?: string;
   };
   attendees?: Attendee[];
-  
+
   categories?: string[];
   alarms?: Alarm[];
-  
+
   productId?: string;
   uid?: string;
   method?: string;
   recurrenceRule?: string;
+  exclusionDates?: string;
   sequence?: number;
   calName?: string;
   classification?: classificationType;
