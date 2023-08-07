@@ -34,14 +34,16 @@ const contactSchema = yup.object().shape({
   rsvp: yup.boolean(),
   dir: yup.string().matches(urlRegex),
   partstat: yup.string(),
-  role: yup.string()
+  role: yup.string(),
+  scheduleAgent: yup.string()
 }).noUnknown()
 
 const organizerSchema = yup.object().shape({
   name: yup.string(),
   email: yup.string().email(),
   dir: yup.string(),
-  sentBy: yup.string()
+  sentBy: yup.string(),
+  scheduleAgent: yup.string()
 }).noUnknown()
 
 const alarmSchema = yup.object().shape({

@@ -171,11 +171,11 @@ describe('pipeline.formatEvent', () => {
 
   it('writes attendees', () => {
     const event = buildEvent({ attendees: [
-      {name: 'Adam Gibbons', email: 'adam@example.com'},
+      {name: 'Adam Gibbons', email: 'adam@example.com', scheduleAgent: 'CLIENT'},
       {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
     ]})
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;SCHEDULE-AGENT=CLIENT;CN=Adam Gibbons:mailto:adam@example.com')
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
   })
   it('writes a busystatus', () => {
@@ -212,8 +212,9 @@ describe('pipeline.formatEvent', () => {
         email: 'adam@example.com',
         dir: 'test-dir-value',
         sentBy: 'test@example.com'
+        scheduleAgent: 'SERVER'
       }})
-    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";CN=Adam Gibbons:MAILTO:adam@example.com'))
+    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";SCHEDULE-AGENT=SERVER;CN=Adam Gibbons:MAILTO:adam@example.com'))
   })
   it('writes an alarm', () => {
     const formattedEvent = formatEvent({ alarms: [{

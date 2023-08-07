@@ -44,6 +44,7 @@ export type Attendee = Person & {
   rsvp?: boolean;
   partstat?: ParticipationStatus;
   role?: ParticipationRole;
+  scheduleAgent?: 'SERVER' | 'CLIENT' | 'NONE';
 };
 
 export type ActionType = 'audio' | 'display' | 'email' | 'procedure';
@@ -81,15 +82,16 @@ export type EventAttributes = {
   url?: string;
   status?: EventStatus;
   busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
-  
+
   organizer?: Person & {
     sentBy?: string;
+    scheduleAgent?: 'SERVER' | 'CLIENT' | 'NONE';
   };
   attendees?: Attendee[];
-  
+
   categories?: string[];
   alarms?: Alarm[];
-  
+
   productId?: string;
   uid?: string;
   method?: string;
