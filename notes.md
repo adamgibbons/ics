@@ -57,7 +57,7 @@ TZID=America/New_York:19980119T020000
 - [ ] seq
 - [x] status
 - [x] summary
-- [ ] transp
+- [x] transp
 - [x] url
 - [ ] recurid
 

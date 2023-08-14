@@ -192,6 +192,14 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventTent).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE')
     expect(formattedEventOOF).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:OOF')
   })
+  it('writes a transp', () => {
+    const eventFree = buildEvent({ transp: "TRANSPARENT" })
+    const eventBusy = buildEvent({ transp: "OPAQUE"})
+    const formattedEventFree = formatEvent(eventFree)
+    const formattedEventBusy = formatEvent(eventBusy)
+    expect(formattedEventFree).to.contain('TRANSP:TRANSPARENT')
+    expect(formattedEventBusy).to.contain('TRANSP:OPAQUE')
+  })
   it('writes a access classification', () => {
     const eventPublic = buildEvent({ classification: "PUBLIC" })
     const eventPrivate = buildEvent({ classification: "PRIVATE"})

@@ -90,6 +90,7 @@ export type EventAttributes = {
   url?: string;
   status?: EventStatus;
   busyStatus?: 'FREE' | 'BUSY' | 'TENTATIVE' | 'OOF';
+  transp?: 'TRANSPARENT' | 'OPAQUE';
 
   organizer?: Person & {
     sentBy?: string;
