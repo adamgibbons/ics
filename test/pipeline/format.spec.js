@@ -175,7 +175,7 @@ describe('pipeline.formatEvent', () => {
       {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
     ]})
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com')
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
   })
   it('writes a busystatus', () => {
