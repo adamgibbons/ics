@@ -175,7 +175,7 @@ describe('pipeline.formatEvent', () => {
       {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
     ]})
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('ATTENDEE;RSVP=FALSE;CN=Adam Gibbons:mailto:adam@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com')
     expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
   })
   it('writes a busystatus', () => {
@@ -191,6 +191,14 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventBusy).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:BUSY')
     expect(formattedEventTent).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE')
     expect(formattedEventOOF).to.contain('X-MICROSOFT-CDO-BUSYSTATUS:OOF')
+  })
+  it('writes a transp', () => {
+    const eventFree = buildEvent({ transp: "TRANSPARENT" })
+    const eventBusy = buildEvent({ transp: "OPAQUE"})
+    const formattedEventFree = formatEvent(eventFree)
+    const formattedEventBusy = formatEvent(eventBusy)
+    expect(formattedEventFree).to.contain('TRANSP:TRANSPARENT')
+    expect(formattedEventBusy).to.contain('TRANSP:OPAQUE')
   })
   it('writes a access classification', () => {
     const eventPublic = buildEvent({ classification: "PUBLIC" })

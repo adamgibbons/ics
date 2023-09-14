@@ -220,6 +220,15 @@ describe('.validateEvent', () => {
       }).value.created).to.exist
     })
 
+    it('transp', () => {
+      expect(validateEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        transp: 'TRANSPARENT'
+      }).value.transp).to.exist
+    })
+
     it('lastModified', () => {
       expect(validateEvent({
         title: 'foo',

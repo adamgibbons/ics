@@ -34,7 +34,9 @@ const contactSchema = yup.object().shape({
   rsvp: yup.boolean(),
   dir: yup.string().matches(urlRegex),
   partstat: yup.string(),
-  role: yup.string()
+  role: yup.string(),
+  cutype: yup.string(),
+  xNumGuests: yup.number()
 }).noUnknown()
 
 const organizerSchema = yup.object().shape({
@@ -65,7 +67,7 @@ const schema = yup.object().shape({
   productId: yup.string(),
   method: yup.string(),
   uid: yup.string().required(),
-  sequence: yup.number(),
+  sequence: yup.number().integer().max(2_147_483_647),
   start: dateTimeSchema.required(),
   duration: durationSchema,
   startType: yup.string().matches(/utc|local/),
@@ -85,6 +87,7 @@ const schema = yup.object().shape({
   alarms: yup.array().of(alarmSchema),
   recurrenceRule: yup.string(),
   busyStatus: yup.string().matches(/TENTATIVE|FREE|BUSY|OOF/i),
+  transp: yup.string().matches(/TRANSPARENT|OPAQUE/i),
   classification: yup.string(),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
