@@ -213,22 +213,22 @@ async function handleDownload() {
       if (error) {
         reject(error)
       }
-      
+
       resolve(new File([value], filename, { type: 'text/calendar' }))
     })
   })
   const url = URL.createObjectURL(file);
-  
+
   // trying to assign the file URL to a window could cause cross-site
   // issues so this is a workaround using HTML5
   const anchor = document.createElement('a');
   anchor.href = url;
   anchor.download = filename;
-  
+
   document.body.appendChild(anchor);
   anchor.click();
   document.body.removeChild(anchor);
-  
+
   URL.revokeObjectURL(url);
 }
 ```
@@ -270,7 +270,8 @@ The following properties are accepted:
 | productId     | Product which created ics, `PRODID` field | `'adamgibbons/ics'`
 | uid           | Universal unique id for event, produced by default with `nanoid`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'LZfXLFzPPR4NNrgjlWDxn'`
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
-| recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator) | `FREQ=DAILY`
+| recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator). | `FREQ=DAILY`
+| exclusionDates| This property defines the list of DATE-TIME exceptions for recurring events, to-dos, journal entries, or time zone definitions. Uses a comma-delimited list of [Date-Time](https://tools.ietf.org/html/rfc5545#section-3.3.5) values. See [EXDATE spec](https://tools.ietf.org/html/rfc5545#section-3.8.5.1).|`'20230620T131500Z,20230621T131500'` (June 20th, 2023 at 1:15pm UTC and June 21st, 2000 at 1:15pm LOCAL)
 | sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
 | busyStatus    | Used to specify busy status for Microsoft applications, like Outlook. See [Microsoft spec](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/cd68eae7-ed65-4dd3-8ea7-ad585c76c736). | `'BUSY'` OR `'FREE'` OR `'TENTATIVE`' OR `'OOF'`
 | transp        | Used to specify event transparency (does event consume actual time of an individual). Used by Google Calendar to determine if event should change attendees availability to 'Busy' or not. | `'TRANSPARENT'` OR `'OPAQUE'`

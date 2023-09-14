@@ -104,6 +104,7 @@ export type EventAttributes = {
   uid?: string;
   method?: string;
   recurrenceRule?: string;
+  exclusionDates?: string;
   sequence?: number;
   calName?: string;
   classification?: classificationType;

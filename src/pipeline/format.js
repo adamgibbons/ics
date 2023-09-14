@@ -37,6 +37,7 @@ export default function formatEvent(attributes = {}) {
     attendees,
     alarms,
     recurrenceRule,
+    exclusionDates,
     busyStatus,
     transp,
     classification,
@@ -89,6 +90,7 @@ export default function formatEvent(attributes = {}) {
     })
   }
   icsFormat += recurrenceRule ? `RRULE:${recurrenceRule}\r\n` : ''
+  icsFormat += exclusionDates ? `EXDATE:${exclusionDates}\r\n` : ''
   icsFormat += duration ? `DURATION:${formatDuration(duration)}\r\n` : ''
   if (alarms) {
     alarms.map(function (alarm) {

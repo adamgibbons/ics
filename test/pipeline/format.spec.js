@@ -265,4 +265,9 @@ describe('pipeline.formatEvent', () => {
 
     expect(formattedEvent).to.contain('RRULE:FREQ=DAILY')
   })
+  it('writes exception date-time', () => {
+    const formattedEvent = formatEvent({ exclusionDates: '20000620T010000Z,20000621T010000Z' })
+
+    expect(formattedEvent).to.contain('EXDATE:20000620T010000Z,20000621T010000Z')
+  })
 })
