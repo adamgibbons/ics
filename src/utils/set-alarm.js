@@ -22,7 +22,7 @@ function setDuration ({
 
 function setTrigger (trigger) {
   let formattedString = ''
-  if(Array.isArray(trigger) || typeof trigger === 'number') {
+  if(Array.isArray(trigger) || typeof trigger === 'number' || typeof trigger === 'string') {
     formattedString = `TRIGGER;VALUE=DATE-TIME:${encodeNewLines(formatDate(trigger))}\r\n`
   } else {
     let alert = trigger.before ? '-' : ''
