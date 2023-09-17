@@ -6,7 +6,14 @@ import * as yup from 'yup'
 // "url must match the following: ...." as opposed to "url must be a valid URL"
 const urlRegex = /^(?:([a-z0-9+.-]+):\/\/)(?:\S+(?::\S*)?@)?(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/
 
-const dateTimeSchema = yup.array().min(3).max(7).of(yup.lazy((item, options) => {
+const dateTimeSchema = yup.lazy((value) => {
+  if (typeof value === 'number') {
+    return yup.integer().min(0)
+  }
+  if (typeof value === 'string') {
+    return yup.string()
+  }
+  return yup.array().min(3).max(7).of(yup.lazy((item, options) => {
     const itemIndex = options.parent.indexOf(options.value)
     return [
       yup.number().integer(),
@@ -16,7 +23,8 @@ const dateTimeSchema = yup.array().min(3).max(7).of(yup.lazy((item, options) => 
       yup.number().integer().min(0).max(60),
       yup.number().integer().min(0).max(60)
     ][itemIndex]
-  })
+  }))
+  }
 )
 
 const durationSchema = yup.object().shape({
@@ -47,7 +55,7 @@ const organizerSchema = yup.object().shape({
 }).noUnknown()
 
 const alarmSchema = yup.object().shape({
-  action: yup.string().matches(/audio|display|email/).required(),
+  action: yup.string().matches(/^(audio|display|email)$/).required(),
   trigger: yup.mixed().required(),
   description: yup.string(),
   duration: durationSchema,
@@ -62,35 +70,36 @@ const alarmSchema = yup.object().shape({
 
 const schema = yup.object().shape({
   summary: yup.string(),
-  timestamp: yup.mixed(),
+  timestamp:dateTimeSchema,
   title: yup.string(),
   productId: yup.string(),
   method: yup.string(),
-  uid: yup.string().required(),
+  uid: yup.string(),
   sequence: yup.number().integer().max(2_147_483_647),
   start: dateTimeSchema.required(),
   duration: durationSchema,
-  startType: yup.string().matches(/utc|local/),
-  startInputType: yup.string().matches(/utc|local/),
-  startOutputType: yup.string().matches(/utc|local/),
+  startType: yup.string().matches(/^(utc|local)$/),
+  startInputType: yup.string().matches(/^(utc|local)$/),
+  startOutputType: yup.string().matches(/^(utc|local)$/),
   end: dateTimeSchema,
-  endInputType: yup.string().matches(/utc|local/),
-  endOutputType: yup.string().matches(/utc|local/),
+  endInputType: yup.string().matches(/^(utc|local)$/),
+  endOutputType: yup.string().matches(/^(utc|local)$/),
   description: yup.string(),
   url: yup.string().matches(urlRegex),
   geo: yup.object().shape({lat: yup.number(), lon: yup.number()}),
   location: yup.string(),
-  status: yup.string().matches(/TENTATIVE|CANCELLED|CONFIRMED/i),
+  status: yup.string().matches(/^(TENTATIVE|CANCELLED|CONFIRMED)$/i),
   categories: yup.array().of(yup.string()),
   organizer: organizerSchema,
   attendees: yup.array().of(contactSchema),
   alarms: yup.array().of(alarmSchema),
   recurrenceRule: yup.string(),
-  busyStatus: yup.string().matches(/TENTATIVE|FREE|BUSY|OOF/i),
-  transp: yup.string().matches(/TRANSPARENT|OPAQUE/i),
+  busyStatus: yup.string().matches(/^(TENTATIVE|FREE|BUSY|OOF)$/i),
+  transp: yup.string().matches(/^(TRANSPARENT|OPAQUE)$/i),
   classification: yup.string(),
   created: dateTimeSchema,
   lastModified: dateTimeSchema,
+  exclusionDates: yup.array().of(dateTimeSchema),
   calName: yup.string(),
   htmlContent: yup.string()
 }).test('xor', `object should have end or duration (but not both)`, val => {

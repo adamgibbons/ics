@@ -1,5 +1,6 @@
 import formatDate from './format-date'
 import foldLine from './fold-line'
+import encodeNewLines from './encode-new-lines'
 
 function setDuration ({
   weeks,
@@ -21,11 +22,11 @@ function setDuration ({
 
 function setTrigger (trigger) {
   let formattedString = ''
-  if(Array.isArray(trigger)) {
-    formattedString = `TRIGGER;VALUE=DATE-TIME:${formatDate(trigger)}\r\n`
+  if(Array.isArray(trigger) || typeof trigger === 'number') {
+    formattedString = `TRIGGER;VALUE=DATE-TIME:${encodeNewLines(formatDate(trigger))}\r\n`
   } else {
     let alert = trigger.before ? '-' : ''
-    formattedString = `TRIGGER:${alert+setDuration(trigger)}\r\n`
+    formattedString = `TRIGGER:${encodeNewLines(alert+setDuration(trigger))}\r\n`
   }
 
   return formattedString
@@ -48,14 +49,14 @@ export default function setAlarm(attributes = {}) {
   } = attributes
 
   let formattedString = 'BEGIN:VALARM\r\n'
-  formattedString += foldLine(`ACTION:${setAction(action)}`) + '\r\n'
+  formattedString += foldLine(`ACTION:${encodeNewLines(setAction(action))}`) + '\r\n'
   formattedString += repeat ? foldLine(`REPEAT:${repeat}`) + '\r\n' : ''
-  formattedString += description ? foldLine(`DESCRIPTION:${description}`) + '\r\n' : ''
+  formattedString += description ? foldLine(`DESCRIPTION:${encodeNewLines(description)}`) + '\r\n' : ''
   formattedString += duration ? foldLine(`DURATION:${setDuration(duration)}`) + '\r\n' : ''
   let attachInfo = attachType ? attachType : 'FMTTYPE=audio/basic'
-  formattedString += attach ? foldLine(`ATTACH;${attachInfo}:${attach}`) + '\r\n' : ''
-  formattedString += trigger ? setTrigger(trigger) : ''
-  formattedString += summary ? (foldLine(`SUMMARY:${summary}`) + '\r\n') : ''
+  formattedString += attach ? foldLine(encodeNewLines(`ATTACH;${attachInfo}:${attach}`)) + '\r\n' : ''
+  formattedString += trigger ? encodeNewLines(setTrigger(trigger)) : ''
+  formattedString += summary ? (foldLine(`SUMMARY:${encodeNewLines(summary)}`) + '\r\n') : ''
   formattedString += 'END:VALARM\r\n'
 
   return formattedString
