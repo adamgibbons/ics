@@ -24,6 +24,7 @@ function applyInitialFormatting({ error, value }) {
 function reformatEventsByPosition({ error, value }, idx, list) {
   if (error) return { error, value }
 
+  // TODO extract header and footer out?
   if (idx === 0) {
     // beginning of list
     return { value: value.slice(0, value.indexOf('END:VCALENDAR')), error: null }

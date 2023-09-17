@@ -175,8 +175,8 @@ describe('pipeline.formatEvent', () => {
       {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
     ]})
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com')
-    expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;CN="Adam Gibbons":mailto:adam@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN="Brittany Seaton":mailto:brittany@example.com')
   })
   it('writes a busystatus', () => {
     const eventFree = buildEvent({ busyStatus: "FREE" })
@@ -215,22 +215,34 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventAnyClass).to.contain('CLASS:non-standard-property')
   })
   it('writes an organizer', () => {
-    const formattedEvent = formatEvent({ organizer: {
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      organizer: {
         name: 'Adam Gibbons',
         email: 'adam@example.com',
         dir: 'test-dir-value',
-        sentBy: 'test@example.com'
-      }})
-    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";CN=Adam Gibbons:MAILTO:adam@example.com'))
+        sentBy: 'test@example.com',
+      }
+    })
+    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";CN="Adam Gibbons":MAILTO:adam@example.com'))
   })
   it('writes an alarm', () => {
-    const formattedEvent = formatEvent({ alarms: [{
-      action: 'audio',
-      trigger: [1997, 2, 17, 1, 30],
-      repeat: 4,
-      duration: { minutes: 15 },
-      attach: 'ftp://example.com/pub/sounds/bell-01.aud'
-    }]})
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      alarms: [{
+        action: 'audio',
+        trigger: [1997, 2, 17, 1, 30],
+        repeat: 4,
+        duration: { minutes: 15 },
+        attach: 'ftp://example.com/pub/sounds/bell-01.aud'
+      }]
+    })
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:199702')
@@ -244,13 +256,15 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent({
       productId: '*'.repeat(1000),
       method: '*'.repeat(1000),
+      timestamp: '*'.repeat(1000),
+      uid: '*'.repeat(1000),
       title: '*'.repeat(1000),
       description: '*'.repeat(1000),
       url: '*'.repeat(1000),
       geo: '*'.repeat(1000),
       location: '*'.repeat(1000),
       status: '*'.repeat(1000),
-      categories: '*'.repeat(1000),
+      categories: ['*'.repeat(1000)],
       organizer: '*'.repeat(1000),
       attendees: [
         {name: '*'.repeat(1000), email: '*'.repeat(1000)},
@@ -261,13 +275,38 @@ describe('pipeline.formatEvent', () => {
     expect(max).to.be.at.most(75)
   })
   it('writes a recurrence rule', () => {
-    const formattedEvent = formatEvent({ recurrenceRule: 'FREQ=DAILY' })
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      recurrenceRule: 'FREQ=DAILY'
+    })
 
     expect(formattedEvent).to.contain('RRULE:FREQ=DAILY')
   })
   it('writes exception date-time', () => {
-    const formattedEvent = formatEvent({ exclusionDates: '20000620T010000Z,20000621T010000Z' })
+    const date1 = new Date(0);
+    date1.setUTCFullYear(2000);
+    date1.setUTCMonth(6);
+    date1.setUTCDate(20);
+    date1.setUTCHours(2);
+    date1.setUTCMinutes(0);
+    date1.setUTCSeconds(0);
 
+    const date2 = new Date(date1);
+    date2.setUTCDate(21);
+
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      exclusionDates: [
+        [date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate(), date1.getUTCHours(), date1.getUTCMinutes(), date1.getUTCSeconds()],
+        [date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate(), date2.getUTCHours(), date2.getUTCMinutes(), date2.getUTCSeconds()]
+      ]
+    })
     expect(formattedEvent).to.contain('EXDATE:20000620T010000Z,20000621T010000Z')
   })
 })

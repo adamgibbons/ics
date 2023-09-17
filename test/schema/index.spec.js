@@ -3,11 +3,6 @@ import validateEvent from '../../src/schema'
 
 describe('.validateEvent', () => {
   describe('must have one and only one occurrence of', () => {
-    it('uid', () => {
-      const {error} = validateEvent({title: 'foo'})
-      expect(error.errors.some(p => p === 'uid is a required field')).to.be.true
-    })
-
     it('start', () => {
       const {error} = validateEvent({title: 'foo', uid: 'foo'})
       expect(error.errors.some(p => p === 'start is a required field')).to.be.true

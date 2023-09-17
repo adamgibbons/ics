@@ -6,8 +6,7 @@ const defaults = {
   productId: 'adamgibbons/ics',
   method: 'PUBLISH',
   uid: nanoid(),
-  timestamp: formatDate(null, 'utc'),
-  start: formatDate(null, 'utc')
+  timestamp: Date.now(),
 }
 
 export default defaults

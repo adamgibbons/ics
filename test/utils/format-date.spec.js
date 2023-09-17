@@ -33,4 +33,10 @@ describe('utils.formatDate', () => {
     expect(formatDate([1998, 1, 18, 23, 9, 59], 'local', 'local'))
       .to.equal('19980118T230959')
   })
+  it('sets a UTC date-time when passed a unix timestamp', () => {
+    expect(formatDate(1694940441442)).to.equal('20230917T084721Z')
+  })
+  it('returns a string as is', () => {
+    expect(formatDate('20230917T084721Z')).to.equal('20230917T084721Z')
+  })
 })

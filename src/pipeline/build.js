@@ -21,6 +21,7 @@ export default function buildEvent(attributes = {}) {
     attendees,
     alarms,
     recurrenceRule,
+    exclusionDates,
     created,
     lastModified,
     calName,
