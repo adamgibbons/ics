@@ -121,18 +121,20 @@ console.log(value)
 // VERSION:2.0
 // CALSCALE:GREGORIAN
 // PRODID:adamgibbons/ics
+// METHOD:PUBLISH
+// X-PUBLISHED-TTL:PT1H
 // BEGIN:VEVENT
-// UID:mPfHOGi_sif_xO493Mgi6
+// UID:pP83XzQPo5RlvjDCMIINs
 // SUMMARY:Lunch
-// DTSTAMP:20180210T093900Z
-// DTSTART:20180115T191500Z
+// DTSTAMP:20230917T142209Z
+// DTSTART:20180115T121500Z
 // DURATION:PT45M
 // END:VEVENT
 // BEGIN:VEVENT
-// UID:ho-KcKyhNaQVDqJCcGfXD
+// UID:gy5vfUVv6wjyBeNkkFmBX
 // SUMMARY:Dinner
-// DTSTAMP:20180210T093900Z
-// DTSTART:20180115T191500Z
+// DTSTAMP:20230917T142209Z
+// DTSTART:20180115T121500Z
 // DURATION:PT1H30M
 // END:VEVENT
 // END:VCALENDAR
@@ -145,8 +147,8 @@ let moment = require("moment")
 let events = []
 let alarms = []
 
-let start = moment().format('YYYY-M-D-H-m').split("-")
-let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D-H-m").split("-")
+let start = moment().format('YYYY-M-D-H-m').split("-").map((a) => parseInt(a))
+let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D-H-m").split("-").map((a) => parseInt(a))
 
 alarms.push({
   action: 'audio',
@@ -167,34 +169,28 @@ let event = {
   alarms: alarms
 }
 events.push(event)
-console.log(ics.createEvents(events))
+console.log(ics.createEvents(events).value)
 
 // BEGIN:VCALENDAR
 // VERSION:2.0
 // CALSCALE:GREGORIAN
-// PRODID:MyCalendarId
+// PRODID:myCalendarId
 // METHOD:PUBLISH
 // X-PUBLISHED-TTL:PT1H
 // BEGIN:VEVENT
-// UID:123@MyCalendarIdics.com
+// UID:123@ics.com
 // SUMMARY:test here
-// DTSTAMP:20180409T072100Z
-// DTSTART:20180409
-// DTEND:20180409
-// BEGIN:VALARM
-// ACTION:DISPLAY
-// DESCRIPTION:Reminder
-// TRIGGER:-PT2H30M
-// END:VALARM
+// DTSTAMP:20230917T142621Z
+// DTSTART:20230917T152600
+// DTEND:20230917T175600
 // BEGIN:VALARM
 // ACTION:AUDIO
 // REPEAT:2
+// DESCRIPTION:Reminder
 // ATTACH;VALUE=URI:Glass
-// TRIGGER:PT2H
-// END:VALARM
+// TRIGGER:-PT2H30M\nEND:VALARM
 // END:VEVENT
 // END:VCALENDAR
-
 ```
 
 #### Using ESModules & in the browser
