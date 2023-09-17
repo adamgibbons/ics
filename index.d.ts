@@ -1,3 +1,5 @@
+export type DateTime = DateArray | number | string;
+
 export type DateArray =
   | [number, number, number, number, number]
   | [number, number, number, number]
@@ -74,7 +76,7 @@ export type Alarm = {
 };
 
 export type EventAttributes = {
-  start: DateArray;
+  start: DateTime;
   startInputType?: 'local' | 'utc';
   startOutputType?: 'local' | 'utc';
 
@@ -108,10 +110,10 @@ export type EventAttributes = {
   sequence?: number;
   calName?: string;
   classification?: classificationType;
-  created?: DateArray;
-  lastModified?: DateArray;
+  created?: DateTime;
+  lastModified?: DateTime;
   htmlContent?: string;
-} & ({ end: DateArray } | { duration: DurationObject });
+} & ({ end: DateTime } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };
 
