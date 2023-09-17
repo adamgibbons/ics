@@ -75,6 +75,12 @@ describe('ics', () => {
         expect(error).to.be.null
         expect(value).to.contain('BEGIN:VCALENDAR')
       })
+
+      it('support header params', () => {
+        const { error, value } = createEvents([], { calName: 'test' })
+        expect(error).to.be.null
+        expect(value).to.contain('X-WR-CALNAME:test')
+      })
     })
 
     describe('when a callback is provided', () => {
@@ -98,6 +104,14 @@ describe('ics', () => {
         createEvents([], (error, value) => {
           expect(error).to.be.null
           expect(value).to.contain('BEGIN:VCALENDAR')
+          done()
+        })
+      })
+
+      it('support header params', (done) => {
+        createEvents([], { calName: 'test' }, (error, value) => {
+          expect(error).to.be.null
+          expect(value).to.contain('X-WR-CALNAME:test')
           done()
         })
       })
