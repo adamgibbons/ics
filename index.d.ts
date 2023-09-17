@@ -69,7 +69,7 @@ export type Alarm = {
   description?: string;
   summary?: string;
   duration?: DurationObject;
-  trigger?: DurationObject; // @todo DateArray | DurationObject;
+  trigger?: DurationObject | DateTime;
   repeat?: number;
   attachType?: string;
   attach?: string;
