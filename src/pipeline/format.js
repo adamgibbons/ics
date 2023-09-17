@@ -12,11 +12,33 @@ import {
 } from '../utils'
 import encodeNewLines from '../utils/encode-new-lines'
 
-export default function formatEvent(attributes = {}) {
+export function formatHeader(attributes = {}) {
   const {
-    title,
     productId,
     method,
+    calName,
+
+  } = attributes
+
+  let icsFormat = ''
+  icsFormat += 'BEGIN:VCALENDAR\r\n'
+  icsFormat += 'VERSION:2.0\r\n'
+  icsFormat += 'CALSCALE:GREGORIAN\r\n'
+  icsFormat += foldLine(`PRODID:${encodeNewLines(productId)}`) + '\r\n'
+  icsFormat += foldLine(`METHOD:${encodeNewLines(method)}`) + '\r\n'
+  icsFormat += calName ? (foldLine(`X-WR-CALNAME:${encodeNewLines(calName)}`) + '\r\n') : ''
+  icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
+
+  return icsFormat
+}
+
+export function formatFooter() {
+  return `END:VCALENDAR\r\n`
+}
+
+export function formatEvent(attributes = {}) {
+  const {
+    title,
     uid,
     sequence,
     timestamp,
@@ -44,19 +66,10 @@ export default function formatEvent(attributes = {}) {
     classification,
     created,
     lastModified,
-    calName,
     htmlContent
   } = attributes
 
   let icsFormat = ''
-  // TODO move header and footer out
-  icsFormat += 'BEGIN:VCALENDAR\r\n'
-  icsFormat += 'VERSION:2.0\r\n'
-  icsFormat += 'CALSCALE:GREGORIAN\r\n'
-  icsFormat += foldLine(`PRODID:${encodeNewLines(productId)}`) + '\r\n'
-  icsFormat += foldLine(`METHOD:${encodeNewLines(method)}`) + '\r\n'
-  icsFormat += calName ? (foldLine(`X-WR-CALNAME:${encodeNewLines(calName)}`) + '\r\n') : ''
-  icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
   icsFormat += 'BEGIN:VEVENT\r\n'
   icsFormat += foldLine(`UID:${encodeNewLines(uid)}`) + '\r\n'
   icsFormat += title ? foldLine(`SUMMARY:${encodeNewLines(setSummary(title))}`) + '\r\n' : ''
@@ -100,7 +113,6 @@ export default function formatEvent(attributes = {}) {
     })
   }
   icsFormat += `END:VEVENT\r\n`
-  icsFormat += `END:VCALENDAR\r\n`
 
   return icsFormat
 }

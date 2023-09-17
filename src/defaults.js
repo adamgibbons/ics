@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid'
-import { formatDate } from './utils'
 
-const defaults = {
-  title: 'Untitled event',
+export const headerDefaults = () => ({
   productId: 'adamgibbons/ics',
-  method: 'PUBLISH',
-  uid: nanoid(),
-  timestamp: Date.now(),
-}
+  method: 'PUBLISH'
+})
 
-export default defaults
+export const eventDefaults = () => ({
+  title: 'Untitled event',
+  uid: nanoid(),
+  timestamp: Date.now()
+})

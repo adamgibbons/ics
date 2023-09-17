@@ -2,17 +2,41 @@ import dayjs from 'dayjs';
 import { expect } from 'chai'
 import {
   formatEvent,
-  buildEvent
+  buildEvent,
+  formatHeader,
+  buildHeader
 } from '../../src/pipeline'
 import {foldLine} from "../../src/utils";
+
+describe('pipeline.formatHeader', () => {
+  it('writes default values when no attributes passed', () => {
+    const header = buildHeader()
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('BEGIN:VCALENDAR')
+    expect(formattedHeader).to.contain('VERSION:2.0')
+    expect(formattedHeader).to.contain('PRODID:adamgibbons/ics')
+  })
+  it('writes a product id', () => {
+    const header = buildHeader({ productId: 'productId'})
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('PRODID:productId')
+  })
+  it('writes a method', () => {
+    const header = buildHeader({ method: 'method'})
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('METHOD:method')
+  })
+  it('writes a calName', () => {
+    const header = buildHeader({ calName: 'calName'})
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('X-WR-CALNAME:calName')
+  })
+})
 
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
-    expect(formattedEvent).to.contain('VERSION:2.0')
-    expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
@@ -20,7 +44,6 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('DTSTART:')
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
-    expect(formattedEvent).to.contain('END:VCALENDAR')
   })
   it('writes a title', () => {
     const event = buildEvent({ title: 'foo bar' })
@@ -99,11 +122,6 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ lastModified: [2017, 5, 15, 10, 0] })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('LAST-MODIFIED:20170515')
-  })
-  it('writes a cal name', () => {
-    const event = buildEvent({ calName: 'John\'s Calendar' })
-    const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('X-WR-CALNAME:John\'s Calendar')
   })
   it('writes a html content and folds correctly', () => {
     const event = buildEvent({ htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>' })

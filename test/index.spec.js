@@ -94,7 +94,7 @@ describe('ics', () => {
         })
       })
 
-      it('returns an iCal string when passed 0 events', () => {
+      it('returns an iCal string when passed 0 events', (done) => {
         createEvents([], (error, value) => {
           expect(error).to.be.null
           expect(value).to.contain('BEGIN:VCALENDAR')

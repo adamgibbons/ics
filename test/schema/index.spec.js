@@ -1,17 +1,17 @@
 import { expect } from 'chai'
-import validateEvent from '../../src/schema'
+import { validateHeaderAndEvent } from '../../src/schema'
 
-describe('.validateEvent', () => {
+describe('.validateHeaderAndEvent', () => {
   describe('must have one and only one occurrence of', () => {
     it('start', () => {
-      const {error} = validateEvent({title: 'foo', uid: 'foo'})
+      const {error} = validateHeaderAndEvent({title: 'foo', uid: 'foo'})
       expect(error.errors.some(p => p === 'start is a required field')).to.be.true
     })
   })
 
   describe('must have duration XOR end', () => {
     it('duration and end are not allowed together', () => {
-      const {error, value} = validateEvent({
+      const {error, value} = validateHeaderAndEvent({
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         duration: {hours: 1},
@@ -23,7 +23,7 @@ describe('.validateEvent', () => {
 
   describe('may have one and only one occurrence of', () => {
     it('summary', () => {
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -32,7 +32,7 @@ describe('.validateEvent', () => {
 
       expect(errors.some(p => p.match(/summary must be a `string` type/))).to.be.true
 
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -41,7 +41,7 @@ describe('.validateEvent', () => {
     })
 
     it('description', () => {
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -49,7 +49,7 @@ describe('.validateEvent', () => {
       }).error
       expect(errors.some(p => p.match(/description must be a `string` type/))).to.be.true
 
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -58,14 +58,14 @@ describe('.validateEvent', () => {
 
     })
     it('url', () => {
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         url: 'abc'
       }).error
       expect(errors.some(p => p.match(/url must/))).to.be.true
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -74,21 +74,21 @@ describe('.validateEvent', () => {
     })
 
     it('geo', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         geo: 'abc'
       }).error.name === 'ValidationError')
 
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         geo: {lat: 'thing', lon: 32.1},
       }).error.name === 'ValidationError')
 
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -96,7 +96,7 @@ describe('.validateEvent', () => {
       }).value.geo).to.exist
     })
     it('location', () => {
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -104,7 +104,7 @@ describe('.validateEvent', () => {
       }).error
       expect(errors.some(p => p.match(/location must be a `string` type/))).to.be.true
 
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -113,25 +113,25 @@ describe('.validateEvent', () => {
     })
 
     it('status', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         status: 'tentativo'
       }).error).to.exist
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         status: 'tentative'
       }).value.status).to.equal('tentative')
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         status: 'cancelled'
       }).value.status).to.equal('cancelled')
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -140,7 +140,7 @@ describe('.validateEvent', () => {
     })
 
     it('categories', () => {
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -149,7 +149,7 @@ describe('.validateEvent', () => {
 
       expect(errors.some(p => p.match(/categories\[0] must be a `string` type/))).to.be.true
 
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -158,14 +158,14 @@ describe('.validateEvent', () => {
     })
 
     it('organizer', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         organizer: {name: 'Adam', email: 'adam@example.com'}
       }).value.organizer).to.include({name: 'Adam', email: 'adam@example.com'})
 
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -175,7 +175,7 @@ describe('.validateEvent', () => {
     })
 
     it('attendees', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -184,7 +184,7 @@ describe('.validateEvent', () => {
           {name: 'Brittany', email: 'brittany@example.com'}]
       }).value.attendees).to.be.an('array').that.is.not.empty
 
-      const {errors} = validateEvent({
+      const {errors} = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -194,7 +194,7 @@ describe('.validateEvent', () => {
       }).error
       expect(errors.some(p => p === 'attendees[0] field has unspecified keys: foo')).to.be.true
 
-      const res = validateEvent({
+      const res = validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -207,7 +207,7 @@ describe('.validateEvent', () => {
     })
 
     it('created', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -216,7 +216,7 @@ describe('.validateEvent', () => {
     })
 
     it('transp', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -225,7 +225,7 @@ describe('.validateEvent', () => {
     })
 
     it('lastModified', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
@@ -234,7 +234,7 @@ describe('.validateEvent', () => {
     })
 
     it('calName', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         calName: 'John\'s Calendar',
@@ -243,7 +243,7 @@ describe('.validateEvent', () => {
     })
 
     it('htmlContent', () => {
-      expect(validateEvent({
+      expect(validateHeaderAndEvent({
         title: 'foo',
         uid: 'foo',
         htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>',
@@ -254,7 +254,7 @@ describe('.validateEvent', () => {
 
   describe('may have one or more occurrences of', () => {
     it('alarm component', () => {
-      const event = validateEvent({
+      const event = validateHeaderAndEvent({
         uid: 'foo',
         start: [2018, 12, 1, 10, 30],
         duration: {hours: 1},
