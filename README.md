@@ -311,9 +311,11 @@ function (err, value) {
 }
 ```
 
-### `createEvents(events[, callback])`
+### `createEvents(events[, headerParams, callback])`
 
 Generates an iCal-compliant VCALENDAR string with multiple VEVENTS.
+
+`headerParams` may be omitted, and in this case they will be read from the first event.
 
 If a callback is not provided, returns an object having the form `{ error, value }`, where value is an iCal-compliant text string
 if `error` is `null`.

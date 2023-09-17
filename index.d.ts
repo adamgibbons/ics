@@ -75,6 +75,12 @@ export type Alarm = {
   attach?: string;
 };
 
+export type HeaderAttributes = {
+  productId?: string;
+  method?: string;
+  calName?: string;
+}
+
 export type EventAttributes = {
   start: DateTime;
   startInputType?: 'local' | 'utc';
@@ -102,13 +108,13 @@ export type EventAttributes = {
   categories?: string[];
   alarms?: Alarm[];
 
-  productId?: string;
+  productId?: HeaderAttributes['productId'];
   uid?: string;
-  method?: string;
+  method?: HeaderAttributes['method'];
   recurrenceRule?: string;
   exclusionDates?: string;
   sequence?: number;
-  calName?: string;
+  calName?: HeaderAttributes['calName'];
   classification?: classificationType;
   created?: DateTime;
   lastModified?: DateTime;
@@ -124,7 +130,7 @@ export function createEvent(attributes: EventAttributes, callback: NodeCallback)
 export function createEvent(attributes: EventAttributes): ReturnObject;
 
 export function createEvents(events: EventAttributes[], callback: NodeCallback): void;
-
-export function createEvents(events: EventAttributes[]): ReturnObject;
+export function createEvents(events: EventAttributes[], headerAttributes?: HeaderAttributes): ReturnObject;
+export function createEvents(events: EventAttributes[], headerAttributes: HeaderAttributes, callback: NodeCallback): void;
 
 export function convertTimestampToArray(timestamp: Number, inputType: String): DateArray;

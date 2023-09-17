@@ -17,7 +17,6 @@ export function formatHeader(attributes = {}) {
     productId,
     method,
     calName,
-
   } = attributes
 
   let icsFormat = ''

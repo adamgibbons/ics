@@ -31,14 +31,17 @@ export function createEvent (attributes, cb) {
   return createEvents([attributes], cb)
 }
 
-export function createEvents (events, cb) {
+export function createEvents (events, headerAttributesOrCb, cb) {
+  const resolvedHeaderAttributes = typeof headerAttributesOrCb === 'object' ? headerAttributesOrCb : {};
+  const resolvedCb = arguments.length === 3 ? cb : (typeof headerAttributesOrCb === 'function' ? headerAttributesOrCb : null);
+
   const run = () => {
     if (!events) {
       return { error: new Error('one argument is required'), value: null }
     }
 
     if (events.length === 0) {
-      const { error, value } = buildHeaderAndValidate({});
+      const { error, value } = buildHeaderAndValidate(resolvedHeaderAttributes);
       if (error) return {error, value: null}
 
       return {
@@ -48,7 +51,7 @@ export function createEvents (events, cb) {
     }
 
 
-    const { error: headerError, value: headerValue } = buildHeaderAndEventAndValidate(events[0]);
+    const { error: headerError, value: headerValue } = buildHeaderAndEventAndValidate({...events[0], ...resolvedHeaderAttributes});
     if (headerError) {
       return {error: headerError, value: null}
     }
@@ -75,9 +78,9 @@ export function createEvents (events, cb) {
     returnValue = { error: e, value: null }
   }
 
-  if (!cb) {
+  if (!resolvedCb) {
     return returnValue
   }
 
-  return cb(returnValue.error, returnValue.value)
+  return resolvedCb(returnValue.error, returnValue.value)
 }
