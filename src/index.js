@@ -40,18 +40,10 @@ export function createEvents (events, headerAttributesOrCb, cb) {
       return { error: new Error('one argument is required'), value: null }
     }
 
-    if (events.length === 0) {
-      const { error, value } = buildHeaderAndValidate(resolvedHeaderAttributes);
-      if (error) return {error, value: null}
+    const { error: headerError, value: headerValue } = events.length === 0
+      ? buildHeaderAndValidate(resolvedHeaderAttributes)
+      : buildHeaderAndEventAndValidate({...events[0], ...resolvedHeaderAttributes});
 
-      return {
-        error: null,
-        value: formatHeader(value) + formatFooter()
-      }
-    }
-
-
-    const { error: headerError, value: headerValue } = buildHeaderAndEventAndValidate({...events[0], ...resolvedHeaderAttributes});
     if (headerError) {
       return {error: headerError, value: null}
     }
