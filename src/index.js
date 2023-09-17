@@ -28,40 +28,13 @@ export function convertTimestampToArray(timestamp, inputType = 'local') {
 }
 
 export function createEvent (attributes, cb) {
-  const run = () => {
-    if (!attributes) {
-      return { error: new Error('Attributes argument is required'), value: null }
-    }
-
-    const { error, value } = buildHeaderAndEventAndValidate(attributes)
-    if (error) return { error, value }
-
-    const event = formatHeader(value) + formatEvent(value) + formatFooter()
-    return { error: null, value: event }
-  }
-
-  let returnValue;
-  try {
-    returnValue = run();
-  } catch (e) {
-    returnValue = { error: e, value: null }
-  }
-
-  if (!cb) {
-    return returnValue
-  }
-
-  return cb(returnValue.error, returnValue.value)
+  return createEvents([attributes], cb)
 }
 
 export function createEvents (events, cb) {
   const run = () => {
     if (!events) {
       return { error: new Error('one argument is required'), value: null }
-    }
-
-    if (events.length === 1) {
-      return createEvent(events[0])
     }
 
     if (events.length === 0) {
