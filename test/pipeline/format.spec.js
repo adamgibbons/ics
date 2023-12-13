@@ -308,7 +308,7 @@ describe('pipeline.formatEvent', () => {
     date1.setUTCFullYear(2000);
     date1.setUTCMonth(6);
     date1.setUTCDate(20);
-    date1.setUTCHours(2);
+    date1.setUTCHours(1);
     date1.setUTCMinutes(0);
     date1.setUTCSeconds(0);
 
@@ -321,8 +321,8 @@ describe('pipeline.formatEvent', () => {
       uid: 'uid',
       timestamp: 'timestamp',
       exclusionDates: [
-        [date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate(), date1.getUTCHours(), date1.getUTCMinutes(), date1.getUTCSeconds()],
-        [date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate(), date2.getUTCHours(), date2.getUTCMinutes(), date2.getUTCSeconds()]
+        [date1.getFullYear(), date1.getMonth(), date1.getDate(), date1.getHours(), date1.getMinutes(), date1.getSeconds()],
+        [date2.getFullYear(), date2.getMonth(), date2.getDate(), date2.getHours(), date2.getMinutes(), date2.getSeconds()]
       ]
     })
     expect(formattedEvent).to.contain('EXDATE:20000620T010000Z,20000621T010000Z')
