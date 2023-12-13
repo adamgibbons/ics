@@ -1,13 +1,9 @@
-import { buildHeader, buildEvent } from './build'
-import { formatHeader, formatEvent, formatFooter } from './format'
-import { validateHeader, validateHeaderAndEvent } from './validate'
+import buildEvent from './build'
+import formatEvent from './format'
+import validateEvent from './validate'
 
 export {
-  buildHeader,
   buildEvent,
-  formatHeader,
   formatEvent,
-  formatFooter,
-  validateHeader,
-  validateHeaderAndEvent
+  validateEvent
 }
