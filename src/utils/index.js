@@ -8,7 +8,6 @@ import setSummary from './set-summary'
 import formatDuration from './format-duration'
 import foldLine from './fold-line'
 import setLocation from './set-location'
-import encodeParamValue from './encode-param-value'
 
 export {
   formatDate,
@@ -20,6 +19,5 @@ export {
   setSummary,
   setDescription,
   foldLine,
-  setLocation,
-  encodeParamValue
+  setLocation
 }

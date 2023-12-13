@@ -1,30 +1,7 @@
 import { expect } from 'chai'
-import { buildHeader, buildEvent } from '../../src/pipeline'
+import { buildEvent } from '../../src/pipeline'
 
-describe('pipeline.buildHeader properties', () => {
-  describe('productId', () => {
-    it('sets a default', () => {
-      const header = buildHeader()
-      expect(header.productId).to.equal('adamgibbons/ics')
-    })
-    it('sets a productId', () => {
-      const header = buildHeader({ productId: 'productId' })
-      expect(header.productId).to.equal('productId')
-    })
-  })
-  describe('method', () => {
-    it('sets a default', () => {
-      const header = buildHeader()
-      expect(header.method).to.equal('PUBLISH')
-    })
-    it('sets a method', () => {
-      const header = buildHeader({ method: 'method' })
-      expect(header.method).to.equal('method')
-    })
-  })
-})
-
-describe('pipeline.buildEvent properties', () => {
+describe('pipeline.build properties', () => {
   describe('title', () => {
     it('sets a default', () => {
       const event = buildEvent()
@@ -33,6 +10,26 @@ describe('pipeline.buildEvent properties', () => {
     it('sets a title', () => {
       const event = buildEvent({ title: 'Hello event!' })
       expect(event.title).to.equal('Hello event!')
+    })
+  })
+  describe('productId', () => {
+    it('sets a default', () => {
+      const event = buildEvent()
+      expect(event.productId).to.equal('adamgibbons/ics')
+    })
+    it('sets a product id', () => {
+      const event = buildEvent({ productId: 'myProductId' })
+      expect(event.productId).to.equal('myProductId')
+    })
+  })
+  describe('method', () => {
+    it('sets a default', () => {
+      const event = buildEvent()
+      expect(event.method).to.equal('PUBLISH')
+    })
+    it('sets a method', () => {
+      const event = buildEvent({ method: 'REQUEST' })
+      expect(event.method).to.equal('REQUEST')
     })
   })
   describe('uid', () => {
