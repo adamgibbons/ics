@@ -1,38 +1,22 @@
-import defaultAttributes from "../defaults";
+import { headerDefaults, eventDefaults } from "../defaults";
 
-export default function buildEvent(attributes = {}) {
-  const {
-    title,
-    productId,
-    method,
-    uid,
-    sequence,
-    start,
-    startType,
-    duration,
-    end,
-    description,
-    url,
-    geo,
-    location,
-    status,
-    categories,
-    organizer,
-    attendees,
-    alarms,
-    recurrenceRule,
-    created,
-    lastModified,
-    calName,
-    htmlContent
-  } = attributes;
-
-  // fill in default values where necessary
-  const output = Object.assign({}, defaultAttributes, attributes);
-
-  // remove undefined values
-  return Object.entries(output).reduce(
-      (clean, entry) => typeof entry[1] !== 'undefined' ? Object.assign(clean, {[entry[0]]: entry[1]}) : clean,
-      {}
+function removeUndefined(input) {
+  return Object.entries(input).reduce(
+    (clean, entry) => typeof entry[1] !== 'undefined' ? Object.assign(clean, {[entry[0]]: entry[1]}) : clean,
+    {}
   )
+}
+
+export function buildHeader(attributes = {}) {
+  // fill in default values where necessary
+  const output = Object.assign({}, headerDefaults(), attributes);
+
+  return removeUndefined(output)
+}
+
+export function buildEvent(attributes = {}) {
+  // fill in default values where necessary
+  const output = Object.assign({}, eventDefaults(), attributes);
+
+  return removeUndefined(output)
 }

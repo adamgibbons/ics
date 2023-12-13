@@ -1,6 +1,10 @@
 const pad = n => n < 10 ? `0${n}` : `${n}`
 
 export default function formatDate(args = [], outputType = 'utc', inputType = 'local') {
+  if (typeof args === 'string') {
+    return args;
+  }
+  
   if (Array.isArray(args) && args.length === 3) {
     const [year, month, date] = args
     return `${year}${pad(month)}${pad(date)}`
@@ -14,6 +18,9 @@ export default function formatDate(args = [], outputType = 'utc', inputType = 'l
     } else {
       outDate = new Date(Date.UTC(year, month - 1, date, hours, minutes, seconds))
     }
+  } else if (!Array.isArray(args)) {
+    // it's a unix time stamp (ms)
+    outDate = new Date(args);
   }
 
   if (outputType === 'local') {

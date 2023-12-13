@@ -1,3 +1,1 @@
-import validate from '../schema'
-
-export default validate
+export * from '../schema'

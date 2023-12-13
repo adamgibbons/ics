@@ -2,17 +2,41 @@ import dayjs from 'dayjs';
 import { expect } from 'chai'
 import {
   formatEvent,
-  buildEvent
+  buildEvent,
+  formatHeader,
+  buildHeader
 } from '../../src/pipeline'
 import {foldLine} from "../../src/utils";
+
+describe('pipeline.formatHeader', () => {
+  it('writes default values when no attributes passed', () => {
+    const header = buildHeader()
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('BEGIN:VCALENDAR')
+    expect(formattedHeader).to.contain('VERSION:2.0')
+    expect(formattedHeader).to.contain('PRODID:adamgibbons/ics')
+  })
+  it('writes a product id', () => {
+    const header = buildHeader({ productId: 'productId'})
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('PRODID:productId')
+  })
+  it('writes a method', () => {
+    const header = buildHeader({ method: 'method'})
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('METHOD:method')
+  })
+  it('writes a calName', () => {
+    const header = buildHeader({ calName: 'calName'})
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('X-WR-CALNAME:calName')
+  })
+})
 
 describe('pipeline.formatEvent', () => {
   it('writes default values when no attributes passed', () => {
     const event = buildEvent()
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('BEGIN:VCALENDAR')
-    expect(formattedEvent).to.contain('VERSION:2.0')
-    expect(formattedEvent).to.contain('PRODID:adamgibbons/ics')
     expect(formattedEvent).to.contain('BEGIN:VEVENT')
     expect(formattedEvent).to.contain('SUMMARY:Untitled event')
     expect(formattedEvent).to.contain('UID:')
@@ -20,7 +44,6 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEvent).to.contain('DTSTART:')
     expect(formattedEvent).to.contain('DTSTAMP:20')
     expect(formattedEvent).to.contain('END:VEVENT')
-    expect(formattedEvent).to.contain('END:VCALENDAR')
   })
   it('writes a title', () => {
     const event = buildEvent({ title: 'foo bar' })
@@ -100,11 +123,6 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('LAST-MODIFIED:20170515')
   })
-  it('writes a cal name', () => {
-    const event = buildEvent({ calName: 'John\'s Calendar' })
-    const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('X-WR-CALNAME:John\'s Calendar')
-  })
   it('writes a html content and folds correctly', () => {
     const event = buildEvent({ htmlContent: '<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>' })
     const formattedEvent = formatEvent(event)
@@ -175,8 +193,8 @@ describe('pipeline.formatEvent', () => {
       {name: 'Brittany Seaton', email: 'brittany@example.com', rsvp: true }
     ]})
     const formattedEvent = formatEvent(event)
-    expect(formattedEvent).to.contain('ATTENDEE;CN=Adam Gibbons:mailto:adam@example.com')
-    expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN=Brittany Seaton:mailto:brittany@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;CN="Adam Gibbons":mailto:adam@example.com')
+    expect(formattedEvent).to.contain('ATTENDEE;RSVP=TRUE;CN="Brittany Seaton":mailto:brittany@example.com')
   })
   it('writes a busystatus', () => {
     const eventFree = buildEvent({ busyStatus: "FREE" })
@@ -215,22 +233,34 @@ describe('pipeline.formatEvent', () => {
     expect(formattedEventAnyClass).to.contain('CLASS:non-standard-property')
   })
   it('writes an organizer', () => {
-    const formattedEvent = formatEvent({ organizer: {
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      organizer: {
         name: 'Adam Gibbons',
         email: 'adam@example.com',
         dir: 'test-dir-value',
-        sentBy: 'test@example.com'
-      }})
-    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";CN=Adam Gibbons:MAILTO:adam@example.com'))
+        sentBy: 'test@example.com',
+      }
+    })
+    expect(formattedEvent).to.contain(foldLine('ORGANIZER;DIR="test-dir-value";SENT-BY="MAILTO:test@example.com";CN="Adam Gibbons":MAILTO:adam@example.com'))
   })
   it('writes an alarm', () => {
-    const formattedEvent = formatEvent({ alarms: [{
-      action: 'audio',
-      trigger: [1997, 2, 17, 1, 30],
-      repeat: 4,
-      duration: { minutes: 15 },
-      attach: 'ftp://example.com/pub/sounds/bell-01.aud'
-    }]})
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      alarms: [{
+        action: 'audio',
+        trigger: [1997, 2, 17, 1, 30],
+        repeat: 4,
+        duration: { minutes: 15 },
+        attach: 'ftp://example.com/pub/sounds/bell-01.aud'
+      }]
+    })
 
     expect(formattedEvent).to.contain('BEGIN:VALARM')
     expect(formattedEvent).to.contain('TRIGGER;VALUE=DATE-TIME:199702')
@@ -244,13 +274,15 @@ describe('pipeline.formatEvent', () => {
     const formattedEvent = formatEvent({
       productId: '*'.repeat(1000),
       method: '*'.repeat(1000),
+      timestamp: '*'.repeat(1000),
+      uid: '*'.repeat(1000),
       title: '*'.repeat(1000),
       description: '*'.repeat(1000),
       url: '*'.repeat(1000),
       geo: '*'.repeat(1000),
       location: '*'.repeat(1000),
       status: '*'.repeat(1000),
-      categories: '*'.repeat(1000),
+      categories: ['*'.repeat(1000)],
       organizer: '*'.repeat(1000),
       attendees: [
         {name: '*'.repeat(1000), email: '*'.repeat(1000)},
@@ -261,13 +293,38 @@ describe('pipeline.formatEvent', () => {
     expect(max).to.be.at.most(75)
   })
   it('writes a recurrence rule', () => {
-    const formattedEvent = formatEvent({ recurrenceRule: 'FREQ=DAILY' })
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      recurrenceRule: 'FREQ=DAILY'
+    })
 
     expect(formattedEvent).to.contain('RRULE:FREQ=DAILY')
   })
   it('writes exception date-time', () => {
-    const formattedEvent = formatEvent({ exclusionDates: '20000620T010000Z,20000621T010000Z' })
+    const date1 = new Date(0);
+    date1.setUTCFullYear(2000);
+    date1.setUTCMonth(6);
+    date1.setUTCDate(20);
+    date1.setUTCHours(2);
+    date1.setUTCMinutes(0);
+    date1.setUTCSeconds(0);
 
+    const date2 = new Date(date1);
+    date2.setUTCDate(21);
+
+    const formattedEvent = formatEvent({
+      productId: 'productId',
+      method: 'method',
+      uid: 'uid',
+      timestamp: 'timestamp',
+      exclusionDates: [
+        [date1.getUTCFullYear(), date1.getUTCMonth(), date1.getUTCDate(), date1.getUTCHours(), date1.getUTCMinutes(), date1.getUTCSeconds()],
+        [date2.getUTCFullYear(), date2.getUTCMonth(), date2.getUTCDate(), date2.getUTCHours(), date2.getUTCMinutes(), date2.getUTCSeconds()]
+      ]
+    })
     expect(formattedEvent).to.contain('EXDATE:20000620T010000Z,20000621T010000Z')
   })
 })
