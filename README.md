@@ -121,18 +121,20 @@ console.log(value)
 // VERSION:2.0
 // CALSCALE:GREGORIAN
 // PRODID:adamgibbons/ics
+// METHOD:PUBLISH
+// X-PUBLISHED-TTL:PT1H
 // BEGIN:VEVENT
-// UID:mPfHOGi_sif_xO493Mgi6
+// UID:pP83XzQPo5RlvjDCMIINs
 // SUMMARY:Lunch
-// DTSTAMP:20180210T093900Z
-// DTSTART:20180115T191500Z
+// DTSTAMP:20230917T142209Z
+// DTSTART:20180115T121500Z
 // DURATION:PT45M
 // END:VEVENT
 // BEGIN:VEVENT
-// UID:ho-KcKyhNaQVDqJCcGfXD
+// UID:gy5vfUVv6wjyBeNkkFmBX
 // SUMMARY:Dinner
-// DTSTAMP:20180210T093900Z
-// DTSTART:20180115T191500Z
+// DTSTAMP:20230917T142209Z
+// DTSTART:20180115T121500Z
 // DURATION:PT1H30M
 // END:VEVENT
 // END:VCALENDAR
@@ -145,8 +147,8 @@ let moment = require("moment")
 let events = []
 let alarms = []
 
-let start = moment().format('YYYY-M-D-H-m').split("-")
-let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D-H-m").split("-")
+let start = moment().format('YYYY-M-D-H-m').split("-").map((a) => parseInt(a))
+let end = moment().add({'hours':2, "minutes":30}).format("YYYY-M-D-H-m").split("-").map((a) => parseInt(a))
 
 alarms.push({
   action: 'audio',
@@ -167,34 +169,28 @@ let event = {
   alarms: alarms
 }
 events.push(event)
-console.log(ics.createEvents(events))
+console.log(ics.createEvents(events).value)
 
 // BEGIN:VCALENDAR
 // VERSION:2.0
 // CALSCALE:GREGORIAN
-// PRODID:MyCalendarId
+// PRODID:myCalendarId
 // METHOD:PUBLISH
 // X-PUBLISHED-TTL:PT1H
 // BEGIN:VEVENT
-// UID:123@MyCalendarIdics.com
+// UID:123@ics.com
 // SUMMARY:test here
-// DTSTAMP:20180409T072100Z
-// DTSTART:20180409
-// DTEND:20180409
-// BEGIN:VALARM
-// ACTION:DISPLAY
-// DESCRIPTION:Reminder
-// TRIGGER:-PT2H30M
-// END:VALARM
+// DTSTAMP:20230917T142621Z
+// DTSTART:20230917T152600
+// DTEND:20230917T175600
 // BEGIN:VALARM
 // ACTION:AUDIO
 // REPEAT:2
+// DESCRIPTION:Reminder
 // ATTACH;VALUE=URI:Glass
-// TRIGGER:PT2H
-// END:VALARM
+// TRIGGER:-PT2H30M\nEND:VALARM
 // END:VEVENT
 // END:VCALENDAR
-
 ```
 
 #### Using ESModules & in the browser
@@ -246,14 +242,17 @@ If a callback is provided, returns a Node-style callback.
 
 Object literal containing event information.
 Only the `start` property is required.
+
+Note all date/time fields can be the array form, or a number representing the unix timestamp in milliseconds (e.g. `getTime()` on a `Date`).
+
 The following properties are accepted:
 
 | Property      | Description   | Example  |
 | ------------- | ------------- | ----------
-| start         | **Required**. Date and time at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000)
+| start         | **Required**. Date and time at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000) or a `number`
 | startInputType | Type of the date/time data in `start`:<br>`local` (default): passed data is in local time.<br>`utc`: passed data is UTC |
 | startOutputType | Format of the start date/time in the output:<br>`utc` (default): the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)) |
-| end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm)
+| end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm) or a `number`
 | endInputType | Type of the date/time data in `end`:<br>`local`: passed data is in local time.<br>`utc`: passed data is UTC.<br>The default is the value of `startInputType` |
 | endOutputType | Format of the start date/time in the output:<br>`utc`: the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)).<br>The default is the value of `startOutputType` |
 | duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
@@ -271,13 +270,13 @@ The following properties are accepted:
 | uid           | Universal unique id for event, produced by default with `nanoid`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'LZfXLFzPPR4NNrgjlWDxn'`
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 | recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator). | `FREQ=DAILY`
-| exclusionDates| This property defines the list of DATE-TIME exceptions for recurring events, to-dos, journal entries, or time zone definitions. Uses a comma-delimited list of [Date-Time](https://tools.ietf.org/html/rfc5545#section-3.3.5) values. See [EXDATE spec](https://tools.ietf.org/html/rfc5545#section-3.8.5.1).|`'20230620T131500Z,20230621T131500'` (June 20th, 2023 at 1:15pm UTC and June 21st, 2000 at 1:15pm LOCAL)
+| exclusionDates | Array of date-time exceptions for recurring events, to-dos, journal entries, or time zone definitions. | `[[2000, 1, 5, 10, 0], [2000, 2, 5, 10, 0]]` OR `[1694941727477, 1694945327477]`
 | sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
 | busyStatus    | Used to specify busy status for Microsoft applications, like Outlook. See [Microsoft spec](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/cd68eae7-ed65-4dd3-8ea7-ad585c76c736). | `'BUSY'` OR `'FREE'` OR `'TENTATIVE`' OR `'OOF'`
 | transp        | Used to specify event transparency (does event consume actual time of an individual). Used by Google Calendar to determine if event should change attendees availability to 'Busy' or not. | `'TRANSPARENT'` OR `'OPAQUE'`
 | classification    | This property defines the access classification for a calendar component. See [iCalender spec](https://icalendar.org/iCalendar-RFC-5545/3-8-1-3-classification.html). | `'PUBLIC'` OR `'PRIVATE'` OR `'CONFIDENTIAL`' OR any non-standard string
-| created | Date-time representing event's creation date. Provide a date-time in UTC | [2000, 1, 5, 10, 0] (January 5, 2000 GMT +00:00)
-| lastModified | Date-time representing date when event was last modified. Provide a date-time in UTC | [2000, 1, 5, 10, 0] (January 5, 2000 GMT +00:00)
+| created | Date-time representing event's creation date. Provide a date-time in local time | `[2000, 1, 5, 10, 0]` or a `number`
+| lastModified | Date-time representing date when event was last modified. Provide a date-time in local time | [2000, 1, 5, 10, 0] or a `number`
 | calName       |  Specifies the _calendar_ (not event) name. Used by Apple iCal and Microsoft Outlook; see [Open Specification](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/1da58449-b97e-46bd-b018-a1ce576f3e6d) | `'Example Calendar'` |
 | htmlContent       | Used to include HTML markup in an event's description. Standard DESCRIPTION tag should contain non-HTML version. | `<!DOCTYPE html><html><body><p>This is<br>test<br>html code.</p></body></html>` |
 
@@ -308,9 +307,11 @@ function (err, value) {
 }
 ```
 
-### `createEvents(events[, callback])`
+### `createEvents(events[, headerParams, callback])`
 
 Generates an iCal-compliant VCALENDAR string with multiple VEVENTS.
+
+`headerParams` may be omitted, and in this case they will be read from the first event.
 
 If a callback is not provided, returns an object having the form `{ error, value }`, where value is an iCal-compliant text string
 if `error` is `null`.
