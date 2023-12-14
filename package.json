@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "nanoid": "^3.1.23",
+    "runes2": "^1.1.2",
     "yup": "^1.2.0"
   },
   "files": [
