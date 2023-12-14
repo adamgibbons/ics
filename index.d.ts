@@ -1,3 +1,5 @@
+export type DateTime = DateArray | number | string;
+
 export type DateArray =
   | [number, number, number, number, number]
   | [number, number, number, number]
@@ -67,14 +69,20 @@ export type Alarm = {
   description?: string;
   summary?: string;
   duration?: DurationObject;
-  trigger?: DurationObject; // @todo DateArray | DurationObject;
+  trigger?: DurationObject | DateTime;
   repeat?: number;
   attachType?: string;
   attach?: string;
 };
 
+export type HeaderAttributes = {
+  productId?: string;
+  method?: string;
+  calName?: string;
+}
+
 export type EventAttributes = {
-  start: DateArray;
+  start: DateTime;
   startInputType?: 'local' | 'utc';
   startOutputType?: 'local' | 'utc';
 
@@ -100,18 +108,18 @@ export type EventAttributes = {
   categories?: string[];
   alarms?: Alarm[];
 
-  productId?: string;
+  productId?: HeaderAttributes['productId'];
   uid?: string;
-  method?: string;
+  method?: HeaderAttributes['method'];
   recurrenceRule?: string;
   exclusionDates?: string;
   sequence?: number;
-  calName?: string;
+  calName?: HeaderAttributes['calName'];
   classification?: classificationType;
-  created?: DateArray;
-  lastModified?: DateArray;
+  created?: DateTime;
+  lastModified?: DateTime;
   htmlContent?: string;
-} & ({ end: DateArray } | { duration: DurationObject });
+} & ({ end: DateTime } | { duration: DurationObject });
 
 export type ReturnObject = { error?: Error; value?: string };
 
@@ -122,7 +130,7 @@ export function createEvent(attributes: EventAttributes, callback: NodeCallback)
 export function createEvent(attributes: EventAttributes): ReturnObject;
 
 export function createEvents(events: EventAttributes[], callback: NodeCallback): void;
-
-export function createEvents(events: EventAttributes[]): ReturnObject;
+export function createEvents(events: EventAttributes[], headerAttributes?: HeaderAttributes): ReturnObject;
+export function createEvents(events: EventAttributes[], headerAttributes: HeaderAttributes, callback: NodeCallback): void;
 
 export function convertTimestampToArray(timestamp: Number, inputType: String): DateArray;

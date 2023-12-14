@@ -1,56 +1,19 @@
-import { nanoid }  from 'nanoid'
 import {
+  buildHeader,
   buildEvent,
-  validateEvent,
-  formatEvent
+  validateHeader,
+  validateHeaderAndEvent,
+  formatHeader,
+  formatEvent,
+  formatFooter,
 } from './pipeline'
 
-function assignUniqueId(event) {
-  event.uid = event.uid || nanoid()
-  return event
-}
-function validateAndBuildEvent(event) {
-  return validateEvent(buildEvent(event))
+function buildHeaderAndValidate(header) {
+  return validateHeader(buildHeader(header))
 }
 
-function applyInitialFormatting({ error, value }) {
-  if (error) {
-    return { error, value: null }
-  }
-
-  return { error: null, value: formatEvent(value) }
-}
-
-function reformatEventsByPosition({ error, value }, idx, list) {
-  if (error) return { error, value }
-
-  if (idx === 0) {
-    // beginning of list
-    return { value: value.slice(0, value.indexOf('END:VCALENDAR')), error: null }
-  }
-
-  if (idx === list.length - 1) {
-    // end of list
-    return { value: value.slice(value.indexOf('BEGIN:VEVENT')), error: null}
-  }
-
-  return { error: null, value: value.slice(value.indexOf('BEGIN:VEVENT'), value.indexOf('END:VEVENT') + 12) }
-}
-
-function catenateEvents(accumulator, { error, value }, idx) {
-  if (error) {
-    accumulator.error = error
-    accumulator.value = null
-    return accumulator
-  }
-
-  if (accumulator.value) {
-    accumulator.value = accumulator.value.concat(value)
-    return accumulator
-  }
-
-  accumulator.value = value
-  return accumulator
+function buildHeaderAndEventAndValidate(event) {
+  return validateHeaderAndEvent({...buildHeader(event), ...buildEvent(event) })
 }
 
 export function convertTimestampToArray(timestamp, inputType = 'local') {
@@ -65,69 +28,51 @@ export function convertTimestampToArray(timestamp, inputType = 'local') {
 }
 
 export function createEvent (attributes, cb) {
-  if (!attributes) { Error('Attributes argument is required') }
-
-  assignUniqueId(attributes)
-
-  if (!cb) {
-    // No callback, so return error or value in an object
-    const { error, value } = validateAndBuildEvent(attributes)
-
-    if (error) return { error, value }
-
-    let event = ''
-
-    try {
-      event = formatEvent(value)
-    } catch(error) {
-      return { error, value: null }
-    }
-
-    return { error: null, value: event }
-  }
-
-  // Return a node-style callback
-  const { error, value } = validateAndBuildEvent(attributes)
-
-  if (error) return cb(error)
-
-  return cb(null, formatEvent(value))
+  return createEvents([attributes], cb)
 }
 
-export function createEvents (events, cb) {
-  if (!events) {
-    return { error: Error('one argument is required'), value: null }
-  }
+export function createEvents (events, headerAttributesOrCb, cb) {
+  const resolvedHeaderAttributes = typeof headerAttributesOrCb === 'object' ? headerAttributesOrCb : {};
+  const resolvedCb = arguments.length === 3 ? cb : (typeof headerAttributesOrCb === 'function' ? headerAttributesOrCb : null);
 
-  if (events.length === 0) {
-    const {error, value: dummy} = createEvent({
-      start: [2000, 10, 5, 5, 0],
-      duration: { hours: 1 }
-    })
-    if (error) return {error, value: null}
-
-    return {
-      error: null,
-      value: (
-        dummy.slice(0, dummy.indexOf('BEGIN:VEVENT')) +
-        dummy.slice(dummy.indexOf('END:VEVENT') + 10 + 2)
-      )
+  const run = () => {
+    if (!events) {
+      return { error: new Error('one argument is required'), value: null }
     }
+
+    const { error: headerError, value: headerValue } = events.length === 0
+      ? buildHeaderAndValidate(resolvedHeaderAttributes)
+      : buildHeaderAndEventAndValidate({...events[0], ...resolvedHeaderAttributes});
+
+    if (headerError) {
+      return {error: headerError, value: null}
+    }
+
+    let value = ''
+    value += formatHeader(headerValue)
+
+    for (let i = 0; i < events.length; i++) {
+      const { error: eventError, value: eventValue } = buildHeaderAndEventAndValidate(events[i])
+      if (eventError) return {error: eventError, value: null}
+
+      value += formatEvent(eventValue);
+    }
+
+    value += formatFooter();
+
+    return { error: null, value }
   }
 
-  if (events.length === 1) {
-    return createEvent(events[0], cb)
+  let returnValue;
+  try {
+    returnValue = run();
+  } catch (e) {
+    returnValue = { error: e, value: null }
   }
 
-  const { error, value } = events.map(assignUniqueId)
-    .map(validateAndBuildEvent)
-    .map(applyInitialFormatting)
-    .map(reformatEventsByPosition)
-    .reduce(catenateEvents, { error: null, value: null })
-
-  if (!cb) {
-    return { error, value }
+  if (!resolvedCb) {
+    return returnValue
   }
 
-  return cb(error, value)
+  return resolvedCb(returnValue.error, returnValue.value)
 }
