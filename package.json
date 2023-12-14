@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "description": "iCal (ics) file generator",
   "exports": {
     "types": "./index.d.ts",
@@ -36,7 +36,7 @@
   "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
     "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-env": "^7.23.2",
     "@babel/register": "^7.6.2",
     "chai": "^4.2.0",
     "dayjs": "^1.8.33",
