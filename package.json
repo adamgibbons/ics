@@ -9,8 +9,8 @@
   "main": "./dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "start": "mocha --require @babel/register --watch --recursive",
-    "test": "mocha --require @babel/register --recursive",
+    "start": "TZ=utc mocha --require @babel/register --watch --recursive",
+    "test": "TZ=utc mocha --require @babel/register --recursive",
     "build": "rm -r dist; gulp build"
   },
   "repository": {

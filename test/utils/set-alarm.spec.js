@@ -26,7 +26,7 @@ describe('utils.setAlarm', () => {
       `DESCRIPTION:Foo`,
       `DURATION:P1W15DT3H4M50S`,
       `ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud`,
-      `TRIGGER;VALUE=DATE-TIME:19970217T113000Z`,
+      `TRIGGER;VALUE=DATE-TIME:19970217T063000Z`,
       `SUMMARY:Bar baz`,
       `END:VALARM`,
       ``
