@@ -19,15 +19,18 @@ describe('utils.setAlarm', () => {
       summary: 'Bar baz'
     }
     const alarm = setAlarm(attributes)
-    expect(alarm).to.contain('BEGIN:VALARM')
-    expect(alarm).to.contain('ACTION:AUDIO')
-    expect(alarm).to.contain('ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud')
-    expect(alarm).to.contain('REPEAT:5')
-    expect(alarm).to.contain('DURATION:P1W15DT3H4M50S')
-    expect(alarm).to.contain('DESCRIPTION:Foo')
-    expect(alarm).to.contain('SUMMARY:Bar baz')
-    expect(alarm).to.contain('TRIGGER;VALUE=DATE-TIME:199702')
-    expect(alarm).to.contain('END:VALARM')
+    expect(alarm).to.equal([
+      `BEGIN:VALARM`,
+      `ACTION:AUDIO`,
+      `REPEAT:5`,
+      `DESCRIPTION:Foo`,
+      `DURATION:P1W15DT3H4M50S`,
+      `ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud`,
+      `TRIGGER;VALUE=DATE-TIME:19970217T063000Z`,
+      `SUMMARY:Bar baz`,
+      `END:VALARM`,
+      ``
+    ].join('\r\n'))
   })
 })
 

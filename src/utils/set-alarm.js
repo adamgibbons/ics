@@ -55,7 +55,7 @@ export default function setAlarm(attributes = {}) {
   formattedString += duration ? foldLine(`DURATION:${setDuration(duration)}`) + '\r\n' : ''
   let attachInfo = attachType ? attachType : 'FMTTYPE=audio/basic'
   formattedString += attach ? foldLine(encodeNewLines(`ATTACH;${attachInfo}:${attach}`)) + '\r\n' : ''
-  formattedString += trigger ? setTrigger(trigger) : ''
+  formattedString += trigger ? (setTrigger(trigger)) : ''
   formattedString += summary ? (foldLine(`SUMMARY:${encodeNewLines(summary)}`) + '\r\n') : ''
   formattedString += 'END:VALARM\r\n'
 
