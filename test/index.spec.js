@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { createEvent, createEvents } from '../src'
+import { createEvent, createEvents, isValidURL } from '../src'
 
 const invalidAttributes = { start: [] }
 const validAttributes = { start: [2000, 10, 5, 5, 0], duration: { hours: 1 } }
@@ -114,6 +114,42 @@ describe('ics', () => {
           expect(value).to.contain('X-WR-CALNAME:test')
           done()
         })
+      })
+    })
+  })
+
+  describe(".isValidURL", () => {
+    [
+      {
+        result: true,
+        condition: "http urls",
+        url: "http://domain.com",
+      },
+      {
+        result: true,
+        condition: "https urls",
+        url: "https://domain.com",
+      },
+      {
+        result: true,
+        condition: "localhost urls",
+        url: "http://localhost:8080",
+      },
+      {
+        result: false,
+        condition: "urls that start with www",
+        url: "www.domain.com",
+      },
+      {
+        result: false,
+        condition: "urls that start with domain",
+        url: "domain.com",
+      },
+    ].forEach((test) => {
+      it(`${test.result ? "passes" : "fails"} for ${test.condition}`, () => {
+        const response = isValidURL(test.url);
+
+        expect(response).equal(test.result);
       })
     })
   })
