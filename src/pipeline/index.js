@@ -1,6 +1,6 @@
 import { buildHeader, buildEvent } from './build'
 import { formatHeader, formatEvent, formatFooter } from './format'
-import { validateHeader, validateHeaderAndEvent } from './validate'
+import { validateHeader, validateHeaderAndEvent, urlRegex } from './validate'
 
 export {
   buildHeader,
@@ -9,5 +9,6 @@ export {
   formatEvent,
   formatFooter,
   validateHeader,
-  validateHeaderAndEvent
+  validateHeaderAndEvent,
+  urlRegex
 }

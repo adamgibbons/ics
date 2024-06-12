@@ -6,6 +6,7 @@ import {
   formatHeader,
   formatEvent,
   formatFooter,
+  urlRegex,
 } from './pipeline'
 
 function buildHeaderAndValidate(header) {
@@ -75,4 +76,8 @@ export function createEvents (events, headerAttributesOrCb, cb) {
   }
 
   return resolvedCb(returnValue.error, returnValue.value)
+}
+
+export function isValidURL(url) {
+  return urlRegex.test(url);
 }
