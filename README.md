@@ -91,6 +91,13 @@ ics.createEvent({
   }
 
   writeFileSync(`${__dirname}/event.ics`, value)
+
+/*
+You cannot use fs in Frontend libraries like React so you rather import a module to save files to the browser as follow [  import { saveAs } from 'file-saver'; // For saving the file in the browser]
+const blob = new Blob([value], { type: 'text/calendar' });
+        saveAs(blob, `${title}.ics`);
+
+*/
 })
 ```
 
