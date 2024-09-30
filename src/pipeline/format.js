@@ -65,7 +65,8 @@ export function formatEvent(attributes = {}) {
     classification,
     created,
     lastModified,
-    htmlContent
+    htmlContent,
+    recurrenceId
   } = attributes
 
   let icsFormat = ''
