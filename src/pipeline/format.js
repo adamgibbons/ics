@@ -65,7 +65,8 @@ export function formatEvent(attributes = {}) {
     classification,
     created,
     lastModified,
-    htmlContent
+    htmlContent,
+    recurrenceId
   } = attributes
 
   let icsFormat = ''
@@ -111,6 +112,8 @@ export function formatEvent(attributes = {}) {
       icsFormat += setAlarm(alarm)
     })
   }
+  icsFormat += recurrenceId ? foldLine(`RECURRENCE-ID:${encodeNewLines(formatDate(recurrenceId))}`) + "\r\n" : "";
+
   icsFormat += `END:VEVENT\r\n`
 
   return icsFormat

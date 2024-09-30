@@ -327,4 +327,16 @@ describe('pipeline.formatEvent', () => {
     })
     expect(formattedEvent).to.contain('EXDATE:20000620T010000Z,20000621T010000Z')
   })
+  it("writes recurrence ID", () => {
+    const event = {
+      uid:"uid",
+      title: "Test Event",
+      start: [2023, 5, 15, 10, 0],
+      end: [2023, 5, 15, 11, 0],
+      recurrenceId: [2023, 5, 15, 10, 0],
+    };
+
+    const result = formatEvent(event);
+    expect(result).to.contain("RECURRENCE-ID:20230515T100000Z");
+  });
 })

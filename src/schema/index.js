@@ -110,7 +110,8 @@ const eventShape = {
   created: dateTimeSchema({ required: false }),
   lastModified: dateTimeSchema({ required: false }),
   exclusionDates: yup.array().of(dateTimeSchema({ required: true })),
-  htmlContent: yup.string()
+  htmlContent: yup.string(),
+  recurrenceId : dateTimeSchema({ required: false })
 }
 
 const headerAndEventSchema = yup.object().shape({ ...headerShape, ...eventShape }).test('xor', `object should have end or duration (but not both)`, val => {
