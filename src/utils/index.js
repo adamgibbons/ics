@@ -1,4 +1,5 @@
 import formatDate from './format-date'
+import formatTzidParam from './format-tzid-param'
 import setGeolocation from './set-geolocation'
 import setContact from './set-contact'
 import setOrganizer from './set-organizer'
@@ -12,6 +13,7 @@ import encodeParamValue from './encode-param-value'
 
 export {
   formatDate,
+  formatTzidParam,
   setGeolocation,
   setContact,
   setOrganizer,

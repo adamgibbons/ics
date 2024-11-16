@@ -3,6 +3,7 @@ import {
     setContact,
     setOrganizer,
     formatDate,
+    formatTzidParam,
     setDescription,
     setLocation,
     setSummary,
@@ -17,6 +18,7 @@ export function formatHeader(attributes = {}) {
     productId,
     method,
     calName,
+    timezones
   } = attributes
 
   let icsFormat = ''
@@ -27,6 +29,7 @@ export function formatHeader(attributes = {}) {
   icsFormat += foldLine(`METHOD:${encodeNewLines(method)}`) + '\r\n'
   icsFormat += calName ? (foldLine(`X-WR-CALNAME:${encodeNewLines(calName)}`) + '\r\n') : ''
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
+  icsFormat += timezones ? timezones + '\r\n' : ''
 
   return icsFormat
 }
@@ -45,10 +48,12 @@ export function formatEvent(attributes = {}) {
     startType,
     startInputType,
     startOutputType,
+    startTimezone,
     duration,
     end,
     endInputType,
     endOutputType,
+    endTimezone,
     description,
     url,
     geo,
@@ -60,6 +65,7 @@ export function formatEvent(attributes = {}) {
     alarms,
     recurrenceRule,
     exclusionDates,
+    exclusionDatesTimezone,
     busyStatus,
     transp,
     classification,
@@ -75,12 +81,12 @@ export function formatEvent(attributes = {}) {
   icsFormat += foldLine(`DTSTAMP:${encodeNewLines(formatDate(timestamp))}`) + '\r\n'
 
   // All day events like anniversaries must be specified as VALUE type DATE
-  icsFormat += foldLine(`DTSTART${start && start.length == 3 ? ";VALUE=DATE" : ""}:${encodeNewLines(formatDate(start, startOutputType || startType, startInputType))}`) + '\r\n'
+  icsFormat += foldLine(`DTSTART${start && start.length == 3 ? ";VALUE=DATE" : ""}${formatTzidParam(startTimezone)}:${encodeNewLines(formatDate(start, (startTimezone && 'local') || startOutputType || startType, startInputType))}`) + '\r\n'
 
   // End is not required for all day events on single days (like anniversaries)
   if (!end || end.length !== 3 || start.length !== end.length || start.some((val, i) => val !== end[i])) {
     if (end) {
-      icsFormat += foldLine(`DTEND${end.length === 3 ? ";VALUE=DATE" : ""}:${encodeNewLines(formatDate(end, endOutputType || startOutputType || startType, endInputType || startInputType))}`) + '\r\n'
+      icsFormat += foldLine(`DTEND${end.length === 3 ? ";VALUE=DATE" : ""}${formatTzidParam(endTimezone)}:${encodeNewLines(formatDate(end, (endTimezone && 'local') || endOutputType || startOutputType || startType, endInputType || startInputType))}`) + '\r\n'
     }
   }
 
@@ -104,7 +110,7 @@ export function formatEvent(attributes = {}) {
     })
   }
   icsFormat += recurrenceRule ? foldLine(`RRULE:${encodeNewLines(recurrenceRule)}`) + '\r\n' : ''
-  icsFormat += exclusionDates ? foldLine(`EXDATE:${encodeNewLines(exclusionDates.map((a) => formatDate(a)).join(','))}`) + '\r\n': ''
+  icsFormat += exclusionDates ? foldLine(`EXDATE${formatTzidParam(exclusionDatesTimezone)}:${encodeNewLines(exclusionDates.map((a) => formatDate(a, exclusionDatesTimezone && 'local')).join(','))}`) + '\r\n': ''
   icsFormat += duration ? foldLine(`DURATION:${formatDuration(duration)}`) + '\r\n' : ''
   if (alarms) {
     alarms.forEach((alarm) => {

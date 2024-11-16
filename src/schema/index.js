@@ -75,7 +75,8 @@ const alarmSchema = yup.object().shape({
 const headerShape = {
   productId: yup.string(),
   method: yup.string(),
-  calName: yup.string()
+  calName: yup.string(),
+  timezones: yup.string().matches(/^BEGIN:VTIMEZONE.*END:VTIMEZONE$/s)
 }
 
 const headerSchema = yup.object().shape(headerShape).noUnknown()
@@ -91,9 +92,11 @@ const eventShape = {
   startType: yup.string().matches(/^(utc|local)$/),
   startInputType: yup.string().matches(/^(utc|local)$/),
   startOutputType: yup.string().matches(/^(utc|local)$/),
+  startTimezone: yup.string(),
   end: dateTimeSchema({ required: false }),
   endInputType: yup.string().matches(/^(utc|local)$/),
   endOutputType: yup.string().matches(/^(utc|local)$/),
+  endTimezone: yup.string(),
   description: yup.string(),
   url: yup.string().matches(urlRegex),
   geo: yup.object().shape({lat: yup.number(), lon: yup.number()}),
@@ -110,6 +113,7 @@ const eventShape = {
   created: dateTimeSchema({ required: false }),
   lastModified: dateTimeSchema({ required: false }),
   exclusionDates: yup.array().of(dateTimeSchema({ required: true })),
+  exclusionDatesTimezone: yup.object().string,
   htmlContent: yup.string()
 }
 

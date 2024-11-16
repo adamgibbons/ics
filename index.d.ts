@@ -79,15 +79,18 @@ export type HeaderAttributes = {
   productId?: string;
   method?: string;
   calName?: string;
+  timezones?: string;
 }
 
 export type EventAttributes = {
   start: DateTime;
   startInputType?: 'local' | 'utc';
   startOutputType?: 'local' | 'utc';
+  startTimezone?: string
 
   endInputType?: 'local' | 'utc';
   endOutputType?: 'local' | 'utc';
+  endTimezone?: string,
 
   title?: string;
   description?: string;
@@ -113,6 +116,7 @@ export type EventAttributes = {
   method?: HeaderAttributes['method'];
   recurrenceRule?: string;
   exclusionDates?: DateTime[];
+  exclusionDatesTimezone?: string;
   sequence?: number;
   calName?: HeaderAttributes['calName'];
   classification?: classificationType;

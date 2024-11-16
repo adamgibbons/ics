@@ -81,6 +81,13 @@ describe('ics', () => {
         expect(error).to.be.null
         expect(value).to.contain('X-WR-CALNAME:test')
       })
+
+      it('writes timezone information', () => {
+        const timezones = 'BEGIN:VTIMEZONE\r\nTZID:Europe/Zurich\r\nBEGIN:STANDARD\r\nTZNAME:CET\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nDTSTART:19961027T030000\r\nEND:STANDARD\r\nEND:VTIMEZONE';
+        const { error, value } = createEvents([], { timezones })
+        expect(error).to.be.null
+        expect(value).to.contain(timezones + '\r\n')
+      })
     })
 
     describe('when a callback is provided', () => {
@@ -112,6 +119,15 @@ describe('ics', () => {
         createEvents([], { calName: 'test' }, (error, value) => {
           expect(error).to.be.null
           expect(value).to.contain('X-WR-CALNAME:test')
+          done()
+        })
+      })
+
+      it('writes timezone information', (done) => {
+        const timezones = 'BEGIN:VTIMEZONE\r\nTZID:Europe/Zurich\r\nBEGIN:STANDARD\r\nTZNAME:CET\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nDTSTART:19961027T030000\r\nEND:STANDARD\r\nEND:VTIMEZONE';
+        createEvents([], { timezones }, (error, value) => {
+          expect(error).to.be.null
+          expect(value).to.contain(timezones + '\r\n')
           done()
         })
       })

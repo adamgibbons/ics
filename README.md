@@ -200,6 +200,66 @@ console.log(ics.createEvents(events).value)
 // END:VCALENDAR
 ```
 
+5) Create a calendar with time zone information
+```javascript
+import ics from 'ics'
+import axios from 'axios'
+
+const event = {
+    start: [2024, 4, 28, 15, 36],
+    startTimezone: 'Europe/London',
+    end: [2024, 5, 5, 17, 15],
+    endTimezone: 'America/New_York',
+    title: 'Atlantic Crossing'
+}
+
+const responses = await Promise.all([
+    'https://www.tzurl.org/zoneinfo/Europe/London.ics',
+    'https://www.tzurl.org/zoneinfo/America/New_York.ics']
+    .map(url => axios.get(url)))
+
+const timezones = responses
+    .map(res => res.data.match(/BEGIN:VTIMEZONE.*END:VTIMEZONE/s))
+    .join('\r\n')
+
+console.log(ics.createEvents([event], {timezones}).value)
+
+// BEGIN:VCALENDAR
+// VERSION:2.0
+// CALSCALE:GREGORIAN
+// PRODID:adamgibbons/ics
+// METHOD:PUBLISH
+// X-PUBLISHED-TTL:PT1H
+// BEGIN:VTIMEZONE
+// TZID:Europe/London
+// LAST-MODIFIED:20240422T053450Z
+// TZURL:https://www.tzurl.org/zoneinfo/Europe/London
+// X-LIC-LOCATION:Europe/London
+// X-PROLEPTIC-TZNAME:LMT
+// BEGIN:STANDARD
+// [ ... ]
+// END:STANDARD
+// END:VTIMEZONE
+// BEGIN:VTIMEZONE
+// TZID:America/New_York
+// LAST-MODIFIED:20240422T053450Z
+// TZURL:https://www.tzurl.org/zoneinfo/America/New_York
+// X-LIC-LOCATION:America/New_York
+// X-PROLEPTIC-TZNAME:LMT
+// BEGIN:STANDARD
+// [ ... ]
+// END:STANDARD
+// END:VTIMEZONE
+// BEGIN:VEVENT
+// UID:AsgRW6JD-gIdi-Dszo3nR
+// SUMMARY:Atlantic Crossing
+// DTSTAMP:20241116T213905Z
+// DTSTART;TZID=Europe/London:20240428T153600
+// DTEND;TZID=America/New_York:20240505T171500
+// END:VEVENT
+// END:VCALENDAR
+```
+
 #### Using ESModules & in the browser
 
 ```javascript
@@ -259,9 +319,11 @@ The following properties are accepted:
 | start         | **Required**. Date and time at which the event begins. | `[2000, 1, 5, 10, 0]` (January 5, 2000) or a `number`
 | startInputType | Type of the date/time data in `start`:<br>`local` (default): passed data is in local time.<br>`utc`: passed data is UTC |
 | startOutputType | Format of the start date/time in the output:<br>`utc` (default): the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)) |
+| startTimezone | Time zone ID of `start`. If present, `startOutputType` is implicitly set to `local`. Make sure to include a timezone definition for all used timezones in the `timezones` header. | `'Europe/London'` |
 | end           | Time at which event ends. *Either* `end` or `duration` is required, but *not* both. | `[2000, 1, 5, 13, 5]` (January 5, 2000 at 1pm) or a `number`
 | endInputType | Type of the date/time data in `end`:<br>`local`: passed data is in local time.<br>`utc`: passed data is UTC.<br>The default is the value of `startInputType` |
 | endOutputType | Format of the start date/time in the output:<br>`utc`: the start date will be sent in UTC format.<br>`local`: the start date will be sent as "floating" (form #1 in [RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.5)).<br>The default is the value of `startOutputType` |
+| endTimezone   | Time zone ID of `end`. If present, `endOutputType` is implicitly set to `local`. Make sure to include a timezone definition for all used timezones in the `timezones` header. | `'America/New_York'` |
 | duration      | How long the event lasts. Object literal having form `{ weeks, days, hours, minutes, seconds }` *Either* `end` or `duration` is required, but *not* both. | `{ hours: 1, minutes: 45 }` (1 hour and 45 minutes)
 | title         | Title of event. | `'Code review'`
 | description   | Description of event. | `'A constructive roasting of those seeking to merge into master branch'`
@@ -278,6 +340,7 @@ The following properties are accepted:
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 | recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator). | `FREQ=DAILY`
 | exclusionDates | Array of date-time exceptions for recurring events, to-dos, journal entries, or time zone definitions. | `[[2000, 1, 5, 10, 0], [2000, 2, 5, 10, 0]]` OR `[1694941727477, 1694945327477]`
+| exclusionDatesTimezone | Time zone ID of `exclusionDates`. Make sure to include a timezone definition for all used timezones in the `timezones` header. | `'Europe/London'` |
 | sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
 | busyStatus    | Used to specify busy status for Microsoft applications, like Outlook. See [Microsoft spec](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/cd68eae7-ed65-4dd3-8ea7-ad585c76c736). | `'BUSY'` OR `'FREE'` OR `'TENTATIVE`' OR `'OOF'`
 | transp        | Used to specify event transparency (does event consume actual time of an individual). Used by Google Calendar to determine if event should change attendees availability to 'Busy' or not. | `'TRANSPARENT'` OR `'OPAQUE'`
@@ -328,6 +391,14 @@ If a callback is provided, returns a Node-style callback.
 #### `events`
 
 Array of `attributes` objects (as described in `createEvent`).
+
+#### `headerParams`
+| Property      | Description   | Example  |
+| ------------- | ------------- | -------- |
+| productId     | See [RFC 5545 Product Identifier](https://datatracker.ietf.org/doc/html/rfc5545#section-3.7.3), defaults to `adamgibbons/ics` |  |
+| method        | See [RFC 5545 Method](https://datatracker.ietf.org/doc/html/rfc5545#section-3.7.2) Defaults to `PUBLISH` |  |
+| calName       | Sets `X-WR-CALNAME` | `'OSC training schedule'` |
+| timezones     | Time zone definitions for this calendar, without trailing `\r\n`. See [RFC 5545 Time Zone Component](https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.5) | see https://www.tzurl.org/ |
 
 #### `callback`
 
