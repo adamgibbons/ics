@@ -23,47 +23,85 @@ interface IAttendeeComponent extends IOrganizerComponent {
     xnum_guests?: number;
 }
 
-interface ITimezoneComponent {
-    uid: string;
+interface ILocationComponent {
+    text: string;
+    language?: string;
+    altrep?: string;
+}
+
+interface IGeographicPositionComponent {
+    latitude: number;
+    longitude: number;
 }
 
 interface IEventComponent {
-    // dtstamp: string;
-    uid: string;
-    dtstart: Date;
-    dtend: Date;
-    dtStamp?: Date;
-    summary: string; // title
-    class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL";
-    attendees?: IAttendeeComponent[];
-    organizer?: IOrganizerComponent;
-    // created?: string;
-    description?: string;
-    // geo?: string;
-    // last-mod?: string;
-    // location?: string;
-    
-    // priority?: string;
-    // seq?: string;
-    status?: "tentative" | "confirmed" | "cancelled";
-    // summary?: string;
-    // transp?: string;
-    // url?: string;
-    // recurid?: string;
-    // rrule?: string;
+    // ; The following are REQUIRED,
+    // ; but MUST NOT occur more than once.
 
-    // attach?: string;
-    // attendee?: string;
-    // categories?: string;
-    comment?: string;
-    // contact?: string;
-    // exdate?: string;
-    // rstatus?: string;
-    // related?: string;
-    // resources?: string;
-    // rdate?: string;
-    // x-prop?: string;
-    // iana-prop?: string;
+    dtStamp?: Date;
+    uid: string;
+
+    // ; The following is REQUIRED if the component
+    // ; appears in an iCalendar object that doesn't
+    // ; specify the "METHOD" property; otherwise, it
+    // ; is OPTIONAL; in any case, it MUST NOT occur
+    // ; more than once.
+    // ;
+    dtstart: Date;
+    // ;
+    // ; The following are OPTIONAL,
+    // ; but MUST NOT occur more than once.
+    // ;
+    // class / created / description / geo /
+    // last-mod / location / organizer / priority /
+    // seq / status / summary / transp /
+    // url / recurid /
+    class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL";
+    created?: string;
+    description?: string;
+    geo?: IGeographicPositionComponent;
+    lastMod?: string;
+    location?: ILocationComponent;
+    organizer?: IOrganizerComponent;
+    priority?: number;
+    seq?: number;
+    status?: "tentative" | "confirmed" | "cancelled";
+    summary?: string;
+    transp?: string;
+    url?: string;
+    recurid?: string;
+    // ;
+    // ; The following is OPTIONAL,
+    // ; but SHOULD NOT occur more than once.
+    // ;
+    // rrule /
+    // ;
+    // ; Either 'dtend' or 'duration' MAY appear in
+    // ; a 'eventprop', but 'dtend' and 'duration'
+    // ; MUST NOT occur in the same 'eventprop'.
+    // ;
+    // dtend / duration /
+    dtend: Date;
+    // duration?: { hours: number; minutes: number; seconds: number };
+    // ;
+    // ; The following are OPTIONAL,
+    // ; and MAY occur more than once.
+    // ;
+    // attach / attendee / categories / comment /
+    // contact / exdate / rstatus / related /
+    // resources / rdate / x-prop / iana-prop
+    attachments?: string[];
+    attendees?: IAttendeeComponent[];
+    categories?: string[];
+    comments?: string[];
+    contacts?: string[];
+    exdates?: string[];
+    rstatuses?: string[];
+    relateds?: string[];
+    resources?: string[];
+    rdates?: string[];
+    xProps?: string[];
+    ianaProps?: string[];
 }
 
 interface IToDoComponent {
@@ -90,6 +128,56 @@ interface IIanaComponent {
     uid: string;
 }
 
+interface ITimezoneComponent {
+    uid: string;
+}
+
+function printLocation(location: ILocationComponent) {
+    let formattedResponse = `LOCATION;ALTREP="${location.altrep}":${location.text}\r\n`
+    return formattedResponse;
+}
+
+function printGeographicPosition(geographicPosition: IGeographicPositionComponent) {
+    let formattedResponse = `GEO:${geographicPosition.latitude};${geographicPosition.longitude}\r\n`
+    return formattedResponse;
+}
+
+function printAttendee(attendee: IAttendeeComponent) {
+    let formattedResponse = `ATTENDEE`
+    if (attendee.cn) {
+        formattedResponse += `;CN=${attendee.cn}`
+    }
+    if (attendee.cutype) {
+        formattedResponse += `;CUTYPE=${attendee.cutype}`
+    }
+    if (attendee.role) {
+        formattedResponse += `;ROLE=${attendee.role}`
+    }
+    if (attendee.partstat) {
+        formattedResponse += `;PARTSTAT=${attendee.partstat}`
+    }
+    if (attendee.rsvp) {
+        formattedResponse += `;RSVP=${attendee.rsvp}`
+    }
+    formattedResponse += `:mailto:${attendee.mailto}\r\n`
+    return formattedResponse;
+}
+
+function printOrganizer(organizer: IOrganizerComponent) {
+    let formattedResponse = 'ORGANIZER'
+    if (organizer.cn) {
+        formattedResponse += `;CN=${organizer.cn}`
+    }
+    if (organizer.sentBy) {
+        formattedResponse += `;SENT-BY=${organizer.sentBy};`
+    }
+    if (organizer.language) {
+        formattedResponse += `;LANGUAGE=${organizer.language};`
+    }
+    formattedResponse += `:mailto:${organizer.mailto}\r\n`
+    return formattedResponse;
+}
+
 export function createCalendar(calendar: ICalendar) {
     calendar.version = calendar.version || "2.0";
     return calendar;
@@ -100,12 +188,12 @@ export function createEvent(event: IEventComponent) {
     return event;
 }
 
-export function printEvent(event: IEventComponent, calendar: ICalendar, timezone?: ITimezoneComponent) {
+export function printEvent(event: IEventComponent, calendar?: ICalendar, timezone?: ITimezoneComponent) {
     let formattedResponse = 'BEGIN:VCALENDAR\r\n'
-    formattedResponse += `PRODID:${calendar.prodid || "-ADAM GIBBONS//ICS NPM PACKAGE//TS"}\r\n`
-    formattedResponse += `VERSION:${calendar.version || "2.0"}\r\n`
-    formattedResponse += `CALSCALE:${calendar.calscale || "GREGORIAN"}\r\n`
-    formattedResponse += `METHOD:${calendar.method || "REQUEST"}\r\n`
+    formattedResponse += `PRODID:${calendar?.prodid || "-ADAM GIBBONS//ICS NPM PACKAGE//TS"}\r\n`
+    formattedResponse += `VERSION:${calendar?.version || "2.0"}\r\n`
+    formattedResponse += `CALSCALE:${calendar?.calscale || "GREGORIAN"}\r\n`
+    formattedResponse += `METHOD:${calendar?.method || "REQUEST"}\r\n`
 
     if (timezone) {
         formattedResponse += `BEGIN:VTIMEZONE\r\n`
@@ -127,40 +215,22 @@ export function printEvent(event: IEventComponent, calendar: ICalendar, timezone
     formattedResponse += `DTEND:${event.dtend}\r\n`
 
     if (event.organizer) {
-        formattedResponse += `ORGANIZER`
-        if (event.organizer.cn) {   
-            formattedResponse += `;CN=${event.organizer.cn}`
-        }
-        if (event.organizer.sentBy) {
-            formattedResponse += `;SENT-BY=${event.organizer.sentBy};`
-        }
-        if (event.organizer.language) {
-            formattedResponse += `;LANGUAGE=${event.organizer.language};`
-        }
-        formattedResponse += `:mailto:${event.organizer.mailto}\r\n`
+        formattedResponse += printOrganizer(event.organizer)
+    }
+
+    if (event.geo) {
+        formattedResponse += printGeographicPosition(event.geo)
     }
 
     if (event.attendees) {
         for (const attendee of event.attendees) {
-            formattedResponse += `ATTENDEE`
-            if (attendee.cn) {
-                formattedResponse += `;CN=${attendee.cn}`
-            }
-            if (attendee.cutype) {
-                formattedResponse += `;CUTYPE=${attendee.cutype}`
-            }
-            if (attendee.role) {
-                formattedResponse += `;ROLE=${attendee.role}`
-            }
-            if (attendee.partstat) {
-                formattedResponse += `;PARTSTAT=${attendee.partstat}`
-            }
-            if (attendee.rsvp) {
-                formattedResponse += `;RSVP=${attendee.rsvp}`
-            }
-            formattedResponse += `:mailto:  ${attendee.mailto}\r\n`
+            formattedResponse += printAttendee(attendee)
         }
-    }   
+    }
+
+    if (event.location) {
+        formattedResponse += printLocation(event.location)
+    }
 
     formattedResponse += `STATUS:${event.status}\r\n`
     formattedResponse += `SUMMARY:${event.summary}\r\n`
@@ -174,7 +244,11 @@ const evt = printEvent(createEvent({
     uid: "1234567890",
     organizer: {
         cn: "Adam Gibbons",
-        mailto: "mailto:agibbons@ivy.energy",
+        mailto: "agibbons@ivy.energy",
+    },
+    location: {
+        text: "Conference Room - F123, Bldg. 002",
+        altrep: "http://xyzcorp.com/conf-rooms/f123.vcf",
     },
     dtstart: new Date("20250222T203000Z"),
     dtend: new Date("20250222T213000Z"),
@@ -184,7 +258,7 @@ const evt = printEvent(createEvent({
     attendees: [
         {
             cn: "Brittany Gibbons",
-            mailto: "mailto:agibbon+brittany@ivy.energy",
+            mailto: "agibbon+brittany@ivy.energy",
             cutype: "INDIVIDUAL",
             role: "REQ-PARTICIPANT",
             partstat: "NEEDS-ACTION",
@@ -192,7 +266,7 @@ const evt = printEvent(createEvent({
         },
         {
             cn: "Dave Gibbons",
-            mailto: "mailto:agibbon+dave@ivy.energy",
+            mailto: "agibbon+dave@ivy.energy",
             cutype: "INDIVIDUAL",
             role: "REQ-PARTICIPANT",
             partstat: "ACCEPTED",
