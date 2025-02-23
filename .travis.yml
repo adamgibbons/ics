@@ -1,8 +1,0 @@
-language: node_js
-node_js:
-- '8'
-deploy:
-  provider: npm
-  email: adam.d.gibbons+ics@gmail.com
-  api_key:
-    secure: zCYFz20TzxdwUVvHs2HAw71DWQbDzlid2AuF1db/QVxupuG0CUsE01i7AYH1xKzrxM0SQ2feuYIVNb3xZZqy1KHb0lY0ir/bBTv+AZ5ij9x4n83/7bv8KCobQp00qHfeK6ReOmdz1r6ZD/x5kCGNSo2eewWDoWRhy1BX72edQGU=
