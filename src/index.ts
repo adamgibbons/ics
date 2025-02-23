@@ -34,11 +34,16 @@ interface IGeographicPositionComponent {
     longitude: number;
 }
 
+interface DateTime {
+    type: "date" | "date-time";
+    value: string;
+}
+
 interface IEventComponent {
     // ; The following are REQUIRED,
     // ; but MUST NOT occur more than once.
 
-    dateTimeStamp?: Date | string;
+    dateTimeStamp?: Date;
     uid: string;
 
     // ; The following is REQUIRED if the component
@@ -47,7 +52,7 @@ interface IEventComponent {
     // ; is OPTIONAL; in any case, it MUST NOT occur
     // ; more than once.
     // ;
-    dateTimeStart: Date | string;
+    dateTimeStart: Date;
     // ;
     // ; The following are OPTIONAL,
     // ; but MUST NOT occur more than once.
@@ -186,16 +191,14 @@ export function createCalendar(calendar: ICalendar) {
 }
 
 export function createEvent(event: IEventComponent) {
-    event.dateTimeStamp = new Date();
+    event.dateTimeStamp = new Date()
+    event.class = event.class || "PUBLIC"
+
     return event;
 }
 
-function formatDateTime(date: Date | undefined) {
-    console.log(date);
-    if (!date) {
-        return ''
-    }
-    return date.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+function formatDateTime(d: Date) {
+    return d.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
 }
 
 export function printEvent(event: IEventComponent, calendar?: ICalendar, timezone?: ITimezoneComponent) {
@@ -218,17 +221,19 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
         formattedResponse += `END:DAYLIGHT\r\n`
         formattedResponse += `END:VTIMEZONE\r\n`
     }
+
     formattedResponse += `BEGIN:VEVENT\r\n`
     formattedResponse += `UID:${event.uid}\r\n`
+    formattedResponse += `CLASS:${event.class}\r\n`
     if (event.dateTimeStamp) {
         formattedResponse += `DTSTAMP:${formatDateTime(event.dateTimeStamp)}\r\n`
     }
     if (event.dateTimeStart) {
         formattedResponse += `DTSTART:${formatDateTime(event.dateTimeStart)}\r\n`
     }
-    // if (event.dateTimeEnd) {
-    //     formattedResponse += `DTEND:${formatDateTime(event.dateTimeEnd)}\r\n`
-    // }
+    if (event.dateTimeEnd) {
+        formattedResponse += `DTEND:${formatDateTime(event.dateTimeEnd)}\r\n`
+    }
 
     if (event.organizer) {
         formattedResponse += printOrganizer(event.organizer)
@@ -266,11 +271,11 @@ const evt = printEvent(createEvent({
         text: "Conference Room - F123, Bldg. 002",
         altrep: "http://xyzcorp.com/conf-rooms/f123.vcf",
     },
-    dateTimeStart: new Date("2025-02-22T20:30:00Z"),
-    dateTimeEnd: new Date("2025-02-22T21:30:00Z"),
+    dateTimeStart: new Date("2025-02-14T18:00:00Z"),
+    dateTimeEnd: new Date("2025-02-14T20:00:00Z"),
     status: "confirmed",
-    summary: "Foo",
-    description: "Description is here",
+    summary: "Valentine's Day Party",
+    description: "Wear red or be turned away",
     attendees: [
         {
             cn: "Brittany Gibbons",
