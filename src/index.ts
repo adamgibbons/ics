@@ -16,7 +16,7 @@ interface IOrganizerComponent {
 }
 
 interface IAttendeeComponent extends IOrganizerComponent {
-    cutype?: "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM";
+    cutype?: "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM" | "UNKNOWN";
     role?: "REQ-PARTICIPANT" | "OPT-PARTICIPANT" | "NON-PARTICIPANT";
     partstat?: "NEEDS-ACTION" | "ACCEPTED" | "DECLINED" | "TENTATIVE" | "DELEGATED" | "COMPLETED" | "IN-PROCESS" | "CANCELLED";
     rsvp?: boolean;
@@ -38,7 +38,7 @@ interface IEventComponent {
     // ; The following are REQUIRED,
     // ; but MUST NOT occur more than once.
 
-    dtStamp?: Date;
+    dateTimeStamp?: Date | string;
     uid: string;
 
     // ; The following is REQUIRED if the component
@@ -47,7 +47,7 @@ interface IEventComponent {
     // ; is OPTIONAL; in any case, it MUST NOT occur
     // ; more than once.
     // ;
-    dtstart: Date;
+    dateTimeStart: Date | string;
     // ;
     // ; The following are OPTIONAL,
     // ; but MUST NOT occur more than once.
@@ -81,7 +81,7 @@ interface IEventComponent {
     // ; MUST NOT occur in the same 'eventprop'.
     // ;
     // dtend / duration /
-    dtend: Date;
+    dateTimeEnd?: Date;
     // duration?: { hours: number; minutes: number; seconds: number };
     // ;
     // ; The following are OPTIONAL,
@@ -148,7 +148,7 @@ function printAttendee(attendee: IAttendeeComponent) {
         formattedResponse += `;CN=${attendee.cn}`
     }
     if (attendee.cutype) {
-        formattedResponse += `;CUTYPE=${attendee.cutype}`
+        formattedResponse += `;CUTYPE=${attendee.cutype || "INDIVIDUAL"}`
     }
     if (attendee.role) {
         formattedResponse += `;ROLE=${attendee.role}`
@@ -180,20 +180,30 @@ function printOrganizer(organizer: IOrganizerComponent) {
 
 export function createCalendar(calendar: ICalendar) {
     calendar.version = calendar.version || "2.0";
+    calendar.calscale = calendar.calscale || "GREGORIAN";
+    calendar.method = calendar.method || "PUBLISH";
     return calendar;
 }
 
 export function createEvent(event: IEventComponent) {
-    event.dtStamp = new Date();
+    event.dateTimeStamp = new Date();
     return event;
+}
+
+function formatDateTime(date: Date | undefined) {
+    console.log(date);
+    if (!date) {
+        return ''
+    }
+    return date.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
 }
 
 export function printEvent(event: IEventComponent, calendar?: ICalendar, timezone?: ITimezoneComponent) {
     let formattedResponse = 'BEGIN:VCALENDAR\r\n'
     formattedResponse += `PRODID:${calendar?.prodid || "-ADAM GIBBONS//ICS NPM PACKAGE//TS"}\r\n`
-    formattedResponse += `VERSION:${calendar?.version || "2.0"}\r\n`
-    formattedResponse += `CALSCALE:${calendar?.calscale || "GREGORIAN"}\r\n`
-    formattedResponse += `METHOD:${calendar?.method || "REQUEST"}\r\n`
+    formattedResponse += `VERSION:${calendar?.version}\r\n`
+    formattedResponse += `CALSCALE:${calendar?.calscale}\r\n`
+    formattedResponse += `METHOD:${calendar?.method}\r\n`
 
     if (timezone) {
         formattedResponse += `BEGIN:VTIMEZONE\r\n`
@@ -210,9 +220,15 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
     }
     formattedResponse += `BEGIN:VEVENT\r\n`
     formattedResponse += `UID:${event.uid}\r\n`
-    // formattedResponse += `DTSTAMP:${event.dtStamp.toISOString()}\r\n`
-    formattedResponse += `DTSTART:${event.dtstart}\r\n`
-    formattedResponse += `DTEND:${event.dtend}\r\n`
+    if (event.dateTimeStamp) {
+        formattedResponse += `DTSTAMP:${formatDateTime(event.dateTimeStamp)}\r\n`
+    }
+    if (event.dateTimeStart) {
+        formattedResponse += `DTSTART:${formatDateTime(event.dateTimeStart)}\r\n`
+    }
+    // if (event.dateTimeEnd) {
+    //     formattedResponse += `DTEND:${formatDateTime(event.dateTimeEnd)}\r\n`
+    // }
 
     if (event.organizer) {
         formattedResponse += printOrganizer(event.organizer)
@@ -250,15 +266,15 @@ const evt = printEvent(createEvent({
         text: "Conference Room - F123, Bldg. 002",
         altrep: "http://xyzcorp.com/conf-rooms/f123.vcf",
     },
-    dtstart: new Date("20250222T203000Z"),
-    dtend: new Date("20250222T213000Z"),
+    dateTimeStart: new Date("2025-02-22T20:30:00Z"),
+    dateTimeEnd: new Date("2025-02-22T21:30:00Z"),
     status: "confirmed",
-    summary: "Summary is here",
+    summary: "Foo",
     description: "Description is here",
     attendees: [
         {
             cn: "Brittany Gibbons",
-            mailto: "agibbon+brittany@ivy.energy",
+            mailto: "agibbons+brittany@ivy.energy",
             cutype: "INDIVIDUAL",
             role: "REQ-PARTICIPANT",
             partstat: "NEEDS-ACTION",
@@ -266,18 +282,14 @@ const evt = printEvent(createEvent({
         },
         {
             cn: "Dave Gibbons",
-            mailto: "agibbon+dave@ivy.energy",
+            mailto: "agibbons+dave@ivy.energy",
             cutype: "INDIVIDUAL",
             role: "REQ-PARTICIPANT",
             partstat: "ACCEPTED",
             rsvp: true,
         },
     ],
-}), createCalendar({
-    prodid: "1234567890",
-    calscale: "GREGORIAN",
-    method: "PUBLISH",
-}));
+}), createCalendar({}));
 
 console.log(evt);
 
