@@ -1,153 +1,53 @@
-type CalendarComponent = "eventc" | "todoc" | "journalc" | "freebusyc" | "timezonec" | "iana-comp" | "x-comp";
+import { ICalendar } from "./components/calendar.component";
+import { IGeographicPositionComponentProp } from "./properties/geographicPosition.component";
+import { ILocationComponentProp } from "./properties/location.component";
+import { IOrganizerComponentProp } from "./properties/organizer.component";
+import { IAttendeeComponentProp } from "./properties/attendee.prop";
+import { IEventComponent } from "./components/event.component";
+import { ITimezoneComponent } from "./components/timeZone.component";
+import { createEvent } from "./components/event.component";
 
-interface ICalendar {
-    prodid?: string;
-    version?: string;
-    calscale?: string;
-    method?: string;
-    components?: CalendarComponent[];
-}
-
-interface IOrganizerComponent {
-    mailto: string;
-    cn?: string;
-    sentBy?: string;
-    language?: string;
-}
-
-interface IAttendeeComponent extends IOrganizerComponent {
-    cutype?: "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM" | "UNKNOWN";
-    role?: "REQ-PARTICIPANT" | "OPT-PARTICIPANT" | "NON-PARTICIPANT";
-    partstat?: "NEEDS-ACTION" | "ACCEPTED" | "DECLINED" | "TENTATIVE" | "DELEGATED" | "COMPLETED" | "IN-PROCESS" | "CANCELLED";
-    rsvp?: boolean;
-    xnum_guests?: number;
-}
-
-interface ILocationComponent {
-    text: string;
-    language?: string;
-    altrep?: string;
-}
-
-interface IGeographicPositionComponent {
-    latitude: number;
-    longitude: number;
-}
-
-interface DateTime {
-    type: "date" | "date-time";
+export interface DateTimeProperty {
     value: string;
+    tzid?: string;
 }
-
-interface IEventComponent {
-    // ; The following are REQUIRED,
-    // ; but MUST NOT occur more than once.
-
-    dateTimeStamp?: Date;
-    uid: string;
-
-    // ; The following is REQUIRED if the component
-    // ; appears in an iCalendar object that doesn't
-    // ; specify the "METHOD" property; otherwise, it
-    // ; is OPTIONAL; in any case, it MUST NOT occur
-    // ; more than once.
-    // ;
-    dateTimeStart: Date;
-    // ;
-    // ; The following are OPTIONAL,
-    // ; but MUST NOT occur more than once.
-    // ;
-    // class / created / description / geo /
-    // last-mod / location / organizer / priority /
-    // seq / status / summary / transp /
-    // url / recurid /
-    class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL";
-    created?: string;
-    description?: string;
-    geo?: IGeographicPositionComponent;
-    lastMod?: string;
-    location?: ILocationComponent;
-    organizer?: IOrganizerComponent;
-    priority?: number;
-    seq?: number;
-    status?: "tentative" | "confirmed" | "cancelled";
-    summary?: string;
-    transp?: string;
-    url?: string;
-    recurid?: string;
-    // ;
-    // ; The following is OPTIONAL,
-    // ; but SHOULD NOT occur more than once.
-    // ;
-    // rrule /
-    // ;
-    // ; Either 'dtend' or 'duration' MAY appear in
-    // ; a 'eventprop', but 'dtend' and 'duration'
-    // ; MUST NOT occur in the same 'eventprop'.
-    // ;
-    // dtend / duration /
-    dateTimeEnd?: Date;
-    // duration?: { hours: number; minutes: number; seconds: number };
-    // ;
-    // ; The following are OPTIONAL,
-    // ; and MAY occur more than once.
-    // ;
-    // attach / attendee / categories / comment /
-    // contact / exdate / rstatus / related /
-    // resources / rdate / x-prop / iana-prop
-    attachments?: string[];
-    attendees?: IAttendeeComponent[];
-    categories?: string[];
-    comments?: string[];
-    contacts?: string[];
-    exdates?: string[];
-    rstatuses?: string[];
-    relateds?: string[];
-    resources?: string[];
-    rdates?: string[];
-    xProps?: string[];
-    ianaProps?: string[];
-}
-
-interface IToDoComponent {
-    uid: string;
-    status?: "needs-action" | "completed" | "in-process" | "cancelled";
-    attendees?: IAttendeeComponent[];
-}
-
-interface IJournalComponent {
-    uid: string;
-    status?: "final" | "draft" | "cancelled";
-    attendees?: IAttendeeComponent[];
-}
-
-interface IFreeBusyComponent {
+// DTSTART:19970714T133000                   ; Local time
+// DTSTART:19970714T173000Z                  ; UTC time
+// DTSTART;TZID=America/New_York:19970714T133000
+//                                           ; Local time and time
+//                                           ; zone reference
+export interface IIanaComponent {
     uid: string;
 }
 
-interface ITimezoneComponent {
-    uid: string;
+function printDateTimeStart(dateTimeStart: DateTimeProperty) {
+    let formattedResponse = 'DTSTART'
+    if (dateTimeStart.tzid) {
+        // FORM #3: DATE WITH LOCAL TIME AND TIME ZONE REFERENCE
+        formattedResponse += `;TZID=${dateTimeStart.tzid}:${dateTimeStart.value}`
+    } else if (dateTimeStart.value.includes("Z")) {
+        // FORM #2: DATE WITH UTC TIME
+        formattedResponse += `:${new Date(dateTimeStart.value).toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z'}`
+    } else {
+        // FORM #1: DATE WITH LOCAL TIME
+        formattedResponse += `:${dateTimeStart.value}`
+    }
+
+    formattedResponse += '\r\n'
+    return formattedResponse;
 }
 
-interface IIanaComponent {
-    uid: string;
-}
-
-interface ITimezoneComponent {
-    uid: string;
-}
-
-function printLocation(location: ILocationComponent) {
+function printLocation(location: ILocationComponentProp) {
     let formattedResponse = `LOCATION;ALTREP="${location.altrep}":${location.text}\r\n`
     return formattedResponse;
 }
 
-function printGeographicPosition(geographicPosition: IGeographicPositionComponent) {
+function printGeographicPosition(geographicPosition: IGeographicPositionComponentProp) {
     let formattedResponse = `GEO:${geographicPosition.latitude};${geographicPosition.longitude}\r\n`
     return formattedResponse;
 }
 
-function printAttendee(attendee: IAttendeeComponent) {
+function printAttendee(attendee: IAttendeeComponentProp) {
     let formattedResponse = `ATTENDEE`
     if (attendee.cn) {
         formattedResponse += `;CN=${attendee.cn}`
@@ -168,7 +68,7 @@ function printAttendee(attendee: IAttendeeComponent) {
     return formattedResponse;
 }
 
-function printOrganizer(organizer: IOrganizerComponent) {
+function printOrganizer(organizer: IOrganizerComponentProp) {
     let formattedResponse = 'ORGANIZER'
     if (organizer.cn) {
         formattedResponse += `;CN=${organizer.cn}`
@@ -190,12 +90,7 @@ export function createCalendar(calendar: ICalendar) {
     return calendar;
 }
 
-export function createEvent(event: IEventComponent) {
-    event.dateTimeStamp = new Date()
-    event.class = event.class || "PUBLIC"
 
-    return event;
-}
 
 function formatDateTime(d: Date) {
     return d.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
@@ -229,7 +124,7 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
         formattedResponse += `DTSTAMP:${formatDateTime(event.dateTimeStamp)}\r\n`
     }
     if (event.dateTimeStart) {
-        formattedResponse += `DTSTART:${formatDateTime(event.dateTimeStart)}\r\n`
+        formattedResponse += printDateTimeStart(event.dateTimeStart)
     }
     if (event.dateTimeEnd) {
         formattedResponse += `DTEND:${formatDateTime(event.dateTimeEnd)}\r\n`
@@ -253,9 +148,18 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
         formattedResponse += printLocation(event.location)
     }
 
-    formattedResponse += `STATUS:${event.status}\r\n`
-    formattedResponse += `SUMMARY:${event.summary}\r\n`
-    formattedResponse += `DESCRIPTION:${event.description}\r\n`
+    if (event.status) {
+        formattedResponse += `STATUS:${event.status}\r\n`
+    }
+
+    if (event.summary) {
+        formattedResponse += `SUMMARY:${event.summary}\r\n`
+    }
+
+    if (event.description) {
+        formattedResponse += `DESCRIPTION:${event.description}\r\n`
+    }
+
     formattedResponse += `END:VEVENT\r\n`
     formattedResponse += `END:VCALENDAR\r\n`
     return formattedResponse;
@@ -271,7 +175,9 @@ const evt = printEvent(createEvent({
         text: "Conference Room - F123, Bldg. 002",
         altrep: "http://xyzcorp.com/conf-rooms/f123.vcf",
     },
-    dateTimeStart: new Date("2025-02-14T18:00:00Z"),
+    dateTimeStart: {
+        value: "2025-02-14T18:00:00Z",
+    },
     dateTimeEnd: new Date("2025-02-14T20:00:00Z"),
     status: "confirmed",
     summary: "Valentine's Day Party",
@@ -297,22 +203,3 @@ const evt = printEvent(createEvent({
 }), createCalendar({}));
 
 console.log(evt);
-
-
-// BEGIN:VCALENDAR
-// PRODID:-//xyz Corp//NONSGML PDA Calendar Version 1.0//EN
-// VERSION:2.0
-// BEGIN:VEVENT
-// DTSTAMP:19960704T120000Z
-// UID:uid1@example.com
-// ORGANIZER:mailto:jsmith@example.com
-// DTSTART:19960918T143000Z
-// DTEND:19960920T220000Z
-// STATUS:CONFIRMED
-// CATEGORIES:CONFERENCE
-// SUMMARY:Networld+Interop Conference
-// DESCRIPTION:Networld+Interop Conference
-//   and Exhibit\nAtlanta World Congress Center\n
-//  Atlanta\, Georgia
-// END:VEVENT
-// END:VCALENDAR
