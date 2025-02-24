@@ -1,0 +1,38 @@
+{
+    "uid": "1234567890",
+    "organizer": {
+        "cn": "Adam Gibbons",
+        "mailto": "agibbons@ivy.energy"
+    },
+    "location": {
+        "text": "Conference Room - F123, Bldg. 002",
+        "altrep": "http://xyzcorp.com/conf-rooms/f123.vcf"
+    },
+    "dateTimeStart": {
+        "value": "2025-02-14T18:00:00Z"
+    },
+    "dateTimeEnd": {
+        "value": "2025-02-14T20:00:00Z"
+    },
+    "status": "confirmed",
+    "summary": "Valentine's Day Party",
+    "description": "Wear red or be turned away",
+    "attendees": [
+        {
+            "cn": "Brittany Gibbons",
+            "mailto": "agibbons+brittany@ivy.energy",
+            "cutype": "INDIVIDUAL",
+            "role": "REQ-PARTICIPANT",
+            "partstat": "NEEDS-ACTION",
+            "rsvp": true
+        },
+        {
+            "cn": "Dave Gibbons",
+            "mailto": "agibbons+dave@ivy.energy",
+            "cutype": "INDIVIDUAL",
+            "role": "REQ-PARTICIPANT",
+            "partstat": "ACCEPTED",
+            "rsvp": true
+        }
+    ]
+}
