@@ -17,6 +17,14 @@
     "summary": "Valentine's Day Party",
     "description": "Wear red or be turned away",
     "url": "https://www.google.com",
+    "alarm": {
+        "description": "Reminder",
+        "action": "DISPLAY",
+        "trigger": {
+            "minutes": 5
+        },
+        "repeatCount": 2
+    },
     "attendees": [
         {
             "cn": "Brittany Gibbons",

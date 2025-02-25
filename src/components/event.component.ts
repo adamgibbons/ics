@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-
+import { IAlarmComponent, printAlarm } from "./alarm.component"
 import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.prop"
 import { IGeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop"
 import { ILocationComponentProp, printLocation } from "../properties/location.prop"
@@ -53,7 +53,7 @@ export interface IEventComponent {
     // ; The following are REQUIRED,
     // ; but MUST NOT occur more than once.
     dateTimeStamp?: Date;
-    uid: string;
+    uid?: string;
 
     // ; The following is REQUIRED if the component
     // ; appears in an iCalendar object that doesn't
@@ -116,6 +116,7 @@ export interface IEventComponent {
     rdates?: string[];
     xProps?: string[];
     ianaProps?: string[];
+    alarm?: IAlarmComponent;
 }
 
 export function createEvent(event: IEventComponent) {
@@ -192,6 +193,10 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
 
     if (event.url) {
         formattedResponse += `URL:${event.url}\r\n`
+    }
+
+    if (event.alarm) {
+        formattedResponse += printAlarm(event.alarm)
     }
 
     formattedResponse += `END:VEVENT\r\n`
