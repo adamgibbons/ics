@@ -1,10 +1,12 @@
-import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.prop";
-import { IGeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop";
-import { ILocationComponentProp, printLocation } from "../properties/location.prop";
-import { IOrganizerComponentProp, printOrganizer } from "../properties/organizer.prop";
-import { IAttendeeComponentProp, printAttendee } from "../properties/attendee.prop";
-import { ICalendar } from "./calendar.component";
-import { ITimezoneComponent } from "./timeZone.component";
+import { nanoid } from "nanoid"
+
+import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.prop"
+import { IGeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop"
+import { ILocationComponentProp, printLocation } from "../properties/location.prop"
+import { IOrganizerComponentProp, printOrganizer } from "../properties/organizer.prop"
+import { IAttendeeComponentProp, printAttendee } from "../properties/attendee.prop"
+import { ICalendar } from "./calendar.component"
+import { ITimezoneComponent } from "./timeZone.component"
 
 // DTSTART:19970714T133000                   ; Local time
 // DTSTART:19970714T173000Z                  ; UTC time
@@ -26,7 +28,7 @@ function printDateTimeStart(dateTimeStart: DateTimeComponentProp) {
     }
 
     formattedResponse += '\r\n'
-    return formattedResponse;
+    return formattedResponse
 }
 
 function printDateTimeEnd(dateTimeEnd: DateTimeComponentProp) {
@@ -119,6 +121,7 @@ export interface IEventComponent {
 export function createEvent(event: IEventComponent) {
     event.dateTimeStamp = new Date()
     event.class = event.class || "PUBLIC"
+    event.uid = event.uid || nanoid(25)
 
     return event;
 }
@@ -193,5 +196,5 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
 
     formattedResponse += `END:VEVENT\r\n`
     formattedResponse += `END:VCALENDAR\r\n`
-    return formattedResponse;
+    return formattedResponse
 }
