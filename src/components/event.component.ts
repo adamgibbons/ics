@@ -1,15 +1,10 @@
-import { DateTimeComponentProp } from "../properties/dateTime.prop";
-import { IGeographicPositionComponentProp } from "../properties/geographicPosition.prop";
-import { ILocationComponentProp } from "../properties/location.prop";
-import { IOrganizerComponentProp } from "../properties/organizer.prop";
-import { IAttendeeComponentProp } from "../properties/attendee.prop";
+import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.prop";
+import { IGeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop";
+import { ILocationComponentProp, printLocation } from "../properties/location.prop";
+import { IOrganizerComponentProp, printOrganizer } from "../properties/organizer.prop";
+import { IAttendeeComponentProp, printAttendee } from "../properties/attendee.prop";
 import { ICalendar } from "./calendar.component";
 import { ITimezoneComponent } from "./timeZone.component";
-import { formatDateTime } from "../properties/dateTime.prop";
-import { printOrganizer } from "../properties/organizer.prop";
-import { printGeographicPosition } from "../properties/geographicPosition.prop";
-import { printAttendee } from "../properties/attendee.prop";
-import { printLocation } from "../properties/location.prop";
 
 // DTSTART:19970714T133000                   ; Local time
 // DTSTART:19970714T173000Z                  ; UTC time
@@ -190,6 +185,10 @@ export function printEvent(event: IEventComponent, calendar?: ICalendar, timezon
 
     if (event.description) {
         formattedResponse += `DESCRIPTION:${event.description}\r\n`
+    }
+
+    if (event.url) {
+        formattedResponse += `URL:${event.url}\r\n`
     }
 
     formattedResponse += `END:VEVENT\r\n`
