@@ -47,6 +47,7 @@ const contactSchema = yup.object().shape({
   dir: yup.string().matches(urlRegex),
   partstat: yup.string(),
   role: yup.string(),
+  scheduleAgent: yup.string().matches(/^(SERVER|CLIENT|NONE)$/),
   cutype: yup.string(),
   xNumGuests: yup.number()
 }).noUnknown()

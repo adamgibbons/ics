@@ -1,6 +1,6 @@
 import encodeParamValue from "./encode-param-value";
 
-export default function setContact({ name, email, rsvp, dir, partstat, role, cutype, xNumGuests }) {
+export default function setContact({ name, email, rsvp, dir, partstat, role, cutype, xNumGuests, scheduleAgent }) {
   let formattedParts = [];
 
   if(rsvp !== undefined){
@@ -20,6 +20,9 @@ export default function setContact({ name, email, rsvp, dir, partstat, role, cut
   }
   if(dir){
     formattedParts.push("DIR=".concat(encodeParamValue(dir)));
+  }
+  if(scheduleAgent){
+    formattedParts.push("SCHEDULE-AGENT=".concat(encodeParamValue(scheduleAgent)));
   }
   formattedParts.push('CN='.concat((encodeParamValue(name || 'Unnamed attendee'))));
 
