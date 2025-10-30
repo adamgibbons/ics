@@ -121,7 +121,7 @@ export type EventAttributes = {
   htmlContent?: string;
 } & ({ end: DateTime } | { duration: DurationObject });
 
-export type ReturnObject = { error?: Error; value?: string };
+export type ReturnObject = { error: Error | null; value: string | null };
 
 type NodeCallback = (error: Error | undefined, value: string) => void;
 
