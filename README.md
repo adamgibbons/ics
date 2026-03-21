@@ -147,6 +147,47 @@ console.log(value)
 // END:VCALENDAR
 ```
 
+3b) Create multiple events asynchronously (large batches):
+
+`createEventsAsync` returns a `Promise` that resolves to `{ error, value }` (there is no callback form). While building the calendar it yields to the event loop periodically, which helps keep huge event lists from blocking Node or the browser for too long.
+
+```javascript
+const { createEventsAsync } = require('ics')
+
+async function run () {
+  const { error, value } = await createEventsAsync([
+    {
+      title: 'Lunch',
+      start: [2018, 1, 15, 12, 15],
+      duration: { minutes: 45 }
+    },
+    {
+      title: 'Dinner',
+      start: [2018, 1, 15, 12, 15],
+      duration: { hours: 1, minutes: 30 }
+    }
+  ])
+
+  if (error) {
+    console.log(error)
+    return
+  }
+
+  console.log(value)
+}
+
+run()
+```
+
+An empty event list and optional calendar header work the same as with `createEvents`:
+
+```javascript
+createEventsAsync([], { calName: 'My calendar' }).then(({ error, value }) => {
+  if (error) console.log(error)
+  else console.log(value)
+})
+```
+
 4) Create iCalendar events with Audio (Mac):
 ```javascript
 let ics = require("ics")
@@ -344,6 +385,14 @@ function (err, value) {
   console.log(value) // iCal-compliant text string
 }
 ```
+
+### `createEventsAsync(events[, headerAttributes])`
+
+Async variant of `createEvents`. Resolves to an object `{ error, value }` where `value` is an iCal-compliant string when `error` is `null`. There is no callback overload.
+
+`events` is an array of the same `attributes` objects as in `createEvent`. The optional `headerAttributes` object is merged with the first event when `events` is non-empty, or used alone to build the calendar header when `events` is empty (same behavior as `createEvents`).
+
+While iterating events, the implementation yields to the event loop at intervals so very large batches are less likely to freeze the process. It also builds the output in parts and joins once at the end to reduce string concatenation overhead.
 
 ## Develop
 
