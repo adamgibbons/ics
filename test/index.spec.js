@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { createEvent, createEvents, isValidURL } from '../src'
+import { createEvent, createEvents, createEventsAsync, isValidURL } from '../src'
 
 const invalidAttributes = { start: [] }
 const validAttributes = { start: [2000, 10, 5, 5, 0], duration: { hours: 1 } }
@@ -114,6 +114,54 @@ describe('ics', () => {
           expect(value).to.contain('X-WR-CALNAME:test')
           done()
         })
+      })
+    })
+  })
+
+  describe('.createEventsAsync', () => {
+    const redactUids = (ics) => ics.replace(/UID:.*(\r?\n)/g, 'UID:__REDACTED__$1')
+
+    it('returns an error when no arguments are passed', async () => {
+      const events = await createEventsAsync()
+      expect(events.error).to.exist
+    })
+
+    it('writes begin and end calendar tags', async () => {
+      const { error, value } = await createEventsAsync([validAttributes])
+      expect(error).to.be.null
+      expect(value).to.contain('BEGIN:VCALENDAR')
+      expect(value).to.contain('END:VCALENDAR')
+    })
+
+    describe('when no callback is provided', () => {
+      it('returns an iCal string and a null error when passed valid events', async () => {
+        const { error, value } = await createEventsAsync([validAttributes, validAttributes2, validAttributes3])
+        expect(error).to.be.null
+        expect(value).to.contain('BEGIN:VCALENDAR')
+      })
+
+      it('returns an error and a null value when passed an invalid event', async () => {
+        const { error, value } = await createEventsAsync([validAttributes, validAttributes2, invalidAttributes])
+        expect(error).to.exist
+        expect(value).not.to.exist
+      })
+
+      it('returns an iCal string when passed 0 events', async () => {
+        const { error, value } = await createEventsAsync([])
+        expect(error).to.be.null
+        expect(value).to.contain('BEGIN:VCALENDAR')
+      })
+
+      it('support header params', async () => {
+        const { error, value } = await createEventsAsync([], { calName: 'test' })
+        expect(error).to.be.null
+        expect(value).to.contain('X-WR-CALNAME:test')
+      })
+
+      it('matches createEvents output aside from generated UIDs', async () => {
+        const syncRes = createEvents([validAttributes, validAttributes2, validAttributes3])
+        const asyncRes = await createEventsAsync([validAttributes, validAttributes2, validAttributes3])
+        expect(redactUids(asyncRes.value)).to.equal(redactUids(syncRes.value))
       })
     })
   })
