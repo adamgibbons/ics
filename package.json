@@ -11,9 +11,10 @@
   "scripts": {
     "start": "TZ=utc mocha --require @babel/register --watch --recursive",
     "test": "TZ=utc mocha --require @babel/register --recursive",
-    "build": "rm -r dist; gulp build",
-    "build:ts": "tsc",
-    "build:ts:watch": "tsc --watch",
+    "test:vitest": "vitest run",
+    "test:vitest:watch": "vitest",
+    "build": "rm -r dist && tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
     "scripts:printEvent": "node dist/scripts/printEvent.js"
   },
   "repository": {
@@ -38,7 +39,8 @@
   },
   "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
   },
   "dependencies": {
     "nanoid": "^3.3.8"
