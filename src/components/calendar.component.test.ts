@@ -41,6 +41,28 @@ describe("printCalendar", () => {
     expect(printCalendar(calendar)).toContain("METHOD:PUBLISH\r\n");
   });
 
+  it("includes a VTODO component when passed to createCalendar", () => {
+    const calendar = createCalendar(
+      {
+        prodid: "x",
+        version: "4.0",
+      },
+      [
+        {
+          type: "todoc",
+          uid: "todo-123",
+          status: "completed",
+        },
+      ]
+    );
+
+    const output = printCalendar(calendar);
+    expect(output).toContain("BEGIN:VTODO\r\n");
+    expect(output).toContain("UID:todo-123\r\n");
+    expect(output).toContain("STATUS:completed\r\n");
+    expect(output).toContain("END:VTODO\r\n");
+  });
+
   it("excludes calscale and method when null", () => {
     const calendar = createCalendar({
       prodid: "x",
