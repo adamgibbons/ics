@@ -10,9 +10,8 @@
   "types": "index.d.ts",
   "scripts": {
     "start": "TZ=utc mocha --require @babel/register --watch --recursive",
-    "test": "TZ=utc mocha --require @babel/register --recursive",
-    "test:vitest": "vitest run",
-    "test:vitest:watch": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build": "rm -r dist && tsc",
     "dev": "tsc --watch --preserveWatchOutput",
     "scripts:printEvent": "node dist/scripts/printEvent.js"

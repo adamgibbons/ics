@@ -4,7 +4,7 @@ import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.pr
 import { IGeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop"
 import { ILocationComponentProp, printLocation } from "../properties/location.prop"
 import { IOrganizerComponentProp, printOrganizer } from "../properties/organizer.prop"
-import { IAttendeeComponentProp, printAttendee } from "../properties/attendee.prop"
+import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop"
 import { ICalendar } from "./calendar.component"
 import { ITimezoneComponent } from "./timeZone.component"
 
@@ -105,7 +105,7 @@ export interface IEventComponent {
     // contact / exdate / rstatus / related /
     // resources / rdate / x-prop / iana-prop
     attachments?: string[];
-    attendees?: IAttendeeComponentProp[];
+    attendees?: IAttendeeComponentProps[];
     categories?: string[];
     comments?: string[];
     contacts?: string[];

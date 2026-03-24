@@ -8,9 +8,9 @@ export interface IIanaComponent<Name, Properties> {
 
 }
 
-export function printVEvent(event: IEventComponent, calendar: ICalendar) {
-    return printEvent(createEvent(event), createCalendar(calendar));
-}
+// export function printVEvent(event: IEventComponent, calendar: ICalendar) {
+//     return printEvent(createEvent(event), createCalendar(calendar));
+// }
 
 
 // +-----------+---------+-------------------------+

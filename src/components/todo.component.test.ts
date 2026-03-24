@@ -10,7 +10,13 @@ describe("todo component", () => {
     });
 
     expect(output).toBe(
-      ["BEGIN:VTODO", "UID:abc-123", "STATUS:completed", "END:VTODO", ""].join("\r\n")
+      [
+        "BEGIN:VTODO",
+        "UID:abc-123",
+        "STATUS:completed",
+        "END:VTODO",
+        "",
+      ].join("\r\n")
     );
   });
 

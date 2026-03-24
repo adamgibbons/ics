@@ -1,11 +1,11 @@
 import { nanoid } from "nanoid";
-import { IAttendeeComponentProp, printAttendee } from "../properties/attendee.prop";
+import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop";
 
 export interface IToDoComponentProps {
     type: "todoc";
     uid?: string | null;
     status?: "needs-action" | "completed" | "in-process" | "cancelled" | null;
-    attendees?: IAttendeeComponentProp[] | null;
+    attendees?: IAttendeeComponentProps[] | null;
 }
 
 export function createTodo(todo: IToDoComponentProps) {
@@ -19,7 +19,7 @@ export function createTodo(todo: IToDoComponentProps) {
 
 export function printToDo(todo: IToDoComponentProps) {
     let formattedResponse = 'BEGIN:VTODO\r\n';
-    if (todo.uid) {
+    if (todo.uid) { 
         formattedResponse += `UID:${todo.uid}\r\n`;
     }
     if (todo.status) {
