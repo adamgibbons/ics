@@ -147,6 +147,47 @@ console.log(value)
 // END:VCALENDAR
 ```
 
+3b) Create multiple events asynchronously (large batches):
+
+`createEventsAsync` returns a `Promise` that resolves to `{ error, value }` (there is no callback form). While building the calendar it yields to the event loop periodically, which helps keep huge event lists from blocking Node or the browser for too long.
+
+```javascript
+const { createEventsAsync } = require('ics')
+
+async function run () {
+  const { error, value } = await createEventsAsync([
+    {
+      title: 'Lunch',
+      start: [2018, 1, 15, 12, 15],
+      duration: { minutes: 45 }
+    },
+    {
+      title: 'Dinner',
+      start: [2018, 1, 15, 12, 15],
+      duration: { hours: 1, minutes: 30 }
+    }
+  ])
+
+  if (error) {
+    console.log(error)
+    return
+  }
+
+  console.log(value)
+}
+
+run()
+```
+
+An empty event list and optional calendar header work the same as with `createEvents`:
+
+```javascript
+createEventsAsync([], { calName: 'My calendar' }).then(({ error, value }) => {
+  if (error) console.log(error)
+  else console.log(value)
+})
+```
+
 4) Create iCalendar events with Audio (Mac):
 ```javascript
 let ics = require("ics")
@@ -277,6 +318,7 @@ The following properties are accepted:
 | uid           | Universal unique id for event, produced by default with `nanoid`.  **Warning:** This value must be **globally unique**.  It is recommended that it follow the [RFC 822 addr-spec](https://www.w3.org/Protocols/rfc822/) (i.e. `localpart@domain`).  Including the `@domain` half is a good way to ensure uniqueness. | `'LZfXLFzPPR4NNrgjlWDxn'`
 | method        | This property defines the iCalendar object method associated with the calendar object. When used in a MIME message entity, the value of this property MUST be the same as the Content-Type "method" parameter value.  If either the "METHOD" property or the Content-Type "method" parameter is specified, then the other MUST also be specified. | `PUBLISH`
 | recurrenceRule        | A recurrence rule, commonly referred to as an RRULE, defines the repeat pattern or rule for to-dos, journal entries and events. If specified, RRULE can be used to compute the recurrence set (the complete set of recurrence instances in a calendar component). You can use a generator like this [one](https://www.textmagic.com/free-tools/rrule-generator). | `FREQ=DAILY`
+| recurrenceId  | Date-time used with recurring events to identify a specific instance being updated/cancelled; serialized as `RECURRENCE-ID`. Provide a date-time in local time. | `[2000, 1, 5, 10, 0]` or a `number`
 | exclusionDates | Array of date-time exceptions for recurring events, to-dos, journal entries, or time zone definitions. | `[[2000, 1, 5, 10, 0], [2000, 2, 5, 10, 0]]` OR `[1694941727477, 1694945327477]`
 | sequence      | For sending an update for an event (with the same uid), defines the revision sequence number. | `2`
 | busyStatus    | Used to specify busy status for Microsoft applications, like Outlook. See [Microsoft spec](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxcical/cd68eae7-ed65-4dd3-8ea7-ad585c76c736). | `'BUSY'` OR `'FREE'` OR `'TENTATIVE`' OR `'OOF'`
@@ -344,6 +386,14 @@ function (err, value) {
   console.log(value) // iCal-compliant text string
 }
 ```
+
+### `createEventsAsync(events[, headerAttributes])`
+
+Async variant of `createEvents`. Resolves to an object `{ error, value }` where `value` is an iCal-compliant string when `error` is `null`. There is no callback overload.
+
+`events` is an array of the same `attributes` objects as in `createEvent`. The optional `headerAttributes` object is merged with the first event when `events` is non-empty, or used alone to build the calendar header when `events` is empty (same behavior as `createEvents`).
+
+While iterating events, the implementation yields to the event loop at intervals so very large batches are less likely to freeze the process. It also builds the output in parts and joins once at the end to reduce string concatenation overhead.
 
 ## Develop
 

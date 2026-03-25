@@ -78,6 +78,55 @@ export function createEvents (events, headerAttributesOrCb, cb) {
   return resolvedCb(returnValue.error, returnValue.value)
 }
 
+export async function createEventsAsync (events, headerAttributes = {}) {
+  // Yield to the event loop periodically so huge inputs don’t block too badly.
+  const tick = typeof globalThis?.setImmediate === 'function'
+    ? () => new Promise((resolve) => globalThis.setImmediate(resolve))
+    : () => new Promise((resolve) => setTimeout(resolve, 0))
+
+  const runAsync = async () => {
+    if (!events) {
+      return { error: new Error('one argument is required'), value: null }
+    }
+
+    const { error: headerError, value: headerValue } = events.length === 0
+      ? buildHeaderAndValidate(headerAttributes)
+      : buildHeaderAndEventAndValidate({...events[0], ...headerAttributes});
+
+    if (headerError) {
+      return {error: headerError, value: null}
+    }
+
+    // Build up the calendar in parts to avoid quadratic string concatenation costs.
+    const parts = [formatHeader(headerValue)];
+
+    // Yield every N events; tuneable but intentionally conservative.
+    const yieldEvery = 1000;
+
+    for (let i = 0; i < events.length; i++) {
+      const { error: eventError, value: eventValue } = buildHeaderAndEventAndValidate(events[i])
+      if (eventError) return {error: eventError, value: null}
+
+      parts.push(formatEvent(eventValue));
+
+      if (i > 0 && i % yieldEvery === 0) await tick()
+    }
+
+    parts.push(formatFooter());
+
+    return { error: null, value: parts.join('') }
+  }
+
+  let returnValue;
+  try {
+    returnValue = await runAsync();
+  } catch (e) {
+    returnValue = { error: e, value: null }
+  }
+
+  return returnValue
+}
+
 export function isValidURL(url) {
   return urlRegex.test(url);
 }
