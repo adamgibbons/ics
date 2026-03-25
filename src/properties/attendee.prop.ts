@@ -1,10 +1,12 @@
+import { CommonUserTypes, CommonRoleTypes, CommonParticipationStatusTypes } from "../enums";
 import { IOrganizerComponentProp } from "./organizer.prop";
+
 
 export interface IAttendeeComponentProps extends IOrganizerComponentProp {
     member?: string;
-    cutype?: "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM" | "UNKNOWN" | "MEMBER";
-    role?: "REQ-PARTICIPANT" | "OPT-PARTICIPANT" | "NON-PARTICIPANT";
-    partstat?: "NEEDS-ACTION" | "ACCEPTED" | "DECLINED" | "TENTATIVE" | "DELEGATED" | "COMPLETED" | "IN-PROCESS" | "CANCELLED";
+    cutype?: CommonUserTypes | null;
+    role?: CommonRoleTypes | null;
+    partstat?: CommonParticipationStatusTypes | null;
     rsvp?: boolean;
     xNumGuests?: number | null;
     dir?: string;

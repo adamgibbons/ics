@@ -1,3 +1,5 @@
+import { writeFileSync } from "node:fs";
+
 import { IToDoComponentProps, printToDo } from "./components/todo.component";
 
 const todo: IToDoComponentProps = {
@@ -9,7 +11,9 @@ const todo: IToDoComponentProps = {
     categories: ["FAMILY", "FINANCE"]
 }
 
-console.log(printToDo(todo));
+
+
+writeFileSync("todo.ics", printToDo(todo), "utf-8");
 // printEvent
 // printJournal
 // printFreeBusy()
