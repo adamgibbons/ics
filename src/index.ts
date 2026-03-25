@@ -1,36 +1,19 @@
-import { IEventComponent } from "./components/event.component";
-import { createEvent } from "./components/event.component";
-import { createCalendar, ICalendar } from "./components/calendar.component";
-import { printEvent } from "./components/event.component";
+import { IToDoComponentProps, printToDo } from "./components/todo.component";
 
-export interface IIanaComponent<Name, Properties> {
-    uid: string;
-
+const todo: IToDoComponentProps = {
+    type: "todoc",
+    uid: "20070313T123432Z-456553@example.com",
+    status: "NEEDS-ACTION",
+    summary: "Submit Quebec Income Tax Return for 2006",
+    class: "CONFIDENTIAL",
+    categories: ["FAMILY", "FINANCE"]
 }
 
-// export function printVEvent(event: IEventComponent, calendar: ICalendar) {
-//     return printEvent(createEvent(event), createCalendar(calendar));
-// }
-
-
-// +-----------+---------+-------------------------+
-// | Component | Status  | Reference               |
-// +-----------+---------+-------------------------+
-// | VCALENDAR | Current | RFC 5545, Section 3.4   |
-// |           |         |                         |
-// | VEVENT    | Current | RFC 5545, Section 3.6.1 |
-// |           |         |                         |
-// | VTODO     | Current | RFC 5545, Section 3.6.2 |
-// |           |         |                         |
-// | VJOURNAL  | Current | RFC 5545, Section 3.6.3 |
-// |           |         |                         |
-// | VFREEBUSY | Current | RFC 5545, Section 3.6.4 |
-// |           |         |                         |
-// | VTIMEZONE | Current | RFC 5545, Section 3.6.5 |
-// |           |         |                         |
-// | VALARM    | Current | RFC 5545, Section 3.6.6 |
-// |           |         |                         |
-// | STANDARD  | Current | RFC 5545, Section 3.6.5 |
-// |           |         |                         |
-// | DAYLIGHT  | Current | RFC 5545, Section 3.6.5 |
-// +-----------+---------+-------------------------+
+console.log(printToDo(todo));
+// printEvent
+// printJournal
+// printFreeBusy()
+// printTimeZone()
+// printAlarm()
+// printStandard()
+// printDaylight()

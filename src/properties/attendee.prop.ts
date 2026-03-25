@@ -1,18 +1,22 @@
 import { IOrganizerComponentProp } from "./organizer.prop";
 
 export interface IAttendeeComponentProps extends IOrganizerComponentProp {
-    calAddress: string;
     member?: string;
     cutype?: "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM" | "UNKNOWN" | "MEMBER";
     role?: "REQ-PARTICIPANT" | "OPT-PARTICIPANT" | "NON-PARTICIPANT";
     partstat?: "NEEDS-ACTION" | "ACCEPTED" | "DECLINED" | "TENTATIVE" | "DELEGATED" | "COMPLETED" | "IN-PROCESS" | "CANCELLED";
     rsvp?: boolean;
     xNumGuests?: number | null;
+    dir?: string;
+    delegatedFrom?: string;
+    delegatedTo?: string;
 }
 
 export function createAttendee(attendee: IAttendeeComponentProps) {
     return {
-        calAddress: attendee.calAddress,
+        mailto: attendee.mailto,
+        sentBy: attendee.sentBy ?? null,
+        language: attendee.language ?? null,
         member: attendee.member ?? null,
         cn: attendee.cn ?? null,
         cutype: attendee.cutype ?? null,
@@ -20,6 +24,9 @@ export function createAttendee(attendee: IAttendeeComponentProps) {
         partstat: attendee.partstat ?? null,
         rsvp: attendee.rsvp ?? null,
         xNumGuests: attendee.xNumGuests ?? null,
+        dir: attendee.dir ?? null,
+        delegatedFrom: attendee.delegatedFrom ?? null,
+        delegatedTo: attendee.delegatedTo ?? null
     };
 }
 
@@ -32,7 +39,13 @@ export function printAttendee(props: IAttendeeComponentProps) {
 
     let formattedResponse = `ATTENDEE`
     if (attendee.member) {
-        formattedResponse += `;MEMBER=\"mailto:${attendee.member}\"`
+        formattedResponse += `;MEMBER="mailto:${attendee.member}"`
+    }
+    if (attendee.delegatedFrom) {
+        formattedResponse += `;DELEGATED-FROM="mailto:${attendee.delegatedFrom}"`
+    }
+    if (attendee.delegatedTo) {
+        formattedResponse += `;DELEGATED-TO="mailto:${attendee.delegatedTo}"`
     }
     if (attendee.cn) {
         formattedResponse += `;CN=${attendee.cn}`
@@ -49,10 +62,19 @@ export function printAttendee(props: IAttendeeComponentProps) {
     if (attendee.rsvp) {
         formattedResponse += `;RSVP=${attendee.rsvp}`
     }
-    formattedResponse += `:mailto:${attendee.calAddress}\r\n`
+    if (attendee.dir) {
+        formattedResponse += `;DIR="${attendee.dir}"`
+    }
+    if (attendee.sentBy) {
+        formattedResponse += `;SENT-BY=${attendee.sentBy}`
+    }
+    if (attendee.language) {
+        formattedResponse += `;LANGUAGE=${attendee.language}`
+    }
+    formattedResponse += `:mailto:${attendee.mailto}\r\n`
     return formattedResponse;
 }
 
 export function printAttendees(attendees: IAttendeeComponentProps[]) {
-    return attendees.map(attendee => printAttendee(attendee)).join("\r\n");
+    return attendees.map(attendee => printAttendee(attendee)).join('')
 }
