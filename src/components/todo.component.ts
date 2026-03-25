@@ -1,8 +1,10 @@
 import { nanoid } from "nanoid";
 import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop";
+import { setDateTimeStamp } from "../utils";
 
-export interface IToDoComponentProps {
+export interface CreateToDoParams {
     type: "todoc";
+    dtstamp?: string | null;
     uid?: string | null;
     attendees?: IAttendeeComponentProps[] | null;
     class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL" | null;
@@ -24,10 +26,16 @@ export interface IToDoComponentProps {
     url?: string | null;
 }
 
-export function createTodo(todo: IToDoComponentProps) {
+export interface ToDoComponentProps extends CreateToDoParams {
+    dtstamp: string;
+    uid: string;
+}
+
+export function createTodo(todo: CreateToDoParams): ToDoComponentProps {
     return {
         type: "todoc",
-        uuid: todo.uid ?? nanoid(25),
+        dtstamp: todo.dtstamp ?? setDateTimeStamp(),
+        uid: todo.uid ?? nanoid(25),
         status: todo.status ?? null,
         attendees: todo.attendees ?? null,
         class: todo.class ?? null,
@@ -46,11 +54,18 @@ export function createTodo(todo: IToDoComponentProps) {
     };
 }
 
-export function printToDo(todo: IToDoComponentProps) {
+export function printToDo(params: CreateToDoParams): string {
+    const todo = createTodo(params);
+
     let formattedResponse = 'BEGIN:VTODO\r\n';
+
+    // formattedResponse += `DTSTAMP:${todo.dtstamp}\r\n`;
     if (todo.uid) { 
         formattedResponse += `UID:${todo.uid}\r\n`;
     }
+    
+    formattedResponse += `DTSTAMP:${todo.dtstamp}\r\n`;
+    
     if (todo.summary) {
         formattedResponse += `SUMMARY:${todo.summary}\r\n`;
     }
