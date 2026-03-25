@@ -73,4 +73,27 @@ describe('utils.setContact', () => {
     expect(contactString).to.contain('CUTYPE="INDIVIDUAL"')
     expect(contactString).to.contain('X-NUM-GUESTS=0')
   })
+  it('set a contact with schedule-agent', () => {
+    const contact = { name: 'm-vinc', email: 'vinc@example.com' }
+    const contactUndefined = Object.assign({scheduleAgent: undefined}, contact)
+    const contactServer = Object.assign({scheduleAgent: 'SERVER'}, contact)
+    const contactClient = Object.assign({scheduleAgent: 'CLIENT'}, contact)
+    const contactNone = Object.assign({scheduleAgent: 'NONE'}, contact)
+    const contactXCustom = Object.assign({scheduleAgent: 'X-CUSTOM'}, contact)
+
+    expect(setContact(contactUndefined))
+    .to.equal('CN="m-vinc":mailto:vinc@example.com')
+
+    expect(setContact(contactServer))
+    .to.equal('SCHEDULE-AGENT="SERVER";CN="m-vinc":mailto:vinc@example.com')
+
+    expect(setContact(contactClient))
+    .to.equal('SCHEDULE-AGENT="CLIENT";CN="m-vinc":mailto:vinc@example.com')
+
+    expect(setContact(contactNone))
+    .to.equal('SCHEDULE-AGENT="NONE";CN="m-vinc":mailto:vinc@example.com')
+
+    expect(setContact(contactXCustom))
+    .to.equal('SCHEDULE-AGENT="X-CUSTOM";CN="m-vinc":mailto:vinc@example.com')
+  })
 })
