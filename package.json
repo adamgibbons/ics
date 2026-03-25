@@ -1,6 +1,6 @@
 {
   "name": "ics",
-  "version": "3.10.1",
+  "version": "3.11.0",
   "description": "iCal (ics) file generator",
   "exports": {
     "types": "./index.d.ts",
