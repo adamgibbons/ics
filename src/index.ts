@@ -1,8 +1,8 @@
 import { writeFileSync } from "node:fs";
 
-import { IToDoComponentProps, printToDo } from "./components/todo.component";
+import { CreateToDoParams, printToDo } from "./components/todo.component";
 
-const todo: IToDoComponentProps = {
+const todo: CreateToDoParams = {
     type: "todoc",
     uid: "20070313T123432Z-456553@example.com",
     status: "NEEDS-ACTION",

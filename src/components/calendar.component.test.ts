@@ -6,6 +6,7 @@ describe("printCalendar", () => {
     const calendar = createCalendar({
       prodid: "-//Example//EN",
       version: "2.0",
+      components: [],
     });
     expect(printCalendar(calendar)).toBe(
       [
@@ -21,7 +22,7 @@ describe("printCalendar", () => {
   });
 
   it("reflects createCalendar default prodid when empty", () => {
-    const calendar = createCalendar({ prodid: "", version: "2.0" });
+    const calendar = createCalendar({ prodid: "", version: "2.0", components: [] });
     expect(printCalendar(calendar)).toContain("PRODID:adamgibbons.com/ics\r\n");
   });
 
@@ -36,6 +37,7 @@ describe("printCalendar", () => {
       version: "4.0",
       calscale: "GREGORIAN",
       method: "PUBLISH",
+      components: [],
     });
     expect(printCalendar(calendar)).toContain("CALSCALE:GREGORIAN\r\n");
     expect(printCalendar(calendar)).toContain("METHOD:PUBLISH\r\n");
@@ -46,12 +48,13 @@ describe("printCalendar", () => {
       {
         prodid: "x",
         version: "4.0",
+        components: [],
       },
       [
         {
           type: "todoc",
           uid: "todo-123",
-          status: "completed",
+          status: "COMPLETED",
         },
       ]
     );
@@ -59,7 +62,7 @@ describe("printCalendar", () => {
     const output = printCalendar(calendar);
     expect(output).toContain("BEGIN:VTODO\r\n");
     expect(output).toContain("UID:todo-123\r\n");
-    expect(output).toContain("STATUS:completed\r\n");
+    expect(output).toContain("STATUS:COMPLETED\r\n");
     expect(output).toContain("END:VTODO\r\n");
   });
 
@@ -69,6 +72,7 @@ describe("printCalendar", () => {
       version: "4.0",
       calscale: null,
       method: null,
+      components: [],
     });
     expect(printCalendar(calendar)).not.toContain("CALSCALE:\r\n");
     expect(printCalendar(calendar)).not.toContain("METHOD:\r\n");

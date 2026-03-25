@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid"
 import { IAlarmComponent, printAlarm } from "./alarm.component"
 import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.prop"
-import { IGeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop"
-import { ILocationComponentProp, printLocation } from "../properties/location.prop"
+import { GeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop"
+import { CreateLocationParams, printLocation } from "../properties/location.prop"
 import { IOrganizerComponentProp, printOrganizer } from "../properties/organizer.prop"
 import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop"
 import { ICalendar } from "./calendar.component"
@@ -73,9 +73,9 @@ export interface IEventComponent {
     class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL";
     created?: string;
     description?: string;
-    geo?: IGeographicPositionComponentProp;
+    geo?: GeographicPositionComponentProp;
     lastMod?: string;
-    location?: ILocationComponentProp;
+    location?: CreateLocationParams;
     organizer?: IOrganizerComponentProp;
     priority?: number;
     seq?: number;

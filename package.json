@@ -9,12 +9,10 @@
   "main": "./dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "start": "TZ=utc mocha --require @babel/register --watch --recursive",
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "rm -r dist && tsc",
-    "dev": "tsc --watch --preserveWatchOutput",
-    "scripts:printEvent": "node dist/scripts/printEvent.js"
+    "dev": "tsc --watch --preserveWatchOutput"
   },
   "repository": {
     "type": "git",
@@ -38,6 +36,7 @@
   },
   "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
+    "@types/node": "^25.5.0",
     "typescript": "^5.9.3",
     "vitest": "^4.1.1"
   },

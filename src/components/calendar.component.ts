@@ -1,16 +1,16 @@
 type CalendarComponentTypes = "eventc" | "todoc" | "journalc" | "freebusyc" | "timezonec" | "iana-comp" | "x-comp";
 
-import { IToDoComponentProps, printToDo } from "./todo.component";
+import { CreateToDoParams, printToDo } from "./todo.component";
 
 export interface ICalendar {
     prodid: string;
     version: string;
     calscale?: string | null;
     method?: string | null;
-    components: Array<IToDoComponentProps>;
+    components: Array<CreateToDoParams>;
 }
 
-export function createCalendar(calendar: ICalendar, components: Array<IToDoComponentProps> = []) {
+export function createCalendar(calendar: ICalendar, components: Array<CreateToDoParams> = []) {
     calendar.prodid = calendar.prodid || "adamgibbons.com/ics";
     calendar.version = calendar.version ?? '4.0';
     calendar.calscale = calendar.calscale ?? null;
@@ -26,7 +26,7 @@ export function printCalendar(calendar: ICalendar) {
     formattedResponse += `CALSCALE:${calendar.calscale}\r\n`;
     formattedResponse += `METHOD:${calendar.method}\r\n`;
     if (calendar.components.length) {
-        formattedResponse += calendar.components.filter(component => component.type === "todoc").map(component => printToDo(component as IToDoComponentProps));
+        formattedResponse += calendar.components.filter(component => component.type === "todoc").map(component => printToDo(component as CreateToDoParams));
 
     }
     formattedResponse += `END:VCALENDAR\r\n`;
