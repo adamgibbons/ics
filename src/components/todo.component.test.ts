@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createTodo, printToDo } from "./todo.component";
+import { printToDo } from "./todo.component";
 
 describe("todo component", () => {
   it("prints a VTODO block with status", () => {
@@ -62,9 +62,10 @@ describe("todo component", () => {
       summary: "Submit Quebec Income Tax Return for 2006",
       class: "CONFIDENTIAL",
       categories: ["FAMILY", "FINANCE"],
-      location: { name: "Conference Room - F123, Bldg. 002", alternativeRepresentation: "http://xyzcorp.com/conf-rooms/f123.vcf", language: "en-US" }
+      location: { name: "Conference Room - F123, Bldg. 002", alternativeRepresentation: "http://xyzcorp.com/conf-rooms/f123.vcf", language: "en-US" },
+      organizer: { mailto: "jsmith@example.com", cn: "John Smith" }
     });
-    // console.log(output)
+
     expect(output).toContain([
       'BEGIN:VTODO',
       'UID:20070313T123432Z-456553@example.com',
@@ -75,6 +76,7 @@ describe("todo component", () => {
       'CATEGORIES:FAMILY,FINANCE',
       'STATUS:NEEDS-ACTION',
       'LOCATION;ALTREP="http://xyzcorp.com/conf-rooms/f123.vcf";LANGUAGE=en-US:Conference Room - F123, Bldg. 002',
+      'ORGANIZER;CN=John Smith:mailto:jsmith@example.com',
       'END:VTODO'
     ].join("\r\n"));
   });

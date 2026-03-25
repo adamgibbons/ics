@@ -3,8 +3,8 @@ import { IAlarmComponent, printAlarm } from "./alarm.component"
 import { DateTimeComponentProp, formatDateTime } from "../properties/dateTime.prop"
 import { GeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop"
 import { CreateLocationParams, printLocation } from "../properties/location.prop"
-import { IOrganizerComponentProp, printOrganizer } from "../properties/organizer.prop"
-import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop"
+import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.prop"
+import { CreateAttendeeParams, printAttendee } from "../properties/attendee.prop"
 import { ICalendar } from "./calendar.component"
 import { ITimezoneComponent } from "./timeZone.component"
 
@@ -76,7 +76,7 @@ export interface IEventComponent {
     geo?: GeographicPositionComponentProp;
     lastMod?: string;
     location?: CreateLocationParams;
-    organizer?: IOrganizerComponentProp;
+    organizer?: CreateOrganizerParams;
     priority?: number;
     seq?: number;
     status?: "tentative" | "confirmed" | "cancelled";
@@ -105,7 +105,7 @@ export interface IEventComponent {
     // contact / exdate / rstatus / related /
     // resources / rdate / x-prop / iana-prop
     attachments?: string[];
-    attendees?: IAttendeeComponentProps[];
+    attendees?: CreateAttendeeParams[];
     categories?: string[];
     comments?: string[];
     contacts?: string[];

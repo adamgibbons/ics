@@ -1,8 +1,7 @@
 import { CommonUserTypes, CommonRoleTypes, CommonParticipationStatusTypes } from "../enums";
-import { IOrganizerComponentProp } from "./organizer.prop";
+import { CreateOrganizerParams } from "./organizer.prop";
 
-
-export interface IAttendeeComponentProps extends IOrganizerComponentProp {
+export interface CreateAttendeeParams extends CreateOrganizerParams {
     member?: string;
     cutype?: CommonUserTypes | null;
     role?: CommonRoleTypes | null;
@@ -14,7 +13,7 @@ export interface IAttendeeComponentProps extends IOrganizerComponentProp {
     delegatedTo?: string;
 }
 
-export function createAttendee(attendee: IAttendeeComponentProps) {
+export function createAttendee(attendee: CreateAttendeeParams) {
     return {
         mailto: attendee.mailto,
         sentBy: attendee.sentBy ?? null,
@@ -32,11 +31,11 @@ export function createAttendee(attendee: IAttendeeComponentProps) {
     };
 }
 
-export function createAttendees(attendees: IAttendeeComponentProps[]) {
+export function createAttendees(attendees: CreateAttendeeParams[]) {
     return attendees.map(attendee => createAttendee(attendee));
 }
 
-export function printAttendee(props: IAttendeeComponentProps) {
+export function printAttendee(props: CreateAttendeeParams) {
     const attendee = createAttendee(props);
 
     let formattedResponse = `ATTENDEE`
@@ -77,6 +76,6 @@ export function printAttendee(props: IAttendeeComponentProps) {
     return formattedResponse;
 }
 
-export function printAttendees(attendees: IAttendeeComponentProps[]) {
+export function printAttendees(attendees: CreateAttendeeParams[]) {
     return attendees.map(attendee => printAttendee(attendee)).join('')
 }

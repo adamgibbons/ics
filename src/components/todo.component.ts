@@ -1,14 +1,15 @@
 import { nanoid } from "nanoid";
-import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop";
+import { CreateAttendeeParams, printAttendee } from "../properties/attendee.prop";
 import { setDateTimeStamp } from "../utils";
 import { GeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop";
 import { CreateLocationParams, printLocation } from "../properties/location.prop";
+import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.prop";
 
 export interface CreateToDoParams {
     type: "todoc";
     dtstamp?: string | null;
     uid?: string | null;
-    attendees?: IAttendeeComponentProps[] | null;
+    attendees?: CreateAttendeeParams[] | null;
     class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL" | null;
     completed?: string | null;
     created?: string | null;
@@ -18,7 +19,7 @@ export interface CreateToDoParams {
     categories?: string[] | null;
     'last-mod'?: string | null;
     location?: CreateLocationParams | null;
-    // organizer?: IOrganizerComponentProp | null;
+    organizer?: CreateOrganizerParams | null;
     percent?: number | null;
     priority?: number | null;
     recurid?: string | null;
@@ -49,6 +50,7 @@ export function createTodo(todo: CreateToDoParams): ToDoComponentProps {
         categories: todo.categories ?? null,
         'last-mod': todo['last-mod'] ?? null,
         location: todo.location ?? null,
+        organizer: todo.organizer ?? null,
         percent: todo.percent ?? null,
         priority: todo.priority ?? null,
         recurid: todo.recurid ?? null,
@@ -111,6 +113,9 @@ export function printToDo(params: CreateToDoParams): string {
     }
     if (todo.location) {
         formattedResponse += printLocation(todo.location);
+    }
+    if (todo.organizer) {
+        formattedResponse += printOrganizer(todo.organizer);
     }
     formattedResponse += `END:VTODO\r\n`;
     return formattedResponse;
