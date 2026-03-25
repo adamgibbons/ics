@@ -14,5 +14,6 @@ export function printGeographicPosition(params: GeographicPositionComponentProp)
     const geographicPosition = createGeographicPosition(params);
 
     let formattedResponse = `GEO:${geographicPosition.latitude};${geographicPosition.longitude}\r\n`
+ 
     return formattedResponse;
 }
