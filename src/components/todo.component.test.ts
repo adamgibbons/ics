@@ -52,12 +52,12 @@ describe("todo component", () => {
     expect(output).toContain("ATTENDEE:mailto:joecool@example.com\r\n");
   });
 
-  it("prints a VTODO block with attendees and status", () => {
+  it("prints a VTODO block with all properties", () => {
     const output = printToDo({
       type: "todoc",
       uid: "20070313T123432Z-456553@example.com",
       dtstamp: "20070313T123432Z",
-      // attendees: [{ mailto: "joecool@example.com" }],
+      geo: { latitude: 37.386013, longitude: -122.082932 },
       status: "NEEDS-ACTION",
       summary: "Submit Quebec Income Tax Return for 2006",
       class: "CONFIDENTIAL",
@@ -68,8 +68,8 @@ describe("todo component", () => {
       'BEGIN:VTODO',
       'UID:20070313T123432Z-456553@example.com',
       'DTSTAMP:20070313T123432Z',
-      // 'DUE;VALUE=DATE:20070501',
       'SUMMARY:Submit Quebec Income Tax Return for 2006',
+      'GEO:37.386013;-122.082932',
       'CLASS:CONFIDENTIAL',
       'CATEGORIES:FAMILY,FINANCE',
       'STATUS:NEEDS-ACTION',

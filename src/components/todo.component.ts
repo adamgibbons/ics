@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop";
 import { setDateTimeStamp } from "../utils";
+import { GeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop";
 
 export interface CreateToDoParams {
     type: "todoc";
@@ -12,7 +13,7 @@ export interface CreateToDoParams {
     created?: string | null;
     description?: string | null;
     dtstart?: string | null;
-    // geo?: IGeographicPositionComponentProp | null;
+    geo?: GeographicPositionComponentProp | null;
     categories?: string[] | null;
     'last-mod'?: string | null;
     // location?: ILocationComponentProp | null;
@@ -43,6 +44,7 @@ export function createTodo(todo: CreateToDoParams): ToDoComponentProps {
         created: todo.created ?? null,
         description: todo.description ?? null,
         dtstart: todo.dtstart ?? null,
+        geo: todo.geo ?? null,
         categories: todo.categories ?? null,
         'last-mod': todo['last-mod'] ?? null,
         percent: todo.percent ?? null,
@@ -60,14 +62,17 @@ export function printToDo(params: CreateToDoParams): string {
     let formattedResponse = 'BEGIN:VTODO\r\n';
 
     // formattedResponse += `DTSTAMP:${todo.dtstamp}\r\n`;
-    if (todo.uid) { 
+    if (todo.uid) {
         formattedResponse += `UID:${todo.uid}\r\n`;
     }
-    
+
     formattedResponse += `DTSTAMP:${todo.dtstamp}\r\n`;
-    
+
     if (todo.summary) {
         formattedResponse += `SUMMARY:${todo.summary}\r\n`;
+    }
+    if (todo.geo) {
+        formattedResponse += printGeographicPosition(todo.geo);
     }
     if (todo.class) {
         formattedResponse += `CLASS:${todo.class}\r\n`;
