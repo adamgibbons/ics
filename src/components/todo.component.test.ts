@@ -61,7 +61,8 @@ describe("todo component", () => {
       status: "NEEDS-ACTION",
       summary: "Submit Quebec Income Tax Return for 2006",
       class: "CONFIDENTIAL",
-      categories: ["FAMILY", "FINANCE"]
+      categories: ["FAMILY", "FINANCE"],
+      location: { name: "Conference Room - F123, Bldg. 002", alternativeRepresentation: "http://xyzcorp.com/conf-rooms/f123.vcf", language: "en-US" }
     });
     // console.log(output)
     expect(output).toContain([
@@ -73,18 +74,8 @@ describe("todo component", () => {
       'CLASS:CONFIDENTIAL',
       'CATEGORIES:FAMILY,FINANCE',
       'STATUS:NEEDS-ACTION',
+      'LOCATION;ALTREP="http://xyzcorp.com/conf-rooms/f123.vcf";LANGUAGE=en-US:Conference Room - F123, Bldg. 002',
       'END:VTODO'
     ].join("\r\n"));
   });
 });
-
-
-// BEGIN:VTODO
-// UID:20070313T123432Z-456553@example.com
-// DTSTAMP:20070313T123432Z
-// DUE;VALUE=DATE:20070501
-// SUMMARY:Submit Quebec Income Tax Return for 2006
-// CLASS:CONFIDENTIAL
-// CATEGORIES:FAMILY,FINANCE
-// STATUS:NEEDS-ACTION
-// END:VTODO

@@ -16,7 +16,3 @@ describe("location component", () => {
     expect(output).toContain("LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002\r\n");
   });
 });
-// LOCATION:Conference Room - F123\, Bldg. 002
-
-// LOCATION;ALTREP="http://xyzcorp.com/conf-rooms/f123.vcf":
-//  Conference Room - F123\, Bldg. 002

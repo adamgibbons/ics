@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import { IAttendeeComponentProps, printAttendee } from "../properties/attendee.prop";
 import { setDateTimeStamp } from "../utils";
 import { GeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop";
+import { CreateLocationParams, printLocation } from "../properties/location.prop";
 
 export interface CreateToDoParams {
     type: "todoc";
@@ -16,7 +17,7 @@ export interface CreateToDoParams {
     geo?: GeographicPositionComponentProp | null;
     categories?: string[] | null;
     'last-mod'?: string | null;
-    // location?: ILocationComponentProp | null;
+    location?: CreateLocationParams | null;
     // organizer?: IOrganizerComponentProp | null;
     percent?: number | null;
     priority?: number | null;
@@ -47,6 +48,7 @@ export function createTodo(todo: CreateToDoParams): ToDoComponentProps {
         geo: todo.geo ?? null,
         categories: todo.categories ?? null,
         'last-mod': todo['last-mod'] ?? null,
+        location: todo.location ?? null,
         percent: todo.percent ?? null,
         priority: todo.priority ?? null,
         recurid: todo.recurid ?? null,
@@ -95,7 +97,6 @@ export function printToDo(params: CreateToDoParams): string {
     if (todo.dtstart) {
         formattedResponse += `DTSTART:${todo.dtstart}\r\n`;
     }
-
     if (todo['last-mod']) {
         formattedResponse += `LAST-MOD:${todo['last-mod']}\r\n`;
     }
@@ -108,7 +109,9 @@ export function printToDo(params: CreateToDoParams): string {
     if (todo.attendees) {
         formattedResponse += todo.attendees.map(attendee => printAttendee(attendee)).join("");
     }
-
+    if (todo.location) {
+        formattedResponse += printLocation(todo.location);
+    }
     formattedResponse += `END:VTODO\r\n`;
     return formattedResponse;
 }
