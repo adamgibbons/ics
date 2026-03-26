@@ -48,7 +48,6 @@ describe("todo component", () => {
       dtstamp: "20070313T123432Z",
       attendees: [{ mailto: "joecool@example.com" }],
     });
-    console.log(output)
     expect(output).toContain("ATTENDEE:mailto:joecool@example.com\r\n");
   });
 
