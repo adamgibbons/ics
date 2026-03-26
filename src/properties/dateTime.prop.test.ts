@@ -46,11 +46,11 @@ describe("printDateTime", () => {
     //  TZID=America/New_York:19980119T020000
     it("prints a date with local time and time zone reference", () => {
         const result = printDateTime({
-            value: [1998, 1, 19, 2, 0, 0],
+            value: [1998, 3, 12, 8, 30],
             type: "local-tzid",
             tzid: "America/New_York"
         });
 
-        expect(result).toBe("TZID=America/New_York:19980119T020000");
+        expect(result).toBe("TZID=America/New_York:19980312T083000");
     });
 });

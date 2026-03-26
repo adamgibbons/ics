@@ -4,3 +4,5 @@ export type CommonUserTypes = "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM" | "UN
 export type CommonRoleTypes = "CHAIR" | "REQ-PARTICIPANT" | "OPT-PARTICIPANT" | "NON-PARTICIPANT";
 export type CommonParticipationStatusTypes = "NEEDS-ACTION" | "ACCEPTED" | "DECLINED" | "TENTATIVE" | "DELEGATED" | "COMPLETED" | "IN-PROCESS" | "CANCELLED";
 export type DateTimeTypes = "local" | "utc" | "local-tzid";
+export type CommonClassTypes = "PUBLIC" | "PRIVATE" | "CONFIDENTIAL";
+export type CommonTranspTypes = "TRANSPARENT" | "OPAQUE";
