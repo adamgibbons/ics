@@ -18,7 +18,9 @@ const dateTimeSchema = ({ required }) => yup.lazy((value) => {
   }
 
   return yup.array().required().min(3).max(7).of(yup.lazy((item, options) => {
-    const itemIndex = options.parent.indexOf(options.value)
+    const itemIndex = options.parent.findIndex(
+      (element) => isNaN(element) || element === options.value
+    )
     return [
       yup.number().integer(),
       yup.number().integer().min(1).max(12),

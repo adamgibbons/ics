@@ -6,6 +6,12 @@ describe('.validateHeaderAndEvent', () => {
     it('start', () => {
       const {error} = validateHeaderAndEvent({title: 'foo', uid: 'foo'})
       expect(error.errors.some(p => p === 'start is a required field')).to.be.true
+      const { errors } = validateHeaderAndEvent({
+        start: [NaN, 12, 1]
+      }).error
+      expect(
+        errors.some((p) => p.match(/start\["0"\] must be a `number` type/))
+      ).to.be.true
     })
   })
 
