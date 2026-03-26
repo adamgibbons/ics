@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { CreateAttendeeParams, printAttendee } from "../properties/attendee.prop";
+import { CreateDateTimeParams, printDateTime } from "../properties/dateTime.prop";
 import { setDateTimeStamp } from "../utils";
 import { GeographicPositionComponentProp, printGeographicPosition } from "../properties/geographicPosition.prop";
 import { CreateLocationParams, printLocation } from "../properties/location.prop";
@@ -8,13 +9,15 @@ import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.p
 export interface CreateToDoParams {
     type: "todoc";
     dtstamp?: string | null;
+    due?: string | null;
+    duration?: string | null;
     uid?: string | null;
     attendees?: CreateAttendeeParams[] | null;
     class?: "PUBLIC" | "PRIVATE" | "CONFIDENTIAL" | null;
     completed?: string | null;
     created?: string | null;
     description?: string | null;
-    dtstart?: string | null;
+    dtstart?: CreateDateTimeParams | null;
     geo?: GeographicPositionComponentProp | null;
     categories?: string[] | null;
     'last-mod'?: string | null;
@@ -42,6 +45,8 @@ export function createTodo(todo: CreateToDoParams): ToDoComponentProps {
         status: todo.status ?? null,
         attendees: todo.attendees ?? null,
         class: todo.class ?? null,
+        due: todo.due ?? null,
+        duration: todo.duration ?? null,
         completed: todo.completed ?? null,
         created: todo.created ?? null,
         description: todo.description ?? null,
@@ -72,6 +77,10 @@ export function printToDo(params: CreateToDoParams): string {
 
     formattedResponse += `DTSTAMP:${todo.dtstamp}\r\n`;
 
+    if (todo.dtstart) {
+        formattedResponse += `DTSTART:${printDateTime(todo.dtstart)}\r\n`;
+    }
+
     if (todo.summary) {
         formattedResponse += `SUMMARY:${todo.summary}\r\n`;
     }
@@ -95,9 +104,6 @@ export function printToDo(params: CreateToDoParams): string {
     }
     if (todo.description) {
         formattedResponse += `DESCRIPTION:${todo.description}\r\n`;
-    }
-    if (todo.dtstart) {
-        formattedResponse += `DTSTART:${todo.dtstart}\r\n`;
     }
     if (todo['last-mod']) {
         formattedResponse += `LAST-MOD:${todo['last-mod']}\r\n`;
