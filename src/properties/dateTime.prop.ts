@@ -1,4 +1,4 @@
-export type DateTimeType = "local" | "utc" | "local-tzid";
+import { DateTimeTypes } from "../enums";
 
 type DateTimeList = [
     number, // year
@@ -10,7 +10,7 @@ type DateTimeList = [
 ];
 
 export interface CreateDateTimeParams {
-    type?: DateTimeType;
+    type?: DateTimeTypes;
     value: DateTimeList;
     tzid?: string | null;
 }

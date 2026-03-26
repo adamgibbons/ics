@@ -1,5 +1,3 @@
-type CalendarComponentTypes = "eventc" | "todoc" | "journalc" | "freebusyc" | "timezonec" | "iana-comp" | "x-comp";
-
 import { CreateToDoParams, printToDo } from "./todo.component";
 
 export interface ICalendar {
