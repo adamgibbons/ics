@@ -61,6 +61,10 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         location: event.location,
         organizer: event.organizer,
         priority: event.priority,
+        status: event.status,
+        summary: event.summary,
+        transp: event.transp,
+        url: event.url,
     };
 }
 
@@ -101,6 +105,22 @@ export function printEvent(event: EventComponentProps): string {
 
     if (event.priority) {
         formattedResponse += `PRIORITY:${event.priority}\r\n`;
+    }
+
+    if (event.status) {
+        formattedResponse += `STATUS:${event.status}\r\n`;
+    }
+
+    if (event.summary) {
+        formattedResponse += `SUMMARY:${event.summary}\r\n`;
+    }
+
+    if (event.transp) {
+        formattedResponse += `TRANSP:${event.transp}\r\n`;
+    }
+
+    if (event.url) {
+        formattedResponse += `URL:${event.url}\r\n`;
     }
 
     formattedResponse += `END:VEVENT\r\n`;

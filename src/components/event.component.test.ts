@@ -37,6 +37,12 @@ describe("event component", () => {
                 cn: "John Smith"
             },
             priority: 1,
+            // seq:
+            status: "ACCEPTED",
+            summary: "Test event",
+            transp: "OPAQUE",
+            url: "https://www.google.com",
+            // recurid: "test-recurid"
         });
         const output = printEvent(event);
 
@@ -51,6 +57,10 @@ describe("event component", () => {
             "LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002",
             "ORGANIZER;CN=John Smith:mailto:jsmith@example.com",
             "PRIORITY:1",
+            "STATUS:ACCEPTED",
+            "SUMMARY:Test event",
+            "TRANSP:OPAQUE",
+            "URL:https://www.google.com",
             "END:VEVENT",
             ""
         ].join("\r\n"));
