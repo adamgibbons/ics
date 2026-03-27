@@ -35,7 +35,8 @@ describe("event component", () => {
             organizer: {
                 mailto: "jsmith@example.com",
                 cn: "John Smith"
-            }
+            },
+            priority: 1,
         });
         const output = printEvent(event);
 
@@ -49,9 +50,9 @@ describe("event component", () => {
             "GEO:40.7128;-74.0060",
             "LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002",
             "ORGANIZER;CN=John Smith:mailto:jsmith@example.com",
+            "PRIORITY:1",
             "END:VEVENT",
             ""
         ].join("\r\n"));
-        // expect(output).toContain(`DTSTART;TZID=America/New_York:20260326T123000\r\n`);
     });
 });

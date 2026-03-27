@@ -34,7 +34,7 @@ export interface CreateEventParams {
     'last-mod'?: string | null;
     location?: CreateLocationParams;
     organizer?: CreateOrganizerParams;
-    priority?: number | null;
+    priority?: number;
     seq?: number | null;
     status?: CommonParticipationStatusTypes;
     summary?: string;
@@ -60,6 +60,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         geo: event.geo,
         location: event.location,
         organizer: event.organizer,
+        priority: event.priority,
     };
 }
 
@@ -96,6 +97,10 @@ export function printEvent(event: EventComponentProps): string {
 
     if (event.organizer) {
         formattedResponse += printOrganizer(event.organizer);
+    }
+
+    if (event.priority) {
+        formattedResponse += `PRIORITY:${event.priority}\r\n`;
     }
 
     formattedResponse += `END:VEVENT\r\n`;
