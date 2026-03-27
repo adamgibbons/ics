@@ -4,7 +4,7 @@ import { printDateTime } from "../properties/dateTime.prop";
 import { CreateDateTimeParams } from "../properties/dateTime.prop";
 import { CommonClassTypes, CommonParticipationStatusTypes, CommonTranspTypes } from "../enums";
 import { GeographicPositionComponentProp } from "../properties/geographicPosition.prop";
-import { CreateLocationParams } from "../properties/location.prop";
+import { CreateLocationParams, printLocation } from "../properties/location.prop";
 import { CreateOrganizerParams } from "../properties/organizer.prop";
 
 export interface CreateEventParams {
@@ -18,7 +18,7 @@ export interface CreateEventParams {
     // ; specify the "METHOD" property; otherwise, it
     // ; is OPTIONAL; in any case, it MUST NOT occur
     // ; more than once.
-    dtstart?: CreateDateTimeParams | null;
+    dtstart?: CreateDateTimeParams;
 
     // ; The following are OPTIONAL,
     // ; but MUST NOT occur more than once.
@@ -27,9 +27,9 @@ export interface CreateEventParams {
     // last-mod / location / organizer / priority /
     // seq / status / summary / transp /
     // url / recurid /
-    class?: CommonClassTypes;
+    class?: CommonClassTypes | undefined;
     // created?: string | null;
-    description?: string;
+    description?: string | undefined;
     geo?: GeographicPositionComponentProp;
     'last-mod'?: string | null;
     location?: CreateLocationParams;
@@ -51,11 +51,14 @@ export interface EventComponentProps extends CreateEventParams {
 export function createEvent(event: CreateEventParams): EventComponentProps {
     const uid = event.uid || nanoid(25);
     const dtstamp = event.dtstamp || setDateTimeStamp();
-    const dtstart = event.dtstart || null;
     return {
         uid,
         dtstamp,
-        dtstart
+        dtstart: event.dtstart,
+        class: event.class,
+        description: event.description,
+        geo: event.geo,
+        location: event.location,
     };
 }
 
@@ -66,13 +69,30 @@ export function printEvent(event: EventComponentProps): string {
     formattedResponse += `UID:${event.uid}\r\n`;
     formattedResponse += `DTSTAMP:${event.dtstamp}\r\n`;
 
+    // Turn these into formatters
     if (event.dtstart) {
-        if (event.dtstart.type === "local-tzid") {
-            formattedResponse += `DTSTART;${printDateTime(event.dtstart)}\r\n`;
-        } else {
-            formattedResponse += `DTSTART:${printDateTime(event.dtstart)}\r\n`;
-        }
+        formattedResponse += 'DTSTART';
+        formattedResponse += event.dtstart.type === "local-tzid" ? ';' : ':';
+        formattedResponse += `${printDateTime(event.dtstart)}\r\n`;
     }
+
+    if (event.class) {
+        formattedResponse += `CLASS:${event.class}\r\n`;
+    }
+
+    // Remember these need to be wrapped
+    if (event.description) {
+        formattedResponse += `DESCRIPTION:${event.description}\r\n`;
+    }
+
+    if (event.geo) {
+        formattedResponse += `GEO:${event.geo.latitude.toFixed(4)};${event.geo.longitude.toFixed(4)}\r\n`;
+    }
+
+    if (event.location) {
+        formattedResponse += printLocation(event.location);
+    }
+
     formattedResponse += `END:VEVENT\r\n`;
 
     return formattedResponse;

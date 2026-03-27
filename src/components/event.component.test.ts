@@ -20,6 +20,18 @@ describe("event component", () => {
                 tzid: "America/New_York",
                 type: "local-tzid"
             },
+            class: "PUBLIC",
+            description: "Test event",
+            geo: {
+                latitude: 40.7128,
+                longitude: -74.0060
+            },
+            // lastmod,
+            location: {
+                name: "Conference Room - F123, Bldg. 002",
+                alternativeRepresentation: "http://xyzcorp.com/conf-rooms/f123.vcf",
+                language: "en-US"
+            }
         });
         const output = printEvent(event);
 
@@ -28,6 +40,10 @@ describe("event component", () => {
             "UID:test-uid",
             "DTSTAMP:20260326T120000Z",
             "DTSTART;TZID=America/New_York:20260326T123000",
+            "CLASS:PUBLIC",
+            "DESCRIPTION:Test event",
+            "GEO:40.7128;-74.0060",
+            "LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002",
             "END:VEVENT",
             ""
         ].join("\r\n"));

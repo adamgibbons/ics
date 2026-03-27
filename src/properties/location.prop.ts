@@ -7,23 +7,21 @@ export interface CreateLocationParams {
 export function createLocation(location: CreateLocationParams) {
   return {
     name: location.name,
-    language: location.language ?? null,
-    alternativeRepresentation: location.alternativeRepresentation ?? null,
+    language: location.language,
+    alternativeRepresentation: location.alternativeRepresentation,
   };
 }
 
 export function printLocation(params: CreateLocationParams) {
-  const location = createLocation(params);
-
   let formattedResponse = 'LOCATION';
 
-  if (location.alternativeRepresentation) {
-    formattedResponse += `;ALTREP="${location.alternativeRepresentation}"`;
+  if (params.alternativeRepresentation) {
+    formattedResponse += `;ALTREP="${params.alternativeRepresentation}"`;
   }
-  if (location.language) {
-    formattedResponse += `;LANGUAGE=${location.language}`;
+  if (params.language) {
+    formattedResponse += `;LANGUAGE=${params.language}`;
   }
-  formattedResponse += `:${location.name}\r\n`;
+  formattedResponse += `:${params.name}\r\n`;
 
   return formattedResponse;
 }
