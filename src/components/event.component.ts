@@ -65,6 +65,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         summary: event.summary,
         transp: event.transp,
         url: event.url,
+        recurid: event.recurid,
     };
 }
 
@@ -121,6 +122,10 @@ export function printEvent(event: EventComponentProps): string {
 
     if (event.url) {
         formattedResponse += `URL:${event.url}\r\n`;
+    }
+
+    if (event.recurid) {
+        formattedResponse += `RECURID:${event.recurid}\r\n`;
     }
 
     formattedResponse += `END:VEVENT\r\n`;

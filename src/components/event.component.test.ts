@@ -42,7 +42,7 @@ describe("event component", () => {
             summary: "Test event",
             transp: "OPAQUE",
             url: "https://www.google.com",
-            // recurid: "test-recurid"
+            recurid: "test-recurid"
         });
         const output = printEvent(event);
 
@@ -61,6 +61,7 @@ describe("event component", () => {
             "SUMMARY:Test event",
             "TRANSP:OPAQUE",
             "URL:https://www.google.com",
+            "RECURID:test-recurid",
             "END:VEVENT",
             ""
         ].join("\r\n"));
