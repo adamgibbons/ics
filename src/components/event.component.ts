@@ -5,7 +5,7 @@ import { CreateDateTimeParams } from "../properties/dateTime.prop";
 import { CommonClassTypes, CommonParticipationStatusTypes, CommonTranspTypes } from "../enums";
 import { GeographicPositionComponentProp } from "../properties/geographicPosition.prop";
 import { CreateLocationParams, printLocation } from "../properties/location.prop";
-import { CreateOrganizerParams } from "../properties/organizer.prop";
+import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.prop";
 
 export interface CreateEventParams {
     // ; The following are REQUIRED,
@@ -59,6 +59,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         description: event.description,
         geo: event.geo,
         location: event.location,
+        organizer: event.organizer,
     };
 }
 
@@ -91,6 +92,10 @@ export function printEvent(event: EventComponentProps): string {
 
     if (event.location) {
         formattedResponse += printLocation(event.location);
+    }
+
+    if (event.organizer) {
+        formattedResponse += printOrganizer(event.organizer);
     }
 
     formattedResponse += `END:VEVENT\r\n`;

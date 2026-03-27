@@ -9,29 +9,30 @@ export interface CreateOrganizerParams {
 export function createOrganizer(params: CreateOrganizerParams) {
     return {
         mailto: params.mailto,
-        cn: params.cn ?? null,
-        sentBy: params.sentBy ?? null,
-        language: params.language ?? null,
-        dir: params.dir ?? null,
+        cn: params.cn,
+        sentBy: params.sentBy,
+        language: params.language,
+        dir: params.dir
     };
 }
 
 export function printOrganizer(params: CreateOrganizerParams) {
-    const organizer = createOrganizer(params);
-
     let formattedResponse = 'ORGANIZER'
-    if (organizer.cn) {
-        formattedResponse += `;CN=${organizer.cn}`
+
+    if (params.cn) {
+        formattedResponse += `;CN=${params.cn}`
     }
-    if (organizer.sentBy) {
-        formattedResponse += `;SENT-BY=${organizer.sentBy};`
+    if (params.sentBy) {
+        formattedResponse += `;SENT-BY=${params.sentBy};`
     }
-    if (organizer.language) {
-        formattedResponse += `;LANGUAGE=${organizer.language};`
+    if (params.language) {
+        formattedResponse += `;LANGUAGE=${params.language};`
     }
-    if (organizer.dir) {
-        formattedResponse += `;DIR=${organizer.dir};`
+    if (params.dir) {
+        formattedResponse += `;DIR=${params.dir};`
     }
-    formattedResponse += `:mailto:${organizer.mailto}\r\n`
+
+    formattedResponse += `:mailto:${params.mailto}\r\n`
+
     return formattedResponse;
 }

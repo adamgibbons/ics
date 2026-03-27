@@ -31,6 +31,10 @@ describe("event component", () => {
                 name: "Conference Room - F123, Bldg. 002",
                 alternativeRepresentation: "http://xyzcorp.com/conf-rooms/f123.vcf",
                 language: "en-US"
+            },
+            organizer: {
+                mailto: "jsmith@example.com",
+                cn: "John Smith"
             }
         });
         const output = printEvent(event);
@@ -44,6 +48,7 @@ describe("event component", () => {
             "DESCRIPTION:Test event",
             "GEO:40.7128;-74.0060",
             "LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002",
+            "ORGANIZER;CN=John Smith:mailto:jsmith@example.com",
             "END:VEVENT",
             ""
         ].join("\r\n"));
