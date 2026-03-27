@@ -6,6 +6,7 @@ import { CommonClassTypes, CommonParticipationStatusTypes, CommonTranspTypes } f
 import { GeographicPositionComponentProp } from "../properties/geographicPosition.prop";
 import { CreateLocationParams, printLocation } from "../properties/location.prop";
 import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.prop";
+import { DurationComponentProps, printDuration } from "../properties/duration.prop";
 
 export interface CreateEventParams {
     // ; The following are REQUIRED,
@@ -22,11 +23,7 @@ export interface CreateEventParams {
 
     // ; The following are OPTIONAL,
     // ; but MUST NOT occur more than once.
-    // ;
-    // class / created / description / geo /
-    // last-mod / location / organizer / priority /
-    // seq / status / summary / transp /
-    // url / recurid /
+    
     class?: CommonClassTypes | undefined;
     // created?: string | null;
     description?: string | undefined;
@@ -41,6 +38,9 @@ export interface CreateEventParams {
     transp?: CommonTranspTypes;
     url?: string;
     recurid?: string;
+    // rrule
+    // dtend?: CreateDateTimeParams;
+    duration?: DurationComponentProps;
 }
 
 export interface EventComponentProps extends CreateEventParams {
@@ -66,6 +66,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         transp: event.transp,
         url: event.url,
         recurid: event.recurid,
+        duration: event.duration,
     };
 }
 
@@ -90,6 +91,10 @@ export function printEvent(event: EventComponentProps): string {
     // Remember these need to be wrapped
     if (event.description) {
         formattedResponse += `DESCRIPTION:${event.description}\r\n`;
+    }
+
+    if (event.duration) {
+        formattedResponse += `DURATION:${printDuration(event.duration)}\r\n`;
     }
 
     if (event.geo) {

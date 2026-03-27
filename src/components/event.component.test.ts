@@ -22,6 +22,13 @@ describe("event component", () => {
             },
             class: "PUBLIC",
             description: "Test event",
+            duration: {
+                weeks: 1,
+                days: 2,
+                hours: 3,
+                minutes: 4,
+                seconds: 5
+            },
             geo: {
                 latitude: 40.7128,
                 longitude: -74.0060
@@ -53,6 +60,7 @@ describe("event component", () => {
             "DTSTART;TZID=America/New_York:20260326T123000",
             "CLASS:PUBLIC",
             "DESCRIPTION:Test event",
+            "DURATION:P1W2DT3H4M5S",
             "GEO:40.7128;-74.0060",
             "LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002",
             "ORGANIZER;CN=John Smith:mailto:jsmith@example.com",

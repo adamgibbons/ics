@@ -1,4 +1,4 @@
-export interface IDurationProp {
+export interface DurationComponentProps {
     weeks?: number;
     days?: number;
     hours?: number;
@@ -6,7 +6,7 @@ export interface IDurationProp {
     seconds?: number;
 }
 
-export function printDuration(duration: IDurationProp) {
+export function printDuration(duration: DurationComponentProps) {
     const { weeks, days, hours, minutes, seconds } = duration
 
     let formattedDuration = 'P'
