@@ -6,9 +6,9 @@ export interface IDurationProp {
     seconds?: number;
 }
 
-export function printDuration ( duration: IDurationProp ) {
+export function printDuration(duration: IDurationProp) {
     const { weeks, days, hours, minutes, seconds } = duration
-  
+
     let formattedDuration = 'P'
     formattedDuration += weeks ? `${weeks}W` : ''
     formattedDuration += days ? `${days}D` : ''
@@ -16,6 +16,6 @@ export function printDuration ( duration: IDurationProp ) {
     formattedDuration += hours ? `${hours}H` : ''
     formattedDuration += minutes ? `${minutes}M` : ''
     formattedDuration += seconds ? `${seconds}S` : ''
-  
+
     return formattedDuration
-  }
+}
