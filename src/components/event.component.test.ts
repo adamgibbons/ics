@@ -49,13 +49,19 @@ describe("event component", () => {
             summary: "Test event",
             transp: "OPAQUE",
             url: "https://www.google.com",
-            recurid: "test-recurid"
+            recurid: "test-recurid",
+            attachments: [
+                {
+                    url: "CID:jsmith.part3.960817T083000.xyzMail@example.com"
+                }
+            ]
         });
         const output = printEvent(event);
 
         expect(output).toBe([
             "BEGIN:VEVENT",
             "UID:test-uid",
+            "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com",
             "DTSTAMP:20260326T120000Z",
             "DTSTART;TZID=America/New_York:20260326T123000",
             "CLASS:PUBLIC",

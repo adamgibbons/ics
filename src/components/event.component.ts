@@ -7,6 +7,7 @@ import { GeographicPositionComponentProp } from "../properties/geographicPositio
 import { CreateLocationParams, printLocation } from "../properties/location.prop";
 import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.prop";
 import { DurationComponentProps, printDuration } from "../properties/duration.prop";
+import { CreateAttachmentParams, printAttachments } from "../properties/attachment.prop";
 
 export interface CreateEventParams {
     // ; The following are REQUIRED,
@@ -41,6 +42,23 @@ export interface CreateEventParams {
     // rrule
     // dtend?: CreateDateTimeParams;
     duration?: DurationComponentProps;
+
+    // ; The following are OPTIONAL,
+    // ; and MAY occur more than once.
+    // attach / attendee / categories / comment /
+    // contact / exdate / rstatus / related /
+    // resources / rdate / x-prop / iana-prop
+
+    attachments?: CreateAttachmentParams[];
+    // attendees?: CreateAttendeeParams[];
+    // categories?: string[];
+    // comments?: string[];
+    // contacts?: string[];
+    // exdate?: CreateDateTimeParams[];
+    // rstatus?: string;
+    // related?: string;
+    // resources?: string[];
+    // rdate?: CreateDateTimeParams[];
 }
 
 export interface EventComponentProps extends CreateEventParams {
@@ -53,6 +71,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
     const dtstamp = event.dtstamp || setDateTimeStamp();
     return {
         uid,
+        attachments: event.attachments,
         dtstamp,
         dtstart: event.dtstart,
         class: event.class,
@@ -75,6 +94,9 @@ export function printEvent(event: EventComponentProps): string {
     let formattedResponse = 'BEGIN:VEVENT\r\n';
 
     formattedResponse += `UID:${event.uid}\r\n`;
+    if (event.attachments) {
+        formattedResponse += printAttachments(event.attachments);
+    }
     formattedResponse += `DTSTAMP:${event.dtstamp}\r\n`;
 
     // Turn these into formatters
