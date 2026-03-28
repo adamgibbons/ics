@@ -1,12 +1,12 @@
 import { nanoid } from "nanoid"
-import { printDuration, IDurationProp } from "../properties/duration.prop"
+import { printDuration, DurationComponentProps } from "../properties/duration.prop"
 
 export interface IAlarmComponent {
     uid?: string;
     description: string;
     action: "AUDIO" | "DISPLAY" | "EMAIL";
     repeatCount: number;
-    trigger?: IDurationProp;
+    trigger?: DurationComponentProps;
     attach?: string;
     // duration?: IDurationProp;
 }

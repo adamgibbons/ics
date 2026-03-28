@@ -39,6 +39,9 @@ export function printAttendee(props: CreateAttendeeParams) {
     const attendee = createAttendee(props);
 
     let formattedResponse = `ATTENDEE`
+    if (attendee.cn) {
+        formattedResponse += `;CN=${attendee.cn}`
+    }    
     if (attendee.member) {
         formattedResponse += `;MEMBER="mailto:${attendee.member}"`
     }
@@ -47,9 +50,6 @@ export function printAttendee(props: CreateAttendeeParams) {
     }
     if (attendee.delegatedTo) {
         formattedResponse += `;DELEGATED-TO="mailto:${attendee.delegatedTo}"`
-    }
-    if (attendee.cn) {
-        formattedResponse += `;CN=${attendee.cn}`
     }
     if (attendee.cutype) {
         formattedResponse += `;CUTYPE=${attendee.cutype}`

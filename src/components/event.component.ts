@@ -8,6 +8,7 @@ import { CreateLocationParams, printLocation } from "../properties/location.prop
 import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.prop";
 import { DurationComponentProps, printDuration } from "../properties/duration.prop";
 import { CreateAttachmentParams, printAttachments } from "../properties/attachment.prop";
+import { CreateAttendeeParams, printAttendees } from "../properties/attendee.prop";
 
 export interface CreateEventParams {
     // ; The following are REQUIRED,
@@ -50,7 +51,7 @@ export interface CreateEventParams {
     // resources / rdate / x-prop / iana-prop
 
     attachments?: CreateAttachmentParams[];
-    // attendees?: CreateAttendeeParams[];
+    attendees?: CreateAttendeeParams[];
     // categories?: string[];
     // comments?: string[];
     // contacts?: string[];
@@ -86,6 +87,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         url: event.url,
         recurid: event.recurid,
         duration: event.duration,
+        attendees: event.attendees,
     };
 }
 
@@ -96,6 +98,9 @@ export function printEvent(event: EventComponentProps): string {
     formattedResponse += `UID:${event.uid}\r\n`;
     if (event.attachments) {
         formattedResponse += printAttachments(event.attachments);
+    }
+    if (event.attendees) {
+        formattedResponse += printAttendees(event.attendees);
     }
     formattedResponse += `DTSTAMP:${event.dtstamp}\r\n`;
 

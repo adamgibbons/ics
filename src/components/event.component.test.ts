@@ -54,6 +54,21 @@ describe("event component", () => {
                 {
                     url: "CID:jsmith.part3.960817T083000.xyzMail@example.com"
                 }
+            ],
+            attendees: [
+                {
+                    mailto: "hcabot@example.com",
+                    cn: "Henry Cabot",
+                    role: "REQ-PARTICIPANT",
+                    partstat: "TENTATIVE"
+                },
+                {
+                    mailto: "jdoe@example.com",
+                    cn: "Jane Doe",
+                    role: "REQ-PARTICIPANT",
+                    partstat: "ACCEPTED",
+                    delegatedFrom: "bob@example.com"
+                }
             ]
         });
         const output = printEvent(event);
@@ -62,6 +77,8 @@ describe("event component", () => {
             "BEGIN:VEVENT",
             "UID:test-uid",
             "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com",
+            "ATTENDEE;CN=Henry Cabot;ROLE=REQ-PARTICIPANT;PARTSTAT=TENTATIVE:mailto:hcabot@example.com",
+            "ATTENDEE;CN=Jane Doe;DELEGATED-FROM=\"mailto:bob@example.com\";ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED:mailto:jdoe@example.com",
             "DTSTAMP:20260326T120000Z",
             "DTSTART;TZID=America/New_York:20260326T123000",
             "CLASS:PUBLIC",
