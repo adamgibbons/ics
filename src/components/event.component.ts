@@ -53,7 +53,7 @@ export interface CreateEventParams {
     attachments?: CreateAttachmentParams[];
     attendees?: CreateAttendeeParams[];
     categories?: string[];
-    // comments?: string[];
+    comments?: string[];
     // contacts?: string[];
     // exdate?: CreateDateTimeParams[];
     // rstatus?: string;
@@ -76,6 +76,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         dtstamp,
         dtstart: event.dtstart,
         class: event.class,
+        comments: event.comments,
         description: event.description,
         geo: event.geo,
         location: event.location,
@@ -111,6 +112,11 @@ export function printEvent(event: EventComponentProps): string {
     if (event.class) {
         formattedResponse += `CLASS:${event.class}\r\n`;
     }
+
+    if (event.comments) {
+        event.comments.map(comment => formattedResponse += `COMMENT:${comment}\r\n`);
+    }
+
     formattedResponse += `DTSTAMP:${event.dtstamp}\r\n`;
 
     // Turn these into formatters

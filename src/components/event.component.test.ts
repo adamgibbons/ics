@@ -54,6 +54,10 @@ describe("event component", () => {
             attachments: [
                 {
                     url: "CID:jsmith.part3.960817T083000.xyzMail@example.com"
+                },
+                {
+                    binary: "Zm9v",
+                    fmtType: "application/pdf"
                 }
             ],
             attendees: [
@@ -70,7 +74,8 @@ describe("event component", () => {
                     partstat: "ACCEPTED",
                     delegatedFrom: "bob@example.com"
                 }
-            ]
+            ],
+            comments: ["Foo bar", "fizz buzz"]
         });
         const output = printEvent(event);
 
@@ -78,10 +83,13 @@ describe("event component", () => {
             "BEGIN:VEVENT",
             "UID:test-uid",
             "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com",
+            "ATTACH;ENCODING=BASE64;VALUE=BINARY;FMTTYPE=application/pdf:Zm9v",
             "ATTENDEE;CN=Henry Cabot;ROLE=REQ-PARTICIPANT;PARTSTAT=TENTATIVE:mailto:hcabot@example.com",
             "ATTENDEE;CN=Jane Doe;DELEGATED-FROM=\"mailto:bob@example.com\";ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED:mailto:jdoe@example.com",
             "CATEGORIES:10k races,Memorial Day Weekend,Boulder CO",
             "CLASS:PUBLIC",
+            "COMMENT:Foo bar",
+            "COMMENT:fizz buzz",
             "DTSTAMP:20260326T120000Z",
             "DTSTART;TZID=America/New_York:20260326T123000",
             "DESCRIPTION:Test event",
