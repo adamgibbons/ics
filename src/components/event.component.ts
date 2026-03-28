@@ -52,7 +52,7 @@ export interface CreateEventParams {
 
     attachments?: CreateAttachmentParams[];
     attendees?: CreateAttendeeParams[];
-    // categories?: string[];
+    categories?: string[];
     // comments?: string[];
     // contacts?: string[];
     // exdate?: CreateDateTimeParams[];
@@ -88,6 +88,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         recurid: event.recurid,
         duration: event.duration,
         attendees: event.attendees,
+        categories: event.categories,
     };
 }
 
@@ -102,6 +103,14 @@ export function printEvent(event: EventComponentProps): string {
     if (event.attendees) {
         formattedResponse += printAttendees(event.attendees);
     }
+
+    if (event.categories) {
+        formattedResponse += `CATEGORIES:${event.categories.join(",")}\r\n`;
+    }
+
+    if (event.class) {
+        formattedResponse += `CLASS:${event.class}\r\n`;
+    }
     formattedResponse += `DTSTAMP:${event.dtstamp}\r\n`;
 
     // Turn these into formatters
@@ -109,10 +118,6 @@ export function printEvent(event: EventComponentProps): string {
         formattedResponse += 'DTSTART';
         formattedResponse += event.dtstart.type === "local-tzid" ? ';' : ':';
         formattedResponse += `${printDateTime(event.dtstart)}\r\n`;
-    }
-
-    if (event.class) {
-        formattedResponse += `CLASS:${event.class}\r\n`;
     }
 
     // Remember these need to be wrapped

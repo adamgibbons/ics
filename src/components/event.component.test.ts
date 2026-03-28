@@ -14,13 +14,14 @@ describe("event component", () => {
     it("prints the VEVENT block with all fields", () => {
         const event = createEvent({
             uid: "test-uid",
+            categories: ["10k races", "Memorial Day Weekend", "Boulder CO"],
+            class: "PUBLIC",
             dtstamp: "20260326T120000Z",
             dtstart: {
                 value: [2026, 3, 26, 12, 30],
                 tzid: "America/New_York",
                 type: "local-tzid"
             },
-            class: "PUBLIC",
             description: "Test event",
             duration: {
                 weeks: 1,
@@ -79,9 +80,10 @@ describe("event component", () => {
             "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com",
             "ATTENDEE;CN=Henry Cabot;ROLE=REQ-PARTICIPANT;PARTSTAT=TENTATIVE:mailto:hcabot@example.com",
             "ATTENDEE;CN=Jane Doe;DELEGATED-FROM=\"mailto:bob@example.com\";ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED:mailto:jdoe@example.com",
+            "CATEGORIES:10k races,Memorial Day Weekend,Boulder CO",
+            "CLASS:PUBLIC",
             "DTSTAMP:20260326T120000Z",
             "DTSTART;TZID=America/New_York:20260326T123000",
-            "CLASS:PUBLIC",
             "DESCRIPTION:Test event",
             "DURATION:P1W2DT3H4M5S",
             "GEO:40.7128;-74.0060",
