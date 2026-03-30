@@ -61,6 +61,8 @@ export interface CreateEventParams {
     // related?: string;
     // resources?: string[];
     // rdate?: CreateDateTimeParams[];
+    // xprops?: string[];
+    // ianaProps?: string[];
 }
 
 export interface EventComponentProps extends CreateEventParams {
