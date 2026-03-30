@@ -75,7 +75,12 @@ describe("event component", () => {
                     delegatedFrom: "bob@example.com"
                 }
             ],
-            comments: ["Foo bar", "fizz buzz"]
+            comments: ["Foo bar", "fizz buzz"],
+            contacts: [
+                {
+                    contact: "John Smith, +1-555-555-5555"
+                }
+            ]
         });
         const output = printEvent(event);
 
@@ -90,6 +95,7 @@ describe("event component", () => {
             "CLASS:PUBLIC",
             "COMMENT:Foo bar",
             "COMMENT:fizz buzz",
+            "CONTACT:John Smith, +1-555-555-5555",
             "DTSTAMP:20260326T120000Z",
             "DTSTART;TZID=America/New_York:20260326T123000",
             "DESCRIPTION:Test event",

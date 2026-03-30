@@ -9,6 +9,7 @@ import { CreateOrganizerParams, printOrganizer } from "../properties/organizer.p
 import { DurationComponentProps, printDuration } from "../properties/duration.prop";
 import { CreateAttachmentParams, printAttachments } from "../properties/attachment.prop";
 import { CreateAttendeeParams, printAttendees } from "../properties/attendee.prop";
+import { CreateContactParams, printContacts } from "../properties/contact.prop";
 
 export interface CreateEventParams {
     // ; The following are REQUIRED,
@@ -54,7 +55,7 @@ export interface CreateEventParams {
     attendees?: CreateAttendeeParams[];
     categories?: string[];
     comments?: string[];
-    // contacts?: string[];
+    contacts?: CreateContactParams[];
     // exdate?: CreateDateTimeParams[];
     // rstatus?: string;
     // related?: string;
@@ -77,6 +78,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         dtstart: event.dtstart,
         class: event.class,
         comments: event.comments,
+        contacts: event.contacts,
         description: event.description,
         geo: event.geo,
         location: event.location,
@@ -115,6 +117,10 @@ export function printEvent(event: EventComponentProps): string {
 
     if (event.comments) {
         event.comments.map(comment => formattedResponse += `COMMENT:${comment}\r\n`);
+    }
+
+    if (event.contacts) {
+        formattedResponse += printContacts(event.contacts);
     }
 
     formattedResponse += `DTSTAMP:${event.dtstamp}\r\n`;
