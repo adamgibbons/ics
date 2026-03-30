@@ -1,10 +1,11 @@
 import { nanoid } from "nanoid"
 import { printDuration, DurationComponentProps } from "../properties/duration.prop"
+import { AlarmActionTypes } from "../enums";
 
 export interface IAlarmComponent {
     uid?: string;
     description: string;
-    action: "AUDIO" | "DISPLAY" | "EMAIL";
+    action: AlarmActionTypes;
     repeatCount: number;
     trigger?: DurationComponentProps;
     attach?: string;
@@ -15,6 +16,7 @@ export function createAlarm(alarm: IAlarmComponent) {
     alarm.uid = alarm.uid || nanoid(25)
     alarm.repeatCount = alarm.repeatCount || 0
     alarm.description = alarm.description || "Reminder"
+    alarm.trigger = alarm.trigger;
 
     return alarm
 }

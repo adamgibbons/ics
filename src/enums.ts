@@ -1,4 +1,4 @@
-
+export type AlarmActionTypes = "AUDIO" | "DISPLAY" | "EMAIL" | "IANA-PROP" | "X-PROP";
 export type CalendarComponentTypes = "eventc" | "todoc" | "journalc" | "freebusyc" | "timezonec" | "iana-comp" | "x-comp";
 export type CommonUserTypes = "INDIVIDUAL" | "GROUP" | "RESOURCE" | "ROOM" | "UNKNOWN";
 export type CommonRoleTypes = "CHAIR" | "REQ-PARTICIPANT" | "OPT-PARTICIPANT" | "NON-PARTICIPANT";
