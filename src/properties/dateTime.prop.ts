@@ -1,22 +1,22 @@
 import { DateTimeTypes } from "../enums";
 
-type DateTimeList = [
+export type DateTimeList = [
     number, // year
     number, // month
     number, // day
-    number, // hour
+    number?, // hour
     number?, // minute
     number? // second
 ];
 
 export interface CreateDateTimeParams {
-    type?: DateTimeTypes;
     value: DateTimeList;
+    type?: DateTimeTypes;
     tzid?: string | null;
 }
 
-export function createDateTime({ type = "utc", value, tzid = null }: CreateDateTimeParams) {
-    const [year, month, day, hour = 12, minute = 0, second = 0] = value;
+export function createDateTime({ value, type = "utc", tzid = null }: CreateDateTimeParams) {
+    const [year, month, day, hour = 0, minute = 0, second = 0] = value;
 
     if (type === "local") {
         return {
