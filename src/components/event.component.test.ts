@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createEvent, printEvent } from "./event.component";
+import { CreateRecurrenceRuleParams } from "../properties/recurrenceRule.prop";
 
 describe("event component", () => {
     it("prints the bare-minimum VEVENT block", () => {
@@ -21,6 +22,12 @@ describe("event component", () => {
                 value: [2026, 3, 26, 12, 30],
                 tzid: "America/New_York",
                 type: "local-tzid"
+            },
+            recurrenceRule: {
+                frequency: "DAILY",
+                until: {
+                    value: [2027, 1, 15, 12],
+                }
             },
             description: "Test event",
             duration: {
@@ -104,6 +111,7 @@ describe("event component", () => {
             "LOCATION;ALTREP=\"http://xyzcorp.com/conf-rooms/f123.vcf\";LANGUAGE=en-US:Conference Room - F123, Bldg. 002",
             "ORGANIZER;CN=John Smith:mailto:jsmith@example.com",
             "PRIORITY:1",
+            "RRULE:FREQ=DAILY;UNTIL=20270115T120000Z",
             "STATUS:ACCEPTED",
             "SUMMARY:Test event",
             "TRANSP:OPAQUE",

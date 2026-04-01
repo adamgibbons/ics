@@ -10,6 +10,7 @@ import { DurationComponentProps, printDuration } from "../properties/duration.pr
 import { CreateAttachmentParams, printAttachments } from "../properties/attachment.prop";
 import { CreateAttendeeParams, printAttendees } from "../properties/attendee.prop";
 import { CreateContactParams, printContacts } from "../properties/contact.prop";
+import { CreateRecurrenceRuleParams, printRecurrenceRule } from "../properties/recurrenceRule.prop";
 
 export interface CreateEventParams {
     // ; The following are REQUIRED,
@@ -41,7 +42,7 @@ export interface CreateEventParams {
     transp?: CommonTranspTypes;
     url?: string;
     recurid?: string;
-    // rrule
+    recurrenceRule?: CreateRecurrenceRuleParams;
     // dtend?: CreateDateTimeParams;
     duration?: DurationComponentProps;
 
@@ -94,6 +95,7 @@ export function createEvent(event: CreateEventParams): EventComponentProps {
         duration: event.duration,
         attendees: event.attendees,
         categories: event.categories,
+        recurrenceRule: event.recurrenceRule
     };
 }
 
@@ -157,6 +159,10 @@ export function printEvent(event: EventComponentProps): string {
 
     if (event.priority) {
         formattedResponse += `PRIORITY:${event.priority}\r\n`;
+    }
+
+    if (event.recurrenceRule) {
+        formattedResponse += printRecurrenceRule(event.recurrenceRule);
     }
 
     if (event.status) {
