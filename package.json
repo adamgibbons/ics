@@ -11,7 +11,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "rm -r dist && tsc",
+    "build": "rm -rf dist && tsc",
     "dev": "tsc --watch --preserveWatchOutput"
   },
   "repository": {
