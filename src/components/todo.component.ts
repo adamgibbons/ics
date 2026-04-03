@@ -70,7 +70,6 @@ export function printToDo(params: CreateToDoParams): string {
 
     let formattedResponse = 'BEGIN:VTODO\r\n';
 
-    // formattedResponse += `DTSTAMP:${todo.dtstamp}\r\n`;
     if (todo.uid) {
         formattedResponse += `UID:${todo.uid}\r\n`;
     }
