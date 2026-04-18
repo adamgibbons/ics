@@ -24,7 +24,7 @@ export function formatHeader(attributes = {}) {
   icsFormat += 'VERSION:2.0\r\n'
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
   icsFormat += foldLine(`PRODID:${encodeNewLines(productId)}`) + '\r\n'
-  icsFormat += foldLine(`METHOD:${encodeNewLines(method)}`) + '\r\n'
+  icsFormat += method ? (foldLine(`METHOD:${encodeNewLines(method)}`) + '\r\n') : ''
   icsFormat += calName ? (foldLine(`X-WR-CALNAME:${encodeNewLines(calName)}`) + '\r\n') : ''
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
 
