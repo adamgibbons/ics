@@ -26,6 +26,11 @@ describe('pipeline.formatHeader', () => {
     const formattedHeader = formatHeader(header)
     expect(formattedHeader).to.contain('METHOD:method')
   })
+  it('omits method when set to undefined', () => {
+    const header = buildHeader({ method: undefined })
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).not.to.contain('METHOD')
+  })
   it('writes a calName', () => {
     const header = buildHeader({ calName: 'calName'})
     const formattedHeader = formatHeader(header)
