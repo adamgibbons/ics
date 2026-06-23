@@ -35,9 +35,9 @@
   },
   "homepage": "https://github.com/adamgibbons/ics",
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.23.2",
-    "@babel/register": "^7.6.2",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/register": "^8.0.1",
     "chai": "^4.2.0",
     "dayjs": "^1.8.33",
     "gulp": "^5.0.0",
