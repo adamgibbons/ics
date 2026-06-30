@@ -1,6 +1,8 @@
 import formatDate from './format-date'
 import foldLine from './fold-line'
 import encodeNewLines from './encode-new-lines'
+import setSummary from './set-summary'
+import setDescription from './set-description'
 
 function setDuration ({
   weeks,
@@ -51,12 +53,12 @@ export default function setAlarm(attributes = {}) {
   let formattedString = 'BEGIN:VALARM\r\n'
   formattedString += foldLine(`ACTION:${encodeNewLines(setAction(action))}`) + '\r\n'
   formattedString += repeat ? foldLine(`REPEAT:${repeat}`) + '\r\n' : ''
-  formattedString += description ? foldLine(`DESCRIPTION:${encodeNewLines(description)}`) + '\r\n' : ''
+  formattedString += description ? foldLine(`DESCRIPTION:${encodeNewLines(setDescription(description))}`) + '\r\n' : ''
   formattedString += duration ? foldLine(`DURATION:${setDuration(duration)}`) + '\r\n' : ''
   let attachInfo = attachType ? attachType : 'FMTTYPE=audio/basic'
   formattedString += attach ? foldLine(encodeNewLines(`ATTACH;${attachInfo}:${attach}`)) + '\r\n' : ''
   formattedString += trigger ? (setTrigger(trigger)) : ''
-  formattedString += summary ? (foldLine(`SUMMARY:${encodeNewLines(summary)}`) + '\r\n') : ''
+  formattedString += summary ? (foldLine(`SUMMARY:${encodeNewLines(setSummary(summary))}`) + '\r\n') : ''
   formattedString += 'END:VALARM\r\n'
 
   return formattedString
