@@ -4,10 +4,10 @@ export default function formatDuration ( attributes = {}) {
   let formattedDuration = 'P'
   formattedDuration += weeks ? `${weeks}W` : ''
   formattedDuration += days ? `${days}D` : ''
-  formattedDuration += 'T'
+  formattedDuration += hours || minutes || seconds ? 'T' : ''
   formattedDuration += hours ? `${hours}H` : ''
   formattedDuration += minutes ? `${minutes}M` : ''
   formattedDuration += seconds ? `${seconds}S` : ''
 
-  return formattedDuration
+  return formattedDuration === 'P' ? 'PT0S' : formattedDuration
 }
