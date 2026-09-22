@@ -1,24 +1,7 @@
 import formatDate from './format-date'
 import foldLine from './fold-line'
 import encodeNewLines from './encode-new-lines'
-
-function setDuration ({
-  weeks,
-  days,
-  hours,
-  minutes,
-  seconds
-}) {
-  let formattedString = 'P'
-  formattedString += weeks ? `${weeks}W` : ''
-  formattedString += days ? `${days}D` : ''
-  formattedString += 'T'
-  formattedString += hours ? `${hours}H` : ''
-  formattedString += minutes ? `${minutes}M` : ''
-  formattedString += seconds ? `${seconds}S` : ''
-
-  return formattedString
-}
+import formatDuration from './format-duration'
 
 function setTrigger (trigger) {
   let formattedString = ''
@@ -26,7 +9,7 @@ function setTrigger (trigger) {
     formattedString = `TRIGGER;VALUE=DATE-TIME:${encodeNewLines(formatDate(trigger))}\r\n`
   } else {
     let alert = trigger.before ? '-' : ''
-    formattedString = `TRIGGER:${encodeNewLines(alert+setDuration(trigger))}\r\n`
+    formattedString = `TRIGGER:${encodeNewLines(alert+formatDuration(trigger))}\r\n`
   }
 
   return formattedString
@@ -52,7 +35,7 @@ export default function setAlarm(attributes = {}) {
   formattedString += foldLine(`ACTION:${encodeNewLines(setAction(action))}`) + '\r\n'
   formattedString += repeat ? foldLine(`REPEAT:${repeat}`) + '\r\n' : ''
   formattedString += description ? foldLine(`DESCRIPTION:${encodeNewLines(description)}`) + '\r\n' : ''
-  formattedString += duration ? foldLine(`DURATION:${setDuration(duration)}`) + '\r\n' : ''
+  formattedString += duration ? foldLine(`DURATION:${formatDuration(duration)}`) + '\r\n' : ''
   let attachInfo = attachType ? attachType : 'FMTTYPE=audio/basic'
   formattedString += attach ? foldLine(encodeNewLines(`ATTACH;${attachInfo}:${attach}`)) + '\r\n' : ''
   formattedString += trigger ? (setTrigger(trigger)) : ''
