@@ -32,6 +32,17 @@ describe('utils.setAlarm', () => {
       ``
     ].join('\r\n'))
   })
+
+  it('escapes TEXT special characters in description and summary', () => {
+    const alarm = setAlarm({
+      action: 'display',
+      trigger: [1997, 2, 17, 6, 30],
+      description: 'Buy milk, eggs; pay \\ now',
+      summary: 'A; B, C'
+    })
+    expect(alarm).to.contain('DESCRIPTION:Buy milk\\, eggs\\; pay \\\\ now')
+    expect(alarm).to.contain('SUMMARY:A\\; B\\, C')
+  })
 })
 
 // BEGIN:VALARM
