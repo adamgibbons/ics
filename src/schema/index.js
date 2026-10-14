@@ -6,6 +6,15 @@ import * as yup from 'yup'
 // "url must match the following: ...." as opposed to "url must be a valid URL"
 export const urlRegex = /^(?:([a-z0-9+.-]+):\/\/)(?:\S+(?::\S*)?@)?(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/
 
+// yup 1.x email() uses the HTML spec regex, which rejects non-ASCII addresses,
+// so use the same pattern with the \u00a1-\uffff range that urlRegex allows
+const emailRegex = /^[a-zA-Z0-9\u00a1-\uffff.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9\u00a1-\uffff](?:[a-zA-Z0-9\u00a1-\uffff-]{0,61}[a-zA-Z0-9\u00a1-\uffff])?(?:\.[a-zA-Z0-9\u00a1-\uffff](?:[a-zA-Z0-9\u00a1-\uffff-]{0,61}[a-zA-Z0-9\u00a1-\uffff])?)*$/
+const emailSchema = yup.string().matches(emailRegex, {
+  name: 'email',
+  message: '${path} must be a valid email',
+  excludeEmptyString: true
+})
+
 const dateTimeSchema = ({ required }) => yup.lazy((value) => {
   if (typeof value === 'number') {
     return yup.number().integer().min(0)
@@ -44,7 +53,7 @@ const durationSchema = yup.object().shape({
 
 const contactSchema = yup.object().shape({
   name: yup.string(),
-  email: yup.string().email(),
+  email: emailSchema,
   rsvp: yup.boolean(),
   dir: yup.string().matches(urlRegex),
   partstat: yup.string(),
@@ -56,7 +65,7 @@ const contactSchema = yup.object().shape({
 
 const organizerSchema = yup.object().shape({
   name: yup.string(),
-  email: yup.string().email(),
+  email: emailSchema,
   dir: yup.string(),
   sentBy: yup.string()
 }).noUnknown()
