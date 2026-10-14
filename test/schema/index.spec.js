@@ -212,6 +212,26 @@ describe('.validateHeaderAndEvent', () => {
       expect(res).to.be.null
     })
 
+    it('organizer and attendee emails with non-ASCII characters', () => {
+      expect(validateHeaderAndEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        organizer: {name: 'Admin', email: 'admin@exämple.com'},
+        attendees: [{name: 'Adam', email: 'àdam@example.com'}]
+      }).error).to.be.null
+
+      const {errors} = validateHeaderAndEvent({
+        title: 'foo',
+        uid: 'foo',
+        start: [2018, 12, 1, 10, 30],
+        organizer: {name: 'Admin', email: 'admin'},
+        attendees: [{name: 'Adam', email: 'àdam@'}]
+      }).error
+      expect(errors).to.include('organizer.email must be a valid email')
+      expect(errors).to.include('attendees[0].email must be a valid email')
+    })
+
     it('created', () => {
       expect(validateHeaderAndEvent({
         title: 'foo',
