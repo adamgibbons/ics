@@ -21,6 +21,11 @@ describe('pipeline.formatHeader', () => {
     const formattedHeader = formatHeader(header)
     expect(formattedHeader).to.contain('PRODID:productId')
   })
+  it('escapes commas and semicolons in the product id', () => {
+    const header = buildHeader({ productId: 'acme,inc;cal' })
+    const formattedHeader = formatHeader(header)
+    expect(formattedHeader).to.contain('PRODID:acme\\,inc\\;cal')
+  })
   it('writes a method', () => {
     const header = buildHeader({ method: 'method'})
     const formattedHeader = formatHeader(header)
@@ -178,6 +183,16 @@ describe('pipeline.formatEvent', () => {
     const event = buildEvent({ categories: ['boulder', 'running'] })
     const formattedEvent = formatEvent(event)
     expect(formattedEvent).to.contain('CATEGORIES:boulder,running')
+  })
+  it('escapes commas and semicolons in categories', () => {
+    const event = buildEvent({ categories: ['work', 'q1, planning', 'sync;weekly'] })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('CATEGORIES:work,q1\\, planning,sync\\;weekly')
+  })
+  it('escapes commas and semicolons in the uid', () => {
+    const event = buildEvent({ uid: 'event,1;a' })
+    const formattedEvent = formatEvent(event)
+    expect(formattedEvent).to.contain('UID:event\\,1\\;a')
   })
 
   it('writes all-day events', () => {

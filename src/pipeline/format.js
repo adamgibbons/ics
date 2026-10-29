@@ -11,6 +11,7 @@ import {
     foldLine
 } from '../utils'
 import encodeNewLines from '../utils/encode-new-lines'
+import formatText from '../utils/format-text'
 
 export function formatHeader(attributes = {}) {
   const {
@@ -23,7 +24,7 @@ export function formatHeader(attributes = {}) {
   icsFormat += 'BEGIN:VCALENDAR\r\n'
   icsFormat += 'VERSION:2.0\r\n'
   icsFormat += 'CALSCALE:GREGORIAN\r\n'
-  icsFormat += foldLine(`PRODID:${encodeNewLines(productId)}`) + '\r\n'
+  icsFormat += foldLine(`PRODID:${encodeNewLines(formatText(productId))}`) + '\r\n'
   icsFormat += method ? (foldLine(`METHOD:${encodeNewLines(method)}`) + '\r\n') : ''
   icsFormat += calName ? (foldLine(`X-WR-CALNAME:${encodeNewLines(calName)}`) + '\r\n') : ''
   icsFormat += `X-PUBLISHED-TTL:PT1H\r\n`
@@ -71,7 +72,7 @@ export function formatEvent(attributes = {}) {
 
   let icsFormat = ''
   icsFormat += 'BEGIN:VEVENT\r\n'
-  icsFormat += foldLine(`UID:${encodeNewLines(uid)}`) + '\r\n'
+  icsFormat += foldLine(`UID:${encodeNewLines(formatText(uid))}`) + '\r\n'
   icsFormat += title ? foldLine(`SUMMARY:${encodeNewLines(setSummary(title))}`) + '\r\n' : ''
   icsFormat += foldLine(`DTSTAMP:${encodeNewLines(formatDate(timestamp))}`) + '\r\n'
 
@@ -91,7 +92,7 @@ export function formatEvent(attributes = {}) {
   icsFormat += geo ? (foldLine(`GEO:${setGeolocation(geo)}`) + '\r\n') : ''
   icsFormat += location ? (foldLine(`LOCATION:${encodeNewLines(setLocation(location))}`) + '\r\n') : ''
   icsFormat += status ? (foldLine(`STATUS:${encodeNewLines(status)}`) + '\r\n') : ''
-  icsFormat += categories ? (foldLine(`CATEGORIES:${encodeNewLines(categories.join(','))}`) + '\r\n') : ''
+  icsFormat += categories ? (foldLine(`CATEGORIES:${encodeNewLines(categories.map(formatText).join(','))}`) + '\r\n') : ''
   icsFormat += organizer ? (foldLine(`ORGANIZER;${setOrganizer(organizer)}`) + '\r\n') : ''
   icsFormat += busyStatus ? (foldLine(`X-MICROSOFT-CDO-BUSYSTATUS:${encodeNewLines(busyStatus)}`) + '\r\n') : ''
   icsFormat += transp ? (foldLine(`TRANSP:${encodeNewLines(transp)}`) + '\r\n') : ''
