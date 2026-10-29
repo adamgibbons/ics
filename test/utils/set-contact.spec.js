@@ -9,19 +9,19 @@ describe('utils.setContact', () => {
 
     const contactChair = Object.assign({role: 'CHAIR'}, contact)
     expect(setContact(contactChair))
-    .to.equal(`ROLE="CHAIR";CN="m-vinc":mailto:vinc@example.com`)
+    .to.equal(`ROLE=CHAIR;CN="m-vinc":mailto:vinc@example.com`)
 
     const contactRequired = Object.assign({role: 'REQ-PARTICIPANT', rsvp: true }, contact)
     expect(setContact(contactRequired))
-    .to.equal(`RSVP=TRUE;ROLE="REQ-PARTICIPANT";CN="m-vinc":mailto:vinc@example.com`)
+    .to.equal(`RSVP=TRUE;ROLE=REQ-PARTICIPANT;CN="m-vinc":mailto:vinc@example.com`)
 
     const contactOptional = Object.assign({role: 'OPT-PARTICIPANT', rsvp: false }, contact)
     expect(setContact(contactOptional))
-    .to.equal(`RSVP=FALSE;ROLE="OPT-PARTICIPANT";CN="m-vinc":mailto:vinc@example.com`)
+    .to.equal(`RSVP=FALSE;ROLE=OPT-PARTICIPANT;CN="m-vinc":mailto:vinc@example.com`)
 
     const contactNon = Object.assign({role: 'NON-PARTICIPANT' }, contact)
     expect(setContact(contactNon))
-    .to.equal(`ROLE="NON-PARTICIPANT";CN="m-vinc":mailto:vinc@example.com`)
+    .to.equal(`ROLE=NON-PARTICIPANT;CN="m-vinc":mailto:vinc@example.com`)
   })
   it('set a contact with partstat', () => {
     const contact = { name: 'm-vinc', email: 'vinc@example.com' }
@@ -35,16 +35,16 @@ describe('utils.setContact', () => {
     .to.equal('CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactNeedsAction))
-    .to.equal('PARTSTAT="NEEDS-ACTION";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('PARTSTAT=NEEDS-ACTION;CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactDeclined))
-    .to.equal('PARTSTAT="DECLINED";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('PARTSTAT=DECLINED;CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactTentative))
-    .to.equal('PARTSTAT="TENTATIVE";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('PARTSTAT=TENTATIVE;CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactAccepted))
-    .to.equal('PARTSTAT="ACCEPTED";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('PARTSTAT=ACCEPTED;CN="m-vinc":mailto:vinc@example.com')
   })
   it('sets a contact and only sets RSVP if specified', () => {
     const contact1 = {
@@ -70,7 +70,7 @@ describe('utils.setContact', () => {
     const contactCuGuests = Object.assign({ cutype: 'INDIVIDUAL', xNumGuests: 0 }, contact)
     const contactString = setContact(contactCuGuests)
 
-    expect(contactString).to.contain('CUTYPE="INDIVIDUAL"')
+    expect(contactString).to.contain('CUTYPE=INDIVIDUAL')
     expect(contactString).to.contain('X-NUM-GUESTS=0')
   })
   it('set a contact with schedule-agent', () => {
@@ -85,15 +85,15 @@ describe('utils.setContact', () => {
     .to.equal('CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactServer))
-    .to.equal('SCHEDULE-AGENT="SERVER";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('SCHEDULE-AGENT=SERVER;CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactClient))
-    .to.equal('SCHEDULE-AGENT="CLIENT";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('SCHEDULE-AGENT=CLIENT;CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactNone))
-    .to.equal('SCHEDULE-AGENT="NONE";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('SCHEDULE-AGENT=NONE;CN="m-vinc":mailto:vinc@example.com')
 
     expect(setContact(contactXCustom))
-    .to.equal('SCHEDULE-AGENT="X-CUSTOM";CN="m-vinc":mailto:vinc@example.com')
+    .to.equal('SCHEDULE-AGENT=X-CUSTOM;CN="m-vinc":mailto:vinc@example.com')
   })
 })
