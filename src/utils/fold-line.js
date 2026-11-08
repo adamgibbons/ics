@@ -1,14 +1,28 @@
 
-import { runes, substring } from 'runes2'
+import { runes } from 'runes2'
+
+let te = new TextEncoder();
 
 export default function foldLine(line) {
   const parts = []
   let length = 75
-  while (runes(line).length > length) {
-    parts.push(substring(line, 0, length))
-    line = substring(line, length)
-    length = 74
+
+  let currentLine = ''
+  let currentLength = 0;
+  for (const r of runes(line)) {
+    let runeSize = te.encode(r).length;
+
+    if (currentLength + runeSize > length) {
+      parts.push(currentLine);
+      length = 74;
+      currentLine = '';
+      currentLength = 0;
+    }
+
+    currentLine += r;
+    currentLength += runeSize;
   }
-  parts.push(line)
+
+  parts.push(currentLine)
   return parts.join('\r\n\t')
 }
